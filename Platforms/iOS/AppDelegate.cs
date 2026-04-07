@@ -1,9 +1,0 @@
-﻿using Foundation;
-
-namespace CoreventApp;
-
-[Register("AppDelegate")]
-public class AppDelegate : MauiUIApplicationDelegate
-{
-	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
-}
