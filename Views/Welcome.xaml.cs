@@ -9,7 +9,7 @@ public partial class Welcome : ContentPage
 
     async private void Button_Clicked_Register(object sender, EventArgs e)
     {
-		await DisplayAlertAsync("Aviso", "Crie sua conta", "Ok");
+        await Navigation.PushAsync(new Views.Register());
     }
 
     async private void Button_Clicked_Login(object sender, EventArgs e)

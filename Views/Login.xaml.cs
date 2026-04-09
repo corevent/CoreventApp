@@ -7,8 +7,13 @@ public partial class Login : ContentPage
 		InitializeComponent();
 	}
 
-    private void Button_Clicked_Entrar(object sender, EventArgs e)
+    async private void Button_Clicked_Login(object sender, EventArgs e)
     {
+        await DisplayAlertAsync("Login", "Login com sucesso", "OK");
+    }
 
+    async private void LabelMissingPasswordTapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new Views.Register());
     }
 }

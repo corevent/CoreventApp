@@ -9,7 +9,10 @@
     <Color x:Key="background_color">White</Color>
     <Color x:Key="primary_text_color">Black</Color>
     <Color x:Key="secondary_text_color">#919191</Color> <!-- Gray400 -->
-    
+    <Color x:Key="primary_orange_color">#EF4444</Color>
+    <Color x:Key="input_color">#F8FAFC</Color>
+    <Color x:Key="input_text">#0F172B80</Color>
+
     <Color x:Key="Primary">#512BD4</Color>
     <Color x:Key="PrimaryDark">#ac99ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
