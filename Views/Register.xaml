@@ -3,10 +3,99 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.Register"
              Title="Register">
-    <VerticalStackLayout>
-        <Label 
-            Text="Register"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto"
+          Padding="30"
+          BackgroundColor="{StaticResource background_color}">
+
+        <ProgressBar x:Name="MainProgressBar"
+                     Progress="0.33"
+                     ProgressColor="{StaticResource primary_orange_color}"
+                     HeightRequest="10"
+                     Margin="0, 20"/>
+
+        <VerticalStackLayout Grid.Row="1" Margin="0, 24" Spacing="5">
+            <Label x:Name="StepTitle"
+                   Text="Conte-nos sobre você"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource primary_text_color}"/>
+            <Label x:Name="StepDescription"
+                   Text="Vamos começar com o básico para criar o seu perfil."
+                   TextColor="{StaticResource secondary_text_color}"/>
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="2">
+            
+            <VerticalStackLayout x:Name="Step1" IsVisible="True" Spacing="15">
+                <VerticalStackLayout>
+                    <Label TextColor="{StaticResource primary_text_color}" Text="Nome completo"/>
+                    <Entry x:Name="EntryNome" 
+                           Placeholder="Seu nome" 
+                           BackgroundColor="{StaticResource input_color}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <Label TextColor="{StaticResource primary_text_color}" Text="Data de nascimento"/>
+                    <DatePicker x:Name="DateNascimento" 
+                                BackgroundColor="{StaticResource input_color}"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            <VerticalStackLayout x:Name="Step2" IsVisible="False" Spacing="15">
+                <VerticalStackLayout>
+                    <Label TextColor="{StaticResource primary_text_color}" Text="E-mail"/>
+                    <Entry x:Name="EntryEmail" 
+                           Placeholder="seu@email.com"
+                           Keyboard="Email"
+                           BackgroundColor="{StaticResource input_color}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label TextColor="{StaticResource primary_text_color}" Text="Crie uma senha"/>
+                    <Entry x:Name="EntrySenha" 
+                           Placeholder="Digite sua senha"
+                           IsPassword="True"
+                           BackgroundColor="{StaticResource input_color}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label TextColor="{StaticResource primary_text_color}" Text="Confirmar senha"/>
+                    <Entry x:Name="EntryConfirmarSenha" 
+                           Placeholder="Digite novamente sua senha"
+                           IsPassword="True"
+                           BackgroundColor="{StaticResource input_color}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout x:Name="Step3" IsVisible="False" Spacing="15">
+                <Label TextColor="{StaticResource primary_text_color}" 
+                       Text="Termos de uso"/>
+
+                <HorizontalStackLayout>
+                    <CheckBox x:Name="CheckTermos" />
+                    <Label TextColor="{StaticResource secondary_text_color}"
+                           VerticalTextAlignment="Center"
+                           Text="Li e aceito os termos de uso."/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+            
+        </Grid>
+
+        <Grid Grid.Row="3" ColumnDefinitions="*, *" ColumnSpacing="10">
+            <Button x:Name="BtnBack"
+                    Grid.Column="0"
+                    Text="Voltar"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource primary_text_color}"
+                    BorderColor="{StaticResource primary_orange_color}"
+                    BorderWidth="1"
+                    IsVisible="False"
+                    Clicked="OnBackClicked"/>
+            
+            <Button x:Name="BtnNext"
+                    Grid.Column="1"
+                    Text="Próximo"
+                    BackgroundColor="{StaticResource primary_orange_color}"
+                    Clicked="OnNextClicked"/>
+        </Grid>
+    </Grid>
 </ContentPage>
