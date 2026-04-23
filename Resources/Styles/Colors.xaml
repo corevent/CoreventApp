@@ -13,6 +13,14 @@
     <Color x:Key="input_color">#F8FAFC</Color>
     <Color x:Key="input_text">#0F172B80</Color>
 
+    <!-- Gradiente do botão -->
+    <LinearGradientBrush x:Key="gradient_button" 
+                     StartPoint="0,0" 
+                     EndPoint="1,0">
+        <GradientStop Color="#f49519" Offset="0.0" />
+        <GradientStop Color="#ed4e90" Offset="1.0" />
+    </LinearGradientBrush>
+
     <Color x:Key="Primary">#512BD4</Color>
     <Color x:Key="PrimaryDark">#ac99ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>

@@ -3,30 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.Welcome"
              Title="Welcome">
-    <VerticalStackLayout Spacing="120" Padding="10" BackgroundColor="{StaticResource background_color}">
-        <Label 
-                Text="Corevent"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center"
-                FontSize="40"
-                TextColor="{StaticResource primary_text_color}"/>
+    <Grid RowDefinitions="Auto, Auto, *" HorizontalOptions="Center" Padding="20" BackgroundColor="{StaticResource background_color}">
+        <Image Grid.Row="0"
+                Source="logo_corevent_full.png"
+                HeightRequest="30"
+                Margin="35,35,35,110"
+                Aspect="AspectFit"
+                SemanticProperties.Description="Corevent Logo" />
 
-        <VerticalStackLayout>
-            <Label 
-                Text="Descubra eventos incríveis perto de você"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center"
-                TextColor="{StaticResource primary_text_color}"/>
-            <Label 
+        <VerticalStackLayout Grid.Row="1" Spacing="8">
+            <Label VerticalOptions="Center" 
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold"
+                                  FontSize="22"
+                                  Text="Descubra " 
+                                  TextColor="{StaticResource primary_text_color}" />
+
+                            <Span FontAttributes="Bold" 
+                                  FontSize="22"
+                                  Text="eventos incríveis" 
+                                  TextColor="{StaticResource primary_orange_color}" />
+
+                             <Span FontAttributes="Bold" 
+                                   FontSize="22"
+                                   Text=" perto de você" 
+                                   TextColor="{StaticResource primary_text_color}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+            </Label>
+            <Label
                 Text="Encontre shows, workshops, festivais e muito mais. Compre seus ingressos de forma rápida e segura."
                 VerticalOptions="Center" 
                 HorizontalOptions="Center"
                 TextColor="{StaticResource secondary_text_color}"/>
         </VerticalStackLayout>
 
-        <VerticalStackLayout Spacing="5">
-            <Button Text="Começar agora" HorizontalOptions="Center" Clicked="Button_Clicked_Register"/>
-            <Button BackgroundColor="Transparent" Text="Já tenho uma conta" HorizontalOptions="Center" Clicked="Button_Clicked_Login"/>
+        <VerticalStackLayout Grid.Row="2" VerticalOptions="End">
+            <Button Text="Começar agora" Clicked="Button_Clicked_Register" TextColor="{StaticResource White}" Background="{StaticResource gradient_button}"/>
+            <Button BackgroundColor="Transparent" Text="Já tenho uma conta" HorizontalOptions="Center" Clicked="Button_Clicked_Login" TextColor="{StaticResource gradient_button}"/>
         </VerticalStackLayout>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

@@ -4,21 +4,18 @@
              x:Class="CoreventApp.Views.Login"
              Title="Login">
 
-    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="30" BackgroundColor="{StaticResource background_color}" HorizontalOptions="Center">
-        <Label 
-                Text="Corevent"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center"
-                FontSize="16"
-                FontAttributes="Bold"
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="20" BackgroundColor="{StaticResource background_color}" HorizontalOptions="Center">
+        <Image
                 Grid.Row="0"
-                Margin="2"
-                TextColor="{StaticResource primary_text_color}"/>
+                Source="logo_corevent_full.png"
+                HeightRequest="20"
+                Aspect="AspectFit"
+                SemanticProperties.Description="Corevent Logo" />
 
         <VerticalStackLayout Grid.Row="1" Margin="0, 30" Spacing="5">
             <Label
                 Text="Bem-vindo de volta!"
-                FontSize="20"
+                FontSize="22"
                 FontAttributes="Bold"
                 VerticalOptions="Center"
                 HorizontalOptions="Start"
@@ -37,7 +34,7 @@
                            x:Name="user_email" Placeholder="seu@email.com" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
 
 
-                <Grid Grid.Row="2">
+                <Grid Grid.Row="2" Margin="0,20,0,0">
                     <Label TextColor="{StaticResource primary_text_color}" 
                            Text="Senha" 
                            VerticalOptions="Center"
@@ -61,7 +58,7 @@
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="3" VerticalOptions="End" Spacing="20">
-            <Button BackgroundColor="{StaticResource primary_orange_color}" Text="Entrar" Clicked="Button_Clicked_Login"/>
+            <Button TextColor="{StaticResource White}" FontAttributes="Bold" Background="{StaticResource gradient_button}" Text="Entrar" Clicked="Button_Clicked_Login"/>
             <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
                 <Label Text="Não possui conta?" 
                            VerticalOptions="Center"
