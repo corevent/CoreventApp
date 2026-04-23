@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoreventApp.Views.Login"
+             Title="Login">
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="30" BackgroundColor="{StaticResource background_color}" HorizontalOptions="Center">
+        <Label 
+                Text="Corevent"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                FontSize="16"
+                FontAttributes="Bold"
+                Grid.Row="0"
+                Margin="2"
+                TextColor="{StaticResource primary_text_color}"/>
+
+        <VerticalStackLayout Grid.Row="1" Margin="0, 30" Spacing="5">
+            <Label
+                Text="Bem-vindo de volta!"
+                FontSize="20"
+                FontAttributes="Bold"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                TextColor="{StaticResource primary_text_color}"/>
+            <Label 
+                Text="Sentimos sua falta. Entre para continuar explorando."
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
+                TextColor="{StaticResource secondary_text_color}"/>
+        </VerticalStackLayout>
+    
+        <VerticalStackLayout Grid.Row="2" Margin="0, 4">
+            <Grid RowDefinitions="Auto, Auto, Auto, Auto">
+                <Label Grid.Row="0" TextColor="{StaticResource primary_text_color}" Text="E-mail"/>
+                <Entry Grid.Row="1"
+                           x:Name="user_email" Placeholder="seu@email.com" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
+
+
+                <Grid Grid.Row="2">
+                    <Label TextColor="{StaticResource primary_text_color}" 
+                           Text="Senha" 
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"/>
+
+                    <Label Text="Esqueceu a senha?"
+                           HorizontalOptions="End"
+                           TextColor="{StaticResource primary_orange_color}"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="LabelMissingPasswordTapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                </Grid>
+                <Entry Grid.Row="3" 
+                           TextColor="{StaticResource secondary_text_color}" IsPassword="True" 
+                           x:Name="user_password" Placeholder="******" BackgroundColor="{StaticResource input_color}"/>
+            </Grid>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="3" VerticalOptions="End" Spacing="20">
+            <Button BackgroundColor="{StaticResource primary_orange_color}" Text="Entrar" Clicked="Button_Clicked_Login"/>
+            <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                <Label Text="Não possui conta?" 
+                           VerticalOptions="Center"
+                           TextColor="{StaticResource secondary_text_color}"/>
+
+                <Label Text="Cadastre-se"
+                    TextColor="{StaticResource primary_orange_color}"
+                    FontAttributes="Bold"
+                    VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="LabelMissingPasswordTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

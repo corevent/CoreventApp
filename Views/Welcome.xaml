@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoreventApp.Views.Welcome"
+             Title="Welcome">
+    <VerticalStackLayout Spacing="120" Padding="10" BackgroundColor="{StaticResource background_color}">
+        <Label 
+                Text="Corevent"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                FontSize="40"
+                TextColor="{StaticResource primary_text_color}"/>
+
+        <VerticalStackLayout>
+            <Label 
+                Text="Descubra eventos incríveis perto de você"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                TextColor="{StaticResource primary_text_color}"/>
+            <Label 
+                Text="Encontre shows, workshops, festivais e muito mais. Compre seus ingressos de forma rápida e segura."
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                TextColor="{StaticResource secondary_text_color}"/>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Spacing="5">
+            <Button Text="Começar agora" HorizontalOptions="Center" Clicked="Button_Clicked_Register"/>
+            <Button BackgroundColor="Transparent" Text="Já tenho uma conta" HorizontalOptions="Center" Clicked="Button_Clicked_Login"/>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
