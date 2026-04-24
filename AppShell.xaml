@@ -3,14 +3,35 @@
     x:Class="CoreventApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:CoreventApp"
     xmlns:Views="clr-namespace:CoreventApp.Views"
     Shell.NavBarIsVisible="False"
     Title="CoreventApp">
 
     <ShellContent
-        Title="Home"
+        Title="Welcome"
         ContentTemplate="{DataTemplate Views:Welcome}"
-        Route="MainPage" />
+        Route="welcome" />
+
+    <TabBar Route="main">
+        <ShellContent
+            Title="Inicio"
+            ContentTemplate="{DataTemplate Views:Home}"
+            Route="home" />
+
+        <ShellContent
+            Title="Explorar"
+            ContentTemplate="{DataTemplate Views:Explore}"
+            Route="explore" />
+
+        <ShellContent
+            Title="Ingressos"
+            ContentTemplate="{DataTemplate Views:Tickets}"
+            Route="tickets" />
+
+        <ShellContent
+            Title="Perfil"
+            ContentTemplate="{DataTemplate Views:Profile}"
+            Route="profile" />
+    </TabBar>
 
 </Shell>

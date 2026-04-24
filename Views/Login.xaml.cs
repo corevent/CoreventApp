@@ -9,7 +9,7 @@ public partial class Login : ContentPage
 
     async private void Button_Clicked_Login(object sender, EventArgs e)
     {
-        await DisplayAlertAsync("Login", "Login com sucesso", "OK");
+        await Shell.Current.GoToAsync("//main/home");
     }
 
     async private void LabelMissingPasswordTapped(object sender, TappedEventArgs e)
