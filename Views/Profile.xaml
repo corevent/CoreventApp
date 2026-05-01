@@ -4,10 +4,96 @@
              x:Class="CoreventApp.Views.Profile"
              Title="Perfil"
              BackgroundColor="{StaticResource background_color}">
-  <Grid Padding="20">
-    <Label Text="Perfil"
-           FontSize="22"
-           FontAttributes="Bold"
-           TextColor="{StaticResource primary_text_color}"/>
-  </Grid>
+    <Grid Padding="0">
+        <ScrollView>
+            <Grid RowDefinitions="auto,*">
+                <Label Text="Perfil"
+                       Grid.Row="0"
+                       Padding="20"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource primary_text_color}"/>
+
+                <VerticalStackLayout Grid.Row="1" Padding="20" Spacing="40">
+                    <VerticalStackLayout>
+                        <Image
+                            Source="profile_default_icon.png"
+                            HeightRequest="70"
+                            Aspect="AspectFit"
+                            SemanticProperties.Description="Corevent Logo" />
+
+                        <Label Text="Zequinha da Silva"
+                            Padding="0,20,0,0"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
+                            TextColor="{StaticResource primary_text_color}"/>
+                        <Label Text="zequinha@email.com"
+                            Padding="0,4,0,0"
+                            FontSize="12"
+                            HorizontalTextAlignment="Center"
+                            TextColor="{StaticResource primary_text_color}"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+
+                        <CollectionView ItemsSource="{Binding Options}">
+                            
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="15" 
+                                            BackgroundColor="white">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10" />
+                                        </Border.StrokeShape>
+
+                                        <HorizontalStackLayout Spacing="15">
+                                            <Label Text="{Binding Title}" 
+                                                   VerticalOptions="Center" 
+                                                   FontSize="16" 
+                                                   TextColor="#2B3440" />
+
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label Text="ORGANIZADOR" Padding="0,0,0,4" TextColor="{StaticResource secondary_text_color}"/>
+                        <VerticalStackLayout>
+                            <Border Padding="15" BackgroundColor="white">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="Painel do Organizador" 
+                                       VerticalOptions="Center" 
+                                       FontSize="16" 
+                                       TextColor="#2B3440" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label Text="COLABORADOR" Padding="0,0,0,4" TextColor="{StaticResource secondary_text_color}"/>
+                        <VerticalStackLayout>
+                            <Border Padding="15" BackgroundColor="white">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="Painel do Colaborador" 
+                                       VerticalOptions="Center" 
+                                       FontSize="16" 
+                                       TextColor="#2B3440" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <Button Text="Sair da Conta" TextColor="red" FontAttributes="Bold" BackgroundColor="LightGray"/>
+                </VerticalStackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
 </ContentPage>
