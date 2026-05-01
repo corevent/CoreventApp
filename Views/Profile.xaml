@@ -37,8 +37,10 @@
 
                     <VerticalStackLayout>
 
-                        <CollectionView ItemsSource="{Binding Options}">
-                            
+                        <CollectionView ItemsSource="{Binding Options}"
+                                        SelectionMode="Single"
+                                        SelectionChanged="CollectionView_SelectionChanged">
+
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Border Padding="15" 
@@ -68,6 +70,9 @@
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10" />
                                 </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_PainelOrganizador" />
+                                </Border.GestureRecognizers>
                                 <Label Text="Painel do Organizador" 
                                        VerticalOptions="Center" 
                                        FontSize="16" 
@@ -83,6 +88,9 @@
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10" />
                                 </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_PainelColaborador" />
+                                </Border.GestureRecognizers>
                                 <Label Text="Painel do Colaborador" 
                                        VerticalOptions="Center" 
                                        FontSize="16" 
@@ -91,7 +99,11 @@
                         </VerticalStackLayout>
                     </VerticalStackLayout>
 
-                    <Button Text="Sair da Conta" TextColor="red" FontAttributes="Bold" BackgroundColor="LightGray"/>
+                    <Button Text="Sair da Conta" 
+                            TextColor="red" 
+                            FontAttributes="Bold" 
+                            BackgroundColor="LightGray" 
+                            Clicked="Button_Clicked_SairDaConta"/>
                 </VerticalStackLayout>
             </Grid>
         </ScrollView>
