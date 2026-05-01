@@ -4,10 +4,154 @@
              x:Class="CoreventApp.Views.Profile"
              Title="Perfil"
              BackgroundColor="{StaticResource background_color}">
-  <Grid Padding="20">
-    <Label Text="Perfil"
-           FontSize="22"
-           FontAttributes="Bold"
-           TextColor="{StaticResource primary_text_color}"/>
-  </Grid>
+    <Grid Padding="0">
+        <ScrollView>
+            <Grid RowDefinitions="auto,*">
+                <Label Text="Perfil"
+                       Grid.Row="0"
+                       Padding="20"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource primary_text_color}"/>
+
+                <VerticalStackLayout Grid.Row="1" Padding="20" Spacing="40">
+                    <VerticalStackLayout>
+                        <Image
+                            Source="profile_default_icon.png"
+                            HeightRequest="70"
+                            Aspect="AspectFit"
+                            SemanticProperties.Description="Corevent Logo" />
+
+                        <Label Text="Zequinha da Silva"
+                            Padding="0,20,0,0"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            HorizontalTextAlignment="Center"
+                            TextColor="{StaticResource primary_text_color}"/>
+                        <Label Text="zequinha@email.com"
+                            Padding="0,4,0,0"
+                            FontSize="12"
+                            HorizontalTextAlignment="Center"
+                            TextColor="{StaticResource primary_text_color}"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+
+                        <CollectionView ItemsSource="{Binding Options}"
+                                        SelectionMode="Single"
+                                        SelectionChanged="CollectionView_SelectionChanged">
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="15" 
+                                            BackgroundColor="white">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10" />
+                                        </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="20, *, 10">
+                                            <Image
+                                                Grid.Column="0"
+                                                Source="{Binding image_path}"
+                                                HeightRequest="20"
+                                                Aspect="AspectFit"
+                                                SemanticProperties.Description="Corevent Logo" />
+
+                                            <Label Text="{Binding Title}" 
+                                                   Padding="20,0,0,0"
+                                                   Grid.Column="1"
+                                                   VerticalOptions="Center" 
+                                                   FontSize="16" 
+                                                   TextColor="#2B3440" />
+
+                                            <Label Text=">" 
+                                                   Grid.Column="2"
+                                                   VerticalOptions="Center" 
+                                                   FontSize="12" 
+                                                   TextColor="#2B3440" />
+
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label Text="ORGANIZADOR" Padding="0,0,0,4" TextColor="{StaticResource secondary_text_color}"/>
+                        <VerticalStackLayout>
+                            <Border Padding="15" BackgroundColor="white">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_PainelOrganizador" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="20, *, 10">
+                                    <Image Grid.Column="0"
+                                           Source="layout_dashboard.png"
+                                           HeightRequest="20"
+                                           Aspect="AspectFit"
+                                           SemanticProperties.Description="Corevent Logo" />
+
+                                    <Label Grid.Column="1"
+                                           Text="Painel do Organizador"
+                                           Padding="20,0,0,0"
+                                           VerticalOptions="Center"
+                                           FontSize="16"
+                                           TextColor="#2B3440" />
+
+                                    <Label Text=">" 
+                                           Grid.Column="2"
+                                           VerticalOptions="Center" 
+                                           FontSize="12" 
+                                           TextColor="#2B3440" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label Text="COLABORADOR" Padding="0,0,0,4" TextColor="{StaticResource secondary_text_color}"/>
+                        <VerticalStackLayout>
+                            <Border Padding="15" BackgroundColor="white">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_PainelColaborador" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="20, *, 10">
+                                    <Image Grid.Column="0"
+                                           Source="shield.png"
+                                           HeightRequest="20"
+                                           Aspect="AspectFit"
+                                           SemanticProperties.Description="Corevent Logo" />
+
+                                    <Label Grid.Column="1"
+                                           Text="Painel do Colaborador"
+                                           Padding="20,0,0,0"
+                                           VerticalOptions="Center"
+                                           FontSize="16"
+                                           TextColor="#2B3440" />
+
+                                    <Label Text=">" 
+                                           Grid.Column="2"
+                                           VerticalOptions="Center" 
+                                           FontSize="12" 
+                                           TextColor="#2B3440" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <Button Text="Sair da Conta" 
+                            TextColor="red" 
+                            FontAttributes="Bold" 
+                            BackgroundColor="LightGray" 
+                            Clicked="Button_Clicked_SairDaConta"/>
+                </VerticalStackLayout>
+            </Grid>
+        </ScrollView>
+    </Grid>
 </ContentPage>
