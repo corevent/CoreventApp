@@ -4,6 +4,7 @@ public class ProfileMenuOption
 {
     public string ?Title { get; set; }
     public Type? PageType { get; set; }
+    public string image_path { get; set; }
 }
 
 public partial class Profile : ContentPage
@@ -16,11 +17,11 @@ public partial class Profile : ContentPage
 
         Options = new List<ProfileMenuOption>
         {
-            new ProfileMenuOption { Title = "Dados Pessoais",      PageType = typeof(Views.EditProfile) },
-            new ProfileMenuOption { Title = "Histórico de Compra", PageType = typeof(Views.PurchaseHistory) },
-            new ProfileMenuOption { Title = "Meus Favoritos",      PageType = typeof(Views.Favorites) },
-            new ProfileMenuOption { Title = "Avaliações",          PageType = typeof(Views.Reviews) },
-            new ProfileMenuOption { Title = "Configurações",       PageType = typeof(Views.Settings) },
+            new ProfileMenuOption { Title = "Dados Pessoais", PageType = typeof(Views.EditProfile), image_path = "user.png"},
+            new ProfileMenuOption { Title = "Histórico de Compra", PageType = typeof(Views.PurchaseHistory), image_path = "ticket.png"},
+            new ProfileMenuOption { Title = "Meus Favoritos", PageType = typeof(Views.Favorites), image_path = "heart.png"},
+            new ProfileMenuOption { Title = "Avaliações", PageType = typeof(Views.Reviews), image_path = "star.png"},
+            new ProfileMenuOption { Title = "Configurações", PageType = typeof(Views.Settings), image_path = "settings.png"},
         };
 
         BindingContext = this;

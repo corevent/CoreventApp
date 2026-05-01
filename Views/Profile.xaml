@@ -51,7 +51,7 @@
                                         <Grid ColumnDefinitions="20, *, 10">
                                             <Image
                                                 Grid.Column="0"
-                                                Source="profile_default_icon.png"
+                                                Source="{Binding image_path}"
                                                 HeightRequest="20"
                                                 Aspect="AspectFit"
                                                 SemanticProperties.Description="Corevent Logo" />
@@ -87,10 +87,26 @@
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_PainelOrganizador" />
                                 </Border.GestureRecognizers>
-                                <Label Text="Painel do Organizador" 
-                                       VerticalOptions="Center" 
-                                       FontSize="16" 
-                                       TextColor="#2B3440" />
+                                <Grid ColumnDefinitions="20, *, 10">
+                                    <Image Grid.Column="0"
+                                           Source="layout_dashboard.png"
+                                           HeightRequest="20"
+                                           Aspect="AspectFit"
+                                           SemanticProperties.Description="Corevent Logo" />
+
+                                    <Label Grid.Column="1"
+                                           Text="Painel do Organizador"
+                                           Padding="20,0,0,0"
+                                           VerticalOptions="Center"
+                                           FontSize="16"
+                                           TextColor="#2B3440" />
+
+                                    <Label Text=">" 
+                                           Grid.Column="2"
+                                           VerticalOptions="Center" 
+                                           FontSize="12" 
+                                           TextColor="#2B3440" />
+                                </Grid>
                             </Border>
                         </VerticalStackLayout>
                     </VerticalStackLayout>
@@ -105,10 +121,26 @@
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_PainelColaborador" />
                                 </Border.GestureRecognizers>
-                                <Label Text="Painel do Colaborador" 
-                                       VerticalOptions="Center" 
-                                       FontSize="16" 
-                                       TextColor="#2B3440" />
+                                <Grid ColumnDefinitions="20, *, 10">
+                                    <Image Grid.Column="0"
+                                           Source="shield.png"
+                                           HeightRequest="20"
+                                           Aspect="AspectFit"
+                                           SemanticProperties.Description="Corevent Logo" />
+
+                                    <Label Grid.Column="1"
+                                           Text="Painel do Colaborador"
+                                           Padding="20,0,0,0"
+                                           VerticalOptions="Center"
+                                           FontSize="16"
+                                           TextColor="#2B3440" />
+
+                                    <Label Text=">" 
+                                           Grid.Column="2"
+                                           VerticalOptions="Center" 
+                                           FontSize="12" 
+                                           TextColor="#2B3440" />
+                                </Grid>
                             </Border>
                         </VerticalStackLayout>
                     </VerticalStackLayout>
