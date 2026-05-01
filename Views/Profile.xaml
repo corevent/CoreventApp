@@ -48,14 +48,28 @@
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="10" />
                                         </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="20, *, 10">
+                                            <Image
+                                                Grid.Column="0"
+                                                Source="profile_default_icon.png"
+                                                HeightRequest="20"
+                                                Aspect="AspectFit"
+                                                SemanticProperties.Description="Corevent Logo" />
 
-                                        <HorizontalStackLayout Spacing="15">
                                             <Label Text="{Binding Title}" 
+                                                   Padding="20,0,0,0"
+                                                   Grid.Column="1"
                                                    VerticalOptions="Center" 
                                                    FontSize="16" 
                                                    TextColor="#2B3440" />
 
-                                        </HorizontalStackLayout>
+                                            <Label Text=">" 
+                                                   Grid.Column="2"
+                                                   VerticalOptions="Center" 
+                                                   FontSize="12" 
+                                                   TextColor="#2B3440" />
+
+                                        </Grid>
                                     </Border>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
