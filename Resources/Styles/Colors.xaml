@@ -11,7 +11,7 @@
     <Color x:Key="secondary_text_color">#919191</Color> <!-- Gray400 -->
     <Color x:Key="primary_orange_color">#EF4444</Color>
     <Color x:Key="input_color">#F8FAFC</Color>
-    <Color x:Key="input_text">#0F172B80</Color>
+    <Color x:Key="input_text">#222222</Color>
 
     <!-- Gradiente do botão -->
     <LinearGradientBrush x:Key="gradient_button" 
