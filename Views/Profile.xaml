@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:CoreventApp.ViewModels"
+             x:DataType="viewmodels:ProfileViewModel"
              x:Class="CoreventApp.Views.Profile"
              Title="Perfil"
              BackgroundColor="{StaticResource background_color}">
@@ -14,142 +16,250 @@
                        FontAttributes="Bold"
                        TextColor="{StaticResource primary_text_color}"/>
 
-                <VerticalStackLayout Grid.Row="1" Padding="20" Spacing="40">
+                <VerticalStackLayout Grid.Row="1"
+                        Padding="20"
+                        Spacing="40">
                     <VerticalStackLayout>
                         <Image
-                            Source="profile_default_icon.png"
+                            Source="{Binding UserAvatar}"
                             HeightRequest="70"
                             Aspect="AspectFit"
-                            SemanticProperties.Description="Corevent Logo" />
+                            SemanticProperties.Description="Corevent Logo"/>
 
-                        <Label Text="Zequinha da Silva"
-                            Padding="0,20,0,0"
-                            FontSize="18"
-                            FontAttributes="Bold"
-                            HorizontalTextAlignment="Center"
-                            TextColor="{StaticResource primary_text_color}"/>
-                        <Label Text="zequinha@email.com"
-                            Padding="0,4,0,0"
-                            FontSize="12"
-                            HorizontalTextAlignment="Center"
-                            TextColor="{StaticResource primary_text_color}"/>
+                        <Label Text="{Binding UserName}"
+                               Padding="0,20,0,0"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource primary_text_color}"/>
+                        <Label Text="{Binding UserEmail}"
+                               Padding="0,4,0,0"
+                               FontSize="12"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource primary_text_color}"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Border Padding="15"
+                                BackgroundColor="white">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding EditProfileCommand}"/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="20, *, 10">
+                                <Image Grid.Column="0"
+                                        Source="user.png"
+                                        HeightRequest="20"
+                                        Aspect="AspectFit"
+                                        SemanticProperties.Description="Dados Pessoais"/>
+                                <Label Text="Dados Pessoais"
+                                        Padding="20,0,0,0"
+                                        Grid.Column="1"
+                                        VerticalOptions="Center"
+                                        FontSize="16"
+                                        TextColor="#2B3440"/>
+                                <Label Text=">"
+                                        Grid.Column="2"
+                                        VerticalOptions="Center"
+                                        FontSize="12"
+                                        TextColor="#2B3440"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Padding="15"
+                                BackgroundColor="white">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding PurchaseHistoryCommand}"/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="20, *, 10">
+                                <Image Grid.Column="0"
+                                        Source="ticket.png"
+                                        HeightRequest="20"
+                                        Aspect="AspectFit"
+                                        SemanticProperties.Description="Histórico de Compra"/>
+                                <Label Text="Histórico de Compra"
+                                        Padding="20,0,0,0"
+                                        Grid.Column="1"
+                                        VerticalOptions="Center"
+                                        FontSize="16"
+                                        TextColor="#2B3440"/>
+                                <Label Text=">"
+                                        Grid.Column="2"
+                                        VerticalOptions="Center"
+                                        FontSize="12"
+                                        TextColor="#2B3440"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Padding="15"
+                                BackgroundColor="white">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FavoritesCommand}"/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="20, *, 10">
+                                <Image Grid.Column="0"
+                                        Source="heart.png"
+                                        HeightRequest="20"
+                                        Aspect="AspectFit"
+                                        SemanticProperties.Description="Meus Favoritos"/>
+                                <Label Text="Meus Favoritos"
+                                        Padding="20,0,0,0"
+                                        Grid.Column="1"
+                                        VerticalOptions="Center"
+                                        FontSize="16"
+                                        TextColor="#2B3440"/>
+                                <Label Text=">"
+                                        Grid.Column="2"
+                                        VerticalOptions="Center"
+                                        FontSize="12"
+                                        TextColor="#2B3440"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Padding="15"
+                                BackgroundColor="white">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ReviewsCommand}"/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="20, *, 10">
+                                <Image Grid.Column="0"
+                                        Source="star.png"
+                                        HeightRequest="20"
+                                        Aspect="AspectFit"
+                                        SemanticProperties.Description="Avaliações"/>
+                                <Label Text="Avaliações"
+                                        Padding="20,0,0,0"
+                                        Grid.Column="1"
+                                        VerticalOptions="Center"
+                                        FontSize="16"
+                                        TextColor="#2B3440"/>
+                                <Label Text=">"
+                                        Grid.Column="2"
+                                        VerticalOptions="Center"
+                                        FontSize="12"
+                                        TextColor="#2B3440"/>
+                            </Grid>
+                        </Border>
+
+                        <Border Padding="15"
+                                BackgroundColor="white">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SettingsCommand}"/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="20, *, 10">
+                                <Image Grid.Column="0"
+                                        Source="settings.png"
+                                        HeightRequest="20"
+                                        Aspect="AspectFit"
+                                        SemanticProperties.Description="Configurações"/>
+                                <Label Text="Configurações"
+                                        Padding="20,0,0,0"
+                                        Grid.Column="1"
+                                        VerticalOptions="Center"
+                                        FontSize="16"
+                                        TextColor="#2B3440"/>
+                                <Label Text=">"
+                                        Grid.Column="2"
+                                        VerticalOptions="Center"
+                                        FontSize="12"
+                                        TextColor="#2B3440"/>
+                            </Grid>
+                        </Border>
                     </VerticalStackLayout>
 
                     <VerticalStackLayout>
-
-                        <CollectionView ItemsSource="{Binding Options}"
-                                        SelectionMode="Single"
-                                        SelectionChanged="CollectionView_SelectionChanged">
-
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Padding="15" 
-                                            BackgroundColor="white">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="10" />
-                                        </Border.StrokeShape>
-                                        <Grid ColumnDefinitions="20, *, 10">
-                                            <Image
-                                                Grid.Column="0"
-                                                Source="{Binding image_path}"
-                                                HeightRequest="20"
-                                                Aspect="AspectFit"
-                                                SemanticProperties.Description="Corevent Logo" />
-
-                                            <Label Text="{Binding Title}" 
-                                                   Padding="20,0,0,0"
-                                                   Grid.Column="1"
-                                                   VerticalOptions="Center" 
-                                                   FontSize="16" 
-                                                   TextColor="#2B3440" />
-
-                                            <Label Text=">" 
-                                                   Grid.Column="2"
-                                                   VerticalOptions="Center" 
-                                                   FontSize="12" 
-                                                   TextColor="#2B3440" />
-
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-
-                    </VerticalStackLayout>
-
-                    <VerticalStackLayout>
-                        <Label Text="ORGANIZADOR" Padding="0,0,0,4" TextColor="{StaticResource secondary_text_color}"/>
+                        <Label Text="ORGANIZADOR"
+                                Padding="0,0,0,4"
+                                TextColor="{StaticResource secondary_text_color}"/>
                         <VerticalStackLayout>
-                            <Border Padding="15" BackgroundColor="white">
+                            <Border Padding="15"
+                                    BackgroundColor="white">
                                 <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="10" />
+                                    <RoundRectangle CornerRadius="10"/>
                                 </Border.StrokeShape>
                                 <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_PainelOrganizador" />
+                                    <TapGestureRecognizer Command="{Binding PanelOrganizerCommand}"/>
                                 </Border.GestureRecognizers>
                                 <Grid ColumnDefinitions="20, *, 10">
                                     <Image Grid.Column="0"
                                            Source="layout_dashboard.png"
                                            HeightRequest="20"
                                            Aspect="AspectFit"
-                                           SemanticProperties.Description="Corevent Logo" />
+                                           SemanticProperties.Description="Corevent Logo"/>
 
                                     <Label Grid.Column="1"
                                            Text="Painel do Organizador"
                                            Padding="20,0,0,0"
                                            VerticalOptions="Center"
                                            FontSize="16"
-                                           TextColor="#2B3440" />
+                                           TextColor="#2B3440"/>
 
-                                    <Label Text=">" 
+                                    <Label Text=">"
                                            Grid.Column="2"
-                                           VerticalOptions="Center" 
-                                           FontSize="12" 
-                                           TextColor="#2B3440" />
+                                           VerticalOptions="Center"
+                                           FontSize="12"
+                                           TextColor="#2B3440"/>
                                 </Grid>
                             </Border>
                         </VerticalStackLayout>
                     </VerticalStackLayout>
 
                     <VerticalStackLayout>
-                        <Label Text="COLABORADOR" Padding="0,0,0,4" TextColor="{StaticResource secondary_text_color}"/>
+                        <Label Text="COLABORADOR"
+                                Padding="0,0,0,4"
+                                TextColor="{StaticResource secondary_text_color}"/>
                         <VerticalStackLayout>
-                            <Border Padding="15" BackgroundColor="white">
+                            <Border Padding="15"
+                                    BackgroundColor="white">
                                 <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="10" />
+                                    <RoundRectangle CornerRadius="10"/>
                                 </Border.StrokeShape>
                                 <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_PainelColaborador" />
+                                    <TapGestureRecognizer Command="{Binding PanelCollaboratorCommand}"/>
                                 </Border.GestureRecognizers>
                                 <Grid ColumnDefinitions="20, *, 10">
                                     <Image Grid.Column="0"
                                            Source="shield.png"
                                            HeightRequest="20"
                                            Aspect="AspectFit"
-                                           SemanticProperties.Description="Corevent Logo" />
+                                           SemanticProperties.Description="Corevent Logo"/>
 
                                     <Label Grid.Column="1"
                                            Text="Painel do Colaborador"
                                            Padding="20,0,0,0"
                                            VerticalOptions="Center"
                                            FontSize="16"
-                                           TextColor="#2B3440" />
+                                           TextColor="#2B3440"/>
 
-                                    <Label Text=">" 
+                                    <Label Text=">"
                                            Grid.Column="2"
-                                           VerticalOptions="Center" 
-                                           FontSize="12" 
-                                           TextColor="#2B3440" />
+                                           VerticalOptions="Center"
+                                           FontSize="12"
+                                           TextColor="#2B3440"/>
                                 </Grid>
                             </Border>
                         </VerticalStackLayout>
                     </VerticalStackLayout>
 
-                    <Button Text="Sair da Conta" 
-                            TextColor="red" 
-                            FontAttributes="Bold" 
-                            BackgroundColor="LightGray" 
-                            Clicked="Button_Clicked_SairDaConta"/>
+                    <Button Text="Sair da Conta"
+                            TextColor="red"
+                            FontAttributes="Bold"
+                            BackgroundColor="LightGray"
+                            Command="{Binding LogoutCommand}"/>
                 </VerticalStackLayout>
             </Grid>
         </ScrollView>

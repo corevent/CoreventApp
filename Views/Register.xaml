@@ -1,154 +1,172 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModel="clr-namespace:CoreventApp.ViewModels"
+             xmlns:converters="clr-namespace:CoreventApp.Converters"
              x:Class="CoreventApp.Views.Register"
+             x:DataType="ViewModel:RegisterViewModel"
              Title="Register">
 
-    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto"
-          Padding="20"
-          BackgroundColor="{StaticResource background_color}"
-          HorizontalOptions="Center">
+       <ContentPage.Resources>
+              <ResourceDictionary>
+                     <converters:IntegerToVisibilityConverter x:Key="StepConverter"/>
+              </ResourceDictionary>
+       </ContentPage.Resources>
 
-        <Grid Grid.Row="0"
-                ColumnDefinitions="Auto,*,Auto"
-                VerticalOptions="Center">
-            <Button Text="&lt;"
-                    WidthRequest="44"
-                    HeightRequest="44"
-                    FontSize="22"
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource primary_text_color}"
-                    BackgroundColor="Transparent"
-                    BorderWidth="0"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Clicked="OnHeaderBackClicked"/>
+       <Grid RowDefinitions="Auto, Auto, Auto, *, Auto"
+             Padding="20"
+             BackgroundColor="{StaticResource background_color}"
+             HorizontalOptions="Center">
 
-            <Image Grid.Column="1"
-                   Source="logo_corevent_full.png"
-                   HeightRequest="20"
-                   HorizontalOptions="Center"
-                   Aspect="AspectFit"
-                   SemanticProperties.Description="Corevent Logo"/>
-        </Grid>
+              <!-- Header -->
+              <Grid Grid.Row="0"
+                    ColumnDefinitions="Auto,*,Auto"
+                    VerticalOptions="Center">
+                     <Button Text="&lt;"
+                             WidthRequest="44"
+                             HeightRequest="44"
+                             FontSize="22"
+                             FontAttributes="Bold"
+                             TextColor="{StaticResource primary_text_color}"
+                             BackgroundColor="Transparent"
+                             BorderWidth="0"
+                             HorizontalOptions="Start"
+                             VerticalOptions="Center"
+                             Command="{Binding HeaderBackCommand}"/>
 
-        <ProgressBar x:Name="MainProgressBar"
-                     Grid.Row="1"
-                     Margin="0,20,0,30"
-                     Progress="0.33"
-                     HeightRequest="8"
-                     BackgroundColor="{StaticResource Gray100}"
-                     ProgressColor="{StaticResource primary_orange_color}"/>
+                     <Image Grid.Column="1"
+                            Source="logo_corevent_full.png"
+                            HeightRequest="20"
+                            HorizontalOptions="Center"
+                            Aspect="AspectFit"
+                            SemanticProperties.Description="Corevent Logo"/>
+              </Grid>
 
-        <VerticalStackLayout Grid.Row="2"
-                Margin="0,0,0,6"
-                Spacing="5">
-            <Label x:Name="StepTitle"
-                   Text="Conte-nos sobre você"
-                   FontSize="22"
-                   LineBreakMode="WordWrap"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center"
-                   HorizontalOptions="Start"
-                   TextColor="{StaticResource primary_text_color}"/>
-            <Label x:Name="StepDescription"
-                   Text="Vamos começar com o básico para criar seu perfil."
-                   VerticalOptions="Center"
-                   HorizontalOptions="Start"
-                   LineBreakMode="WordWrap"
-                   TextColor="{StaticResource secondary_text_color}"/>
-        </VerticalStackLayout>
+              <!-- Progress Bar -->
+              <ProgressBar x:Name="MainProgressBar"
+                           Grid.Row="1"
+                           Margin="0,20,0,30"
+                           Progress="{Binding Progress}"
+                           HeightRequest="8"
+                           BackgroundColor="{StaticResource Gray100}"
+                           ProgressColor="{StaticResource primary_orange_color}"/>
 
-        <Grid Grid.Row="3"
-                Margin="0,4,0,0">
-            <VerticalStackLayout x:Name="Step1"
-                    IsVisible="True">
-                <Grid RowDefinitions="Auto, Auto, Auto, Auto">
-                    <Label Grid.Row="0"
-                           Text="Nome completo"
-                           TextColor="{StaticResource primary_text_color}"/>
-                    <Entry Grid.Row="1"
-                           x:Name="EntryNome"
-                           Placeholder="Seu nome completo"
-                           TextColor="{StaticResource input_text}"
-                           BackgroundColor="{StaticResource input_color}"/>
+              <VerticalStackLayout Grid.Row="2"
+                                   Margin="0,0,0,6"
+                                   Spacing="5">
+                     <Label x:Name="StepTitle"
+                            Text="{Binding StepTitle}"
+                            FontSize="22"
+                            LineBreakMode="WordWrap"
+                            FontAttributes="Bold"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Start"
+                            TextColor="{StaticResource primary_text_color}"/>
+                     <Label x:Name="StepDescription"
+                            Text="{Binding StepDescription}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Start"
+                            LineBreakMode="WordWrap"
+                            TextColor="{StaticResource secondary_text_color}"/>
+              </VerticalStackLayout>
 
-                    <Label Grid.Row="2"
-                           Margin="0,20,0,0"
-                           Text="Data de nascimento"
-                           TextColor="{StaticResource primary_text_color}"/>
-                    <DatePicker Grid.Row="3"
-                                x:Name="DateNascimento"
-                                Date="2000-01-01"
-                                Format="dd/MM/yyyy"
-                                TextColor="{StaticResource primary_text_color}"
-                                BackgroundColor="{StaticResource input_color}"/>
-                </Grid>
-            </VerticalStackLayout>
+              <Grid Grid.Row="3"
+                    Margin="0,4,0,0">
 
-            <VerticalStackLayout x:Name="Step2"
-                    IsVisible="False">
-                <Grid RowDefinitions="Auto, Auto">
-                    <Label Grid.Row="0"
-                           Text="CPF"
-                           TextColor="{StaticResource primary_text_color}"/>
-                    <Entry Grid.Row="1"
-                           x:Name="EntryCpf"
-                           Placeholder="000.000.000-00"
-                           Keyboard="Numeric"
-                           MaxLength="14"
-                           TextColor="{StaticResource input_text}"
-                           BackgroundColor="{StaticResource input_color}"/>
-                </Grid>
-            </VerticalStackLayout>
+                     <VerticalStackLayout x:Name="Step1"
+                                          IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=1}">
+                            <Grid RowDefinitions="Auto, Auto, Auto, Auto">
+                                   <Label Grid.Row="0"
+                                          Text="Nome completo"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Entry Grid.Row="1"
+                                          x:Name="EntryNome"
+                                          Text="{Binding Form.Nome}"
+                                          Placeholder="Seu nome completo"
+                                          TextColor="{StaticResource input_text}"
+                                          BackgroundColor="{StaticResource input_color}"/>
 
-            <VerticalStackLayout x:Name="Step3"
-                    IsVisible="False">
-                <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
-                    <Label Grid.Row="0"
-                           Text="E-mail"
-                           TextColor="{StaticResource primary_text_color}"/>
-                    <Entry Grid.Row="1"
-                           x:Name="EntryEmail"
-                           Placeholder="seu@email.com"
-                           Keyboard="Email"
-                           TextColor="{StaticResource input_text}"
-                           BackgroundColor="{StaticResource input_color}"/>
+                                   <Label Grid.Row="2"
+                                          Margin="0,20,0,0"
+                                          Text="Data de nascimento"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <DatePicker Grid.Row="3"
+                                               x:Name="DateNascimento"
+                                               Date="{Binding Form.DataNascimento}"
+                                               MaximumDate="{Binding DataNascimentoMax}"
+                                               Format="dd/MM/yyyy"
+                                               TextColor="{StaticResource primary_text_color}"
+                                               BackgroundColor="{StaticResource input_color}"/>
+                            </Grid>
+                     </VerticalStackLayout>
 
-                    <Label Grid.Row="2"
-                           Margin="0,20,0,0"
-                           Text="Senha"
-                           TextColor="{StaticResource primary_text_color}"/>
-                    <Entry Grid.Row="3"
-                           x:Name="EntrySenha"
-                           Placeholder="******"
-                           IsPassword="True"
-                           TextColor="{StaticResource secondary_text_color}"
-                           BackgroundColor="{StaticResource input_color}"/>
+                     <VerticalStackLayout x:Name="Step2"
+                                          IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=2}">
+                            <Grid RowDefinitions="Auto, Auto">
+                                   <Label Grid.Row="0"
+                                          Text="CPF"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Entry Grid.Row="1"
+                                          x:Name="EntryCpf"
+                                          Text="{Binding Form.Cpf}"
+                                          Placeholder="000.000.000-00"
+                                          Keyboard="Numeric"
+                                          MaxLength="14"
+                                          TextColor="{StaticResource input_text}"
+                                          BackgroundColor="{StaticResource input_color}"/>
+                            </Grid>
+                     </VerticalStackLayout>
 
-                    <Label Grid.Row="4"
-                           Margin="0,20,0,0"
-                           Text="Confirmar senha"
-                           TextColor="{StaticResource primary_text_color}"/>
-                    <Entry Grid.Row="5"
-                           x:Name="EntryConfirmarSenha"
-                           Placeholder="******"
-                           IsPassword="True"
-                           TextColor="{StaticResource secondary_text_color}"
-                           BackgroundColor="{StaticResource input_color}"/>
-                </Grid>
-            </VerticalStackLayout>
-        </Grid>
+                     <VerticalStackLayout x:Name="Step3"
+                                          IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=3}">
+                            <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+                                   <Label Grid.Row="0"
+                                          Text="E-mail"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Entry Grid.Row="1"
+                                          x:Name="EntryEmail"
+                                          Text="{Binding Form.Email}"
+                                          Placeholder="seu@email.com"
+                                          Keyboard="Email"
+                                          TextColor="{StaticResource input_text}"
+                                          BackgroundColor="{StaticResource input_color}"/>
 
-        <VerticalStackLayout Grid.Row="4"
-                VerticalOptions="End"
-                Spacing="20">
-            <Button x:Name="BtnNext"
-                    Text="Próximo"
-                    TextColor="{StaticResource White}"
-                    FontAttributes="Bold"
-                    Background="{StaticResource gradient_button}"
-                    Clicked="OnNextClicked"/>
-        </VerticalStackLayout>
-    </Grid>
+                                   <Label Grid.Row="2"
+                                          Margin="0,20,0,0"
+                                          Text="Senha"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Entry Grid.Row="3"
+                                          x:Name="EntrySenha"
+                                          Text="{Binding Form.Senha}"
+                                          Placeholder="******"
+                                          IsPassword="True"
+                                          TextColor="{StaticResource secondary_text_color}"
+                                          BackgroundColor="{StaticResource input_color}"/>
+
+                                   <Label Grid.Row="4"
+                                          Margin="0,20,0,0"
+                                          Text="Confirmar senha"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Entry Grid.Row="5"
+                                          x:Name="EntryConfirmarSenha"
+                                          Text="{Binding Form.ConfirmarSenha}"
+                                          Placeholder="******"
+                                          IsPassword="True"
+                                          TextColor="{StaticResource secondary_text_color}"
+                                          BackgroundColor="{StaticResource input_color}"/>
+                            </Grid>
+                     </VerticalStackLayout>
+              </Grid>
+
+              <VerticalStackLayout Grid.Row="4"
+                                   VerticalOptions="End"
+                                   Spacing="20">
+                     <Button x:Name="BtnNext"
+                             Text="{Binding ButtonNextText}"
+                             TextColor="{StaticResource White}"
+                             FontAttributes="Bold"
+                             Background="{StaticResource gradient_button}"
+                             Command="{Binding NextCommand}"/>
+              </VerticalStackLayout>
+       </Grid>
 </ContentPage>
