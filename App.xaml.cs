@@ -1,20 +1,40 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CoreventApp.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreventApp;
 
 public partial class App : Application
 {
-	public App()
+	private readonly AppShell appShell;
+	private readonly IAuthService authService;
+
+	public App(AppShell appShell, IAuthService authService)
 	{
 		InitializeComponent();
+		this.appShell = appShell;
+		this.authService = authService;
 	}
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
-        Window w = new Window(new AppShell());
-        w.Height = 600;
-        w.Width = 300;
+		Window w = new(appShell)
+		{
+			Width = 300,
+			Height = 600,
+		};
 
-        return w;
-    }
+		return w;
+	}
+
+	protected override async void OnStart()
+	{
+		base.OnStart();
+
+		var user = await authService.GetCurrentUserAsync();
+
+		if (user != null)
+		{
+			await Shell.Current.GoToAsync("//main");
+		}
+	}
 }

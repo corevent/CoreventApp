@@ -42,8 +42,8 @@
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="2" VerticalOptions="End">
-            <Button Text="Começar agora" Clicked="Button_Clicked_Register" TextColor="{StaticResource White}" Background="{StaticResource gradient_button}"/>
-            <Button BackgroundColor="Transparent" Text="Já tenho uma conta" HorizontalOptions="Center" Clicked="Button_Clicked_Login" TextColor="{StaticResource gradient_button}"/>
+            <Button Text="Começar agora" Command="{Binding RegisterCommand}" TextColor="{StaticResource White}" Background="{StaticResource gradient_button}"/>
+            <Button BackgroundColor="Transparent" Text="Já tenho uma conta" HorizontalOptions="Center" Command="{Binding LoginCommand}" TextColor="{StaticResource gradient_button}"/>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
