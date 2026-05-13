@@ -5,7 +5,7 @@
              Title="EditProfile"
              BackgroundColor="{StaticResource background_color}">
     <ScrollView>
-        <Grid RowDefinitions="auto, *" Padding="20">
+        <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
             <Label Text="Dados Pessoais"
                 Grid.Row="0"
                 FontSize="22"
