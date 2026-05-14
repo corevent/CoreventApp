@@ -2,11 +2,93 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.Favorites"
-             Title="Favorites">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Favorites"
+             BackgroundColor="{StaticResource background_color}">
+    <ScrollView>
+        <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
+            <Label Text="Histórico" 
+                Grid.Row="0"
+                FontSize="22"
+                FontAttributes="Bold"
+                TextColor="{StaticResource primary_text_color}"/>
+
+            <Grid Grid.Row="1" RowDefinitions="auto, auto, auto" RowSpacing="20">
+                <Border
+        Stroke="{StaticResource Gray100}"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 20"
+        BackgroundColor="{StaticResource White}">
+    <Grid ColumnDefinitions="72, *, Auto"
+          Padding="14,14,14,14"
+          ColumnSpacing="14">
+
+        <!-- Thumbnail -->
+        <Border StrokeThickness="0"
+                StrokeShape="RoundRectangle 14"
+                HeightRequest="72"
+                WidthRequest="72">
+            <Image Source="https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=400&amp;auto=format&amp;fit=crop"
+                Aspect="AspectFill"/>
+        </Border>
+
+        <!-- Infos -->
+        <VerticalStackLayout Grid.Column="1"
+                             Spacing="3"
+                             VerticalOptions="Center">
+
+            <Label Text="Vintage Culture – Open Air"
+                   FontSize="15"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource primary_text_color}"
+                   LineBreakMode="TailTruncation"/>
+
+            <HorizontalStackLayout Spacing="4">
+                <Image Source="calendar_icon.png"
+                       WidthRequest="13" HeightRequest="13"
+                       VerticalOptions="Center"/>
+                <Label Text="15 Out 2024"
+                       FontSize="12"
+                       TextColor="{StaticResource secondary_text_color}"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="4">
+                <Image Source="pin_icon.png"
+                       WidthRequest="13" HeightRequest="13"
+                       VerticalOptions="Center"/>
+                <Label Text="São Paulo, SP"
+                       FontSize="12"
+                       TextColor="{StaticResource secondary_text_color}"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <Label Text="R$ 250,00"
+                   FontSize="15"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource primary_orange_color}"
+                   Margin="0,2,0,0"/>
+
+        </VerticalStackLayout>
+
+        <!-- Botão deletar -->
+        <Border Grid.Column="2"
+                WidthRequest="36"
+                HeightRequest="36"
+                StrokeThickness="1"
+                Stroke="#FEE2E2"
+                StrokeShape="RoundRectangle 10"
+                BackgroundColor="#FEF2F2"
+                VerticalOptions="Center">
+            <Image Source="trash.png"
+                   WidthRequest="18"
+                   HeightRequest="18"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+        </Border>
+
+    </Grid>
+</Border>
+            </Grid>
+        </Grid>
+    </ScrollView>
 </ContentPage>
