@@ -2,11 +2,47 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.EditProfile"
-             Title="EditProfile">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="EditProfile"
+             BackgroundColor="{StaticResource background_color}">
+    <ScrollView>
+        <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
+            <Label Text="Dados Pessoais"
+                Grid.Row="0"
+                FontSize="22"
+                FontAttributes="Bold"
+                TextColor="{StaticResource primary_text_color}"/>
+
+            <Grid Grid.Row="1" RowDefinitions="auto, auto, auto, auto, auto" RowSpacing="20">
+                <Grid Grid.Row="0">
+                    <Label TextColor="{StaticResource primary_text_color}" Text="NOME COMPLETO" VerticalOptions="Center" HorizontalOptions="Start"/>
+
+                    <Entry x:Name="user_name" Text="{Binding Form.Email}" Placeholder="Pablo Emilio Escobar Gaviria" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
+
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Label TextColor="{StaticResource primary_text_color}" Text="E-MAIL" VerticalOptions="Center" HorizontalOptions="Start"/>
+
+                    <Entry x:Name="user_email" Text="{Binding Form.Email}" Placeholder="seu@email.com" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
+
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Label TextColor="{StaticResource primary_text_color}" Text="TELEFONE" VerticalOptions="Center" HorizontalOptions="Start"/>
+
+                    <Entry x:Name="user_cellphone" Text="{Binding Form.Email}" Placeholder="(11)9999-9999" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
+
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Label TextColor="{StaticResource primary_text_color}" Text="DATA DE NASCIMENTO" VerticalOptions="Center" HorizontalOptions="Start"/>
+
+                    <Entry x:Name="user_born_date" Text="{Binding Form.Email}" Placeholder="15/02/2005" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
+
+                </Grid>
+
+                <Button Grid.Row="4" Text="Salvar Alterações" Command="{Binding DisplayMessageCommand}" Background="{StaticResource gradient_button}"/>
+            </Grid>
+        </Grid>
+    </ScrollView>
 </ContentPage>

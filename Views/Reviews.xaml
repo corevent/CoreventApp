@@ -2,11 +2,78 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.Reviews"
-             Title="Reviews">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Reviews"
+             BackgroundColor="{StaticResource background_color}">
+    <ScrollView>
+        <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
+            <Label Text="Avaliações"
+                Grid.Row="0"
+                FontSize="22"
+                FontAttributes="Bold"
+                TextColor="{StaticResource primary_text_color}"/>
+
+            <Grid Grid.Row="1" RowDefinitions="auto, auto, auto" RowSpacing="20">
+                <Border
+                        Stroke="{StaticResource Gray100}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="{StaticResource White}">
+                    <VerticalStackLayout Padding="16" Spacing="0">
+                        <!-- Topo: thumbnail + info -->
+                        <Grid ColumnDefinitions="64, *"
+                            ColumnSpacing="14"
+                            Margin="0,0,0,14">
+
+                            <!-- Thumbnail -->
+                            <Border StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 14"
+                                    HeightRequest="64"
+                                    WidthRequest="64">
+                                <Image Source="https://www.eltonbrunetti.com.br/wp-content/uploads/2021/04/quadro-Leao-80-x-100-cm-Elton-Brunetti-scaled-jpg.webp"
+                                    Aspect="AspectFill"/>
+                            </Border>
+
+                            <!-- Título, data e estrelas -->
+                            <VerticalStackLayout Grid.Column="1"
+                                        Spacing="4"
+                                        VerticalOptions="Center">
+
+                                <Label Text="Vintage Culture – Open Air"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    TextColor="{StaticResource primary_text_color}"
+                                    LineBreakMode="TailTruncation"/>
+
+                                <Label Text="16 Mar 2024"
+                                    FontSize="13"
+                                    TextColor="{StaticResource secondary_text_color}"/>
+
+                                <!-- Estrelas -->
+                                <HorizontalStackLayout Spacing="3">
+                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
+                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
+                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
+                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
+                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Divisor -->
+                        <BoxView HeightRequest="0.5"
+                                Color="{StaticResource Gray100}"
+                                Margin="0,0,0,14"/>
+
+                        <!-- Comentário -->
+                        <Label Text="&quot;Evento sensacional! Organização impecável e o som estava incrível.&quot;"
+                            FontSize="14"
+                            FontAttributes="Italic"
+                            TextColor="{StaticResource secondary_text_color}"
+                            LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollView>
 </ContentPage>
