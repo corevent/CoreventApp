@@ -41,7 +41,7 @@
 
                     <VerticalStackLayout Spacing="10">
                         <Border Padding="15"
-                                BackgroundColor="white">
+                                BackgroundColor="{StaticResource White}">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10"/>
                             </Border.StrokeShape>
@@ -59,17 +59,17 @@
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                                 <Label Text=">"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
                                         FontSize="12"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                             </Grid>
                         </Border>
 
                         <Border Padding="15"
-                                BackgroundColor="white">
+                                BackgroundColor="{StaticResource White}">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10"/>
                             </Border.StrokeShape>
@@ -87,17 +87,17 @@
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                                 <Label Text=">"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
                                         FontSize="12"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                             </Grid>
                         </Border>
 
                         <Border Padding="15"
-                                BackgroundColor="white">
+                                BackgroundColor="{StaticResource White}">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10"/>
                             </Border.StrokeShape>
@@ -115,17 +115,17 @@
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                                 <Label Text=">"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
                                         FontSize="12"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                             </Grid>
                         </Border>
 
                         <Border Padding="15"
-                                BackgroundColor="white">
+                                BackgroundColor="{StaticResource White}">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10"/>
                             </Border.StrokeShape>
@@ -143,17 +143,17 @@
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                                 <Label Text=">"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
                                         FontSize="12"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                             </Grid>
                         </Border>
 
                         <Border Padding="15"
-                                BackgroundColor="white">
+                                BackgroundColor="{StaticResource White}">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10"/>
                             </Border.StrokeShape>
@@ -171,12 +171,12 @@
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                                 <Label Text=">"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
                                         FontSize="12"
-                                        TextColor="#2B3440"/>
+                                        TextColor="{StaticResource profile_menu_text}"/>
                             </Grid>
                         </Border>
                     </VerticalStackLayout>
@@ -187,7 +187,7 @@
                                 TextColor="{StaticResource secondary_text_color}"/>
                         <VerticalStackLayout>
                             <Border Padding="15"
-                                    BackgroundColor="white">
+                                    BackgroundColor="{StaticResource White}">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10"/>
                                 </Border.StrokeShape>
@@ -206,13 +206,13 @@
                                            Padding="20,0,0,0"
                                            VerticalOptions="Center"
                                            FontSize="16"
-                                           TextColor="#2B3440"/>
+                                           TextColor="{StaticResource profile_menu_text}"/>
 
                                     <Label Text=">"
                                            Grid.Column="2"
                                            VerticalOptions="Center"
                                            FontSize="12"
-                                           TextColor="#2B3440"/>
+                                           TextColor="{StaticResource profile_menu_text}"/>
                                 </Grid>
                             </Border>
                         </VerticalStackLayout>
@@ -224,7 +224,7 @@
                                 TextColor="{StaticResource secondary_text_color}"/>
                         <VerticalStackLayout>
                             <Border Padding="15"
-                                    BackgroundColor="white">
+                                    BackgroundColor="{StaticResource White}">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10"/>
                                 </Border.StrokeShape>
@@ -243,22 +243,22 @@
                                            Padding="20,0,0,0"
                                            VerticalOptions="Center"
                                            FontSize="16"
-                                           TextColor="#2B3440"/>
+                                           TextColor="{StaticResource profile_menu_text}"/>
 
                                     <Label Text=">"
                                            Grid.Column="2"
                                            VerticalOptions="Center"
                                            FontSize="12"
-                                           TextColor="#2B3440"/>
+                                           TextColor="{StaticResource profile_menu_text}"/>
                                 </Grid>
                             </Border>
                         </VerticalStackLayout>
                     </VerticalStackLayout>
 
                     <Button Text="Sair da Conta"
-                            TextColor="red"
+                            TextColor="{StaticResource primary_orange_color}"
                             FontAttributes="Bold"
-                            BackgroundColor="LightGray"
+                            BackgroundColor="{StaticResource Gray100}"
                             Command="{Binding LogoutCommand}"/>
                 </VerticalStackLayout>
             </Grid>

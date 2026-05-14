@@ -1,40 +1,35 @@
 # Agent Guide: CoreventApp
 
 ## Architecture
-- **Framework**: .NET MAUI (Multi-platform App UI) targeting .NET 10.
-- **Pattern**: MVVM using `CommunityToolkit.Mvvm`.
-- **Navigation**: `AppShell.xaml` defines the main structure (TabBar) and `AppShell.xaml.cs` handles route registration.
-- **Dependency Injection**: Registered in `MauiProgram.cs`.
+- **Framework**: .NET MAUI targeting `net10.0-android` / `net10.0-windows10.0.19041.0`.
+- **Pattern**: MVVM via `CommunityToolkit.Mvvm` 8.4.2 (`[ObservableProperty]`, `[RelayCommand]`, `partial` classes).
+- **DI**: All services, ViewModels, and Views registered in `MauiProgram.cs`.
+- **Navigation**: `AppShell.xaml` defines `TabBar` (Home, Explore, Tickets, Profile) + standalone Welcome. `AppShell.xaml.cs` registers detail-push routes via `Routing.RegisterRoute`.
 
-## Development Commands
+## Key Commands
 - **Build**: `dotnet build`
-- **Restore**: `dotnet restore`
-- **Clean**: `dotnet clean`
-- **Run (Windows)**: `dotnet run -f net10.0-windows10.0.19041.0` (ensure Developer Mode is enabled on Windows).
-- **Run (Android)**: `dotnet build -t:Run -f net10.0-android`
+- **Run Windows**: `dotnet run -f net10.0-windows10.0.19041.0` (needs Windows Developer Mode)
+- **Run Android**: `dotnet build -t:Run -f net10.0-android`
 
-## Key Locations
-- **Views**: `Views/*.xaml` and their code-behinds.
-- **ViewModels**: `ViewModels/*.cs` (typically `partial` classes using MVVM Toolkit source generators).
-- **Models**: `Models/*.cs`.
-- **Services**: `Services/*.cs`. Currently uses `MockAuthService` for authentication.
-- **Resources**: `Resources/` (Images, Styles, Fonts, Splash).
+## DI Quirks
+- Several ViewModels are **commented out** in DI registration (`ExploreViewModel`, `PanelCollaboratorViewModel`, `PanelOrganizerViewModel`, `PurchaseHistoryViewModel`, `ReviewsViewModel`) but their **View pages are still registered** and referenced in AppShell. Adding them back requires uncommenting in `MauiProgram.cs` and optionally in `AppShell.xaml.cs`.
 
-## Workflow Conventions
-- **New Page**:
-    1. Create `MyPage.xaml` and `MyPage.xaml.cs` in `Views/`.
-    2. Create `MyPageViewModel.cs` in `ViewModels/`.
-    3. Register both in `MauiProgram.cs` (usually as `Transient`).
-    4. Register the route in `AppShell.xaml.cs` if it's a detail page, or add to `AppShell.xaml` if it's a root tab.
-    5. Add `<MauiXaml Update="Views\MyPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>` to `CoreventApp.csproj`.
+## New Page Workflow
+1. Create `Views/MyPage.xaml` + `Views/MyPage.xaml.cs`.
+2. Create `ViewModels/MyPageViewModel.cs`.
+3. Register both as `Transient` in `MauiProgram.cs`.
+4. Register route in `AppShell.xaml.cs` (detail page) or add to `AppShell.xaml` TabBar.
+5. Add `<MauiXaml Update="Views\MyPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>` to `CoreventApp.csproj` (required because `<MauiXamlInflator>SourceGen</MauiXamlInflator>` is set project-wide).
 
-- **MVVM Toolkit**: 
-    - Use `[ObservableProperty]` for properties (requires `partial` class).
-    - Use `[RelayCommand]` for methods.
+## Auth
+- Only `MockAuthService` exists (no real backend). Test credentials: `teste@email.com` / `123456`.
+- Session persisted via `SecureStorage` (key: `logged_user_data`).
 
-## Constraints & Quirks
-- **Source Generation**: `CoreventApp.csproj` uses `<MauiXamlInflator>SourceGen</MauiXamlInflator>`.
+## Style / Quirks
+- **Fonts**: OpenSans-Regular/Semibold + PlusJakartaSans-Regular/SemiBold/Bold. Both registered in `MauiProgram.cs`.
+- **Window**: Fixed size 360×800 in `App.xaml.cs:CreateWindow`.
+- **Colors**: Custom keys in `Resources/Styles/Colors.xaml` (e.g. `background_color`, `primary_orange_color`, `gradient_button`).
 - **Nullable**: Enabled project-wide.
-- **Android Target**: API 21.0 minimum.
-- **Windows Target**: 10.0.17763.0 minimum.
-- **Style**: Mimic `Resources/Styles/Styles.xaml` for UI consistency.
+- **Android min**: API 21 / **Windows min**: 10.0.17763.0.
+- **Converter**: `IntegerToVisibilityConverter` in `Converters/`.
+- No tests or CI pipeline exist.

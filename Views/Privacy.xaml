@@ -51,7 +51,7 @@
                         BackgroundColor="{StaticResource White}"
                         Padding="20">
                     <VerticalStackLayout Spacing="15">
-                        <Border BackgroundColor="#F3F5F8"
+                        <Border BackgroundColor="{StaticResource card_icon_bg}"
                                 StrokeThickness="0"
                                 StrokeShape="RoundRectangle 14"
                                 WidthRequest="50"
@@ -95,7 +95,7 @@
                             Padding="12,4">
                         <Grid ColumnDefinitions="40, *, Auto"
                                 HeightRequest="64">
-                            <Border BackgroundColor="#F3F5F8"
+                            <Border BackgroundColor="{StaticResource card_icon_bg}"
                                     StrokeThickness="0"
                                     StrokeShape="RoundRectangle 12"
                                     WidthRequest="36"
@@ -120,7 +120,7 @@
                             <Label Grid.Column="2"
                                     Text="›"
                                     FontSize="22"
-                                    TextColor="#C7C7CC"
+                                    TextColor="{StaticResource chevron_color}"
                                     VerticalOptions="Center"/>
 
                             <Grid.GestureRecognizers>

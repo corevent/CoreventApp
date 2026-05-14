@@ -21,16 +21,16 @@
         <Border StrokeThickness="0" StrokeShape="RoundRectangle 26">
             <Border.Triggers>
                 <DataTrigger TargetType="Border" Binding="{Binding IsProximosVisible}" Value="True">
-                    <Setter Property="Background" Value="#f49519"/>
+                    <Setter Property="BackgroundColor" Value="{StaticResource toggle_active_bg}"/>
                 </DataTrigger>
                 <DataTrigger TargetType="Border" Binding="{Binding IsProximosVisible}" Value="False">
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BackgroundColor" Value="Transparent"/>
                 </DataTrigger>
             </Border.Triggers>
             <Label Text="Próximos" HorizontalOptions="Center" Padding="0,10" FontAttributes="Bold" FontSize="14">
                 <Label.Triggers>
                     <DataTrigger TargetType="Label" Binding="{Binding IsProximosVisible}" Value="True">
-                        <Setter Property="TextColor" Value="White"/>
+                        <Setter Property="TextColor" Value="{StaticResource White}"/>
                     </DataTrigger>
                     <DataTrigger TargetType="Label" Binding="{Binding IsProximosVisible}" Value="False">
                         <Setter Property="TextColor" Value="{StaticResource secondary_text_color}"/>
@@ -46,16 +46,16 @@
         <Border Grid.Column="1" StrokeThickness="0" StrokeShape="RoundRectangle 26">
             <Border.Triggers>
                 <DataTrigger TargetType="Border" Binding="{Binding IsPassadosVisible}" Value="True">
-                    <Setter Property="Background" Value="#f49519"/>
+                    <Setter Property="BackgroundColor" Value="{StaticResource toggle_active_bg}"/>
                 </DataTrigger>
                 <DataTrigger TargetType="Border" Binding="{Binding IsPassadosVisible}" Value="False">
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BackgroundColor" Value="Transparent"/>
                 </DataTrigger>
             </Border.Triggers>
             <Label Text="Passados" HorizontalOptions="Center" Padding="0,10" FontAttributes="Bold" FontSize="14">
                 <Label.Triggers>
                     <DataTrigger TargetType="Label" Binding="{Binding IsPassadosVisible}" Value="True">
-                        <Setter Property="TextColor" Value="White"/>
+                        <Setter Property="TextColor" Value="{StaticResource White}"/>
                     </DataTrigger>
                     <DataTrigger TargetType="Label" Binding="{Binding IsPassadosVisible}" Value="False">
                         <Setter Property="TextColor" Value="{StaticResource secondary_text_color}"/>

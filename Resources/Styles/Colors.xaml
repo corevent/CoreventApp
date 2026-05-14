@@ -21,6 +21,21 @@
         <GradientStop Color="#ed4e90" Offset="1.0" />
     </LinearGradientBrush>
 
+    <!-- Cores específicas do design -->
+    <Color x:Key="toggle_active_bg">#f49519</Color>
+    <Color x:Key="card_icon_bg">#F3F5F8</Color>
+    <Color x:Key="chevron_color">#C7C7CC</Color>
+    <Color x:Key="error_color">#FF5A5F</Color>
+    <Color x:Key="star_color">#F59E0B</Color>
+    <Color x:Key="delete_bg">#FEF2F2</Color>
+    <Color x:Key="delete_stroke">#FEE2E2</Color>
+    <Color x:Key="status_success_bg">#E6F7EE</Color>
+    <Color x:Key="status_success_text">#0A8A4A</Color>
+    <Color x:Key="home_highlight_bg">#FCEDEE</Color>
+    <Color x:Key="home_filter_text">#8AA0BE</Color>
+    <Color x:Key="profile_menu_text">#2B3440</Color>
+    <Color x:Key="purchase_btn_bg">#111827</Color>
+
     <Color x:Key="Primary">#512BD4</Color>
     <Color x:Key="PrimaryDark">#ac99ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>

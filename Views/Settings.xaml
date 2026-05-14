@@ -62,7 +62,7 @@
                             <!-- Notificações Push -->
                             <Grid ColumnDefinitions="40, *, 40"
                                   HeightRequest="56">
-                                <Border BackgroundColor="#F3F5F8"
+                                <Border BackgroundColor="{StaticResource card_icon_bg}"
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 12"
                                         WidthRequest="36"
@@ -91,7 +91,7 @@
                             <!-- Modo Escuro -->
                             <Grid ColumnDefinitions="40, *, 40"
                                   HeightRequest="56">
-                                <Border BackgroundColor="#F3F5F8"
+                                <Border BackgroundColor="{StaticResource card_icon_bg}"
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 12"
                                         WidthRequest="36"
@@ -120,7 +120,7 @@
                             <!-- Idioma -->
                             <Grid ColumnDefinitions="40, *, Auto"
                                   HeightRequest="56">
-                                <Border BackgroundColor="#F3F5F8"
+                                <Border BackgroundColor="{StaticResource card_icon_bg}"
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 12"
                                         WidthRequest="36"
@@ -170,7 +170,7 @@
                             <!-- Privacidade -->
                             <Grid ColumnDefinitions="40, *, Auto"
                                   HeightRequest="56">
-                                <Border BackgroundColor="#F3F5F8"
+                                <Border BackgroundColor="{StaticResource card_icon_bg}"
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 12"
                                         WidthRequest="36"
@@ -189,8 +189,8 @@
                                 <Label Grid.Column="2"
                                        Text="&gt;"
                                        FontSize="18"
-                                       TextColor="#C7C7CC"
-                                       VerticalOptions="Center"/>
+                                        TextColor="{StaticResource chevron_color}"
+                                        VerticalOptions="Center"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding NavigateToPrivacyCommand}"/>
                                 </Grid.GestureRecognizers>
@@ -203,7 +203,7 @@
                             <!-- Alterar E-mail -->
                             <Grid ColumnDefinitions="40, *, Auto"
                                     HeightRequest="56">
-                                <Border BackgroundColor="#F3F5F8"
+                                <Border BackgroundColor="{StaticResource card_icon_bg}"
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 12"
                                         WidthRequest="36"
@@ -222,7 +222,7 @@
                                 <Label Grid.Column="2"
                                         Text="&gt;"
                                         FontSize="18"
-                                        TextColor="#C7C7CC"
+                                        TextColor="{StaticResource chevron_color}"
                                         VerticalOptions="Center"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding NavigateToEmailCommand}"/>
@@ -236,7 +236,7 @@
                             <!-- Alterar Senha -->
                             <Grid ColumnDefinitions="40, *, Auto"
                                     HeightRequest="56">
-                                <Border BackgroundColor="#F3F5F8"
+                                <Border BackgroundColor="{StaticResource card_icon_bg}"
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 12"
                                         WidthRequest="36"
@@ -255,7 +255,7 @@
                                 <Label Grid.Column="2"
                                         Text="&gt;"
                                         FontSize="18"
-                                        TextColor="#C7C7CC"
+                                        TextColor="{StaticResource chevron_color}"
                                         VerticalOptions="Center"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding NavigateToPasswordCommand}"/>

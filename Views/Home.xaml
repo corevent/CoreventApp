@@ -38,19 +38,19 @@
                 Padding="12,10">
           <Grid ColumnDefinitions="50,*,36"
                 ColumnSpacing="10">
-            <Border BackgroundColor="#FCEDEE"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 14"
-                    WidthRequest="50"
-                    HeightRequest="50"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center">
-              <Label Text="Q"
-                     FontSize="24"
-                     TextColor="{StaticResource primary_orange_color}"
-                     HorizontalOptions="Center"
-                     VerticalOptions="Center"/>
-            </Border>
+                            <Border BackgroundColor="{StaticResource home_highlight_bg}"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 14"
+                                    WidthRequest="50"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center">
+                              <Label Text="Q"
+                                     FontSize="24"
+                                     TextColor="{StaticResource primary_orange_color}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
+                            </Border>
 
             <VerticalStackLayout Grid.Column="1"
                                  Spacing="2"
@@ -65,7 +65,7 @@
             </VerticalStackLayout>
 
             <Border Grid.Column="2"
-                    BackgroundColor="#F3F5F8"
+                    BackgroundColor="{StaticResource card_icon_bg}"
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 12"
                     WidthRequest="36"
@@ -73,7 +73,7 @@
                     VerticalOptions="Center">
               <Label Text="F"
                      FontSize="15"
-                     TextColor="#8AA0BE"
+                     TextColor="{StaticResource home_filter_text}"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"/>
             </Border>

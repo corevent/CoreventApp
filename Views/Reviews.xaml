@@ -50,11 +50,11 @@
 
                                 <!-- Estrelas -->
                                 <HorizontalStackLayout Spacing="3">
-                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
-                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
-                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
-                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
-                                    <Label Text="★" FontSize="18" TextColor="#F59E0B"/>
+                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
+                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
+                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
+                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
+                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
                                 </HorizontalStackLayout>
 
                             </VerticalStackLayout>

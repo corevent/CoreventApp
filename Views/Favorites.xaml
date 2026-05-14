@@ -75,9 +75,9 @@
                 WidthRequest="36"
                 HeightRequest="36"
                 StrokeThickness="1"
-                Stroke="#FEE2E2"
+                Stroke="{StaticResource delete_stroke}"
                 StrokeShape="RoundRectangle 10"
-                BackgroundColor="#FEF2F2"
+                BackgroundColor="{StaticResource delete_bg}"
                 VerticalOptions="Center">
             
             <Border.GestureRecognizers>

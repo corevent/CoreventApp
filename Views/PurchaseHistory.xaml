@@ -49,11 +49,11 @@
                                             Padding="10,3"
                                             StrokeThickness="0"
                                             StrokeShape="RoundRectangle 20"
-                                            BackgroundColor="#E6F7EE">
+                                            BackgroundColor="{StaticResource status_success_bg}">
                                         <Label Text="CONCLUÍDO"
                                             FontSize="11"
                                             FontAttributes="Bold"
-                                            TextColor="#0A8A4A"/>
+                                            TextColor="{StaticResource status_success_text}"/>
                                     </Border>
                                 </Grid>
 
@@ -138,11 +138,11 @@
                                         Padding="18,0"
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 12"
-                                        BackgroundColor="#111827">
+                                        BackgroundColor="{StaticResource purchase_btn_bg}">
                                     <Label Text="Ver Detalhes"
                                         FontSize="14"
                                         FontAttributes="Bold"
-                                        TextColor="White"
+                                        TextColor="{StaticResource White}"
                                         VerticalOptions="Center"/>
                                 </Border>
 
