@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Views;
 
 namespace CoreventApp.ViewModels;
 
@@ -21,10 +22,32 @@ public partial class SettingsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task NavigateToDetail(string destination)
+    private async Task NavigateToPrivacy()
     {
-        // Placeholder for navigation to details like Privacy, Payment, etc.
-        // await Shell.Current.GoToAsync(destination);
+        await Shell.Current.GoToAsync(nameof(Privacy));
+    }
+
+    [RelayCommand]
+    private async Task NavigateToPayment()
+    {
+        await Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private async Task NavigateToHelp()
+    {
+        await Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private async Task NavigateToContact()
+    {
+        await Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private async Task NavigateToLanguage()
+    {
         await Task.CompletedTask;
     }
 }

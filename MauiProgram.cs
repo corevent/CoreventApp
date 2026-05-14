@@ -32,6 +32,7 @@ public static class MauiProgram
 		// builder.Services.AddTransient<ViewModels.ExploreViewModel>();
 		// builder.Services.AddTransient<ViewModels.TicketsViewModel>();
 		builder.Services.AddTransient<ViewModels.ProfileViewModel>();
+		builder.Services.AddTransient<ViewModels.PrivacyViewModel>();
 		builder.Services.AddTransient<ViewModels.EditProfileViewModel>();
 		builder.Services.AddTransient<ViewModels.FavoritesViewModel>();
 		// builder.Services.AddTransient<ViewModels.PanelCollaboratorViewModel>();
@@ -48,6 +49,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<Views.Explore>();
 		builder.Services.AddTransient<Views.Tickets>();
 		builder.Services.AddTransient<Views.Profile>();
+		builder.Services.AddTransient<Views.Privacy>();
 		builder.Services.AddTransient<Views.EditProfile>();
 		builder.Services.AddTransient<Views.Favorites>();
 		builder.Services.AddTransient<Views.PanelCollaborator>();

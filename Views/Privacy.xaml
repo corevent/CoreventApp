@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CoreventApp.ViewModels"
+             x:Class="CoreventApp.Views.Privacy"
+             x:DataType="vm:PrivacyViewModel"
+             Title="Privacidade"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource background_color}">
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- Header: Standard Home/Settings style -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="Auto, *, Auto"
+              Padding="16,14,16,10"
+              VerticalOptions="Center">
+            <Border WidthRequest="40"
+                    HeightRequest="40"
+                    Stroke="{StaticResource Gray200}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
+                    BackgroundColor="{StaticResource White}">
+                <Label Text="←"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="{StaticResource primary_text_color}"
+                       FontSize="18"/>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Label Grid.Column="1"
+                   Text="Privacidade"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource primary_text_color}"
+                   VerticalOptions="Center"
+                   Margin="12,0,0,0"/>
+        </Grid>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16,14,16,20"
+                    Spacing="18">
+
+                <!-- Manifesto Section -->
+                <Border Stroke="{StaticResource Gray100}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        BackgroundColor="{StaticResource White}"
+                        Padding="20">
+                    <VerticalStackLayout Spacing="15">
+                        <Border BackgroundColor="#F3F5F8"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 14"
+                                WidthRequest="50"
+                                HeightRequest="50"
+                                HorizontalOptions="Start">
+                            <Image Source="shield.png"
+                                    HeightRequest="24"
+                                    WidthRequest="24"/>
+                        </Border>
+
+                        <Label Text="Sua privacidade é soberana"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource primary_text_color}"/>
+
+                        <Label Text="O Corevent foi projetado para ser um centro de controle transparente. Diferente de outras plataformas, nós adotamos uma política de zero coleta de dados de telemetria."
+                               FontSize="14"
+                               TextColor="{StaticResource secondary_text_color}"
+                               LineHeight="1.2"/>
+
+                        <Label Text="• Não enviamos ofertas ou spam&#10;• Não coletamos dados de navegação&#10;• Não compartilhamos dados com terceiros&#10;• Processamento 100% local"
+                               FontSize="13"
+                               TextColor="{StaticResource primary_text_color}"
+                               LineHeight="1.4"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Action Section: Portability -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="PORTABILIDADE"
+                           FontSize="12"
+                           TextColor="{StaticResource secondary_text_color}"
+                           FontAttributes="Bold"
+                           CharacterSpacing="1"
+                           Margin="4,0"/>
+
+                    <Border Stroke="{StaticResource Gray100}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18"
+                            BackgroundColor="{StaticResource White}"
+                            Padding="12,4">
+                        <Grid ColumnDefinitions="40, *, Auto"
+                                HeightRequest="64">
+                            <Border BackgroundColor="#F3F5F8"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 12"
+                                    WidthRequest="36"
+                                    HeightRequest="36">
+                                <Image Source="download.png"
+                                        HeightRequest="18"
+                                        WidthRequest="18"/>
+                            </Border>
+
+                            <VerticalStackLayout Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Margin="12,0">
+                                <Label Text="Baixar meus dados"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource primary_text_color}"/>
+                                <Label Text="Gere um resumo das informações locais"
+                                       FontSize="12"
+                                       TextColor="{StaticResource secondary_text_color}"/>
+                            </VerticalStackLayout>
+
+                            <Label Grid.Column="2"
+                                    Text="›"
+                                    FontSize="22"
+                                    TextColor="#C7C7CC"
+                                    VerticalOptions="Center"/>
+
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding DownloadDataCommand}"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <Label Text="Os dados exportados incluem seu nome, e-mail e uma declaração da origem local das suas preferências."
+                       FontSize="11"
+                       TextColor="{StaticResource secondary_text_color}"
+                       HorizontalTextAlignment="Center"
+                       Margin="10,0"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
