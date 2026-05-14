@@ -79,6 +79,13 @@
                 StrokeShape="RoundRectangle 10"
                 BackgroundColor="#FEF2F2"
                 VerticalOptions="Center">
+            
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer 
+                    Command="{Binding DeleteFavoriteEventCommand}" 
+                    CommandParameter="{Binding .}" />
+            </Border.GestureRecognizers>
+
             <Image Source="trash.png"
                    WidthRequest="18"
                    HeightRequest="18"
