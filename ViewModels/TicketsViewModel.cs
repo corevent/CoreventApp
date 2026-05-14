@@ -1,26 +1,25 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CoreventApp.Views;
 
 namespace CoreventApp.ViewModels;
 
 public partial class TicketsViewModel : ObservableObject
 {
     [ObservableProperty]
-    bool isProximosVisible = true;
+    public partial bool IsProximosVisible { get; set; } = true;
 
     [ObservableProperty]
-    bool isPassadosVisible = false;
+    public partial bool IsPassadosVisible { get; set; } = false;
 
     [RelayCommand]
-    void SelectProximos()
+    public void SelectProximos()
     {
         IsProximosVisible = true;
         IsPassadosVisible = false;
     }
 
     [RelayCommand]
-    void SelectPassados()
+    public void SelectPassados()
     {
         IsProximosVisible = false;
         IsPassadosVisible = true;
