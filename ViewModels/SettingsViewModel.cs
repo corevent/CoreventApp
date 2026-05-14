@@ -28,20 +28,16 @@ public partial class SettingsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task NavigateToPayment()
+    private async Task NavigateToEmail()
     {
+        // Placeholder for Email change navigation
         await Task.CompletedTask;
     }
 
     [RelayCommand]
-    private async Task NavigateToHelp()
+    private async Task NavigateToPassword()
     {
-        await Task.CompletedTask;
-    }
-
-    [RelayCommand]
-    private async Task NavigateToContact()
-    {
+        // Placeholder for Password change navigation
         await Task.CompletedTask;
     }
 
