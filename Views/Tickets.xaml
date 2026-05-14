@@ -4,10 +4,81 @@
              x:Class="CoreventApp.Views.Tickets"
              Title="Ingressos"
              BackgroundColor="{StaticResource background_color}">
-  <Grid Padding="20">
-    <Label Text="Ingressos"
+  <ScrollView>
+
+  <Grid  RowDefinitions="auto,auto, *" Padding="20" RowSpacing="20">
+    <Label Text="Meus Ingressos"
+           Grid.Row="0"
            FontSize="22"
            FontAttributes="Bold"
            TextColor="{StaticResource primary_text_color}"/>
+
+
+    <Border Grid.Row="1" Padding="4" StrokeThickness="0" StrokeShape="RoundRectangle 30" BackgroundColor="{StaticResource Gray100}">
+      <Grid ColumnDefinitions="*, *" ColumnSpacing="0">
+
+        <!-- Botão Próximos -->
+        <Border StrokeThickness="0" StrokeShape="RoundRectangle 26">
+            <Border.Triggers>
+                <DataTrigger TargetType="Border" Binding="{Binding IsProximosVisible}" Value="True">
+                    <Setter Property="Background" Value="#f49519"/>
+                </DataTrigger>
+                <DataTrigger TargetType="Border" Binding="{Binding IsProximosVisible}" Value="False">
+                    <Setter Property="Background" Value="Transparent"/>
+                </DataTrigger>
+            </Border.Triggers>
+            <Label Text="Próximos" HorizontalOptions="Center" Padding="0,10" FontAttributes="Bold" FontSize="14">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding IsProximosVisible}" Value="True">
+                        <Setter Property="TextColor" Value="White"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Label" Binding="{Binding IsProximosVisible}" Value="False">
+                        <Setter Property="TextColor" Value="{StaticResource secondary_text_color}"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SelectProximosCommand}"/>
+            </Border.GestureRecognizers>
+        </Border>
+
+        <!-- Botão Passados -->
+        <Border Grid.Column="1" StrokeThickness="0" StrokeShape="RoundRectangle 26">
+            <Border.Triggers>
+                <DataTrigger TargetType="Border" Binding="{Binding IsPassadosVisible}" Value="True">
+                    <Setter Property="Background" Value="#f49519"/>
+                </DataTrigger>
+                <DataTrigger TargetType="Border" Binding="{Binding IsPassadosVisible}" Value="False">
+                    <Setter Property="Background" Value="Transparent"/>
+                </DataTrigger>
+            </Border.Triggers>
+            <Label Text="Passados" HorizontalOptions="Center" Padding="0,10" FontAttributes="Bold" FontSize="14">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding IsPassadosVisible}" Value="True">
+                        <Setter Property="TextColor" Value="White"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Label" Binding="{Binding IsPassadosVisible}" Value="False">
+                        <Setter Property="TextColor" Value="{StaticResource secondary_text_color}"/>
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SelectPassadosCommand}"/>
+            </Border.GestureRecognizers>
+        </Border>
+
+    </Grid>
+    </Border>
+
+<!-- Conteúdo Próximos -->
+<VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsProximosVisible}">
+    <Label Text="Conteúdo Próximos" TextColor="{StaticResource primary_text_color}"/>
+</VerticalStackLayout>
+
+<!-- Conteúdo Passados -->
+<VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsPassadosVisible}">
+    <Label Text="Conteúdo Passados" TextColor="{StaticResource primary_text_color}"/>
+</VerticalStackLayout>
   </Grid>
+  </ScrollView>
 </ContentPage>
