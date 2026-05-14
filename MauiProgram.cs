@@ -38,7 +38,7 @@ public static class MauiProgram
 		// builder.Services.AddTransient<ViewModels.PanelOrganizerViewModel>();
 		// builder.Services.AddTransient<ViewModels.PurchaseHistoryViewModel>();
 		// builder.Services.AddTransient<ViewModels.ReviewsViewModel>();
-		// builder.Services.AddTransient<ViewModels.SettingsViewModel>();
+		builder.Services.AddTransient<ViewModels.SettingsViewModel>();
 
 		// Views
 		builder.Services.AddTransient<Views.Welcome>();

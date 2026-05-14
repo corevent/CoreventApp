@@ -19,8 +19,8 @@ public partial class App : Application
 	{
 		Window w = new(appShell)
 		{
-			Width = 300,
-			Height = 600,
+			Width = 360,
+			Height = 800,
 		};
 
 		return w;
