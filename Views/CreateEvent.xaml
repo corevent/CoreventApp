@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CoreventApp.ViewModels"
+             xmlns:cv="clr-namespace:CoreventApp.Converters"
+             x:Class="CoreventApp.Views.CreateEvent"
+             x:DataType="vm:CreateEventViewModel"
+             Title="Criar Evento"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource background_color}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cv:IntegerToVisibilityConverter x:Key="StepConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto"
+          Padding="20"
+          BackgroundColor="{StaticResource background_color}">
+
+        <!-- Header -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="Auto, *, Auto"
+              VerticalOptions="Center">
+            <Border WidthRequest="40"
+                    HeightRequest="40"
+                    Stroke="{StaticResource Gray200}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
+                    BackgroundColor="{StaticResource White}">
+                <Label Text="←"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="{StaticResource primary_text_color}"
+                       FontSize="18"/>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}"/>
+                </Border.GestureRecognizers>
+            </Border>
+            <Label Grid.Column="1"
+                   Text="Criar Evento"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource primary_text_color}"
+                   VerticalOptions="Center"
+                   Margin="12,0,0,0"/>
+        </Grid>
+
+        <!-- Progress Bar -->
+        <ProgressBar Grid.Row="1"
+                     Margin="0,20,0,30"
+                     Progress="{Binding Progress}"
+                     HeightRequest="8"
+                     BackgroundColor="{StaticResource Gray100}"
+                     ProgressColor="{StaticResource primary_orange_color}"/>
+
+        <!-- Step Title & Description -->
+        <VerticalStackLayout Grid.Row="2"
+                             Margin="0,0,0,6"
+                             Spacing="5">
+            <Label Text="{Binding StepTitle}"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start"
+                   TextColor="{StaticResource primary_text_color}"/>
+            <Label Text="{Binding StepDescription}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start"
+                   TextColor="{StaticResource secondary_text_color}"/>
+        </VerticalStackLayout>
+
+        <!-- Content Area -->
+        <ScrollView Grid.Row="3"
+                    Margin="0,4,0,0">
+            <Grid RowDefinitions="*">
+
+                <!-- Step 1: Basic Info -->
+                <VerticalStackLayout IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=1}"
+                                     Spacing="16">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Título do Evento"
+                               TextColor="{StaticResource primary_text_color}"/>
+                        <Entry Text="{Binding Form.Title}"
+                               Placeholder="Ex: Festival de Verão"
+                               TextColor="{StaticResource input_text}"
+                               BackgroundColor="{StaticResource input_color}"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Descrição"
+                               TextColor="{StaticResource primary_text_color}"/>
+                        <Editor Text="{Binding Form.Description}"
+                                Placeholder="Descreva seu evento..."
+                                HeightRequest="100"
+                                TextColor="{StaticResource input_text}"
+                                BackgroundColor="{StaticResource input_color}"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Categoria"
+                               TextColor="{StaticResource primary_text_color}"/>
+                        <Border Stroke="{StaticResource Gray100}"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                BackgroundColor="{StaticResource input_color}"
+                                Padding="4,0">
+                            <Picker ItemsSource="{Binding Categories}"
+                                    SelectedItem="{Binding Form.Category}"
+                                    Title="Selecione uma categoria"
+                                    TextColor="{StaticResource input_text}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="12"
+                                           Margin="0,4,0,0">
+                        <Switch IsToggled="{Binding Form.IsOver18}"
+                                OnColor="{StaticResource primary_orange_color}"
+                                ThumbColor="{StaticResource Gray200}"/>
+                        <Label Text="Evento para maiores de 18 anos"
+                               VerticalOptions="Center"
+                               TextColor="{StaticResource primary_text_color}"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Step 2: Date & Participation -->
+                <VerticalStackLayout IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=2}"
+                                     Spacing="16">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Data de início"
+                               TextColor="{StaticResource primary_text_color}"/>
+                        <DatePicker Date="{Binding Form.StartDate}"
+                                    MinimumDate="{Binding Today}"
+                                    Format="dd/MM/yyyy"
+                                    TextColor="{StaticResource primary_text_color}"
+                                    BackgroundColor="{StaticResource input_color}"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Data de término"
+                               TextColor="{StaticResource primary_text_color}"/>
+                        <DatePicker Date="{Binding Form.EndDate}"
+                                    MinimumDate="{Binding Form.StartDate}"
+                                    Format="dd/MM/yyyy"
+                                    TextColor="{StaticResource primary_text_color}"
+                                    BackgroundColor="{StaticResource input_color}"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Número máximo de participantes"
+                               TextColor="{StaticResource primary_text_color}"/>
+                        <Entry Text="{Binding Form.MaxParticipants}"
+                               Placeholder="Ex: 500"
+                               Keyboard="Numeric"
+                               TextColor="{StaticResource input_text}"
+                               BackgroundColor="{StaticResource input_color}"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Step 3: Location -->
+                <VerticalStackLayout IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=3}"
+                                     Spacing="16">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Tipo de localização"
+                               TextColor="{StaticResource primary_text_color}"/>
+                        <Border Stroke="{StaticResource Gray100}"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                BackgroundColor="{StaticResource input_color}"
+                                Padding="4,0">
+                            <Picker ItemsSource="{Binding LocationTypes}"
+                                    SelectedItem="{Binding Form.LocationType}"
+                                    TextColor="{StaticResource input_text}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Location fields (Presencial / Híbrido only) -->
+                    <VerticalStackLayout Spacing="16"
+                                         IsVisible="{Binding Form.IsPhysicalLocationVisible}">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Nome do local"
+                                   TextColor="{StaticResource primary_text_color}"/>
+                            <Entry Text="{Binding Form.LocationName}"
+                                   Placeholder="Ex: Parque Ibirapuera"
+                                   TextColor="{StaticResource input_text}"
+                                   BackgroundColor="{StaticResource input_color}"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Cidade"
+                                   TextColor="{StaticResource primary_text_color}"/>
+                            <Entry Text="{Binding Form.City}"
+                                   Placeholder="Ex: São Paulo"
+                                   TextColor="{StaticResource input_text}"
+                                   BackgroundColor="{StaticResource input_color}"/>
+                        </VerticalStackLayout>
+                        <Grid ColumnDefinitions="*, *"
+                              ColumnSpacing="12">
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="CEP"
+                                       TextColor="{StaticResource primary_text_color}"/>
+                                <Entry Text="{Binding Form.ZipCode}"
+                                       Placeholder="00000-000"
+                                       Keyboard="Numeric"
+                                       MaxLength="9"
+                                       TextColor="{StaticResource input_text}"
+                                       BackgroundColor="{StaticResource input_color}"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Spacing="6">
+                                <Label Text="Bairro"
+                                       TextColor="{StaticResource primary_text_color}"/>
+                                <Entry Text="{Binding Form.Neighborhood}"
+                                       Placeholder="Ex: Vila Mariana"
+                                       TextColor="{StaticResource input_text}"
+                                       BackgroundColor="{StaticResource input_color}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Grid ColumnDefinitions="*, Auto"
+                              ColumnSpacing="12">
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="Rua"
+                                       TextColor="{StaticResource primary_text_color}"/>
+                                <Entry Text="{Binding Form.Street}"
+                                       Placeholder="Ex: Av. Paulista"
+                                       TextColor="{StaticResource input_text}"
+                                       BackgroundColor="{StaticResource input_color}"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Spacing="6"
+                                                 WidthRequest="80">
+                                <Label Text="Número"
+                                       TextColor="{StaticResource primary_text_color}"/>
+                                <Entry Text="{Binding Form.Number}"
+                                       Placeholder="123"
+                                       Keyboard="Numeric"
+                                       TextColor="{StaticResource input_text}"
+                                       BackgroundColor="{StaticResource input_color}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Complemento"
+                                   TextColor="{StaticResource primary_text_color}"/>
+                            <Entry Text="{Binding Form.Complement}"
+                                   Placeholder="Ex: Sala 42"
+                                   TextColor="{StaticResource input_text}"
+                                   BackgroundColor="{StaticResource input_color}"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+            </Grid>
+        </ScrollView>
+
+        <!-- Bottom Button -->
+        <VerticalStackLayout Grid.Row="4"
+                             VerticalOptions="End"
+                             Spacing="20"
+                             Margin="0,16,0,0">
+            <Button Text="{Binding ButtonNextText}"
+                    TextColor="{StaticResource White}"
+                    FontAttributes="Bold"
+                    HeightRequest="48"
+                    Background="{StaticResource gradient_button}"
+                    Command="{Binding NextCommand}"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

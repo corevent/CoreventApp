@@ -1,35 +1,29 @@
 # Agent Guide: CoreventApp
 
-## Architecture
-- **Framework**: .NET MAUI targeting `net10.0-android` / `net10.0-windows10.0.19041.0`.
-- **Pattern**: MVVM via `CommunityToolkit.Mvvm` 8.4.2 (`[ObservableProperty]`, `[RelayCommand]`, `partial` classes).
-- **DI**: All services, ViewModels, and Views registered in `MauiProgram.cs`.
-- **Navigation**: `AppShell.xaml` defines `TabBar` (Home, Explore, Tickets, Profile) + standalone Welcome. `AppShell.xaml.cs` registers detail-push routes via `Routing.RegisterRoute`.
-
-## Key Commands
+## Architecture & Commands
+- **Framework**: .NET MAUI (`net10.0-android`, `net10.0-windows10.0.19041.0`).
+- **Pattern**: MVVM via `CommunityToolkit.Mvvm` (`[ObservableProperty]`, `[RelayCommand]`).
 - **Build**: `dotnet build`
-- **Run Windows**: `dotnet run -f net10.0-windows10.0.19041.0` (needs Windows Developer Mode)
-- **Run Android**: `dotnet build -t:Run -f net10.0-android`
+- **Run**: `dotnet run -f net10.0-windows10.0.19041.0` (Windows) or `dotnet build -t:Run -f net10.0-android` (Android).
+- **Window**: Fixed size **360x800** defined in `App.xaml.cs`.
 
-## DI Quirks
-- Several ViewModels are **commented out** in DI registration (`ExploreViewModel`, `PanelCollaboratorViewModel`, `PanelOrganizerViewModel`, `PurchaseHistoryViewModel`, `ReviewsViewModel`) but their **View pages are still registered** and referenced in AppShell. Adding them back requires uncommenting in `MauiProgram.cs` and optionally in `AppShell.xaml.cs`.
+## Critical Quirks
+- **XAML Codegen**: `<MauiXamlInflator>SourceGen</MauiXamlInflator>` is enabled. Every new XAML file MUST be manually added to `CoreventApp.csproj` with `<Generator>MSBuild:Compile</Generator>` or `InitializeComponent()` will fail.
+- **DI Registration**: All Views and ViewModels MUST be registered in `MauiProgram.cs` as `Transient`.
+- **Partial Classes**: ViewModels and Code-behinds MUST be `partial` for source generators to work.
+- **Command Naming**: `[RelayCommand]` on `DoSomethingAsync` generates `DoSomethingCommand` (strips `Async`).
+- **Commented DI**: Some ViewModels are commented out in `MauiProgram.cs`. Uncomment them if implementing logic.
 
 ## New Page Workflow
-1. Create `Views/MyPage.xaml` + `Views/MyPage.xaml.cs`.
-2. Create `ViewModels/MyPageViewModel.cs`.
-3. Register both as `Transient` in `MauiProgram.cs`.
-4. Register route in `AppShell.xaml.cs` (detail page) or add to `AppShell.xaml` TabBar.
-5. Add `<MauiXaml Update="Views\MyPage.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>` to `CoreventApp.csproj` (required because `<MauiXamlInflator>SourceGen</MauiXamlInflator>` is set project-wide).
+1. **Files**: Create `Views/Page.xaml`, `Views/Page.xaml.cs`, and `ViewModels/PageViewModel.cs`.
+2. **Csproj**: Add `<MauiXaml Update="Views\Page.xaml"><Generator>MSBuild:Compile</Generator></MauiXaml>` to `CoreventApp.csproj`.
+3. **DI**: Register both in `MauiProgram.cs`.
+4. **Routing**: 
+   - Detail pages: `Routing.RegisterRoute` in `AppShell.xaml.cs`.
+   - Main tabs: Add to `TabBar` in `AppShell.xaml`.
 
-## Auth
-- Only `MockAuthService` exists (no real backend). Test credentials: `teste@email.com` / `123456`.
-- Session persisted via `SecureStorage` (key: `logged_user_data`).
-
-## Style / Quirks
-- **Fonts**: OpenSans-Regular/Semibold + PlusJakartaSans-Regular/SemiBold/Bold. Both registered in `MauiProgram.cs`.
-- **Window**: Fixed size 360×800 in `App.xaml.cs:CreateWindow`.
-- **Colors**: Custom keys in `Resources/Styles/Colors.xaml` (e.g. `background_color`, `primary_orange_color`, `gradient_button`).
-- **Nullable**: Enabled project-wide.
-- **Android min**: API 21 / **Windows min**: 10.0.17763.0.
-- **Converter**: `IntegerToVisibilityConverter` in `Converters/`.
-- No tests or CI pipeline exist.
+## Data & Auth
+- **Auth**: `MockAuthService` only. Credentials: `teste@email.com` / `123456`.
+- **Storage**: `SecureStorage` key `logged_user_data` stores JSON user data.
+- **Resources**: Use keys from `Resources/Styles/Colors.xaml` (e.g., `primary_orange_color`).
+- **Converters**: Use `IntegerToVisibilityConverter` for conditional UI.

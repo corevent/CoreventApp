@@ -2,9 +2,9 @@ using CoreventApp.ViewModels;
 
 namespace CoreventApp.Views;
 
-public partial class PanelOrganizer : ContentPage
+public partial class AddBankAccount : ContentPage
 {
-	public PanelOrganizer(PanelOrganizerViewModel viewModel)
+	public AddBankAccount(AddBankAccountViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;

@@ -19,6 +19,10 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(Reviews), typeof(Reviews));
 		Routing.RegisterRoute(nameof(Settings), typeof(Settings));
 		Routing.RegisterRoute(nameof(PanelOrganizer), typeof(PanelOrganizer));
+		Routing.RegisterRoute(nameof(TransferSettings), typeof(TransferSettings));
+		Routing.RegisterRoute(nameof(AddBankAccount), typeof(AddBankAccount));
+		Routing.RegisterRoute(nameof(AddPixKey), typeof(AddPixKey));
 		Routing.RegisterRoute(nameof(PanelCollaborator), typeof(PanelCollaborator));
+		Routing.RegisterRoute(nameof(CreateEvent), typeof(CreateEvent));
 	}
 }

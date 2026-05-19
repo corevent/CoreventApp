@@ -38,12 +38,17 @@ public static class MauiProgram
 		builder.Services.AddTransient<ViewModels.EditProfileViewModel>();
 		builder.Services.AddTransient<ViewModels.FavoritesViewModel>();
 		// builder.Services.AddTransient<ViewModels.PanelCollaboratorViewModel>();
-		// builder.Services.AddTransient<ViewModels.PanelOrganizerViewModel>();
+		builder.Services.AddTransient<ViewModels.PanelOrganizerViewModel>();
+		builder.Services.AddTransient<ViewModels.TransferSettingsViewModel>();
+		builder.Services.AddTransient<ViewModels.AddBankAccountViewModel>();
+		builder.Services.AddTransient<ViewModels.AddPixKeyViewModel>();
 		// builder.Services.AddTransient<ViewModels.PurchaseHistoryViewModel>();
 		// builder.Services.AddTransient<ViewModels.ReviewsViewModel>();
+		builder.Services.AddTransient<ViewModels.CreateEventViewModel>();
 		builder.Services.AddTransient<ViewModels.SettingsViewModel>();
 
 		// Views
+		builder.Services.AddTransient<Views.CreateEvent>();
 		builder.Services.AddTransient<Views.Welcome>();
 		builder.Services.AddTransient<Views.Login>();
 		builder.Services.AddTransient<Views.Register>();
@@ -58,6 +63,9 @@ public static class MauiProgram
 		builder.Services.AddTransient<Views.Favorites>();
 		builder.Services.AddTransient<Views.PanelCollaborator>();
 		builder.Services.AddTransient<Views.PanelOrganizer>();
+		builder.Services.AddTransient<Views.TransferSettings>();
+		builder.Services.AddTransient<Views.AddBankAccount>();
+		builder.Services.AddTransient<Views.AddPixKey>();
 		builder.Services.AddTransient<Views.PurchaseHistory>();
 		builder.Services.AddTransient<Views.Reviews>();
 		builder.Services.AddTransient<Views.Settings>();
