@@ -1,5 +1,6 @@
 ﻿using CoreventApp.Services;
 using Microsoft.Extensions.Logging;
+using ZXing.Net.Maui.Controls;
 
 namespace CoreventApp;
 
@@ -10,6 +11,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseBarcodeReader()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -45,10 +47,18 @@ public static class MauiProgram
 		// builder.Services.AddTransient<ViewModels.PurchaseHistoryViewModel>();
 		// builder.Services.AddTransient<ViewModels.ReviewsViewModel>();
 		builder.Services.AddTransient<ViewModels.CreateEventViewModel>();
+		builder.Services.AddTransient<ViewModels.ManageEventViewModel>();
+		builder.Services.AddTransient<ViewModels.ParticipantListViewModel>();
+		builder.Services.AddTransient<ViewModels.EventTeamViewModel>();
+		builder.Services.AddTransient<ViewModels.CheckInViewModel>();
 		builder.Services.AddTransient<ViewModels.SettingsViewModel>();
 
 		// Views
 		builder.Services.AddTransient<Views.CreateEvent>();
+		builder.Services.AddTransient<Views.ManageEvent>();
+		builder.Services.AddTransient<Views.ParticipantList>();
+		builder.Services.AddTransient<Views.EventTeam>();
+		builder.Services.AddTransient<Views.CheckInPage>();
 		builder.Services.AddTransient<Views.Welcome>();
 		builder.Services.AddTransient<Views.Login>();
 		builder.Services.AddTransient<Views.Register>();

@@ -24,5 +24,9 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(AddPixKey), typeof(AddPixKey));
 		Routing.RegisterRoute(nameof(PanelCollaborator), typeof(PanelCollaborator));
 		Routing.RegisterRoute(nameof(CreateEvent), typeof(CreateEvent));
+		Routing.RegisterRoute(nameof(ManageEvent), typeof(ManageEvent));
+		Routing.RegisterRoute(nameof(ParticipantList), typeof(ParticipantList));
+		Routing.RegisterRoute(nameof(EventTeam), typeof(EventTeam));
+		Routing.RegisterRoute(nameof(CheckInPage), typeof(CheckInPage));
 	}
 }

@@ -12,6 +12,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <cv:IntegerToVisibilityConverter x:Key="StepConverter"/>
+            <cv:NotNullToVisibilityConverter x:Key="NotNullConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -38,8 +39,8 @@
                     <TapGestureRecognizer Command="{Binding BackCommand}"/>
                 </Border.GestureRecognizers>
             </Border>
-            <Label Grid.Column="1"
-                   Text="Criar Evento"
+             <Label Grid.Column="1"
+                   Text="{Binding PageTitle}"
                    FontSize="20"
                    FontAttributes="Bold"
                    TextColor="{StaticResource primary_text_color}"
@@ -83,14 +84,20 @@
                         <Label Text="Título do Evento"
                                TextColor="{StaticResource primary_text_color}"/>
                         <Entry Text="{Binding Form.Title}"
+                               IsEnabled="{Binding IsEditable}"
                                Placeholder="Ex: Festival de Verão"
                                TextColor="{StaticResource input_text}"
                                BackgroundColor="{StaticResource input_color}"/>
+                        <Label Text="{Binding Form.TitleError}"
+                               TextColor="{StaticResource error_color}"
+                               FontSize="12"
+                               IsVisible="{Binding Form.TitleError, Converter={StaticResource NotNullConverter}}"/>
                     </VerticalStackLayout>
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Descrição"
                                TextColor="{StaticResource primary_text_color}"/>
                         <Editor Text="{Binding Form.Description}"
+                                IsEnabled="{Binding IsEditable}"
                                 Placeholder="Descreva seu evento..."
                                 HeightRequest="100"
                                 TextColor="{StaticResource input_text}"
@@ -105,6 +112,7 @@
                                 BackgroundColor="{StaticResource input_color}"
                                 Padding="4,0">
                             <Picker ItemsSource="{Binding Categories}"
+                                    IsEnabled="{Binding IsEditable}"
                                     SelectedItem="{Binding Form.Category}"
                                     Title="Selecione uma categoria"
                                     TextColor="{StaticResource input_text}"
@@ -114,6 +122,7 @@
                     <HorizontalStackLayout Spacing="12"
                                            Margin="0,4,0,0">
                         <Switch IsToggled="{Binding Form.IsOver18}"
+                                IsEnabled="{Binding IsEditable}"
                                 OnColor="{StaticResource primary_orange_color}"
                                 ThumbColor="{StaticResource Gray200}"/>
                         <Label Text="Evento para maiores de 18 anos"
@@ -129,24 +138,35 @@
                         <Label Text="Data de início"
                                TextColor="{StaticResource primary_text_color}"/>
                         <DatePicker Date="{Binding Form.StartDate}"
+                                    IsEnabled="{Binding IsEditable}"
                                     MinimumDate="{Binding Today}"
                                     Format="dd/MM/yyyy"
                                     TextColor="{StaticResource primary_text_color}"
                                     BackgroundColor="{StaticResource input_color}"/>
+                        <Label Text="{Binding Form.StartDateError}"
+                               TextColor="{StaticResource error_color}"
+                               FontSize="12"
+                               IsVisible="{Binding Form.StartDateError, Converter={StaticResource NotNullConverter}}"/>
                     </VerticalStackLayout>
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Data de término"
                                TextColor="{StaticResource primary_text_color}"/>
                         <DatePicker Date="{Binding Form.EndDate}"
+                                    IsEnabled="{Binding IsEditable}"
                                     MinimumDate="{Binding Form.StartDate}"
                                     Format="dd/MM/yyyy"
                                     TextColor="{StaticResource primary_text_color}"
                                     BackgroundColor="{StaticResource input_color}"/>
+                        <Label Text="{Binding Form.EndDateError}"
+                               TextColor="{StaticResource error_color}"
+                               FontSize="12"
+                               IsVisible="{Binding Form.EndDateError, Converter={StaticResource NotNullConverter}}"/>
                     </VerticalStackLayout>
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Número máximo de participantes"
                                TextColor="{StaticResource primary_text_color}"/>
                         <Entry Text="{Binding Form.MaxParticipants}"
+                               IsEnabled="{Binding IsEditable}"
                                Placeholder="Ex: 500"
                                Keyboard="Numeric"
                                TextColor="{StaticResource input_text}"
@@ -166,6 +186,7 @@
                                 BackgroundColor="{StaticResource input_color}"
                                 Padding="4,0">
                             <Picker ItemsSource="{Binding LocationTypes}"
+                                    IsEnabled="{Binding IsEditable}"
                                     SelectedItem="{Binding Form.LocationType}"
                                     TextColor="{StaticResource input_text}"
                                     BackgroundColor="Transparent"/>
@@ -179,6 +200,7 @@
                             <Label Text="Nome do local"
                                    TextColor="{StaticResource primary_text_color}"/>
                             <Entry Text="{Binding Form.LocationName}"
+                                   IsEnabled="{Binding IsEditable}"
                                    Placeholder="Ex: Parque Ibirapuera"
                                    TextColor="{StaticResource input_text}"
                                    BackgroundColor="{StaticResource input_color}"/>
@@ -187,6 +209,7 @@
                             <Label Text="Cidade"
                                    TextColor="{StaticResource primary_text_color}"/>
                             <Entry Text="{Binding Form.City}"
+                                   IsEnabled="{Binding IsEditable}"
                                    Placeholder="Ex: São Paulo"
                                    TextColor="{StaticResource input_text}"
                                    BackgroundColor="{StaticResource input_color}"/>
@@ -197,6 +220,7 @@
                                 <Label Text="CEP"
                                        TextColor="{StaticResource primary_text_color}"/>
                                 <Entry Text="{Binding Form.ZipCode}"
+                                       IsEnabled="{Binding IsEditable}"
                                        Placeholder="00000-000"
                                        Keyboard="Numeric"
                                        MaxLength="9"
@@ -208,6 +232,7 @@
                                 <Label Text="Bairro"
                                        TextColor="{StaticResource primary_text_color}"/>
                                 <Entry Text="{Binding Form.Neighborhood}"
+                                       IsEnabled="{Binding IsEditable}"
                                        Placeholder="Ex: Vila Mariana"
                                        TextColor="{StaticResource input_text}"
                                        BackgroundColor="{StaticResource input_color}"/>
@@ -219,6 +244,7 @@
                                 <Label Text="Rua"
                                        TextColor="{StaticResource primary_text_color}"/>
                                 <Entry Text="{Binding Form.Street}"
+                                       IsEnabled="{Binding IsEditable}"
                                        Placeholder="Ex: Av. Paulista"
                                        TextColor="{StaticResource input_text}"
                                        BackgroundColor="{StaticResource input_color}"/>
@@ -229,6 +255,7 @@
                                 <Label Text="Número"
                                        TextColor="{StaticResource primary_text_color}"/>
                                 <Entry Text="{Binding Form.Number}"
+                                       IsEnabled="{Binding IsEditable}"
                                        Placeholder="123"
                                        Keyboard="Numeric"
                                        TextColor="{StaticResource input_text}"
@@ -239,27 +266,68 @@
                             <Label Text="Complemento"
                                    TextColor="{StaticResource primary_text_color}"/>
                             <Entry Text="{Binding Form.Complement}"
+                                   IsEnabled="{Binding IsEditable}"
                                    Placeholder="Ex: Sala 42"
                                    TextColor="{StaticResource input_text}"
                                    BackgroundColor="{StaticResource input_color}"/>
                         </VerticalStackLayout>
                     </VerticalStackLayout>
+
+                    <Label Text="{Binding Form.AddressError}"
+                           TextColor="{StaticResource error_color}"
+                           FontSize="12"
+                            IsVisible="{Binding Form.AddressError, Converter={StaticResource NotNullConverter}}"/>
                 </VerticalStackLayout>
 
             </Grid>
         </ScrollView>
 
-        <!-- Bottom Button -->
+        <!-- Bottom Buttons -->
         <VerticalStackLayout Grid.Row="4"
                              VerticalOptions="End"
-                             Spacing="20"
+                             Spacing="12"
                              Margin="0,16,0,0">
+
+            <!-- Next button (steps 1-2) -->
             <Button Text="{Binding ButtonNextText}"
                     TextColor="{StaticResource White}"
                     FontAttributes="Bold"
                     HeightRequest="48"
                     Background="{StaticResource gradient_button}"
-                    Command="{Binding NextCommand}"/>
+                    Command="{Binding NextCommand}"
+                    IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=1}"/>
+
+            <Button Text="{Binding ButtonNextText}"
+                    TextColor="{StaticResource White}"
+                    FontAttributes="Bold"
+                    HeightRequest="48"
+                    Background="{StaticResource gradient_button}"
+                    Command="{Binding NextCommand}"
+                    IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=2}"/>
+
+            <!-- Step 3: Draft / Publish -->
+            <VerticalStackLayout IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=3}"
+                                 Spacing="12">
+                <Button Text="{Binding DraftButtonText}"
+                        TextColor="{StaticResource White}"
+                        FontAttributes="Bold"
+                        HeightRequest="48"
+                        Background="{StaticResource gradient_button}"
+                        Command="{Binding SaveDraftCommand}"
+                        IsVisible="{Binding ShowDraftButton}"/>
+
+                <Button Text="Publicar Evento"
+                        TextColor="{StaticResource purchase_btn_bg}"
+                        FontAttributes="Bold"
+                        HeightRequest="48"
+                        BackgroundColor="{StaticResource White}"
+                        BorderColor="{StaticResource purchase_btn_bg}"
+                        BorderWidth="1"
+                        CornerRadius="12"
+                        Command="{Binding PublishEventCommand}"
+                        IsVisible="{Binding ShowPublishButton}"/>
+            </VerticalStackLayout>
+
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

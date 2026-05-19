@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CoreventApp.ViewModels"
+             x:Class="CoreventApp.Views.ParticipantList"
+             x:DataType="vm:ParticipantListViewModel"
+             x:Name="ThisPage"
+             Title="Inscritos"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource background_color}">
+
+    <Grid RowDefinitions="Auto, *"
+          Padding="16,14,16,0">
+
+        <!-- Header -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="Auto, *"
+              VerticalOptions="Center"
+              Margin="0,0,0,16">
+            <Border WidthRequest="40"
+                    HeightRequest="40"
+                    Stroke="{StaticResource Gray200}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
+                    BackgroundColor="{StaticResource White}">
+                <Label Text="←"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="{StaticResource primary_text_color}"
+                       FontSize="18"/>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                </Border.GestureRecognizers>
+            </Border>
+            <VerticalStackLayout Grid.Column="1"
+                                 Margin="12,0,0,0"
+                                 VerticalOptions="Center"
+                                 Spacing="2">
+                <Label Text="Inscritos"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource primary_text_color}"/>
+                <Label Text="{Binding EventName}"
+                       FontSize="12"
+                       TextColor="{StaticResource secondary_text_color}"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="1"
+                    Margin="0,0,0,16">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Participants Card -->
+                <Border Stroke="{StaticResource Gray100}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="{StaticResource White}"
+                        Padding="16,16,16,4">
+
+                    <VerticalStackLayout Spacing="0">
+
+                        <!-- Table Header -->
+                        <Grid ColumnDefinitions="*, Auto"
+                              Padding="0,0,0,12">
+                            <Label Text="PARTICIPANTE"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource secondary_text_color}"/>
+                            <Label Grid.Column="1"
+                                   Text="INGRESSO"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource secondary_text_color}"/>
+                        </Grid>
+
+                        <!-- Participant List -->
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Participants}"
+                                             Spacing="0">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:ParticipantSummary">
+                                    <VerticalStackLayout>
+                                        <!-- Separator -->
+                                        <BoxView HeightRequest="1"
+                                                 Color="{StaticResource Gray100}"
+                                                 HorizontalOptions="Fill"
+                                                 Margin="0,0,0,0"/>
+
+                                        <Grid ColumnDefinitions="Auto, *, Auto"
+                                              Padding="0,12,0,12"
+                                              ColumnSpacing="12">
+
+                                            <!-- Avatar Circle -->
+                                            <Border WidthRequest="40"
+                                                    HeightRequest="40"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 20"
+                                                    BackgroundColor="{StaticResource card_icon_bg}"
+                                                    HorizontalOptions="Start">
+                                                <Label Text="{Binding Initial}"
+                                                       FontSize="16"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource primary_text_color}"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Border>
+
+                                            <!-- Name + Email -->
+                                            <VerticalStackLayout Grid.Column="1"
+                                                                 VerticalOptions="Center"
+                                                                 Spacing="2">
+                                                <Label Text="{Binding FullName}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource primary_text_color}"/>
+                                                <Label Text="{Binding Email}"
+                                                       FontSize="11"
+                                                       TextColor="{StaticResource secondary_text_color}"/>
+                                            </VerticalStackLayout>
+
+                                            <Label Grid.Column="2"
+                                                   Text="{Binding PurchaseDate}"
+                                                   FontSize="11"
+                                                   TextColor="{StaticResource secondary_text_color}"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="End"/>
+
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Export Button -->
+                <Button Text="Exportar Lista (CSV)"
+                        TextColor="{StaticResource White}"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HeightRequest="48"
+                        BackgroundColor="{StaticResource purchase_btn_bg}"
+                        CornerRadius="14"
+                        ImageSource="download_light.png"
+                        Command="{Binding ExportCsvCommand}"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
