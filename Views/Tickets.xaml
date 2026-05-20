@@ -71,8 +71,74 @@
     </Border>
 
 <!-- Conteúdo Próximos -->
-<VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsProximosVisible}">
-    <Label Text="Conteúdo Próximos" TextColor="{StaticResource primary_text_color}"/>
+<VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsProximosVisible}" Spacing="10">
+    <Border
+        Stroke="{StaticResource Gray100}"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 20"
+        BackgroundColor="{StaticResource White}">
+    <Grid ColumnDefinitions="72, *"
+          Padding="12"
+          ColumnSpacing="12">
+
+        <!-- Thumbnail -->
+        <Border StrokeThickness="0"
+                StrokeShape="RoundRectangle 14"
+                HeightRequest="72"
+                WidthRequest="72">
+            <Image Source="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&amp;auto=format&amp;fit=crop"
+                   Aspect="AspectFill"/>
+        </Border>
+
+        <!-- Infos -->
+        <VerticalStackLayout Grid.Column="1"
+                             Spacing="4"
+                             VerticalOptions="Center">
+
+            <Label Text="Tech Summit Brasil"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource primary_text_color}"
+                   LineBreakMode="TailTruncation"/>
+
+            <HorizontalStackLayout Spacing="4">
+                <Image Source="calendar.png"
+                       WidthRequest="12" HeightRequest="12"
+                       VerticalOptions="Center"/>
+                <Label Text="22 Nov, 2026 • 09:00"
+                       FontSize="12"
+                       TextColor="{StaticResource secondary_text_color}"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <!-- Local + Badge na mesma linha -->
+            <Grid ColumnDefinitions="*, Auto">
+                <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                    <Image Source="map_icon.png"
+                           WidthRequest="12" HeightRequest="12"
+                           VerticalOptions="Center"/>
+                    <Label Text="Centro de Convenções"
+                           FontSize="12"
+                           TextColor="{StaticResource secondary_text_color}"
+                           VerticalOptions="Center"
+                           LineBreakMode="TailTruncation"/>
+                </HorizontalStackLayout>
+
+                <Border Grid.Column="1"
+                        Padding="10,4"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="#DCFCE7">
+                    <Label Text="Confirmado"
+                           FontSize="11"
+                           FontAttributes="Bold"
+                           TextColor="#16A34A"/>
+                </Border>
+            </Grid>
+
+        </VerticalStackLayout>
+    </Grid>
+</Border>
 </VerticalStackLayout>
 
 <!-- Conteúdo Passados -->
