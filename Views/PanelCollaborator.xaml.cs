@@ -1,9 +1,12 @@
+using CoreventApp.ViewModels;
+
 namespace CoreventApp.Views;
 
 public partial class PanelCollaborator : ContentPage
 {
-	public PanelCollaborator()
+	public PanelCollaborator(PanelCollaboratorViewModel viewModel)
 	{
 		InitializeComponent();
+        BindingContext = viewModel;
 	}
 }
