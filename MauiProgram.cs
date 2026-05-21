@@ -52,6 +52,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<ViewModels.EventTeamViewModel>();
 		builder.Services.AddTransient<ViewModels.CheckInViewModel>();
 		builder.Services.AddTransient<ViewModels.SettingsViewModel>();
+		builder.Services.AddTransient<ViewModels.CollaboratorEventDetailViewModel>();
 
 		// Views
 		builder.Services.AddTransient<Views.CreateEvent>();
@@ -79,6 +80,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<Views.PurchaseHistory>();
 		builder.Services.AddTransient<Views.Reviews>();
 		builder.Services.AddTransient<Views.Settings>();
+		builder.Services.AddTransient<Views.CollaboratorEventDetail>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

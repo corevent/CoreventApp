@@ -9,4 +9,5 @@ public class CollaboratorEvent
     public string RoleColor { get; set; } = string.Empty;
     public string RoleTextColor { get; set; } = string.Empty;
     public bool HasActionButton { get; set; }
+    public int ParticipantCount { get; set; }
 }

@@ -106,6 +106,9 @@
 	  <MauiXaml Update="Views\PanelOrganizer.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CollaboratorEventDetail.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\TransferSettings.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

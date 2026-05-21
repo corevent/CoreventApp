@@ -41,7 +41,8 @@ public partial class PanelCollaboratorViewModel : ObservableObject
             Role = "CREDENCIAMENTO",
             RoleColor = "#E0F2FE",
             RoleTextColor = "#0284C7",
-            HasActionButton = true
+            HasActionButton = true,
+            ParticipantCount = 128
         });
 
         UpcomingEvents.Add(new CollaboratorEvent
@@ -52,7 +53,8 @@ public partial class PanelCollaboratorViewModel : ObservableObject
             Role = "ORGANIZAÇÃO",
             RoleColor = "#F3E8FF",
             RoleTextColor = "#9333EA",
-            HasActionButton = false
+            HasActionButton = false,
+            ParticipantCount = 67
         });
 
         UpcomingEvents.Add(new CollaboratorEvent
@@ -63,7 +65,8 @@ public partial class PanelCollaboratorViewModel : ObservableObject
             Role = "PRODUÇÃO",
             RoleColor = "#FEF3C7",
             RoleTextColor = "#D97706",
-            HasActionButton = false
+            HasActionButton = false,
+            ParticipantCount = 312
         });
 
         PastEvents.Add(new CollaboratorEvent
@@ -74,7 +77,8 @@ public partial class PanelCollaboratorViewModel : ObservableObject
             Role = "PRODUÇÃO",
             RoleColor = "#F3F4F6",
             RoleTextColor = "#6B7280",
-            HasActionButton = false
+            HasActionButton = false,
+            ParticipantCount = 89
         });
 
         PastEvents.Add(new CollaboratorEvent
@@ -85,7 +89,8 @@ public partial class PanelCollaboratorViewModel : ObservableObject
             Role = "CREDENCIAMENTO",
             RoleColor = "#F3F4F6",
             RoleTextColor = "#6B7280",
-            HasActionButton = false
+            HasActionButton = false,
+            ParticipantCount = 450
         });
 
         HasEventsToday = EventsToday.Count > 0;
@@ -116,12 +121,13 @@ public partial class PanelCollaboratorViewModel : ObservableObject
     [RelayCommand]
     private async Task RealizarCredenciamentoAsync()
     {
-        await Shell.Current.DisplayAlert("Credenciamento", "Abrir câmera para leitura de QR Code", "OK");
+        await Shell.Current.DisplayAlertAsync("Credenciamento", "Abrir câmera para leitura de QR Code", "OK");
     }
 
     [RelayCommand]
     private async Task OpenEventDetailAsync(CollaboratorEvent evt)
     {
-        await Shell.Current.DisplayAlert(evt.Title, $"Função: {evt.Role}\nData: {evt.Date}", "OK");
+        await Shell.Current.GoToAsync(
+            $"CollaboratorEventDetail?EventTitle={Uri.EscapeDataString(evt.Title)}&EventDate={Uri.EscapeDataString(evt.Date)}&EventImage={Uri.EscapeDataString(evt.ImageUrl)}&EventRole={Uri.EscapeDataString(evt.Role)}&EventRoleColor={Uri.EscapeDataString(evt.RoleColor)}&EventRoleTextColor={Uri.EscapeDataString(evt.RoleTextColor)}&ParticipantCount={evt.ParticipantCount}");
     }
 }

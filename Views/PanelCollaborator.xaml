@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              xmlns:models="clr-namespace:CoreventApp.Models"
              x:Class="CoreventApp.Views.PanelCollaborator"
+             x:Name="ThisPage"
              x:DataType="vm:PanelCollaboratorViewModel"
              Title="Meus Trabalhos"
              Shell.NavBarIsVisible="False"
@@ -116,6 +117,9 @@
                                             StrokeShape="RoundRectangle 20"
                                             BackgroundColor="{StaticResource White}"
                                             Padding="16">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenEventDetailCommand}" CommandParameter="{Binding .}"/>
+                                        </Border.GestureRecognizers>
                                         <VerticalStackLayout Spacing="16">
                                             <Grid ColumnDefinitions="72, *, 24" ColumnSpacing="12">
                                                 <Border StrokeThickness="0"
@@ -204,6 +208,9 @@
                                             StrokeShape="RoundRectangle 20"
                                             BackgroundColor="{StaticResource White}"
                                             Padding="16">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenEventDetailCommand}" CommandParameter="{Binding .}"/>
+                                        </Border.GestureRecognizers>
                                         <Grid ColumnDefinitions="72, *, 24" ColumnSpacing="12">
                                             <Border StrokeThickness="0"
                                                     StrokeShape="RoundRectangle 14"
@@ -269,6 +276,9 @@
                                         BackgroundColor="{StaticResource White}"
                                         Padding="16"
                                         Opacity="0.65">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenEventDetailCommand}" CommandParameter="{Binding .}"/>
+                                    </Border.GestureRecognizers>
                                     <Grid ColumnDefinitions="72, *, 24" ColumnSpacing="12">
                                         <Border StrokeThickness="0"
                                                 StrokeShape="RoundRectangle 14"

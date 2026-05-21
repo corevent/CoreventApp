@@ -4,12 +4,22 @@ using CommunityToolkit.Mvvm.Input;
 namespace CoreventApp.ViewModels;
 
 [QueryProperty(nameof(EventData), "EventData")]
+[QueryProperty(nameof(EventName), "EventName")]
 public partial class CheckInViewModel : ObservableObject
 {
     private EventSummary? _eventData;
 
     [ObservableProperty]
     public partial string EventName { get; set; } = string.Empty;
+
+    partial void OnEventNameChanged(string value)
+    {
+        if (_eventData is null && !string.IsNullOrEmpty(value))
+        {
+            IsScannerBlocked = false;
+            IsScanning = true;
+        }
+    }
 
     [ObservableProperty]
     public partial string CheckInCount { get; set; } = "0/0";
