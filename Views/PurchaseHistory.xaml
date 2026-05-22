@@ -6,12 +6,31 @@
              BackgroundColor="{StaticResource background_color}">
     <ScrollView>
         <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
-            <Label Text="Histórico"
-                Grid.Row="0"
-                FontSize="22"
-                FontAttributes="Bold"
-                TextColor="{StaticResource primary_text_color}"/>
+            <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                <Border WidthRequest="40"
+                        HeightRequest="40"
+                        Stroke="{StaticResource Gray200}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="{StaticResource White}">
+                    <Label Text="←"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource primary_text_color}"
+                        FontSize="18"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
 
+                <Label Grid.Column="1"
+                    Text="Histórico"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource primary_text_color}"
+                    VerticalOptions="Center"
+                    Margin="12,0,0,0"/>
+            </Grid>
 
             <Grid Grid.Row="1" RowDefinitions="auto, auto, auto" RowSpacing="20">
                 <Border Stroke="{StaticResource Gray100}"

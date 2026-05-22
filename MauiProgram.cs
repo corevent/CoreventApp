@@ -44,8 +44,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<ViewModels.TransferSettingsViewModel>();
 		builder.Services.AddTransient<ViewModels.AddBankAccountViewModel>();
 		builder.Services.AddTransient<ViewModels.AddPixKeyViewModel>();
-		// builder.Services.AddTransient<ViewModels.PurchaseHistoryViewModel>();
-		// builder.Services.AddTransient<ViewModels.ReviewsViewModel>();
+		builder.Services.AddTransient<ViewModels.PurchaseHistoryViewModel>();
+		builder.Services.AddTransient<ViewModels.ReviewsViewModel>();
 		builder.Services.AddTransient<ViewModels.CreateEventViewModel>();
 		builder.Services.AddTransient<ViewModels.ManageEventViewModel>();
 		builder.Services.AddTransient<ViewModels.ParticipantListViewModel>();
