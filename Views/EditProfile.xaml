@@ -40,41 +40,41 @@
                 <Grid Grid.Row="0">
                     <Label TextColor="{StaticResource primary_text_color}" Text="NOME COMPLETO" VerticalOptions="Center" HorizontalOptions="Start"/>
 
-                    <Entry x:Name="user_name" Text="{Binding FakeUser.Name}" Placeholder="Seu nome" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
+                    <Entry x:Name="user_name" Text="{Binding UserName}" Placeholder="Seu nome" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
 
                 </Grid>
 
                 <Grid Grid.Row="1">
                     <Label TextColor="{StaticResource primary_text_color}" Text="TELEFONE" VerticalOptions="Center" HorizontalOptions="Start"/>
 
-                    <Entry x:Name="user_cellphone" Text="{Binding FakeUser.Cellphone}" Placeholder="(11)9999-9999" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
+                    <Entry x:Name="user_cellphone" Text="{Binding UserCellphone}" Placeholder="(11)9999-9999" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
 
                 </Grid>
 
                 <Grid Grid.Row="2">
                     <Label TextColor="{StaticResource primary_text_color}" Text="E-MAIL" VerticalOptions="Center" HorizontalOptions="Start"/>
 
-                    <Entry x:Name="user_email" IsReadOnly="true" Text="{Binding FakeUser.Email}" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
+                    <Entry x:Name="user_email" IsReadOnly="true" Text="{Binding UserEmail}" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
 
                 </Grid>
 
                 <Grid Grid.Row="3">
                     <Label TextColor="{StaticResource primary_text_color}" Text="CPF" VerticalOptions="Center" HorizontalOptions="Start"/>
 
-                    <Entry x:Name="user_cpf" IsReadOnly="true" Text="{Binding FakeUser.CPF}" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
+                    <Entry x:Name="user_cpf" IsReadOnly="true" Text="{Binding UserCpf}" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
                 </Grid>
 
                 <Grid Grid.Row="4">
                     <Label TextColor="{StaticResource primary_text_color}" Text="DATA DE NASCIMENTO" VerticalOptions="Center" HorizontalOptions="Start"/>
 
-                    <Entry x:Name="user_birth_date" IsReadOnly="true" Text="{Binding FakeUser.BirthDate}" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
+                    <Entry x:Name="user_birth_date" IsReadOnly="true" Text="{Binding UserBirthDate}" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
 
                 </Grid>
 
                 <Grid Grid.Row="5">
                     <Label TextColor="{StaticResource primary_text_color}" Text="Criação da Conta" VerticalOptions="Center" HorizontalOptions="Start"/>
 
-                    <Entry x:Name="user_created_at" IsReadOnly="true" Text="{Binding FakeUser.CreatedAt}" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
+                    <Entry x:Name="user_created_at" IsReadOnly="true" Text="{Binding UserCreatedAt}" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
 
                 </Grid>
 

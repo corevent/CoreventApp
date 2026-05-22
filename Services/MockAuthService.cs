@@ -22,6 +22,9 @@ public class MockAuthService : IAuthService
                 Id = Guid.NewGuid().ToString(),
                 Name = "Teste da Silva",
                 Email = email,
+                CPF = "123.456.789-00",
+                BirthDate = "01/01/1990",
+                Cellphone = "(11) 91234-5678",
                 AvatarUrl = "profile_default_icon.png",
                 CreatedAt = DateTime.UtcNow
             };
