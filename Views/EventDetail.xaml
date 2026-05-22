@@ -100,17 +100,56 @@
                         Margin="0,-24,0,0">
                     <VerticalStackLayout Spacing="18">
 
-                        <!-- Category Badge -->
-                        <Border Padding="12,6"
-                                StrokeThickness="0"
-                                StrokeShape="RoundRectangle 10"
-                                BackgroundColor="{StaticResource home_highlight_bg}"
-                                HorizontalOptions="Start">
-                            <Label Text="{Binding Category}"
-                                   FontSize="12"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource primary_orange_color}"/>
-                        </Border>
+                        <!-- Category + Type Badges -->
+                        <HorizontalStackLayout Spacing="8">
+                            <Border Padding="12,6"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="{StaticResource home_highlight_bg}">
+                                <Label Text="{Binding Category}"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource primary_orange_color}"/>
+                            </Border>
+
+                            <Border Padding="12,6"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 10"
+                                    VerticalOptions="Center">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="BackgroundColor" Value="#DBEAFE"/>
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Type}" Value="Remoto">
+                                                <Setter Property="BackgroundColor" Value="#E8F5E9"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Border" Binding="{Binding Type}" Value="Hibrido">
+                                                <Setter Property="BackgroundColor" Value="#F3E8FF"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Label FontSize="12"
+                                       FontAttributes="Bold">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="Text" Value="Presencial"/>
+                                            <Setter Property="TextColor" Value="#2563EB"/>
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Type}" Value="Remoto">
+                                                    <Setter Property="Text" Value="Online"/>
+                                                    <Setter Property="TextColor" Value="#10B981"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Type}" Value="Hibrido">
+                                                    <Setter Property="Text" Value="Híbrido"/>
+                                                    <Setter Property="TextColor" Value="#7C3AED"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </Border>
+                        </HorizontalStackLayout>
 
                         <!-- Title -->
                         <Label Text="{Binding EventName}"
@@ -148,34 +187,91 @@
                             </VerticalStackLayout>
                         </Grid>
 
-                        <!-- Location -->
-                        <Grid ColumnDefinitions="36, *"
-                              ColumnSpacing="10">
-                            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 10"
-                                    WidthRequest="36"
-                                    HeightRequest="36"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="Center">
-                                <Image Source="map_icon.png"
-                                       HeightRequest="18"
-                                       WidthRequest="18"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center"/>
-                            </Border>
-                            <VerticalStackLayout Grid.Column="1"
-                                                 VerticalOptions="Center"
-                                                 Spacing="2">
-                                <Label Text="Local"
-                                       FontSize="11"
-                                       TextColor="{StaticResource secondary_text_color}"/>
-                                <Label Text="{Binding Location}"
-                                       FontSize="15"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource primary_text_color}"
-                                       LineBreakMode="TailTruncation"/>
-                            </VerticalStackLayout>
+                        <!-- Location / Online -->
+                        <Grid>
+                            <!-- Presencial / Hibrido -->
+                            <Grid ColumnDefinitions="36, *"
+                                  ColumnSpacing="10"
+                                  IsVisible="False">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="IsVisible" Value="False"/>
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="Grid" Binding="{Binding Type}" Value="Presencial">
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Grid" Binding="{Binding Type}" Value="Hibrido">
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Border BackgroundColor="{StaticResource card_icon_bg}"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 10"
+                                        WidthRequest="36"
+                                        HeightRequest="36"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center">
+                                    <Image Source="map_icon.png"
+                                           HeightRequest="18"
+                                           WidthRequest="18"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1"
+                                                     VerticalOptions="Center"
+                                                     Spacing="2">
+                                    <Label Text="Local"
+                                           FontSize="11"
+                                           TextColor="{StaticResource secondary_text_color}"/>
+                                    <Label Text="{Binding Location}"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource primary_text_color}"
+                                           LineBreakMode="TailTruncation"/>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- Remoto -->
+                            <Grid ColumnDefinitions="36, *"
+                                  ColumnSpacing="10"
+                                  IsVisible="False">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="IsVisible" Value="False"/>
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="Grid" Binding="{Binding Type}" Value="Remoto">
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Border BackgroundColor="{StaticResource card_icon_bg}"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 10"
+                                        WidthRequest="36"
+                                        HeightRequest="36"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center">
+                                    <Image Source="globe.png"
+                                           HeightRequest="18"
+                                           WidthRequest="18"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1"
+                                                     VerticalOptions="Center"
+                                                     Spacing="2">
+                                    <Label Text="Evento Online"
+                                           FontSize="11"
+                                           TextColor="{StaticResource secondary_text_color}"/>
+                                    <Label Text="Participe de qualquer lugar"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource primary_text_color}"/>
+                                </VerticalStackLayout>
+                            </Grid>
                         </Grid>
 
                         <!-- Organizer Card -->

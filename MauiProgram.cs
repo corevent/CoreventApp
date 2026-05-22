@@ -33,7 +33,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<ViewModels.UpdateEmailViewModel>();
 		builder.Services.AddTransient<ViewModels.UpdatePasswordViewModel>();
 		builder.Services.AddTransient<ViewModels.HomeViewModel>();
-		// builder.Services.AddTransient<ViewModels.ExploreViewModel>();
+		builder.Services.AddTransient<ViewModels.ExploreViewModel>();
 		builder.Services.AddTransient<ViewModels.TicketsViewModel>();
 		builder.Services.AddTransient<ViewModels.ProfileViewModel>();
 		builder.Services.AddTransient<ViewModels.PrivacyViewModel>();

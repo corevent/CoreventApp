@@ -120,6 +120,13 @@ public enum EventStatus
     Finished
 }
 
+public enum EventType
+{
+    Presencial,
+    Remoto,
+    Hibrido
+}
+
 public partial class EventSummary : ObservableObject
 {
     [ObservableProperty]
@@ -166,6 +173,18 @@ public partial class EventSummary : ObservableObject
 
     [ObservableProperty]
     public partial DateTime EndDate { get; set; } = DateTime.Today.AddDays(31);
+
+    [ObservableProperty]
+    public partial double Rating { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsFavorite { get; set; }
+
+    [ObservableProperty]
+    public partial EventType Type { get; set; } = EventType.Presencial;
+
+    [ObservableProperty]
+    public partial string OnlineUrl { get; set; } = string.Empty;
 
     public string StatusDisplayText => Status switch
     {

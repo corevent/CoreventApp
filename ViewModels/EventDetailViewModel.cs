@@ -38,6 +38,12 @@ public partial class EventDetailViewModel : ObservableObject
     [ObservableProperty]
     public partial bool IsFavorite { get; set; }
 
+    [ObservableProperty]
+    public partial EventType Type { get; set; } = EventType.Presencial;
+
+    [ObservableProperty]
+    public partial string OnlineUrl { get; set; } = string.Empty;
+
     public EventSummary? EventData
     {
         set
@@ -54,6 +60,8 @@ public partial class EventDetailViewModel : ObservableObject
                 Price = value.Price;
                 OrganizerName = value.OrganizerName;
                 OrganizerAvatar = value.OrganizerAvatar;
+                Type = value.Type;
+                OnlineUrl = value.OnlineUrl;
             }
         }
     }
