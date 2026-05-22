@@ -12,7 +12,7 @@
 - **DI Registration**: All Views and ViewModels **MUST** be registered in `MauiProgram.cs` as `Transient`.
 - **Partial Classes**: ViewModels and Code-behinds **MUST** be `partial` for source generators.
 - **Commands**: `[RelayCommand]` on `DoSomethingAsync` generates `DoSomethingCommand` (strips `Async`).
-- **Commented DI**: Some ViewModels (e.g., `ExploreViewModel`) are commented out in `MauiProgram.cs`. Uncomment to use.
+- **Commented DI**: `ExploreViewModel` is commented out in `MauiProgram.cs`. `PurchaseHistory` and `Reviews` are currently static views with no ViewModels.
 - **Scanning**: Uses `ZXing.Net.Maui`. Initialize with `.UseBarcodeReader()` in `MauiProgram.cs`.
 
 ## Workflow: New Page

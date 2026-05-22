@@ -30,5 +30,6 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(CheckInPage), typeof(CheckInPage));
 		Routing.RegisterRoute(nameof(CollaboratorEventDetail), typeof(CollaboratorEventDetail));
 		Routing.RegisterRoute(nameof(EventDetail), typeof(EventDetail));
+		Routing.RegisterRoute(nameof(CheckoutPage), typeof(CheckoutPage));
 	}
 }

@@ -83,7 +83,6 @@ public partial class EventDetailViewModel : ObservableObject
     [RelayCommand]
     private async Task BuyTicket()
     {
-        await Shell.Current.DisplayAlertAsync("Ingresso",
-            $"Você será redirecionado para compra de:\n{EventName}\n{Price}", "OK");
+        await Shell.Current.GoToAsync(nameof(Views.CheckoutPage));
     }
 }
