@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Views;
+using CoreventApp.Models;
 
 namespace CoreventApp.ViewModels;
 
@@ -10,13 +11,14 @@ public partial class EditProfileViewModel : ObservableObject
   {
     FakeUser.Name = "João da Silva";
     FakeUser.Email = "joao.silva@email.com";
-    FakeUser.Cellphone = "(11)9999-9999";
-    FakeUser.BornDate = "15/02/2005";
     FakeUser.CPF = "123.456.789-00";
+    FakeUser.BirthDate = "15/02/2005";
+    FakeUser.Cellphone = "(11)9999-9999";
+    FakeUser.AvatarUrl = "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-High-Quality-Image.png";
+    FakeUser.CreatedAt = DateTime.Now;
   }
 
-  [ObservableProperty]
-  public partial ProfileRequest FakeUser { get; set; } = new();
+  public User FakeUser { get; set; } = new();
 
   [RelayCommand]
   private async Task DisplayMessage()
@@ -30,22 +32,4 @@ public partial class EditProfileViewModel : ObservableObject
   {
       await Shell.Current.GoToAsync("..");
   }
-}
-
-public partial class ProfileRequest : ObservableObject
-{
-  [ObservableProperty]
-  public partial string Name { get; set; } = string.Empty;
-
-  [ObservableProperty]
-  public partial string Email { get; set; } = string.Empty;
-
-  [ObservableProperty]
-  public partial string Cellphone { get; set; } = string.Empty;
-
-  [ObservableProperty]
-  public partial string BornDate { get; set; } = string.Empty;
-  
-  [ObservableProperty]
-  public partial string CPF { get; set; } = string.Empty;
 }
