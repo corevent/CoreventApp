@@ -9,4 +9,5 @@ public interface IAuthService
     Task<User?> GetCurrentUserAsync();
     Task<bool> UpdateEmailAsync(string newEmail, string currentPassword);
     Task<bool> UpdatePasswordAsync(string currentPassword, string newPassword);
+    Task<bool> UpdateProfileAsync(string name, string cpf, string birthDate);
 }

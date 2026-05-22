@@ -13,8 +13,6 @@ public class MockAuthService : IAuthService
 
     public async Task<User?> LoginAsync(string email, string password)
     {
-        await Task.Delay(1000);
-
         if (email == "teste@email.com" && password == _mockPassword)
         {
             var user = new User
@@ -63,7 +61,6 @@ public class MockAuthService : IAuthService
 
     public async Task<bool> UpdateEmailAsync(string newEmail, string currentPassword)
     {
-        await Task.Delay(1000);
         if (currentPassword != _mockPassword) return false;
 
         var user = await GetCurrentUserAsync();
@@ -76,10 +73,21 @@ public class MockAuthService : IAuthService
 
     public async Task<bool> UpdatePasswordAsync(string currentPassword, string newPassword)
     {
-        await Task.Delay(1000);
         if (currentPassword != _mockPassword) return false;
 
         _mockPassword = newPassword;
+        return true;
+    }
+
+    public async Task<bool> UpdateProfileAsync(string name, string cpf, string birthDate)
+    {
+        var user = await GetCurrentUserAsync();
+        if (user == null) return false;
+
+        user.Name = name;
+        user.CPF = cpf;
+        user.BirthDate = birthDate;
+        await SaveUserAsync(user);
         return true;
     }
 

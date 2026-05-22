@@ -77,7 +77,7 @@ public partial class ProfileViewModel : ObservableObject
     if (confirm)
     {
       await _authService.LogoutAsync();
-      await Shell.Current.GoToAsync(nameof(Views.Login));
+      await Shell.Current.GoToAsync("//welcome");
     }
   }
 

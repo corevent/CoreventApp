@@ -21,19 +21,10 @@ public partial class EditProfileViewModel : ObservableObject
   private string _userName = string.Empty;
 
   [ObservableProperty]
-  private string _userEmail = string.Empty;
-
-  [ObservableProperty]
-  private string _userCellphone = string.Empty;
-
-  [ObservableProperty]
   private string _userCpf = string.Empty;
 
   [ObservableProperty]
-  private string _userBirthDate = string.Empty;
-
-  [ObservableProperty]
-  private string _userCreatedAt = string.Empty;
+  private DateTime _birthDate = DateTime.Today;
 
     private async void LoadUserAsync()
     {
@@ -41,20 +32,23 @@ public partial class EditProfileViewModel : ObservableObject
         if (user != null)
         {
             UserName = user.Name;
-            UserEmail = user.Email;
-            UserCellphone = user.Cellphone ?? string.Empty;
             UserCpf = user.CPF ?? string.Empty;
-            UserBirthDate = user.BirthDate ?? string.Empty;
-            UserCreatedAt = user.CreatedAt.ToString("dd/MM/yyyy");
+            if (DateTime.TryParse(user.BirthDate, out var parsed))
+                BirthDate = parsed;
         }
     }
 
 
   [RelayCommand]
-  private async Task DisplayMessage()
+  private async Task Save()
   {
-    await Shell.Current.DisplayAlertAsync("Oba", "Perfil salvo com sucesso", "OK");
-    await Shell.Current.GoToAsync("..");
+    await Shell.Current.DisplayAlertAsync("Test", $"Saving profile: {UserName}, {UserCpf}, {BirthDate:dd/MM/yyyy}", "ok");
+      var success = await _authService.UpdateProfileAsync(UserName, UserCpf, BirthDate.ToString("dd/MM/yyyy"));
+      if (success)
+      {
+          await Shell.Current.DisplayAlertAsync("Oba", "Perfil salvo com sucesso", "OK");
+          await Shell.Current.GoToAsync("..");
+      }
   }
 
   [RelayCommand]
