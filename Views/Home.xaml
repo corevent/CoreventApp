@@ -101,6 +101,9 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{StaticResource White}">
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnFestivalTapped"/>
+              </Border.GestureRecognizers>
               <Grid RowDefinitions="178, Auto">
                 <Grid>
                   <Image Source="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=900&amp;auto=format&amp;fit=crop"
@@ -148,6 +151,9 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{StaticResource White}">
+              <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnTechTapped"/>
+              </Border.GestureRecognizers>
               <Grid RowDefinitions="178, Auto">
                 <Grid>
                   <Image Source="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=900&amp;auto=format&amp;fit=crop"

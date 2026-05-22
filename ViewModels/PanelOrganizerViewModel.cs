@@ -132,6 +132,24 @@ public partial class EventSummary : ObservableObject
     public partial string ImageUrl { get; set; } = string.Empty;
 
     [ObservableProperty]
+    public partial string Category { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Location { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Description { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Price { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string OrganizerName { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string OrganizerAvatar { get; set; } = "profile_default_icon.png";
+
+    [ObservableProperty]
     public partial double SalesProgress { get; set; }
 
     [ObservableProperty]

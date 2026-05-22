@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CoreventApp.ViewModels"
+             x:Class="CoreventApp.Views.EventDetail"
+             x:DataType="vm:EventDetailViewModel"
+             Title="Detalhes"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource background_color}">
+
+    <Grid RowDefinitions="Auto, Auto, *" RowSpacing="12">
+
+        <!-- Event Image with Overlay Actions -->
+        <Grid Grid.Row="0"
+              HeightRequest="320"
+              VerticalOptions="Start">
+            <Image Source="{Binding ImageUrl}"
+                   Aspect="AspectFill"
+                   HeightRequest="320"/>
+
+            <!-- Dark gradient overlay -->
+            <BoxView HeightRequest="200"
+                     VerticalOptions="Start"
+                     Color="Transparent">
+                <BoxView.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#B0000000" Offset="0.0" />
+                        <GradientStop Color="#00000000" Offset="1.0" />
+                    </LinearGradientBrush>
+                </BoxView.Background>
+            </BoxView>
+
+            <!-- Top Action Bar -->
+            <Grid ColumnDefinitions="Auto, *, Auto, Auto"
+                  Padding="16,14,16,0"
+                  VerticalOptions="Start">
+
+                <Border WidthRequest="40"
+                        HeightRequest="40"
+                        Stroke="#50FFFFFF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="#30FFFFFF">
+                    <Label Text="←"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="{StaticResource White}"
+                           FontSize="18"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border Grid.Column="2"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        Stroke="#50FFFFFF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="#30FFFFFF"
+                        Margin="0,0,8,0">
+                    <Image Source="share.png"
+                           HeightRequest="18"
+                           WidthRequest="18"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShareEventCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border Grid.Column="3"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        Stroke="#50FFFFFF"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="#30FFFFFF">
+                    <Image Source="heart_light.png"
+                           HeightRequest="18"
+                           WidthRequest="18"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleFavoriteCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- Scrollable Content -->
+        <ScrollView Grid.Row="1"
+                    Grid.RowSpan="2">
+            <VerticalStackLayout Spacing="0">
+                <!-- Rounded content card overlapping the image -->
+                <Border BackgroundColor="{StaticResource background_color}"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 24,24,0,0"
+                        Padding="20,20,20,120"
+                        Margin="0,-24,0,0">
+                    <VerticalStackLayout Spacing="18">
+
+                        <!-- Category Badge -->
+                        <Border Padding="12,6"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                BackgroundColor="{StaticResource home_highlight_bg}"
+                                HorizontalOptions="Start">
+                            <Label Text="{Binding Category}"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource primary_orange_color}"/>
+                        </Border>
+
+                        <!-- Title -->
+                        <Label Text="{Binding EventName}"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource primary_text_color}"
+                               LineBreakMode="WordWrap"/>
+
+                        <!-- Date & Time -->
+                        <Grid ColumnDefinitions="36, *"
+                              ColumnSpacing="10">
+                            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 10"
+                                    WidthRequest="36"
+                                    HeightRequest="36"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center">
+                                <Image Source="calendar.png"
+                                       HeightRequest="18"
+                                       WidthRequest="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1"
+                                                 VerticalOptions="Center"
+                                                 Spacing="2">
+                                <Label Text="Data e Horário"
+                                       FontSize="11"
+                                       TextColor="{StaticResource secondary_text_color}"/>
+                                <Label Text="{Binding EventDate}"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource primary_text_color}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Location -->
+                        <Grid ColumnDefinitions="36, *"
+                              ColumnSpacing="10">
+                            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 10"
+                                    WidthRequest="36"
+                                    HeightRequest="36"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center">
+                                <Image Source="map_icon.png"
+                                       HeightRequest="18"
+                                       WidthRequest="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1"
+                                                 VerticalOptions="Center"
+                                                 Spacing="2">
+                                <Label Text="Local"
+                                       FontSize="11"
+                                       TextColor="{StaticResource secondary_text_color}"/>
+                                <Label Text="{Binding Location}"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource primary_text_color}"
+                                       LineBreakMode="TailTruncation"/>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Organizer Card -->
+                        <Border Stroke="{StaticResource Gray100}"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 16"
+                                BackgroundColor="{StaticResource White}"
+                                Padding="14,12">
+                            <Grid ColumnDefinitions="44, *, Auto"
+                                  ColumnSpacing="12">
+                                <Border WidthRequest="44"
+                                        HeightRequest="44"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 22">
+                                    <Image Source="{Binding OrganizerAvatar}"
+                                           Aspect="AspectFill"/>
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1"
+                                                     VerticalOptions="Center"
+                                                     Spacing="2">
+                                    <Label Text="Organizador"
+                                           FontSize="11"
+                                           TextColor="{StaticResource secondary_text_color}"/>
+                                    <Label Text="{Binding OrganizerName}"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource primary_text_color}"/>
+                                </VerticalStackLayout>
+                                <Border Grid.Column="2"
+                                        Padding="14,6"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 12"
+                                        BackgroundColor="{StaticResource home_highlight_bg}"
+                                        VerticalOptions="Center">
+                                    <Label Text="Seguir"
+                                           FontSize="12"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource primary_orange_color}"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!-- Description -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Sobre o Evento"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource primary_text_color}"/>
+                            <Label Text="{Binding Description}"
+                                   FontSize="14"
+                                   TextColor="{StaticResource secondary_text_color}"
+                                   LineBreakMode="WordWrap"
+                                   LineHeight="1.5"/>
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom Bar -->
+        <Border Grid.Row="2"
+                StrokeThickness="0"
+                BackgroundColor="{StaticResource White}"
+                Padding="20,14,20,24"
+                VerticalOptions="End">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource Gray200}"
+                        Offset="0,-2"
+                        Radius="12"
+                        Opacity="0.4"/>
+            </Border.Shadow>
+            <Grid ColumnDefinitions="Auto, *"
+                  ColumnSpacing="14">
+                <VerticalStackLayout VerticalOptions="Center"
+                                     Spacing="2">
+                    <Label Text="A PARTIR DE"
+                           FontSize="10"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource secondary_text_color}"/>
+                    <Label Text="{Binding Price}"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource primary_text_color}"/>
+                </VerticalStackLayout>
+                <Button Grid.Column="1"
+                        Text="Comprar agora"
+                        TextColor="{StaticResource White}"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HeightRequest="50"
+                        Background="{StaticResource gradient_button}"
+                        CornerRadius="14"
+                        Command="{Binding BuyTicketCommand}"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+
+</ContentPage>
