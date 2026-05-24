@@ -62,6 +62,7 @@ public partial class EventDetailViewModel : ObservableObject
                 OrganizerAvatar = value.OrganizerAvatar;
                 Type = value.Type;
                 OnlineUrl = value.OnlineUrl;
+                IsFavorite = value.IsFavorite;
             }
         }
     }
@@ -76,6 +77,8 @@ public partial class EventDetailViewModel : ObservableObject
     private void ToggleFavorite()
     {
         IsFavorite = !IsFavorite;
+        if (_event is not null)
+            _event.IsFavorite = IsFavorite;
     }
 
     [RelayCommand]

@@ -11,7 +11,7 @@
              BackgroundColor="{StaticResource background_color}">
 
     <Grid RowDefinitions="Auto, Auto, *">
-        
+
         <!-- Row 0: Search -->
         <Grid Grid.Row="0"
               Padding="16,14,16,10">
@@ -29,10 +29,10 @@
                             HeightRequest="28"
                             VerticalOptions="Center">
                         <mi:MauiIcon Icon="{mi:Cupertino Search}"
-                                         IconSize="14"
-                                         IconColor="{StaticResource secondary_text_color}"
-                                         HorizontalOptions="Center"
-                                         VerticalOptions="Center"/>
+                                     IconSize="14"
+                                     IconColor="{StaticResource secondary_text_color}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
                     </Border>
                     <Entry Grid.Column="1"
                            Placeholder="Buscar eventos..."
@@ -61,12 +61,18 @@
                                 Padding="14,0">
                             <Border.Style>
                                 <Style TargetType="Border">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
-                                    <Setter Property="Stroke" Value="{StaticResource Gray100}"/>
+                                    <Setter Property="BackgroundColor"
+                                            Value="{StaticResource White}"/>
+                                    <Setter Property="Stroke"
+                                            Value="{StaticResource Gray100}"/>
                                     <Style.Triggers>
-                                        <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
-                                            <Setter Property="BackgroundColor" Value="{StaticResource primary_orange_color}"/>
-                                            <Setter Property="Stroke" Value="{StaticResource primary_orange_color}"/>
+                                        <DataTrigger TargetType="Border"
+                                                Binding="{Binding IsSelected}"
+                                                Value="True">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="{StaticResource primary_orange_color}"/>
+                                            <Setter Property="Stroke"
+                                                    Value="{StaticResource primary_orange_color}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -78,10 +84,14 @@
                                    HorizontalOptions="Center">
                                 <Label.Style>
                                     <Style TargetType="Label">
-                                        <Setter Property="TextColor" Value="{StaticResource secondary_text_color}"/>
+                                        <Setter Property="TextColor"
+                                                Value="{StaticResource secondary_text_color}"/>
                                         <Style.Triggers>
-                                            <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
-                                                <Setter Property="TextColor" Value="{StaticResource White}"/>
+                                            <DataTrigger TargetType="Label"
+                                                    Binding="{Binding IsSelected}"
+                                                    Value="True">
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource White}"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -100,10 +110,11 @@
 
         <!-- Row 2: Events List -->
         <CollectionView Grid.Row="2"
-                         ItemsSource="{Binding Events}"
-                         Margin="16,14,16,20">
+                        ItemsSource="{Binding Events}"
+                        Margin="16,14,16,20">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="14"/>
+                <LinearItemsLayout Orientation="Vertical"
+                        ItemSpacing="14"/>
             </CollectionView.ItemsLayout>
 
             <CollectionView.EmptyView>
@@ -140,10 +151,14 @@
                                            Aspect="AspectFill">
                                         <Image.Style>
                                             <Style TargetType="Image">
-                                                <Setter Property="Opacity" Value="1"/>
+                                                <Setter Property="Opacity"
+                                                        Value="1"/>
                                                 <Style.Triggers>
-                                                    <DataTrigger TargetType="Image" Binding="{Binding ImageUrl, Converter={x:Null}}" Value="{x:Null}">
-                                                        <Setter Property="Source" Value="profile_default_icon.png"/>
+                                                    <DataTrigger TargetType="Image"
+                                                            Binding="{Binding ImageUrl, Converter={x:Null}}"
+                                                            Value="{x:Null}">
+                                                        <Setter Property="Source"
+                                                                Value="profile_default_icon.png"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -160,21 +175,37 @@
                                             HorizontalOptions="End"
                                             VerticalOptions="Start"
                                             Margin="0,5,5,0">
-                                        <mi:MauiIcon IconSize="13"
-                                                     IconColor="{StaticResource secondary_text_color}"
-                                                     HorizontalOptions="Center"
-                                                     VerticalOptions="Center">
-                                            <mi:MauiIcon.Style>
-                                                <Style TargetType="mi:MauiIcon">
-                                                    <Setter Property="Icon" Value="{mi:Cupertino Heart}"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger TargetType="mi:MauiIcon" Binding="{Binding IsFavorite}" Value="True">
-                                                            <Setter Property="Icon" Value="{mi:Cupertino HeartFill}"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </mi:MauiIcon.Style>
-                                        </mi:MauiIcon>
+
+                                        <Grid>
+                                            <mi:MauiIcon Icon="{mi:Cupertino HeartFill}"
+                                                         IconSize="13"
+                                                         IconColor="{StaticResource Red}"
+                                                         IsVisible="False"
+                                                         HorizontalOptions="Center"
+                                                         VerticalOptions="Center">
+                                                <mi:MauiIcon.Triggers>
+                                                    <DataTrigger TargetType="mi:MauiIcon"
+                                                            Binding="{Binding IsFavorite}"
+                                                            Value="True">
+                                                        <Setter Property="IsVisible" Value="True"/>
+                                                    </DataTrigger>
+                                                </mi:MauiIcon.Triggers>
+                                            </mi:MauiIcon>
+                                            <mi:MauiIcon Icon="{mi:Cupertino Heart}"
+                                                         IconSize="13"
+                                                         IconColor="{StaticResource secondary_text_color}"
+                                                         HorizontalOptions="Center"
+                                                         VerticalOptions="Center">
+                                                <mi:MauiIcon.Triggers>
+                                                    <DataTrigger TargetType="mi:MauiIcon"
+                                                            Binding="{Binding IsFavorite}"
+                                                            Value="True">
+                                                        <Setter Property="IsVisible" Value="False"/>
+                                                    </DataTrigger>
+                                                </mi:MauiIcon.Triggers>
+                                            </mi:MauiIcon>
+                                        </Grid>
+
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.ToggleFavoriteCommand}"
@@ -211,13 +242,20 @@
                                             VerticalOptions="Center">
                                         <Border.Style>
                                             <Style TargetType="Border">
-                                                <Setter Property="BackgroundColor" Value="#E8F5E9"/>
+                                                <Setter Property="BackgroundColor"
+                                                        Value="#E8F5E9"/>
                                                 <Style.Triggers>
-                                                    <DataTrigger TargetType="Border" Binding="{Binding Type}" Value="Presencial">
-                                                        <Setter Property="BackgroundColor" Value="#DBEAFE"/>
+                                                    <DataTrigger TargetType="Border"
+                                                            Binding="{Binding Type}"
+                                                            Value="Presencial">
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#DBEAFE"/>
                                                     </DataTrigger>
-                                                    <DataTrigger TargetType="Border" Binding="{Binding Type}" Value="Hibrido">
-                                                        <Setter Property="BackgroundColor" Value="#F3E8FF"/>
+                                                    <DataTrigger TargetType="Border"
+                                                            Binding="{Binding Type}"
+                                                            Value="Hibrido">
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#F3E8FF"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -227,16 +265,26 @@
                                                VerticalOptions="Center">
                                             <Label.Style>
                                                 <Style TargetType="Label">
-                                                    <Setter Property="Text" Value="Online"/>
-                                                    <Setter Property="TextColor" Value="#10B981"/>
+                                                    <Setter Property="Text"
+                                                            Value="Online"/>
+                                                    <Setter Property="TextColor"
+                                                            Value="#10B981"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger TargetType="Label" Binding="{Binding Type}" Value="Presencial">
-                                                            <Setter Property="Text" Value="Presencial"/>
-                                                            <Setter Property="TextColor" Value="#2563EB"/>
+                                                        <DataTrigger TargetType="Label"
+                                                                Binding="{Binding Type}"
+                                                                Value="Presencial">
+                                                            <Setter Property="Text"
+                                                                    Value="Presencial"/>
+                                                            <Setter Property="TextColor"
+                                                                    Value="#2563EB"/>
                                                         </DataTrigger>
-                                                        <DataTrigger TargetType="Label" Binding="{Binding Type}" Value="Hibrido">
-                                                            <Setter Property="Text" Value="Híbrido"/>
-                                                            <Setter Property="TextColor" Value="#7C3AED"/>
+                                                        <DataTrigger TargetType="Label"
+                                                                Binding="{Binding Type}"
+                                                                Value="Hibrido">
+                                                            <Setter Property="Text"
+                                                                    Value="Híbrido"/>
+                                                            <Setter Property="TextColor"
+                                                                    Value="#7C3AED"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -259,13 +307,20 @@
                                                            IsVisible="False">
                                         <HorizontalStackLayout.Style>
                                             <Style TargetType="HorizontalStackLayout">
-                                                <Setter Property="IsVisible" Value="False"/>
+                                                <Setter Property="IsVisible"
+                                                        Value="False"/>
                                                 <Style.Triggers>
-                                                    <DataTrigger TargetType="HorizontalStackLayout" Binding="{Binding Type}" Value="Presencial">
-                                                        <Setter Property="IsVisible" Value="True"/>
+                                                    <DataTrigger TargetType="HorizontalStackLayout"
+                                                            Binding="{Binding Type}"
+                                                            Value="Presencial">
+                                                        <Setter Property="IsVisible"
+                                                                Value="True"/>
                                                     </DataTrigger>
-                                                    <DataTrigger TargetType="HorizontalStackLayout" Binding="{Binding Type}" Value="Hibrido">
-                                                        <Setter Property="IsVisible" Value="True"/>
+                                                    <DataTrigger TargetType="HorizontalStackLayout"
+                                                            Binding="{Binding Type}"
+                                                            Value="Hibrido">
+                                                        <Setter Property="IsVisible"
+                                                                Value="True"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -287,10 +342,14 @@
                                                            IsVisible="False">
                                         <HorizontalStackLayout.Style>
                                             <Style TargetType="HorizontalStackLayout">
-                                                <Setter Property="IsVisible" Value="False"/>
+                                                <Setter Property="IsVisible"
+                                                        Value="False"/>
                                                 <Style.Triggers>
-                                                    <DataTrigger TargetType="HorizontalStackLayout" Binding="{Binding Type}" Value="Remoto">
-                                                        <Setter Property="IsVisible" Value="True"/>
+                                                    <DataTrigger TargetType="HorizontalStackLayout"
+                                                            Binding="{Binding Type}"
+                                                            Value="Remoto">
+                                                        <Setter Property="IsVisible"
+                                                                Value="True"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -330,10 +389,14 @@
                                            VerticalOptions="Center">
                                         <Label.Style>
                                             <Style TargetType="Label">
-                                                <Setter Property="TextColor" Value="{StaticResource primary_text_color}"/>
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource primary_text_color}"/>
                                                 <Style.Triggers>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding Price}" Value="Grátis">
-                                                        <Setter Property="TextColor" Value="{StaticResource status_success_text}"/>
+                                                    <DataTrigger TargetType="Label"
+                                                            Binding="{Binding Price}"
+                                                            Value="Grátis">
+                                                        <Setter Property="TextColor"
+                                                                Value="{StaticResource status_success_text}"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>

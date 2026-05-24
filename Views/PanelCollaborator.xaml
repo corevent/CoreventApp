@@ -138,7 +138,7 @@
                                                            TextColor="{StaticResource primary_text_color}"/>
 
                                                     <HorizontalStackLayout Spacing="4">
-                                                <mi:MauiIcon Icon="{mi:Cupertino Circle}"
+                                                <mi:MauiIcon Icon="{mi:Cupertino CircleFill}"
                                                             IconSize="10"
                                                             IconColor="#FF3B30"
                                                             VerticalOptions="Center"/>

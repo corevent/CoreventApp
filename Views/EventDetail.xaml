@@ -77,11 +77,31 @@
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="#30FFFFFF">
-                    <mi:MauiIcon Icon="{mi:Cupertino Heart}"
-                                 IconSize="18"
-                                 IconColor="{StaticResource White}"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"/>
+                    <Grid>
+                        <mi:MauiIcon Icon="{mi:Cupertino HeartFill}"
+                                     IconSize="18"
+                                     IconColor="{StaticResource primary_orange_color}"
+                                     IsVisible="False"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center">
+                            <mi:MauiIcon.Triggers>
+                                <DataTrigger TargetType="mi:MauiIcon" Binding="{Binding IsFavorite}" Value="True">
+                                    <Setter Property="IsVisible" Value="True"/>
+                                </DataTrigger>
+                            </mi:MauiIcon.Triggers>
+                        </mi:MauiIcon>
+                        <mi:MauiIcon Icon="{mi:Cupertino Heart}"
+                                     IconSize="18"
+                                     IconColor="{StaticResource White}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center">
+                            <mi:MauiIcon.Triggers>
+                                <DataTrigger TargetType="mi:MauiIcon" Binding="{Binding IsFavorite}" Value="True">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                            </mi:MauiIcon.Triggers>
+                        </mi:MauiIcon>
+                    </Grid>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ToggleFavoriteCommand}"/>
                     </Border.GestureRecognizers>
