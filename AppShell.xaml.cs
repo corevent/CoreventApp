@@ -31,5 +31,8 @@ public partial class AppShell : Shell
 		Routing.RegisterRoute(nameof(CollaboratorEventDetail), typeof(CollaboratorEventDetail));
 		Routing.RegisterRoute(nameof(EventDetail), typeof(EventDetail));
 		Routing.RegisterRoute(nameof(CheckoutPage), typeof(CheckoutPage));
+		Routing.RegisterRoute(nameof(EmailVerification), typeof(EmailVerification));
+		Routing.RegisterRoute(nameof(ForgotPassword), typeof(ForgotPassword));
+		Routing.RegisterRoute(nameof(ResetPassword), typeof(ResetPassword));
 	}
 }

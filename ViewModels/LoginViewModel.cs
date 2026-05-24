@@ -43,6 +43,12 @@ public partial class LoginViewModel : ObservableObject
   {
     await Shell.Current.GoToAsync(nameof(Register));
   }
+
+  [RelayCommand]
+  private async Task MissingPasswordAsync()
+  {
+    await Shell.Current.GoToAsync(nameof(ForgotPassword));
+  }
 }
 
 public partial class LoginRequest : ObservableObject
