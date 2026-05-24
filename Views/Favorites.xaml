@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.Favorites"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              Title="Favorites"
              BackgroundColor="{StaticResource background_color}">
     <ScrollView>
@@ -15,11 +16,11 @@
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="{StaticResource White}">
-                    <Label Text="←"
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                        IconColor="{StaticResource primary_text_color}"
+                        IconSize="18"
                         HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        TextColor="{StaticResource primary_text_color}"
-                        FontSize="18"/>
+                        VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -66,8 +67,9 @@
                    LineBreakMode="TailTruncation"/>
 
             <HorizontalStackLayout Spacing="4">
-                <Image Source="calendar_icon.png"
-                       WidthRequest="13" HeightRequest="13"
+                <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                       IconColor="{StaticResource secondary_text_color}"
+                       IconSize="13"
                        VerticalOptions="Center"/>
                 <Label Text="15 Out 2024"
                        FontSize="12"
@@ -76,8 +78,9 @@
             </HorizontalStackLayout>
 
             <HorizontalStackLayout Spacing="4">
-                <Image Source="pin_icon.png"
-                       WidthRequest="13" HeightRequest="13"
+                <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
+                       IconColor="{StaticResource secondary_text_color}"
+                       IconSize="13"
                        VerticalOptions="Center"/>
                 <Label Text="São Paulo, SP"
                        FontSize="12"
@@ -109,9 +112,9 @@
                     CommandParameter="{Binding .}" />
             </Border.GestureRecognizers>
 
-            <Image Source="trash.png"
-                   WidthRequest="18"
-                   HeightRequest="18"
+            <mi:MauiIcon Icon="{mi:Cupertino Trash}"
+                   IconColor="{StaticResource primary_text_color}"
+                   IconSize="18"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"/>
         </Border>

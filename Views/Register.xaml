@@ -4,6 +4,7 @@
              xmlns:ViewModel="clr-namespace:CoreventApp.ViewModels"
              xmlns:converters="clr-namespace:CoreventApp.Converters"
              x:Class="CoreventApp.Views.Register"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:DataType="ViewModel:RegisterViewModel"
              Title="Register">
 
@@ -22,17 +23,15 @@
               <Grid Grid.Row="0"
                     ColumnDefinitions="Auto,*,Auto"
                     VerticalOptions="Center">
-                     <Button Text="&lt;"
-                             WidthRequest="44"
-                             HeightRequest="44"
-                             FontSize="22"
-                             FontAttributes="Bold"
-                             TextColor="{StaticResource primary_text_color}"
-                             BackgroundColor="Transparent"
-                             BorderWidth="0"
-                             HorizontalOptions="Start"
-                             VerticalOptions="Center"
-                             Command="{Binding HeaderBackCommand}"/>
+                      <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                              IconSize="22"
+                              IconColor="{StaticResource primary_text_color}"
+                              HorizontalOptions="Start"
+                              VerticalOptions="Center">
+                              <mi:MauiIcon.GestureRecognizers>
+                                      <TapGestureRecognizer Command="{Binding HeaderBackCommand}"/>
+                              </mi:MauiIcon.GestureRecognizers>
+                      </mi:MauiIcon>
 
                      <Image Grid.Column="1"
                             Source="logo_corevent_full.png"

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModel="clr-namespace:CoreventApp.ViewModels"
              xmlns:converters="clr-namespace:CoreventApp.Converters"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:Class="CoreventApp.Views.EmailVerification"
              x:DataType="ViewModel:EmailVerificationViewModel"
              Title="EmailVerification">
@@ -22,17 +23,15 @@
         <Grid Grid.Row="0"
               ColumnDefinitions="Auto,*,Auto"
               VerticalOptions="Center">
-            <Button Text="&lt;"
-                    WidthRequest="44"
-                    HeightRequest="44"
-                    FontSize="22"
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource primary_text_color}"
-                    BackgroundColor="Transparent"
-                    BorderWidth="0"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
-                    Command="{Binding GoBackCommand}"/>
+            <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                         IconSize="22"
+                         IconColor="{StaticResource White}"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center">
+                <mi:MauiIcon.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                </mi:MauiIcon.GestureRecognizers>
+            </mi:MauiIcon>
 
             <Image Grid.Column="1"
                    Source="logo_corevent_full.png"
@@ -55,11 +54,11 @@
                     HeightRequest="80"
                     WidthRequest="80"
                     HorizontalOptions="Center">
-                <Label Text="&#x2709;"
-                       FontSize="36"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{StaticResource primary_orange_color}"/>
+                <mi:MauiIcon Icon="{mi:Cupertino Envelope}"
+                             IconSize="36"
+                             IconColor="{StaticResource primary_orange_color}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
             </Border>
 
             <!-- Title -->

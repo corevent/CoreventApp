@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:CoreventApp.ViewModels"
              x:DataType="viewmodels:ProfileViewModel"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:Class="CoreventApp.Views.Profile"
              Title="Perfil"
              BackgroundColor="{StaticResource background_color}">
@@ -23,8 +24,8 @@
                         <Image
                             Source="{Binding UserAvatar}"
                             HeightRequest="70"
-                            Aspect="AspectFit"
-                            SemanticProperties.Description="Corevent Logo"/>
+                             Aspect="AspectFit"
+                             SemanticProperties.Description="Corevent Logo"/>
 
                         <Label Text="{Binding UserName}"
                                Padding="0,20,0,0"
@@ -49,22 +50,22 @@
                                 <TapGestureRecognizer Command="{Binding EditProfileCommand}"/>
                             </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="20, *, 10">
-                                <Image Grid.Column="0"
-                                        Source="user.png"
-                                        HeightRequest="20"
-                                        Aspect="AspectFit"
-                                        SemanticProperties.Description="Dados Pessoais"/>
+                                <mi:MauiIcon Grid.Column="0"
+                                        Icon="{mi:Cupertino Person}"
+                                        IconSize="20"
+                                        IconColor="{StaticResource secondary_text_color}"/>
                                 <Label Text="Dados Pessoais"
                                         Padding="20,0,0,0"
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
                                         TextColor="{StaticResource profile_menu_text}"/>
-                                <Label Text=">"
+                                <mi:MauiIcon
+                                        Icon="{mi:Cupertino ChevronRight}"
+                                        IconSize="16"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
-                                        FontSize="12"
-                                        TextColor="{StaticResource profile_menu_text}"/>
+                                        IconColor="{StaticResource secondary_text_color}"/>
                             </Grid>
                         </Border>
 
@@ -77,22 +78,22 @@
                                 <TapGestureRecognizer Command="{Binding PurchaseHistoryCommand}"/>
                             </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="20, *, 10">
-                                <Image Grid.Column="0"
-                                        Source="ticket.png"
-                                        HeightRequest="20"
-                                        Aspect="AspectFit"
-                                        SemanticProperties.Description="Histórico de Compra"/>
+                                <mi:MauiIcon Grid.Column="0"
+                                        Icon="{mi:Cupertino TagCircleFill}"
+                                        IconSize="20"
+                                        IconColor="{StaticResource secondary_text_color}"/>
                                 <Label Text="Histórico de Compra"
                                         Padding="20,0,0,0"
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
                                         TextColor="{StaticResource profile_menu_text}"/>
-                                <Label Text=">"
+                                <mi:MauiIcon
+                                        Icon="{mi:Cupertino ChevronRight}"
+                                        IconSize="16"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
-                                        FontSize="12"
-                                        TextColor="{StaticResource profile_menu_text}"/>
+                                        IconColor="{StaticResource secondary_text_color}"/>
                             </Grid>
                         </Border>
 
@@ -105,22 +106,22 @@
                                 <TapGestureRecognizer Command="{Binding FavoritesCommand}"/>
                             </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="20, *, 10">
-                                <Image Grid.Column="0"
-                                        Source="heart.png"
-                                        HeightRequest="20"
-                                        Aspect="AspectFit"
-                                        SemanticProperties.Description="Meus Favoritos"/>
+                                <mi:MauiIcon Grid.Column="0"
+                                        Icon="{mi:Cupertino Heart}"
+                                        IconSize="20"
+                                        IconColor="{StaticResource secondary_text_color}"/>
                                 <Label Text="Meus Favoritos"
                                         Padding="20,0,0,0"
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
                                         TextColor="{StaticResource profile_menu_text}"/>
-                                <Label Text=">"
+                                <mi:MauiIcon
+                                        Icon="{mi:Cupertino ChevronRight}"
+                                        IconSize="16"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
-                                        FontSize="12"
-                                        TextColor="{StaticResource profile_menu_text}"/>
+                                        IconColor="{StaticResource secondary_text_color}"/>
                             </Grid>
                         </Border>
 
@@ -133,22 +134,22 @@
                                 <TapGestureRecognizer Command="{Binding ReviewsCommand}"/>
                             </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="20, *, 10">
-                                <Image Grid.Column="0"
-                                        Source="star.png"
-                                        HeightRequest="20"
-                                        Aspect="AspectFit"
-                                        SemanticProperties.Description="Avaliações"/>
+                                <mi:MauiIcon Grid.Column="0"
+                                        Icon="{mi:Cupertino Star}"
+                                        IconSize="20"
+                                        IconColor="{StaticResource secondary_text_color}"/>
                                 <Label Text="Avaliações"
                                         Padding="20,0,0,0"
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
                                         TextColor="{StaticResource profile_menu_text}"/>
-                                <Label Text=">"
+                                <mi:MauiIcon
+                                        Icon="{mi:Cupertino ChevronRight}"
+                                        IconSize="16"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
-                                        FontSize="12"
-                                        TextColor="{StaticResource profile_menu_text}"/>
+                                        IconColor="{StaticResource secondary_text_color}"/>
                             </Grid>
                         </Border>
 
@@ -161,22 +162,22 @@
                                 <TapGestureRecognizer Command="{Binding SettingsCommand}"/>
                             </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="20, *, 10">
-                                <Image Grid.Column="0"
-                                        Source="settings.png"
-                                        HeightRequest="20"
-                                        Aspect="AspectFit"
-                                        SemanticProperties.Description="Configurações"/>
+                                <mi:MauiIcon Grid.Column="0"
+                                        Icon="{mi:Cupertino Gear}"
+                                        IconSize="20"
+                                        IconColor="{StaticResource secondary_text_color}"/>
                                 <Label Text="Configurações"
                                         Padding="20,0,0,0"
                                         Grid.Column="1"
                                         VerticalOptions="Center"
                                         FontSize="16"
                                         TextColor="{StaticResource profile_menu_text}"/>
-                                <Label Text=">"
+                                <mi:MauiIcon
+                                        Icon="{mi:Cupertino ChevronRight}"
+                                        IconSize="16"
                                         Grid.Column="2"
                                         VerticalOptions="Center"
-                                        FontSize="12"
-                                        TextColor="{StaticResource profile_menu_text}"/>
+                                        IconColor="{StaticResource secondary_text_color}"/>
                             </Grid>
                         </Border>
                     </VerticalStackLayout>
@@ -195,11 +196,10 @@
                                     <TapGestureRecognizer Command="{Binding PanelOrganizerCommand}"/>
                                 </Border.GestureRecognizers>
                                 <Grid ColumnDefinitions="20, *, 10">
-                                    <Image Grid.Column="0"
-                                           Source="layout_dashboard.png"
-                                           HeightRequest="20"
-                                           Aspect="AspectFit"
-                                           SemanticProperties.Description="Corevent Logo"/>
+                                    <mi:MauiIcon Grid.Column="0"
+                                            Icon="{mi:Cupertino RectangleGrid2x2}"
+                                            IconSize="20"
+                                            IconColor="{StaticResource secondary_text_color}"/>
 
                                     <Label Grid.Column="1"
                                            Text="Painel do Organizador"
@@ -208,11 +208,12 @@
                                            FontSize="16"
                                            TextColor="{StaticResource profile_menu_text}"/>
 
-                                    <Label Text=">"
-                                           Grid.Column="2"
-                                           VerticalOptions="Center"
-                                           FontSize="12"
-                                           TextColor="{StaticResource profile_menu_text}"/>
+                                    <mi:MauiIcon
+                                            Icon="{mi:Cupertino ChevronRight}"
+                                            IconSize="16"
+                                            Grid.Column="2"
+                                            VerticalOptions="Center"
+                                            IconColor="{StaticResource secondary_text_color}"/>
                                 </Grid>
                             </Border>
                         </VerticalStackLayout>
@@ -232,11 +233,10 @@
                                     <TapGestureRecognizer Command="{Binding PanelCollaboratorCommand}"/>
                                 </Border.GestureRecognizers>
                                 <Grid ColumnDefinitions="20, *, 10">
-                                    <Image Grid.Column="0"
-                                           Source="shield.png"
-                                           HeightRequest="20"
-                                           Aspect="AspectFit"
-                                           SemanticProperties.Description="Corevent Logo"/>
+                                    <mi:MauiIcon Grid.Column="0"
+                                            Icon="{mi:Cupertino Shield}"
+                                            IconSize="20"
+                                            IconColor="{StaticResource secondary_text_color}"/>
 
                                     <Label Grid.Column="1"
                                            Text="Painel do Colaborador"
@@ -245,11 +245,12 @@
                                            FontSize="16"
                                            TextColor="{StaticResource profile_menu_text}"/>
 
-                                    <Label Text=">"
-                                           Grid.Column="2"
-                                           VerticalOptions="Center"
-                                           FontSize="12"
-                                           TextColor="{StaticResource profile_menu_text}"/>
+                                    <mi:MauiIcon
+                                            Icon="{mi:Cupertino ChevronRight}"
+                                            IconSize="16"
+                                            Grid.Column="2"
+                                            VerticalOptions="Center"
+                                            IconColor="{StaticResource secondary_text_color}"/>
                                 </Grid>
                             </Border>
                         </VerticalStackLayout>

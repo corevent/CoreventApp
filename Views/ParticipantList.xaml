@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.ParticipantList"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:DataType="vm:ParticipantListViewModel"
              x:Name="ThisPage"
              Title="Inscritos"
@@ -23,11 +24,11 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{StaticResource White}">
-                <Label Text="←"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{StaticResource primary_text_color}"
-                       FontSize="18"/>
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             IconSize="18"
+                             IconColor="{StaticResource primary_text_color}"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -135,15 +136,29 @@
                 </Border>
 
                 <!-- Export Button -->
-                <Button Text="Exportar Lista (CSV)"
-                        TextColor="{StaticResource White}"
-                        FontAttributes="Bold"
-                        FontSize="14"
-                        HeightRequest="48"
+                <Border StrokeThickness="0"
                         BackgroundColor="{StaticResource purchase_btn_bg}"
-                        CornerRadius="14"
-                        ImageSource="download_light.png"
-                        Command="{Binding ExportCsvCommand}"/>
+                        StrokeShape="RoundRectangle 14"
+                        HeightRequest="48">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ExportCsvCommand}"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *"
+                          Padding="16,0"
+                          VerticalOptions="Center">
+                        <mi:MauiIcon Icon="{mi:Cupertino ArrowDownDoc}"
+                                     IconSize="16"
+                                     IconColor="{StaticResource White}"
+                                     VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="Exportar Lista (CSV)"
+                               TextColor="{StaticResource White}"
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               Margin="8,0,0,0"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
 
             </VerticalStackLayout>
         </ScrollView>

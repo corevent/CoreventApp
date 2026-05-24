@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.CollaboratorEventDetail"
              x:DataType="vm:CollaboratorEventDetailViewModel"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              Title="Detalhes do Evento"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource background_color}">
@@ -20,11 +21,11 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{StaticResource White}">
-                <Label Text="←"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{StaticResource primary_text_color}"
-                       FontSize="18"/>
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                             IconSize="18"
+                             IconColor="{StaticResource primary_text_color}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -86,12 +87,12 @@
                             </Border>
                         </VerticalStackLayout>
 
-                        <Label Grid.Column="2"
-                               Text="&gt;"
-                               FontSize="16"
-                               TextColor="{StaticResource Gray200}"
-                               VerticalOptions="Start"
-                               HorizontalOptions="End"/>
+                        <mi:MauiIcon Grid.Column="2"
+                                     Icon="{mi:Cupertino ChevronRight}"
+                                     IconSize="16"
+                                     IconColor="{StaticResource Gray200}"
+                                     VerticalOptions="Start"
+                                     HorizontalOptions="End"/>
                     </Grid>
                 </Border>
 
@@ -118,9 +119,11 @@
                                         StrokeShape="RoundRectangle 12"
                                         WidthRequest="36"
                                         HeightRequest="36">
-                                    <Image Source="user.png"
-                                           HeightRequest="18"
-                                           WidthRequest="18"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Person}"
+                                                  IconSize="18"
+                                                  IconColor="{StaticResource secondary_text_color}"
+                                                  HorizontalOptions="Center"
+                                                  VerticalOptions="Center"/>
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1"
                                                      VerticalOptions="Center"
@@ -134,55 +137,57 @@
                                            FontSize="12"
                                            TextColor="{StaticResource secondary_text_color}"/>
                                 </VerticalStackLayout>
-                                <Label Grid.Column="2"
-                                       Text="&gt;"
-                                       FontSize="18"
-                                       TextColor="{StaticResource chevron_color}"
-                                       VerticalOptions="Center"/>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding OpenParticipantListCommand}"/>
-                                </Grid.GestureRecognizers>
-                            </Grid>
+                                 <mi:MauiIcon Grid.Column="2"
+                                              Icon="{mi:Cupertino ChevronRight}"
+                                              IconSize="18"
+                                              IconColor="{StaticResource chevron_color}"
+                                              VerticalOptions="Center"/>
+                                  <Grid.GestureRecognizers>
+                                      <TapGestureRecognizer Command="{Binding OpenParticipantListCommand}"/>
+                                 </Grid.GestureRecognizers>
+                             </Grid>
 
-                            <!-- Separator -->
-                            <BoxView HeightRequest="1"
-                                     Color="{StaticResource Gray100}"
-                                     Margin="48,0,0,0"
-                                     IsVisible="{Binding IsCredenciamento}"/>
+                             <!-- Separator -->
+                             <BoxView HeightRequest="1"
+                                      Color="{StaticResource Gray100}"
+                                      Margin="48,0,0,0"
+                                      IsVisible="{Binding IsCredenciamento}"/>
 
-                            <!-- Realizar Credenciamento (apenas se for credenciamento) -->
-                            <Grid ColumnDefinitions="40, *, Auto"
-                                  HeightRequest="56"
-                                  IsVisible="{Binding IsCredenciamento}">
-                                <Border BackgroundColor="#111827"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 12"
-                                        WidthRequest="36"
-                                        HeightRequest="36">
-                                    <Image Source="qrcode_light.png"
-                                           HeightRequest="18"
-                                           WidthRequest="18"/>
-                                </Border>
-                                <VerticalStackLayout Grid.Column="1"
-                                                     VerticalOptions="Center"
-                                                     Margin="12,0"
-                                                     Spacing="2">
-                                    <Label Text="Realizar Credenciamento"
-                                           FontSize="15"
-                                           FontAttributes="Bold"
-                                           TextColor="{StaticResource primary_text_color}"/>
-                                    <Label Text="Leia o QR Code do ingresso"
-                                           FontSize="12"
-                                           TextColor="{StaticResource secondary_text_color}"/>
-                                </VerticalStackLayout>
-                                <Label Grid.Column="2"
-                                       Text="&gt;"
-                                       FontSize="18"
-                                       TextColor="{StaticResource chevron_color}"
-                                       VerticalOptions="Center"/>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding OpenScannerCommand}"/>
-                                </Grid.GestureRecognizers>
+                             <!-- Realizar Credenciamento (apenas se for credenciamento) -->
+                             <Grid ColumnDefinitions="40, *, Auto"
+                                   HeightRequest="56"
+                                   IsVisible="{Binding IsCredenciamento}">
+                                 <Border BackgroundColor="#111827"
+                                         StrokeThickness="0"
+                                         StrokeShape="RoundRectangle 12"
+                                         WidthRequest="36"
+                                         HeightRequest="36">
+                                     <mi:MauiIcon Icon="{mi:Cupertino Qrcode}"
+                                                   IconSize="18"
+                                                   IconColor="{StaticResource secondary_text_color}"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                 </Border>
+                                 <VerticalStackLayout Grid.Column="1"
+                                                      VerticalOptions="Center"
+                                                      Margin="12,0"
+                                                      Spacing="2">
+                                     <Label Text="Realizar Credenciamento"
+                                            FontSize="15"
+                                            FontAttributes="Bold"
+                                            TextColor="{StaticResource primary_text_color}"/>
+                                     <Label Text="Leia o QR Code do ingresso"
+                                            FontSize="12"
+                                            TextColor="{StaticResource secondary_text_color}"/>
+                                 </VerticalStackLayout>
+                                 <mi:MauiIcon Grid.Column="2"
+                                              Icon="{mi:Cupertino ChevronRight}"
+                                              IconSize="18"
+                                              IconColor="{StaticResource chevron_color}"
+                                              VerticalOptions="Center"/>
+                                  <Grid.GestureRecognizers>
+                                      <TapGestureRecognizer Command="{Binding OpenScannerCommand}"/>
+                                 </Grid.GestureRecognizers>
                             </Grid>
                         </VerticalStackLayout>
                     </Border>
@@ -200,11 +205,11 @@
                                 StrokeShape="RoundRectangle 12"
                                 WidthRequest="40"
                                 HeightRequest="40">
-                            <Image Source="shield_check.png"
-                                   HeightRequest="20"
-                                   WidthRequest="20"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
+                            <mi:MauiIcon Icon="{mi:Cupertino Shield}"
+                                          IconSize="20"
+                                          IconColor="{StaticResource secondary_text_color}"
+                                          HorizontalOptions="Center"
+                                          VerticalOptions="Center"/>
                         </Border>
                         <VerticalStackLayout Grid.Column="1"
                                              Spacing="4"

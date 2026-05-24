@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:Class="CoreventApp.Views.Home"
              Title="Home"
              BackgroundColor="{StaticResource background_color}">
@@ -38,19 +39,19 @@
                 Padding="12,10">
           <Grid ColumnDefinitions="50,*,36"
                 ColumnSpacing="10">
-                            <Border BackgroundColor="{StaticResource home_highlight_bg}"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 14"
-                                    WidthRequest="50"
-                                    HeightRequest="50"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="Center">
-                              <Label Text="Q"
-                                     FontSize="24"
-                                     TextColor="{StaticResource primary_orange_color}"
-                                     HorizontalOptions="Center"
-                                     VerticalOptions="Center"/>
-                            </Border>
+            <Border BackgroundColor="{StaticResource home_highlight_bg}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 14"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center">
+              <mi:MauiIcon Icon="{mi:Cupertino Search}"
+                           IconSize="24"
+                           IconColor="{StaticResource primary_orange_color}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+            </Border>
 
             <VerticalStackLayout Grid.Column="1"
                                  Spacing="2"
@@ -71,11 +72,11 @@
                     WidthRequest="36"
                     HeightRequest="36"
                     VerticalOptions="Center">
-              <Label Text="F"
-                     FontSize="15"
-                     TextColor="{StaticResource home_filter_text}"
-                     HorizontalOptions="Center"
-                     VerticalOptions="Center"/>
+              <mi:MauiIcon Icon="{mi:Cupertino LineHorizontal3Decrease}"
+                            IconSize="15"
+                            IconColor="{StaticResource home_filter_text}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
             </Border>
           </Grid>
         </Border>

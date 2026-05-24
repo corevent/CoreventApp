@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.Reviews"
              Title="Reviews"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              BackgroundColor="{StaticResource background_color}">
     <ScrollView>
         <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
@@ -15,11 +16,9 @@
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="{StaticResource White}">
-                    <Label Text="←"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        TextColor="{StaticResource primary_text_color}"
-                        FontSize="18"/>
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                        IconSize="18"
+                        IconColor="{StaticResource primary_text_color}"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -73,11 +72,21 @@
 
                                 <!-- Estrelas -->
                                 <HorizontalStackLayout Spacing="3">
-                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
-                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
-                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
-                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
-                                    <Label Text="★" FontSize="18" TextColor="{StaticResource star_color}"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource star_color}"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource star_color}"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource star_color}"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource star_color}"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource star_color}"/>
                                 </HorizontalStackLayout>
 
                             </VerticalStackLayout>

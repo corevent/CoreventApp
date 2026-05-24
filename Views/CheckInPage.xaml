@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:Class="CoreventApp.Views.CheckInPage"
              x:DataType="vm:CheckInViewModel"
              Title="Credenciamento"
@@ -24,11 +25,11 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{StaticResource White}">
-                <Label Text="←"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{StaticResource primary_text_color}"
-                       FontSize="18"/>
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                             IconSize="18"
+                             IconColor="{StaticResource primary_text_color}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -77,9 +78,11 @@
                                          Spacing="8"
                                          BackgroundColor="#80FFFFFF"
                                          Padding="20">
-                        <Label Text="⛔"
-                               FontSize="40"
-                               HorizontalTextAlignment="Center"/>
+                        <mi:MauiIcon Icon="{mi:Cupertino Nosign}"
+                                     IconSize="40"
+                                     IconColor="{StaticResource primary_text_color}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
                         <Label Text="{Binding ResultMessage}"
                                FontSize="14"
                                TextColor="{StaticResource error_color}"
@@ -104,19 +107,19 @@
                         <Grid ColumnDefinitions="Auto, *"
                               Padding="16,12"
                               ColumnSpacing="12">
-                            <Label Text="✓"
-                                   FontSize="20"
-                                   TextColor="#16A34A"
-                                   VerticalOptions="Center">
-                                <Label.Triggers>
-                                    <DataTrigger TargetType="Label"
+                            <mi:MauiIcon Icon="{mi:Cupertino Checkmark}"
+                                         IconSize="20"
+                                         IconColor="#16A34A"
+                                         VerticalOptions="Center">
+                                <mi:MauiIcon.Triggers>
+                                    <DataTrigger TargetType="mi:MauiIcon"
                                                  Binding="{Binding IsResultSuccess}"
                                                  Value="False">
-                                        <Setter Property="Text" Value="✗"/>
-                                        <Setter Property="TextColor" Value="#DC2626"/>
+                                        <Setter Property="Icon" Value="{mi:Cupertino Xmark}"/>
+                                        <Setter Property="IconColor" Value="#DC2626"/>
                                     </DataTrigger>
-                                </Label.Triggers>
-                            </Label>
+                                </mi:MauiIcon.Triggers>
+                            </mi:MauiIcon>
                             <VerticalStackLayout Grid.Column="1"
                                                  Spacing="4"
                                                  VerticalOptions="Center">

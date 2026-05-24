@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.EventDetail"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:DataType="vm:EventDetailViewModel"
              Title="Detalhes"
              Shell.NavBarIsVisible="False"
@@ -41,11 +42,11 @@
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="#30FFFFFF">
-                    <Label Text="←"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           TextColor="{StaticResource White}"
-                           FontSize="18"/>
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                                 IconSize="18"
+                                 IconColor="{StaticResource White}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -59,11 +60,11 @@
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="#30FFFFFF"
                         Margin="0,0,8,0">
-                    <Image Source="share.png"
-                           HeightRequest="18"
-                           WidthRequest="18"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowshapeTurnupRight}"
+                                 IconSize="18"
+                                 IconColor="{StaticResource White}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ShareEventCommand}"/>
                     </Border.GestureRecognizers>
@@ -76,11 +77,11 @@
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="#30FFFFFF">
-                    <Image Source="heart_light.png"
-                           HeightRequest="18"
-                           WidthRequest="18"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                    <mi:MauiIcon Icon="{mi:Cupertino Heart}"
+                                 IconSize="18"
+                                 IconColor="{StaticResource White}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ToggleFavoriteCommand}"/>
                     </Border.GestureRecognizers>
@@ -168,11 +169,11 @@
                                     HeightRequest="36"
                                     HorizontalOptions="Start"
                                     VerticalOptions="Center">
-                                <Image Source="calendar.png"
-                                       HeightRequest="18"
-                                       WidthRequest="18"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center"/>
+                                <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource secondary_text_color}"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"/>
                             </Border>
                             <VerticalStackLayout Grid.Column="1"
                                                  VerticalOptions="Center"
@@ -213,11 +214,11 @@
                                         HeightRequest="36"
                                         HorizontalOptions="Start"
                                         VerticalOptions="Center">
-                                    <Image Source="map_icon.png"
-                                           HeightRequest="18"
-                                           WidthRequest="18"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
+                                                 IconSize="18"
+                                                 IconColor="{StaticResource secondary_text_color}"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"/>
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1"
                                                      VerticalOptions="Center"
@@ -254,11 +255,11 @@
                                         HeightRequest="36"
                                         HorizontalOptions="Start"
                                         VerticalOptions="Center">
-                                    <Image Source="globe.png"
-                                           HeightRequest="18"
-                                           WidthRequest="18"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Globe}"
+                                                 IconSize="18"
+                                                 IconColor="{StaticResource secondary_text_color}"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"/>
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1"
                                                      VerticalOptions="Center"

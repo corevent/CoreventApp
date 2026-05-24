@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.Privacy"
              x:DataType="vm:PrivacyViewModel"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              Title="Privacidade"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource background_color}">
@@ -20,11 +21,11 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{StaticResource White}">
-                <Label Text="←"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{StaticResource primary_text_color}"
-                       FontSize="18"/>
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                         IconSize="18"
+                         IconColor="{StaticResource primary_text_color}"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -57,9 +58,8 @@
                                 WidthRequest="50"
                                 HeightRequest="50"
                                 HorizontalOptions="Start">
-                            <Image Source="shield.png"
-                                    HeightRequest="24"
-                                    WidthRequest="24"/>
+                            <mi:MauiIcon Icon="{mi:Cupertino Shield}"
+                                    IconSize="24"/>
                         </Border>
 
                         <Label Text="Sua privacidade é soberana"
@@ -100,9 +100,8 @@
                                     StrokeShape="RoundRectangle 12"
                                     WidthRequest="36"
                                     HeightRequest="36">
-                                <Image Source="download.png"
-                                        HeightRequest="18"
-                                        WidthRequest="18"/>
+                                <mi:MauiIcon Icon="{mi:Cupertino ArrowDownDoc}"
+                                        IconSize="18"/>
                             </Border>
 
                             <VerticalStackLayout Grid.Column="1"
@@ -117,10 +116,10 @@
                                        TextColor="{StaticResource secondary_text_color}"/>
                             </VerticalStackLayout>
 
-                            <Label Grid.Column="2"
-                                    Text="›"
-                                    FontSize="22"
-                                    TextColor="{StaticResource chevron_color}"
+                            <mi:MauiIcon Grid.Column="2"
+                                    Icon="{mi:Cupertino ChevronRight}"
+                                    IconSize="22"
+                                    IconColor="{StaticResource chevron_color}"
                                     VerticalOptions="Center"/>
 
                             <Grid.GestureRecognizers>

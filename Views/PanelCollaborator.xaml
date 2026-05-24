@@ -5,6 +5,7 @@
              xmlns:models="clr-namespace:CoreventApp.Models"
              x:Class="CoreventApp.Views.PanelCollaborator"
              x:Name="ThisPage"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:DataType="vm:PanelCollaboratorViewModel"
              Title="Meus Trabalhos"
              Shell.NavBarIsVisible="False"
@@ -22,11 +23,11 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{StaticResource White}">
-                <Label Text="←"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{StaticResource primary_text_color}"
-                       FontSize="18"/>
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                            IconSize="20"
+                            IconColor="{StaticResource primary_text_color}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -137,9 +138,10 @@
                                                            TextColor="{StaticResource primary_text_color}"/>
 
                                                     <HorizontalStackLayout Spacing="4">
-                                                        <Label Text="🔴"
-                                                               FontSize="10"
-                                                               VerticalOptions="Center"/>
+                                                <mi:MauiIcon Icon="{mi:Cupertino Circle}"
+                                                            IconSize="10"
+                                                            IconColor="#FF3B30"
+                                                            VerticalOptions="Center"/>
                                                         <Label Text="{Binding Date}"
                                                                FontSize="13"
                                                                TextColor="{StaticResource secondary_text_color}"
@@ -159,12 +161,12 @@
                                                     </Border>
                                                 </VerticalStackLayout>
 
-                                                <Label Grid.Column="2"
-                                                       Text="&gt;"
-                                                       FontSize="16"
-                                                       TextColor="{StaticResource Gray200}"
-                                                       VerticalOptions="Start"
-                                                       HorizontalOptions="End"/>
+                                                <mi:MauiIcon Grid.Column="2"
+                                                            Icon="{mi:Cupertino ChevronRight}"
+                                                            IconSize="16"
+                                                            IconColor="{StaticResource Gray200}"
+                                                            VerticalOptions="Start"
+                                                            HorizontalOptions="End"/>
                                             </Grid>
 
                                             <Border StrokeThickness="0"
@@ -173,10 +175,10 @@
                                                     Padding="0,14"
                                                     IsVisible="{Binding HasActionButton}">
                                                 <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
-                                                    <Image Source="qrcode_light.png"
-                                                           HeightRequest="16"
-                                                           WidthRequest="16"
-                                                           VerticalOptions="Center"/>
+                                                    <mi:MauiIcon Icon="{mi:Cupertino Qrcode}"
+                                                                IconSize="16"
+                                                                IconColor="{StaticResource White}"
+                                                                VerticalOptions="Center"/>
                                                     <Label Text="Realizar Credenciamento"
                                                            TextColor="{StaticResource White}"
                                                            FontAttributes="Bold"

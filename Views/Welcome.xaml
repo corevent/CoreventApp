@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.Welcome"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              Title="Welcome">
     <Grid RowDefinitions="Auto, Auto, *" HorizontalOptions="Center" Padding="20" BackgroundColor="{StaticResource background_color}">
         <Image Grid.Row="0"

@@ -1,4 +1,5 @@
 ﻿using CoreventApp.Services;
+using MauiIcons.Cupertino;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
 
@@ -19,7 +20,8 @@ public static class MauiProgram
 				fonts.AddFont("PlusJakartaSans-Regular.ttf", "PlusJakartaSansRegular");
 				fonts.AddFont("PlusJakartaSans-SemiBold.ttf", "PlusJakartaSansSemiBold");
 				fonts.AddFont("PlusJakartaSans-Bold.ttf", "PlusJakartaSansBold");
-			});
+			})
+			.UseCupertinoMauiIcons();
 
 		builder.Services.AddSingleton<AppShell>();
 		

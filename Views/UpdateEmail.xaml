@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.UpdateEmail"
              x:DataType="vm:UpdateEmailViewModel"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource background_color}">
 
@@ -11,7 +12,11 @@
         <!-- Header -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto, *" Padding="16,14,16,10" VerticalOptions="Center">
             <Border WidthRequest="40" HeightRequest="40" Stroke="{StaticResource Gray200}" StrokeThickness="1" StrokeShape="RoundRectangle 20" BackgroundColor="{StaticResource White}">
-                <Label Text="←" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{StaticResource primary_text_color}" FontSize="18"/>
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                             IconSize="18"
+                             IconColor="{StaticResource primary_text_color}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.ManageEvent"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:DataType="vm:ManageEventViewModel"
              x:Name="ThisPage"
              Title="Gerenciar Evento"
@@ -22,11 +23,11 @@
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="{StaticResource White}">
-                    <Label Text="←"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           TextColor="{StaticResource primary_text_color}"
-                           FontSize="18"/>
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                             IconSize="18"
+                             IconColor="{StaticResource primary_text_color}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -141,11 +142,11 @@
                                 WidthRequest="32"
                                 HeightRequest="32"
                                 HorizontalOptions="Start">
-                            <Image Source="chart_line.png"
-                                   HeightRequest="18"
-                                   WidthRequest="18"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
+                            <mi:MauiIcon Icon="{mi:Cupertino ChartBar}"
+                                     IconSize="18"
+                                     IconColor="{StaticResource secondary_text_color}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
                         </Border>
                         <Label Text="RECEITA TOTAL"
                                FontSize="10"
@@ -170,11 +171,11 @@
                                 WidthRequest="32"
                                 HeightRequest="32"
                                 HorizontalOptions="Start">
-                            <Image Source="ticket.png"
-                                   HeightRequest="18"
-                                   WidthRequest="18"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
+                            <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
+                                     IconSize="18"
+                                     IconColor="{StaticResource secondary_text_color}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
                         </Border>
                         <Label Text="INGRESSOS VENDIDOS"
                                FontSize="10"
@@ -228,11 +229,11 @@
                             WidthRequest="40"
                             HeightRequest="40"
                             HorizontalOptions="Start">
-                        <Image Source="qrcode.png"
-                               HeightRequest="20"
-                               WidthRequest="20"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                            <mi:MauiIcon Icon="{mi:Cupertino Qrcode}"
+                                     IconSize="20"
+                                     IconColor="{StaticResource secondary_text_color}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -245,11 +246,11 @@
                                FontSize="11"
                                TextColor="{StaticResource secondary_text_color}"/>
                     </VerticalStackLayout>
-                    <Label Grid.Column="2"
-                           Text="›"
-                           FontSize="20"
-                           TextColor="{StaticResource chevron_color}"
-                           VerticalOptions="Center"/>
+                    <mi:MauiIcon Grid.Column="2"
+                             Icon="{mi:Cupertino ChevronRight}"
+                             IconSize="20"
+                             IconColor="{StaticResource chevron_color}"
+                             VerticalOptions="Center"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding CheckInCommand}"/>
@@ -269,11 +270,11 @@
                             WidthRequest="40"
                             HeightRequest="40"
                             HorizontalOptions="Start">
-                        <Image Source="user.png"
-                               HeightRequest="20"
-                               WidthRequest="20"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                        <mi:MauiIcon Icon="{mi:Cupertino Person}"
+                                 IconSize="20"
+                                 IconColor="{StaticResource secondary_text_color}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -286,11 +287,11 @@
                                FontSize="11"
                                TextColor="{StaticResource secondary_text_color}"/>
                     </VerticalStackLayout>
-                    <Label Grid.Column="2"
-                           Text="›"
-                           FontSize="20"
-                           TextColor="{StaticResource chevron_color}"
-                           VerticalOptions="Center"/>
+                    <mi:MauiIcon Grid.Column="2"
+                             Icon="{mi:Cupertino ChevronRight}"
+                             IconSize="20"
+                             IconColor="{StaticResource chevron_color}"
+                             VerticalOptions="Center"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ParticipantListCommand}"/>
@@ -310,11 +311,11 @@
                             WidthRequest="40"
                             HeightRequest="40"
                             HorizontalOptions="Start">
-                        <Image Source="shield.png"
-                               HeightRequest="20"
-                               WidthRequest="20"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                        <mi:MauiIcon Icon="{mi:Cupertino Shield}"
+                                 IconSize="20"
+                                 IconColor="{StaticResource secondary_text_color}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -327,11 +328,11 @@
                                FontSize="11"
                                TextColor="{StaticResource secondary_text_color}"/>
                     </VerticalStackLayout>
-                    <Label Grid.Column="2"
-                           Text="›"
-                           FontSize="20"
-                           TextColor="{StaticResource chevron_color}"
-                           VerticalOptions="Center"/>
+                    <mi:MauiIcon Grid.Column="2"
+                             Icon="{mi:Cupertino ChevronRight}"
+                             IconSize="20"
+                             IconColor="{StaticResource chevron_color}"
+                             VerticalOptions="Center"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding TeamCommand}"/>
@@ -351,11 +352,11 @@
                             WidthRequest="40"
                             HeightRequest="40"
                             HorizontalOptions="Start">
-                        <Image Source="ticket.png"
-                               HeightRequest="20"
-                               WidthRequest="20"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                        <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
+                                 IconSize="20"
+                                 IconColor="{StaticResource secondary_text_color}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -368,11 +369,11 @@
                                FontSize="11"
                                TextColor="{StaticResource secondary_text_color}"/>
                     </VerticalStackLayout>
-                    <Label Grid.Column="2"
-                           Text="›"
-                           FontSize="20"
-                           TextColor="{StaticResource chevron_color}"
-                           VerticalOptions="Center"/>
+                    <mi:MauiIcon Grid.Column="2"
+                             Icon="{mi:Cupertino ChevronRight}"
+                             IconSize="20"
+                             IconColor="{StaticResource chevron_color}"
+                             VerticalOptions="Center"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ManageTicketsCommand}"/>
@@ -392,11 +393,11 @@
                             WidthRequest="40"
                             HeightRequest="40"
                             HorizontalOptions="Start">
-                        <Image Source="settings.png"
-                               HeightRequest="20"
-                               WidthRequest="20"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                        <mi:MauiIcon Icon="{mi:Cupertino Gear}"
+                                 IconSize="20"
+                                 IconColor="{StaticResource secondary_text_color}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -409,11 +410,11 @@
                                FontSize="11"
                                TextColor="{StaticResource secondary_text_color}"/>
                     </VerticalStackLayout>
-                    <Label Grid.Column="2"
-                           Text="›"
-                           FontSize="20"
-                           TextColor="{StaticResource chevron_color}"
-                           VerticalOptions="Center"/>
+                    <mi:MauiIcon Grid.Column="2"
+                             Icon="{mi:Cupertino ChevronRight}"
+                             IconSize="20"
+                             IconColor="{StaticResource chevron_color}"
+                             VerticalOptions="Center"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding EditEventCommand}"/>

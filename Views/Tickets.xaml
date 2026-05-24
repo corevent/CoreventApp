@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.Tickets"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              Title="Ingressos"
              BackgroundColor="{StaticResource background_color}">
   <ScrollView>
@@ -102,7 +103,7 @@
                    LineBreakMode="TailTruncation"/>
 
             <HorizontalStackLayout Spacing="4">
-                <Image Source="calendar.png"
+                <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
                        WidthRequest="12" HeightRequest="12"
                        VerticalOptions="Center"/>
                 <Label Text="22 Nov, 2026 • 09:00"
@@ -114,7 +115,7 @@
             <!-- Local + Badge na mesma linha -->
             <Grid ColumnDefinitions="*, Auto">
                 <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
-                    <Image Source="map_icon.png"
+                    <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
                            WidthRequest="12" HeightRequest="12"
                            VerticalOptions="Center"/>
                     <Label Text="Centro de Convenções"

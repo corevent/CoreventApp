@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              xmlns:cv="clr-namespace:CoreventApp.Converters"
-              x:Class="CoreventApp.Views.PanelOrganizer"
-              x:DataType="vm:PanelOrganizerViewModel"
-              x:Name="ThisPage"
+             x:Class="CoreventApp.Views.PanelOrganizer"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             x:DataType="vm:PanelOrganizerViewModel"
+             x:Name="ThisPage"
              Title="Painel"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource background_color}">
@@ -28,11 +29,11 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{StaticResource White}">
-                <Label Text="←"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{StaticResource primary_text_color}"
-                       FontSize="18"/>
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                             IconSize="18"
+                             IconColor="{StaticResource primary_text_color}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -67,15 +68,15 @@
                                 WidthRequest="44"
                                 HeightRequest="44"
                                 HorizontalOptions="Start">
-                            <Image Source="credit_card.png"
-                                   HeightRequest="22"
-                                   WidthRequest="22"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
+                            <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
+                                         IconSize="22"
+                                         IconColor="{StaticResource secondary_text_color}"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center"/>
                         </Border>
 
                         <VerticalStackLayout Grid.Column="1"
-                                 Spacing="2">
+                                             Spacing="2">
                             <Label Text="Dados de Repasse"
                                    FontAttributes="Bold"
                                    FontSize="15"
@@ -105,7 +106,7 @@
 
                 <!-- Metrics Cards -->
                 <Grid ColumnDefinitions="*, *"
-                        ColumnSpacing="12">
+                      ColumnSpacing="12">
                     <Border Grid.Column="0"
                             Stroke="{StaticResource Gray100}"
                             StrokeThickness="1"
@@ -119,20 +120,20 @@
                                     WidthRequest="32"
                                     HeightRequest="32"
                                     HorizontalOptions="Start">
-                                <Image Source="chart_line.png"
-                                       HeightRequest="18"
-                                       WidthRequest="18"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center"/>
+                                <mi:MauiIcon Icon="{mi:Cupertino ChartBar}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource secondary_text_color}"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"/>
                             </Border>
                             <Label Text="RECEITA TOTAL"
-                                    FontSize="10"
-                                    FontAttributes="Bold"
-                                    TextColor="{StaticResource secondary_text_color}"/>
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource secondary_text_color}"/>
                             <Label Text="{Binding TotalRevenue}"
-                                    FontSize="18"
-                                    FontAttributes="Bold"
-                                    TextColor="{StaticResource primary_text_color}"/>
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource primary_text_color}"/>
                         </VerticalStackLayout>
                     </Border>
 
@@ -149,20 +150,20 @@
                                     WidthRequest="32"
                                     HeightRequest="32"
                                     HorizontalOptions="Start">
-                                <Image Source="ticket.png"
-                                       HeightRequest="18"
-                                       WidthRequest="18"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center"/>
+                                <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource secondary_text_color}"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"/>
                             </Border>
                             <Label Text="INGRESSOS VENDIDOS"
-                                    FontSize="10"
-                                    FontAttributes="Bold"
-                                    TextColor="{StaticResource secondary_text_color}"/>
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource secondary_text_color}"/>
                             <Label Text="{Binding TicketsSold}"
-                                    FontSize="18"
-                                    FontAttributes="Bold"
-                                    TextColor="{StaticResource primary_text_color}"/>
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource primary_text_color}"/>
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
@@ -170,13 +171,13 @@
 
                 <!-- My Events Header -->
                 <Grid ColumnDefinitions="*, Auto"
-                        VerticalOptions="Center">
+                      VerticalOptions="Center">
                     <Label Text="Meus Eventos"
                            FontSize="18"
                            FontAttributes="Bold"
                            TextColor="{StaticResource primary_text_color}"/>
                     <HorizontalStackLayout Grid.Column="1"
-                            Spacing="4">
+                                           Spacing="4">
                         <Label Text="+ Novo Evento"
                                FontSize="13"
                                FontAttributes="Bold"
@@ -190,7 +191,7 @@
 
                 <!-- Events List -->
                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding MyEvents}"
-                        Spacing="12">
+                                     Spacing="12">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="vm:EventSummary">
                             <Border Stroke="{StaticResource Gray100}"
@@ -205,18 +206,18 @@
                                 </Border.GestureRecognizers>
                                 <VerticalStackLayout Spacing="12">
                                     <Grid ColumnDefinitions="80, *, Auto"
-                                            ColumnSpacing="12">
+                                          ColumnSpacing="12">
                                         <Border WidthRequest="80"
                                                 HeightRequest="80"
                                                 StrokeThickness="0"
                                                 StrokeShape="RoundRectangle 14">
                                             <Image Source="{Binding ImageUrl}"
-                                                    Aspect="AspectFill"/>
+                                                   Aspect="AspectFill"/>
                                         </Border>
 
                                         <VerticalStackLayout Grid.Column="1"
-                                                Spacing="4"
-                                                VerticalOptions="Center">
+                                                             Spacing="4"
+                                                             VerticalOptions="Center">
                                             <Label Text="{Binding Name}"
                                                    FontSize="16"
                                                    FontAttributes="Bold"
@@ -226,7 +227,7 @@
                                                    TextColor="{StaticResource secondary_text_color}"/>
 
                                             <HorizontalStackLayout Spacing="8"
-                                                    Margin="0,4,0,0">
+                                                                   Margin="0,4,0,0">
                                                 <Border Padding="8,2"
                                                         StrokeThickness="0"
                                                         StrokeShape="RoundRectangle 8"
@@ -235,22 +236,26 @@
                                                         <DataTrigger TargetType="Border"
                                                                      Binding="{Binding StatusDisplayText}"
                                                                      Value="EM ANDAMENTO">
-                                                            <Setter Property="BackgroundColor" Value="#DBEAFE"/>
+                                                            <Setter Property="BackgroundColor"
+                                                                    Value="#DBEAFE"/>
                                                         </DataTrigger>
                                                         <DataTrigger TargetType="Border"
                                                                      Binding="{Binding StatusDisplayText}"
                                                                      Value="ENCERRADO">
-                                                            <Setter Property="BackgroundColor" Value="#F3F4F6"/>
+                                                            <Setter Property="BackgroundColor"
+                                                                    Value="#F3F4F6"/>
                                                         </DataTrigger>
                                                         <DataTrigger TargetType="Border"
                                                                      Binding="{Binding StatusDisplayText}"
                                                                      Value="RASCUNHO">
-                                                            <Setter Property="BackgroundColor" Value="#FEF9C3"/>
+                                                            <Setter Property="BackgroundColor"
+                                                                    Value="#FEF9C3"/>
                                                         </DataTrigger>
                                                         <DataTrigger TargetType="Border"
                                                                      Binding="{Binding StatusDisplayText}"
                                                                      Value="CANCELADO">
-                                                            <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                                                            <Setter Property="BackgroundColor"
+                                                                    Value="#FEE2E2"/>
                                                         </DataTrigger>
                                                     </Border.Triggers>
                                                     <Label Text="{Binding StatusDisplayText}"
@@ -261,22 +266,26 @@
                                                             <DataTrigger TargetType="Label"
                                                                          Binding="{Binding StatusDisplayText}"
                                                                          Value="EM ANDAMENTO">
-                                                                <Setter Property="TextColor" Value="#2563EB"/>
+                                                                <Setter Property="TextColor"
+                                                                        Value="#2563EB"/>
                                                             </DataTrigger>
                                                             <DataTrigger TargetType="Label"
                                                                          Binding="{Binding StatusDisplayText}"
                                                                          Value="ENCERRADO">
-                                                                <Setter Property="TextColor" Value="#6B7280"/>
+                                                                <Setter Property="TextColor"
+                                                                        Value="#6B7280"/>
                                                             </DataTrigger>
                                                             <DataTrigger TargetType="Label"
                                                                          Binding="{Binding StatusDisplayText}"
                                                                          Value="RASCUNHO">
-                                                                <Setter Property="TextColor" Value="#A16207"/>
+                                                                <Setter Property="TextColor"
+                                                                        Value="#A16207"/>
                                                             </DataTrigger>
                                                             <DataTrigger TargetType="Label"
                                                                          Binding="{Binding StatusDisplayText}"
                                                                          Value="CANCELADO">
-                                                                <Setter Property="TextColor" Value="#DC2626"/>
+                                                                <Setter Property="TextColor"
+                                                                        Value="#DC2626"/>
                                                             </DataTrigger>
                                                         </Label.Triggers>
                                                     </Label>
@@ -284,14 +293,14 @@
                                             </HorizontalStackLayout>
                                         </VerticalStackLayout>
 
-                                        <Label Grid.Column="2"
-                                               Text="&gt;"
-                                               FontSize="18"
-                                               TextColor="{StaticResource chevron_color}"
-                                               VerticalOptions="Center"/>
+                                        <mi:MauiIcon Grid.Column="2"
+                                                     Icon="{mi:Cupertino ChevronRight}"
+                                                     IconSize="18"
+                                                     IconColor="{StaticResource chevron_color}"
+                                                     VerticalOptions="Center"/>
                                     </Grid>
 
-                                    <ProgressBar Progress="{Binding SalesProgress}" 
+                                    <ProgressBar Progress="{Binding SalesProgress}"
                                                  ProgressColor="{StaticResource primary_orange_color}"/>
 
                                     <Grid ColumnDefinitions="*, Auto">

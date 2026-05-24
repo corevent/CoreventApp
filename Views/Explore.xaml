@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:Class="CoreventApp.Views.Explore"
              x:DataType="vm:ExploreViewModel"
              x:Name="ThisPage"
@@ -27,11 +28,11 @@
                             WidthRequest="28"
                             HeightRequest="28"
                             VerticalOptions="Center">
-                        <Image Source="search.png"
-                               HeightRequest="14"
-                               WidthRequest="14"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                        <mi:MauiIcon Icon="{mi:Cupertino Search}"
+                                         IconSize="14"
+                                         IconColor="{StaticResource secondary_text_color}"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center"/>
                     </Border>
                     <Entry Grid.Column="1"
                            Placeholder="Buscar eventos..."
@@ -159,21 +160,21 @@
                                             HorizontalOptions="End"
                                             VerticalOptions="Start"
                                             Margin="0,5,5,0">
-                                        <Image HeightRequest="13"
-                                               WidthRequest="13"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center">
-                                            <Image.Style>
-                                                <Style TargetType="Image">
-                                                    <Setter Property="Source" Value="heart_light.png"/>
+                                        <mi:MauiIcon IconSize="13"
+                                                     IconColor="{StaticResource secondary_text_color}"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center">
+                                            <mi:MauiIcon.Style>
+                                                <Style TargetType="mi:MauiIcon">
+                                                    <Setter Property="Icon" Value="{mi:Cupertino Heart}"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger TargetType="Image" Binding="{Binding IsFavorite}" Value="True">
-                                                            <Setter Property="Source" Value="heart.png"/>
+                                                        <DataTrigger TargetType="mi:MauiIcon" Binding="{Binding IsFavorite}" Value="True">
+                                                            <Setter Property="Icon" Value="{mi:Cupertino HeartFill}"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
-                                            </Image.Style>
-                                        </Image>
+                                            </mi:MauiIcon.Style>
+                                        </mi:MauiIcon>
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.ToggleFavoriteCommand}"
@@ -269,10 +270,11 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </HorizontalStackLayout.Style>
-                                        <Image Source="map_icon.png"
-                                               HeightRequest="11"
-                                               WidthRequest="11"
-                                               VerticalOptions="Center"/>
+                                        <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
+                                                     IconSize="11"
+                                                     IconColor="{StaticResource secondary_text_color}"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center"/>
                                         <Label Text="{Binding Location}"
                                                FontSize="11"
                                                TextColor="{StaticResource secondary_text_color}"
@@ -293,10 +295,11 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </HorizontalStackLayout.Style>
-                                        <Image Source="globe.png"
-                                               HeightRequest="11"
-                                               WidthRequest="11"
-                                               VerticalOptions="Center"/>
+                                        <mi:MauiIcon Icon="{mi:Cupertino Globe}"
+                                                     IconSize="11"
+                                                     IconColor="{StaticResource secondary_text_color}"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center"/>
                                         <Label Text="Evento Online"
                                                FontSize="11"
                                                TextColor="{StaticResource secondary_text_color}"
@@ -308,10 +311,11 @@
                                 <Grid ColumnDefinitions="Auto, *"
                                       Margin="0,2,0,0">
                                     <HorizontalStackLayout Spacing="4">
-                                        <Image Source="calendar.png"
-                                               HeightRequest="11"
-                                               WidthRequest="11"
-                                               VerticalOptions="Center"/>
+                                        <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                                     IconSize="11"
+                                                     IconColor="{StaticResource secondary_text_color}"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center"/>
                                         <Label Text="{Binding Date}"
                                                FontSize="11"
                                                TextColor="{StaticResource secondary_text_color}"

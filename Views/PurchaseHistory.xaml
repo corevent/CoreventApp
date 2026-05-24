@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.PurchaseHistory"
              Title="PurchaseHistory"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              BackgroundColor="{StaticResource background_color}">
     <ScrollView>
         <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
@@ -13,11 +14,11 @@
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="{StaticResource White}">
-                    <Label Text="←"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        TextColor="{StaticResource primary_text_color}"
-                        FontSize="18"/>
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                             IconSize="18"
+                             IconColor="{StaticResource primary_text_color}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -86,10 +87,10 @@
                                 <!-- Data e ingressos -->
                                 <HorizontalStackLayout Spacing="16">
                                     <HorizontalStackLayout Spacing="4">
-                                        <Image Source="calendar_icon.png"
-                                            WidthRequest="13"
-                                            HeightRequest="13"
-                                            VerticalOptions="Center"/>
+                                        <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                                 IconSize="13"
+                                                 IconColor="{StaticResource secondary_text_color}"
+                                                 VerticalOptions="Center"/>
                                         <Label Text="15 Mar 2024"
                                             FontSize="12"
                                             TextColor="{StaticResource secondary_text_color}"
@@ -97,10 +98,10 @@
                                     </HorizontalStackLayout>
 
                                     <HorizontalStackLayout Spacing="4">
-                                        <Image Source="ticket_icon.png"
-                                            WidthRequest="13"
-                                            HeightRequest="13"
-                                            VerticalOptions="Center"/>
+                                        <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
+                                                 IconSize="13"
+                                                 IconColor="{StaticResource secondary_text_color}"
+                                                 VerticalOptions="Center"/>
                                         <Label Text="2 Ingressos"
                                             FontSize="12"
                                             TextColor="{StaticResource secondary_text_color}"
@@ -145,11 +146,10 @@
                                         Stroke="{StaticResource Gray200}"
                                         StrokeShape="RoundRectangle 12"
                                         BackgroundColor="{StaticResource Gray50}">
-                                    <Image Source="download.png"
-                                        WidthRequest="18"
-                                        HeightRequest="18"
-                                        HorizontalOptions="Center"
-                                        VerticalOptions="Center"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino ArrowDownDoc}"
+                                             IconSize="18"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"/>
                                 </Border>
 
                                 <!-- Botão Ver Detalhes -->

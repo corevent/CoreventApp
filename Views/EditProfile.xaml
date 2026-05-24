@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CoreventApp.Views.EditProfile"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              Title="EditProfile"
              BackgroundColor="{StaticResource background_color}">
     <ScrollView>
@@ -17,11 +18,11 @@
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="{StaticResource White}">
-                    <Label Text="←"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        TextColor="{StaticResource primary_text_color}"
-                        FontSize="18"/>
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                             IconSize="18"
+                             IconColor="{StaticResource primary_text_color}"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>

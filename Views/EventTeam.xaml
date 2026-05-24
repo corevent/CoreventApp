@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              xmlns:cv="clr-namespace:CoreventApp.Converters"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:Class="CoreventApp.Views.EventTeam"
              x:DataType="vm:EventTeamViewModel"
              x:Name="ThisPage"
@@ -29,11 +30,11 @@
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 20"
                         BackgroundColor="{StaticResource White}">
-                    <Label Text="←"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           TextColor="{StaticResource primary_text_color}"
-                           FontSize="18"/>
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                                 IconSize="18"
+                                 IconColor="{StaticResource primary_text_color}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -97,11 +98,11 @@
                                         WidthRequest="42"
                                         HeightRequest="42"
                                         VerticalOptions="Center">
-                                    <Image Source="user.png"
-                                           HeightRequest="20"
-                                           WidthRequest="20"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Person}"
+                                                  IconSize="20"
+                                                  IconColor="{StaticResource secondary_text_color}"
+                                                  HorizontalOptions="Center"
+                                                  VerticalOptions="Center"/>
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1"
                                                      VerticalOptions="Center"
@@ -141,11 +142,11 @@
                                         WidthRequest="42"
                                         HeightRequest="42"
                                         VerticalOptions="Center">
-                                    <Image Source="shield.png"
-                                           HeightRequest="20"
-                                           WidthRequest="20"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Shield}"
+                                                  IconSize="20"
+                                                  IconColor="{StaticResource secondary_text_color}"
+                                                  HorizontalOptions="Center"
+                                                  VerticalOptions="Center"/>
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1"
                                                      VerticalOptions="Center"
@@ -235,11 +236,11 @@
                                             StrokeShape="RoundRectangle 18"
                                             BackgroundColor="{StaticResource delete_bg}"
                                             VerticalOptions="Center">
-                                        <Image Source="trash.png"
-                                               HeightRequest="16"
-                                               WidthRequest="16"
-                                               HorizontalOptions="Center"
-                                               VerticalOptions="Center"/>
+                                        <mi:MauiIcon Icon="{mi:Cupertino Trash}"
+                                                      IconSize="16"
+                                                      IconColor="{StaticResource secondary_text_color}"
+                                                      HorizontalOptions="Center"
+                                                      VerticalOptions="Center"/>
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.RemoveMemberCommand}"
                                                                   CommandParameter="{Binding}"/>

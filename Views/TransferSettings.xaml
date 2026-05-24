@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.TransferSettings"
              x:DataType="vm:TransferSettingsViewModel"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              Title="Configurações de Repasse"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource background_color}">
@@ -20,11 +21,11 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 20"
                     BackgroundColor="{StaticResource White}">
-                <Label Text="←"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       TextColor="{StaticResource primary_text_color}"
-                       FontSize="18"/>
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                                     IconSize="18"
+                                     IconColor="{StaticResource primary_text_color}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -50,10 +51,11 @@
                         BackgroundColor="#F0F7FF"
                         Padding="16,14">
                     <Grid ColumnDefinitions="24, *" ColumnSpacing="12">
-                        <Label Text="ⓘ" 
-                               TextColor="#1E88E5" 
-                               FontSize="18" 
-                               VerticalOptions="Start"/>
+                        <mi:MauiIcon Icon="{mi:Cupertino InfoCircle}"
+                                     IconSize="16"
+                                     IconColor="{StaticResource White}"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"/>
                         <Label Grid.Column="1"
                                Text="Seus repasses são automáticos. Mantenha os dados atualizados para evitar atrasos no recebimento das vendas."
                                FontSize="12"
@@ -98,11 +100,11 @@
                                         StrokeShape="RoundRectangle 14"
                                         WidthRequest="48"
                                         HeightRequest="48">
-                                    <Image Source="credit_card.png" 
-                                           HeightRequest="22" 
-                                           WidthRequest="22"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center"/>
+                                    <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
+                                                 IconSize="22"
+                                                 IconColor="{StaticResource primary_text_color}"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"/>
                                 </Border>
 
                                 <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
@@ -131,11 +133,11 @@
                                            TextColor="{StaticResource secondary_text_color}"/>
                                 </VerticalStackLayout>
 
-                                <Label Grid.Column="2" 
-                                       Text="&gt;" 
-                                       FontSize="18" 
-                                       TextColor="{StaticResource chevron_color}"
-                                       VerticalOptions="Center"/>
+                                <mi:MauiIcon Grid.Column="2"
+                                             Icon="{mi:Cupertino ChevronRight}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource chevron_color}"
+                                             VerticalOptions="Center"/>
                             </Grid>
                         </Grid>
                     </Border>
@@ -174,11 +176,11 @@
                                                 StrokeShape="RoundRectangle 12"
                                                 WidthRequest="40"
                                                 HeightRequest="40">
-                                            <Image Source="qrcode.png" 
-                                                   HeightRequest="18" 
-                                                   WidthRequest="18"
-                                                   HorizontalOptions="Center"
-                                                   VerticalOptions="Center"/>
+                                            <mi:MauiIcon Icon="{mi:Cupertino Qrcode}"
+                                                         IconSize="18"
+                                                         IconColor="{StaticResource primary_text_color}"
+                                                         HorizontalOptions="Center"
+                                                         VerticalOptions="Center"/>
                                         </Border>
 
                                         <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
@@ -192,16 +194,16 @@
                                                    TextColor="{StaticResource secondary_text_color}"/>
                                         </VerticalStackLayout>
 
-                                        <Image Grid.Column="2" 
-                                               Source="trash.png" 
-                                               HeightRequest="20" 
-                                               WidthRequest="20"
-                                               VerticalOptions="Center">
-                                            <Image.GestureRecognizers>
+                                        <mi:MauiIcon Grid.Column="2"
+                                                     Icon="{mi:Cupertino Trash}"
+                                                     IconSize="20"
+                                                     IconColor="{StaticResource secondary_text_color}"
+                                                     VerticalOptions="Center">
+                                            <mi:MauiIcon.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TransferSettingsViewModel}}, Path=DeletePixKeyCommand}"
                                                                       CommandParameter="{Binding .}"/>
-                                            </Image.GestureRecognizers>
-                                        </Image>
+                                            </mi:MauiIcon.GestureRecognizers>
+                                        </mi:MauiIcon>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -239,12 +241,13 @@
                                LineHeight="1.3"/>
                         
                         <!-- Background Shield Watermark -->
-                        <Image Source="shield_check_light.png" 
-                               Grid.RowSpan="3"
-                               HorizontalOptions="End"
-                               VerticalOptions="Center"
-                               HeightRequest="60"
-                               Opacity="0.1"/>
+                        <mi:MauiIcon Icon="{mi:Cupertino Shield}"
+                                     Grid.RowSpan="3"
+                                     HorizontalOptions="End"
+                                     VerticalOptions="Center"
+                                     IconSize="60"
+                                     Opacity="0.1"
+                                     IconColor="{StaticResource White}"/>
                     </Grid>
                 </Border>
 
