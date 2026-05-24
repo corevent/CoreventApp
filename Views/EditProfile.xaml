@@ -5,8 +5,9 @@
              Title="EditProfile"
              BackgroundColor="{StaticResource background_color}">
     <ScrollView>
-        <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
+        <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="24">
 
+            <!-- Header -->
             <Grid Grid.Row="0"
               ColumnDefinitions="Auto, *, Auto"
               VerticalOptions="Center">
@@ -27,7 +28,7 @@
                 </Border>
 
                 <Label Grid.Column="1"
-                    Text="Dados Pessoais"
+                    Text="Editar Perfil"
                     FontSize="20"
                     FontAttributes="Bold"
                     TextColor="{StaticResource primary_text_color}"
@@ -35,44 +36,76 @@
                     Margin="12,0,0,0"/>
             </Grid>
 
+            <!-- Form -->
+            <Grid Grid.Row="1" RowDefinitions="auto, auto, auto, auto" RowSpacing="24">
 
-            <Grid Grid.Row="1" RowDefinitions="auto, auto, auto, auto,auto, auto" RowSpacing="20">
-                <Grid Grid.Row="0">
-                    <Label TextColor="{StaticResource primary_text_color}" Text="NOME COMPLETO" VerticalOptions="Center" HorizontalOptions="Start"/>
+                    <!-- NOME COMPLETO -->
+                    <Grid Grid.Row="0" RowDefinitions="auto, auto" RowSpacing="6">
+                        <Label Grid.Row="0"
+                               Text="NOME COMPLETO"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray500}"/>
+                        <Border Grid.Row="1"
+                                Stroke="{StaticResource Gray100}"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                BackgroundColor="{StaticResource White}"
+                                Padding="12,0">
+                            <Entry Text="{Binding UserName}"
+                                   Placeholder="Seu nome completo"
+                                   BackgroundColor="Transparent"
+                                   TextColor="{StaticResource input_text}"/>
+                        </Border>
+                    </Grid>
 
-                    <Entry x:Name="user_name" Text="{Binding FakeUser.Name}" Placeholder="Seu nome" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
+                    <!-- CPF -->
+                    <Grid Grid.Row="1" RowDefinitions="auto, auto" RowSpacing="6">
+                        <Label Grid.Row="0"
+                               Text="CPF"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray500}"/>
+                        <Border Grid.Row="1"
+                                Stroke="{StaticResource Gray100}"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                BackgroundColor="{StaticResource White}"
+                                Padding="12,0">
+                            <Entry Text="{Binding UserCpf}"
+                                   Placeholder="000.000.000-00"
+                                   BackgroundColor="Transparent"
+                                   TextColor="{StaticResource input_text}"/>
+                        </Border>
+                    </Grid>
 
+                    <!-- DATA DE NASCIMENTO -->
+                    <Grid Grid.Row="2" RowDefinitions="auto, auto" RowSpacing="6">
+                        <Label Grid.Row="0"
+                               Text="DATA DE NASCIMENTO"
+                               FontSize="13"
+                               TextColor="{StaticResource Gray500}"/>
+                        <Border Grid.Row="1"
+                                Stroke="{StaticResource Gray100}"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                BackgroundColor="{StaticResource White}"
+                                Padding="12,0">
+                            <DatePicker Date="{Binding BirthDate}"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource input_text}"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Botão Salvar -->
+                    <Button Grid.Row="3"
+                            Text="Salvar Alterações"
+                            Command="{Binding SaveCommand}"
+                            Background="{StaticResource gradient_button}"
+                            TextColor="White"
+                            CornerRadius="8"
+                            HeightRequest="48"
+                            FontAttributes="Bold"
+                            Margin="0,8,0,0"/>
                 </Grid>
-
-                <Grid Grid.Row="1">
-                    <Label TextColor="{StaticResource primary_text_color}" Text="TELEFONE" VerticalOptions="Center" HorizontalOptions="Start"/>
-
-                    <Entry x:Name="user_cellphone" Text="{Binding FakeUser.Cellphone}" Placeholder="(11)9999-9999" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource input_text}"/>
-
-                </Grid>
-
-                <Grid Grid.Row="2">
-                    <Label TextColor="{StaticResource primary_text_color}" Text="E-MAIL" VerticalOptions="Center" HorizontalOptions="Start"/>
-
-                    <Entry x:Name="user_email" IsReadOnly="true" Text="{Binding FakeUser.Email}" Placeholder="seu@email.com" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
-
-                </Grid>
-
-                <Grid Grid.Row="3">
-                    <Label TextColor="{StaticResource primary_text_color}" Text="DATA DE NASCIMENTO" VerticalOptions="Center" HorizontalOptions="Start"/>
-
-                    <Entry x:Name="user_born_date" IsReadOnly="true" Text="{Binding FakeUser.BornDate}" Placeholder="15/02/2005" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
-
-                </Grid>
-
-                <Grid Grid.Row="4">
-                    <Label TextColor="{StaticResource primary_text_color}" Text="CPF" VerticalOptions="Center" HorizontalOptions="Start"/>
-
-                    <Entry x:Name="user_cpf" IsReadOnly="true" Text="{Binding FakeUser.CPF}" Placeholder="123.456.789-00" BackgroundColor="{StaticResource input_color}" TextColor="{StaticResource Gray300}"/>
-                </Grid>
-
-                <Button Grid.Row="5" Text="Salvar Alterações" Command="{Binding DisplayMessageCommand}" Background="{StaticResource gradient_button}" TextColor="White"/>
-            </Grid>
         </Grid>
     </ScrollView>
 </ContentPage>

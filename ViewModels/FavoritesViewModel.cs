@@ -16,4 +16,10 @@ public partial class FavoritesViewModel : ObservableObject
       await Shell.Current.DisplayAlertAsync("Sucesso", "Evento excluído dos favoritos com sucesso!", "Sim");
     }
   }
+
+  [RelayCommand]
+  private async Task GoBack()
+  {
+      await Shell.Current.GoToAsync("..");
+  }
 }

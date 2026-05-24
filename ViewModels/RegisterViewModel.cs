@@ -1,11 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
 
 public partial class RegisterViewModel : ObservableObject
 {
+  private readonly IAuthService _authService;
   private const int TotalSteps = 3;
+
+  public RegisterViewModel(IAuthService authService)
+  {
+    _authService = authService;
+  }
 
   [ObservableProperty]
   public partial int CurrentStep { get; set; } = 1;
@@ -28,18 +35,28 @@ public partial class RegisterViewModel : ObservableObject
   [ObservableProperty]
   public partial DateTime DataNascimentoMax { get; set; } = DateTime.Today;
 
-
   [RelayCommand]
   private async Task NextAsync()
   {
     if (CurrentStep < TotalSteps)
     {
+      if (!ValidateStep(CurrentStep)) return;
       CurrentStep++;
       UpdateUI();
     }
     else
     {
-      await Shell.Current.DisplayAlertAsync("Sucesso", "Cadastro realizado!", "OK");
+      if (!ValidateAll()) return;
+
+      await _authService.RegisterUserAsync(
+        Form.Nome,
+        Form.Email,
+        Form.Senha,
+        Form.Cpf,
+        Form.DataNascimento.ToString("dd/MM/yyyy"));
+
+      await Shell.Current.GoToAsync(
+        $"EmailVerification?Email={Uri.EscapeDataString(Form.Email)}&Password={Uri.EscapeDataString(Form.Senha)}");
     }
   }
 
@@ -54,6 +71,52 @@ public partial class RegisterViewModel : ObservableObject
     }
 
     await Shell.Current.GoToAsync("..");
+  }
+
+  private bool ValidateStep(int step)
+  {
+    return step switch
+    {
+      1 => !string.IsNullOrWhiteSpace(Form.Nome),
+      2 => !string.IsNullOrWhiteSpace(Form.Cpf),
+      3 => ValidateStep3(),
+      _ => true
+    };
+  }
+
+  private bool ValidateStep3()
+  {
+    if (string.IsNullOrWhiteSpace(Form.Email))
+    {
+      Shell.Current.DisplayAlertAsync("Erro", "Informe seu e-mail.", "OK");
+      return false;
+    }
+    if (string.IsNullOrWhiteSpace(Form.Senha) || Form.Senha.Length < 6)
+    {
+      Shell.Current.DisplayAlertAsync("Erro", "A senha deve ter pelo menos 6 caracteres.", "OK");
+      return false;
+    }
+    if (Form.Senha != Form.ConfirmarSenha)
+    {
+      Shell.Current.DisplayAlertAsync("Erro", "As senhas não conferem.", "OK");
+      return false;
+    }
+    return true;
+  }
+
+  private bool ValidateAll()
+  {
+    if (string.IsNullOrWhiteSpace(Form.Nome))
+    {
+      Shell.Current.DisplayAlertAsync("Erro", "Preencha seu nome.", "OK");
+      return false;
+    }
+    if (string.IsNullOrWhiteSpace(Form.Cpf))
+    {
+      Shell.Current.DisplayAlertAsync("Erro", "Preencha seu CPF.", "OK");
+      return false;
+    }
+    return ValidateStep3();
   }
 
   private void UpdateUI()
