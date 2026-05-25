@@ -7,262 +7,341 @@
              x:Class="CoreventApp.Views.Profile"
              Title="Perfil"
              BackgroundColor="{StaticResource background_color}">
-    <Grid Padding="0">
-        <ScrollView>
-            <Grid RowDefinitions="auto,*">
-                <Label Text="Perfil"
-                       Grid.Row="0"
-                       Padding="20"
-                       FontSize="22"
-                       FontAttributes="Bold"
-                       TextColor="{StaticResource primary_text_color}"/>
 
-                <VerticalStackLayout Grid.Row="1"
-                        Padding="20"
-                        Spacing="40">
-                    <VerticalStackLayout>
-                        <Image
-                            Source="{Binding UserAvatar}"
-                            HeightRequest="70"
-                             Aspect="AspectFit"
-                             SemanticProperties.Description="Corevent Logo"/>
+  <ScrollView>
+    <VerticalStackLayout Padding="16,14,16,20"
+                         Spacing="20">
 
-                        <Label Text="{Binding UserName}"
-                               Padding="0,20,0,0"
-                               FontSize="18"
-                               FontAttributes="Bold"
-                               HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource primary_text_color}"/>
-                        <Label Text="{Binding UserEmail}"
-                               Padding="0,4,0,0"
-                               FontSize="12"
-                               HorizontalTextAlignment="Center"
-                               TextColor="{StaticResource primary_text_color}"/>
-                    </VerticalStackLayout>
+      <!-- Header: Title + Avatar -->
+      <VerticalStackLayout
+        VerticalOptions="Center">
+        <Label Text="Perfil"
+               FontSize="20"
+               FontAttributes="Bold"
+               TextColor="{StaticResource primary_text_color}"
+               VerticalOptions="Center"/>
+      </VerticalStackLayout>
 
-                    <VerticalStackLayout Spacing="10">
-                        <Border Padding="15"
-                                BackgroundColor="{StaticResource White}">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
-                            </Border.StrokeShape>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding EditProfileCommand}"/>
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="20, *, 10">
-                                <mi:MauiIcon Grid.Column="0"
-                                        Icon="{mi:Cupertino Person}"
-                                        IconSize="20"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                                <Label Text="Dados Pessoais"
-                                        Padding="20,0,0,0"
-                                        Grid.Column="1"
-                                        VerticalOptions="Center"
-                                        FontSize="16"
-                                        TextColor="{StaticResource profile_menu_text}"/>
-                                <mi:MauiIcon
-                                        Icon="{mi:Cupertino ChevronRight}"
-                                        IconSize="16"
-                                        Grid.Column="2"
-                                        VerticalOptions="Center"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                            </Grid>
-                        </Border>
+      <!-- Profile Card -->
+      <Border Stroke="{StaticResource Gray100}"
+              StrokeThickness="1"
+              StrokeShape="RoundRectangle 20"
+              BackgroundColor="{StaticResource White}"
+              Padding="20">
+        <VerticalStackLayout Spacing="8"
+                             HorizontalOptions="Center">
+          <Border WidthRequest="80"
+                  HeightRequest="80"
+                  StrokeThickness="0"
+                  StrokeShape="RoundRectangle 40"
+                  BackgroundColor="{StaticResource card_icon_bg}"
+                  HorizontalOptions="Center">
+            <Image Source="{Binding UserAvatar}"
+                   Aspect="AspectFill"
+                   WidthRequest="80"
+                   HeightRequest="80"/>
+          </Border>
+          <Label Text="{Binding UserName}"
+                 FontSize="18"
+                 FontAttributes="Bold"
+                 HorizontalTextAlignment="Center"
+                 TextColor="{StaticResource primary_text_color}"/>
+          <Label Text="{Binding UserEmail}"
+                 FontSize="13"
+                 HorizontalTextAlignment="Center"
+                 TextColor="{StaticResource secondary_text_color}"/>
+        </VerticalStackLayout>
+      </Border>
 
-                        <Border Padding="15"
-                                BackgroundColor="{StaticResource White}">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
-                            </Border.StrokeShape>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding PurchaseHistoryCommand}"/>
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="20, *, 10">
-                                <mi:MauiIcon Grid.Column="0"
-                                        Icon="{mi:Cupertino TagCircleFill}"
-                                        IconSize="20"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                                <Label Text="Histórico de Compra"
-                                        Padding="20,0,0,0"
-                                        Grid.Column="1"
-                                        VerticalOptions="Center"
-                                        FontSize="16"
-                                        TextColor="{StaticResource profile_menu_text}"/>
-                                <mi:MauiIcon
-                                        Icon="{mi:Cupertino ChevronRight}"
-                                        IconSize="16"
-                                        Grid.Column="2"
-                                        VerticalOptions="Center"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                            </Grid>
-                        </Border>
+      <!-- Menu Items -->
+      <VerticalStackLayout Spacing="12">
 
-                        <Border Padding="15"
-                                BackgroundColor="{StaticResource White}">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
-                            </Border.StrokeShape>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding FavoritesCommand}"/>
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="20, *, 10">
-                                <mi:MauiIcon Grid.Column="0"
-                                        Icon="{mi:Cupertino Heart}"
-                                        IconSize="20"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                                <Label Text="Meus Favoritos"
-                                        Padding="20,0,0,0"
-                                        Grid.Column="1"
-                                        VerticalOptions="Center"
-                                        FontSize="16"
-                                        TextColor="{StaticResource profile_menu_text}"/>
-                                <mi:MauiIcon
-                                        Icon="{mi:Cupertino ChevronRight}"
-                                        IconSize="16"
-                                        Grid.Column="2"
-                                        VerticalOptions="Center"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                            </Grid>
-                        </Border>
+        <Border Padding="14"
+                Stroke="{StaticResource Gray100}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 20"
+                BackgroundColor="{StaticResource White}">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding EditProfileCommand}"/>
+          </Border.GestureRecognizers>
+          <Grid ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="14">
+            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 10"
+                    WidthRequest="36"
+                    HeightRequest="36"
+                    VerticalOptions="Center">
+              <mi:MauiIcon Icon="{mi:Cupertino Person}"
+                           IconSize="18"
+                           IconColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+            </Border>
+            <Label Text="Dados Pessoais"
+                   Grid.Column="1"
+                   VerticalOptions="Center"
+                   FontSize="16"
+                   TextColor="{StaticResource profile_menu_text}"/>
+            <mi:MauiIcon Grid.Column="2"
+                         Icon="{mi:Cupertino ChevronRight}"
+                         IconSize="16"
+                         VerticalOptions="Center"
+                         IconColor="{StaticResource chevron_color}"/>
+          </Grid>
+        </Border>
 
-                        <Border Padding="15"
-                                BackgroundColor="{StaticResource White}">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
-                            </Border.StrokeShape>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ReviewsCommand}"/>
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="20, *, 10">
-                                <mi:MauiIcon Grid.Column="0"
-                                        Icon="{mi:Cupertino Star}"
-                                        IconSize="20"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                                <Label Text="Avaliações"
-                                        Padding="20,0,0,0"
-                                        Grid.Column="1"
-                                        VerticalOptions="Center"
-                                        FontSize="16"
-                                        TextColor="{StaticResource profile_menu_text}"/>
-                                <mi:MauiIcon
-                                        Icon="{mi:Cupertino ChevronRight}"
-                                        IconSize="16"
-                                        Grid.Column="2"
-                                        VerticalOptions="Center"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                            </Grid>
-                        </Border>
+        <Border Padding="14"
+                Stroke="{StaticResource Gray100}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 20"
+                BackgroundColor="{StaticResource White}">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding PurchaseHistoryCommand}"/>
+          </Border.GestureRecognizers>
+          <Grid ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="14">
+            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 10"
+                    WidthRequest="36"
+                    HeightRequest="36"
+                    VerticalOptions="Center">
+              <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
+                           IconSize="18"
+                           IconColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+            </Border>
+            <Label Text="Histórico de Compra"
+                   Grid.Column="1"
+                   VerticalOptions="Center"
+                   FontSize="16"
+                   TextColor="{StaticResource profile_menu_text}"/>
+            <mi:MauiIcon Grid.Column="2"
+                         Icon="{mi:Cupertino ChevronRight}"
+                         IconSize="16"
+                         VerticalOptions="Center"
+                         IconColor="{StaticResource chevron_color}"/>
+          </Grid>
+        </Border>
 
-                        <Border Padding="15"
-                                BackgroundColor="{StaticResource White}">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10"/>
-                            </Border.StrokeShape>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SettingsCommand}"/>
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="20, *, 10">
-                                <mi:MauiIcon Grid.Column="0"
-                                        Icon="{mi:Cupertino Gear}"
-                                        IconSize="20"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                                <Label Text="Configurações"
-                                        Padding="20,0,0,0"
-                                        Grid.Column="1"
-                                        VerticalOptions="Center"
-                                        FontSize="16"
-                                        TextColor="{StaticResource profile_menu_text}"/>
-                                <mi:MauiIcon
-                                        Icon="{mi:Cupertino ChevronRight}"
-                                        IconSize="16"
-                                        Grid.Column="2"
-                                        VerticalOptions="Center"
-                                        IconColor="{StaticResource secondary_text_color}"/>
-                            </Grid>
-                        </Border>
-                    </VerticalStackLayout>
+        <Border Padding="14"
+                Stroke="{StaticResource Gray100}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 20"
+                BackgroundColor="{StaticResource White}">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding FavoritesCommand}"/>
+          </Border.GestureRecognizers>
+          <Grid ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="14">
+            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 10"
+                    WidthRequest="36"
+                    HeightRequest="36"
+                    VerticalOptions="Center">
+              <mi:MauiIcon Icon="{mi:Cupertino Heart}"
+                           IconSize="18"
+                           IconColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+            </Border>
+            <Label Text="Meus Favoritos"
+                   Grid.Column="1"
+                   VerticalOptions="Center"
+                   FontSize="16"
+                   TextColor="{StaticResource profile_menu_text}"/>
+            <mi:MauiIcon Grid.Column="2"
+                         Icon="{mi:Cupertino ChevronRight}"
+                         IconSize="16"
+                         VerticalOptions="Center"
+                         IconColor="{StaticResource chevron_color}"/>
+          </Grid>
+        </Border>
 
-                    <VerticalStackLayout>
-                        <Label Text="ORGANIZADOR"
-                                Padding="0,0,0,4"
-                                TextColor="{StaticResource secondary_text_color}"/>
-                        <VerticalStackLayout>
-                            <Border Padding="15"
-                                    BackgroundColor="{StaticResource White}">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="10"/>
-                                </Border.StrokeShape>
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding PanelOrganizerCommand}"/>
-                                </Border.GestureRecognizers>
-                                <Grid ColumnDefinitions="20, *, 10">
-                                    <mi:MauiIcon Grid.Column="0"
-                                            Icon="{mi:Cupertino RectangleGrid2x2}"
-                                            IconSize="20"
-                                            IconColor="{StaticResource secondary_text_color}"/>
+        <Border Padding="14"
+                Stroke="{StaticResource Gray100}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 20"
+                BackgroundColor="{StaticResource White}">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding ReviewsCommand}"/>
+          </Border.GestureRecognizers>
+          <Grid ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="14">
+            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 10"
+                    WidthRequest="36"
+                    HeightRequest="36"
+                    VerticalOptions="Center">
+              <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                           IconSize="18"
+                           IconColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+            </Border>
+            <Label Text="Avaliações"
+                   Grid.Column="1"
+                   VerticalOptions="Center"
+                   FontSize="16"
+                   TextColor="{StaticResource profile_menu_text}"/>
+            <mi:MauiIcon Grid.Column="2"
+                         Icon="{mi:Cupertino ChevronRight}"
+                         IconSize="16"
+                         VerticalOptions="Center"
+                         IconColor="{StaticResource chevron_color}"/>
+          </Grid>
+        </Border>
 
-                                    <Label Grid.Column="1"
-                                           Text="Painel do Organizador"
-                                           Padding="20,0,0,0"
-                                           VerticalOptions="Center"
-                                           FontSize="16"
-                                           TextColor="{StaticResource profile_menu_text}"/>
+        <Border Padding="14"
+                Stroke="{StaticResource Gray100}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 20"
+                BackgroundColor="{StaticResource White}">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding SettingsCommand}"/>
+          </Border.GestureRecognizers>
+          <Grid ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="14">
+            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 10"
+                    WidthRequest="36"
+                    HeightRequest="36"
+                    VerticalOptions="Center">
+              <mi:MauiIcon Icon="{mi:Cupertino Gear}"
+                           IconSize="18"
+                           IconColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+            </Border>
+            <Label Text="Configurações"
+                   Grid.Column="1"
+                   VerticalOptions="Center"
+                   FontSize="16"
+                   TextColor="{StaticResource profile_menu_text}"/>
+            <mi:MauiIcon Grid.Column="2"
+                         Icon="{mi:Cupertino ChevronRight}"
+                         IconSize="16"
+                         VerticalOptions="Center"
+                         IconColor="{StaticResource chevron_color}"/>
+          </Grid>
+        </Border>
+      </VerticalStackLayout>
 
-                                    <mi:MauiIcon
-                                            Icon="{mi:Cupertino ChevronRight}"
-                                            IconSize="16"
-                                            Grid.Column="2"
-                                            VerticalOptions="Center"
-                                            IconColor="{StaticResource secondary_text_color}"/>
-                                </Grid>
-                            </Border>
-                        </VerticalStackLayout>
-                    </VerticalStackLayout>
+      <!-- Organizador Section -->
+      <VerticalStackLayout Spacing="12">
+        <Label Text="ORGANIZADOR"
+               FontSize="12"
+               FontAttributes="Bold"
+               TextColor="{StaticResource secondary_text_color}"
+               Margin="4,0,0,0"/>
+        <Border Padding="14"
+                Stroke="{StaticResource Gray100}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 20"
+                BackgroundColor="{StaticResource White}">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding PanelOrganizerCommand}"/>
+          </Border.GestureRecognizers>
+          <Grid ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="14">
+            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 10"
+                    WidthRequest="36"
+                    HeightRequest="36"
+                    VerticalOptions="Center">
+              <mi:MauiIcon Icon="{mi:Cupertino RectangleGrid2x2}"
+                           IconSize="18"
+                           IconColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+            </Border>
+            <Label Text="Painel do Organizador"
+                   Grid.Column="1"
+                   VerticalOptions="Center"
+                   FontSize="16"
+                   TextColor="{StaticResource profile_menu_text}"/>
+            <mi:MauiIcon Grid.Column="2"
+                         Icon="{mi:Cupertino ChevronRight}"
+                         IconSize="16"
+                         VerticalOptions="Center"
+                         IconColor="{StaticResource chevron_color}"/>
+          </Grid>
+        </Border>
+      </VerticalStackLayout>
 
-                    <VerticalStackLayout>
-                        <Label Text="COLABORADOR"
-                                Padding="0,0,0,4"
-                                TextColor="{StaticResource secondary_text_color}"/>
-                        <VerticalStackLayout>
-                            <Border Padding="15"
-                                    BackgroundColor="{StaticResource White}">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="10"/>
-                                </Border.StrokeShape>
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding PanelCollaboratorCommand}"/>
-                                </Border.GestureRecognizers>
-                                <Grid ColumnDefinitions="20, *, 10">
-                                    <mi:MauiIcon Grid.Column="0"
-                                            Icon="{mi:Cupertino Shield}"
-                                            IconSize="20"
-                                            IconColor="{StaticResource secondary_text_color}"/>
+      <!-- Colaborador Section -->
+      <VerticalStackLayout Spacing="12">
+        <Label Text="COLABORADOR"
+               FontSize="12"
+               FontAttributes="Bold"
+               TextColor="{StaticResource secondary_text_color}"
+               Margin="4,0,0,0"/>
+        <Border Padding="14"
+                Stroke="{StaticResource Gray100}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 20"
+                BackgroundColor="{StaticResource White}">
+          <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding PanelCollaboratorCommand}"/>
+          </Border.GestureRecognizers>
+          <Grid ColumnDefinitions="Auto, *, Auto"
+                ColumnSpacing="14">
+            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 10"
+                    WidthRequest="36"
+                    HeightRequest="36"
+                    VerticalOptions="Center">
+              <mi:MauiIcon Icon="{mi:Cupertino Shield}"
+                           IconSize="18"
+                           IconColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+            </Border>
+            <Label Text="Painel do Colaborador"
+                   Grid.Column="1"
+                   VerticalOptions="Center"
+                   FontSize="16"
+                   TextColor="{StaticResource profile_menu_text}"/>
+            <mi:MauiIcon Grid.Column="2"
+                         Icon="{mi:Cupertino ChevronRight}"
+                         IconSize="16"
+                         VerticalOptions="Center"
+                         IconColor="{StaticResource chevron_color}"/>
+          </Grid>
+        </Border>
+      </VerticalStackLayout>
 
-                                    <Label Grid.Column="1"
-                                           Text="Painel do Colaborador"
-                                           Padding="20,0,0,0"
-                                           VerticalOptions="Center"
-                                           FontSize="16"
-                                           TextColor="{StaticResource profile_menu_text}"/>
+      <!-- Logout -->
+      <Border Padding="14"
+              Stroke="{StaticResource Gray100}"
+              StrokeThickness="1"
+              StrokeShape="RoundRectangle 20"
+              BackgroundColor="{StaticResource White}">
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding LogoutCommand}"/>
+        </Border.GestureRecognizers>
+        <HorizontalStackLayout Spacing="10"
+                               HorizontalOptions="Center">
+          <mi:MauiIcon Icon="{mi:Cupertino SquareArrowDown}"
+                       Rotation="-90"
+                       IconSize="18"
+                       IconColor="{StaticResource primary_orange_color}"
+                       VerticalOptions="Center"/>
+          <Label Text="Sair da Conta"
+                 VerticalOptions="Center"
+                 FontSize="16"
+                 FontAttributes="Bold"
+                 TextColor="{StaticResource primary_orange_color}"/>
+        </HorizontalStackLayout>
+      </Border>
 
-                                    <mi:MauiIcon
-                                            Icon="{mi:Cupertino ChevronRight}"
-                                            IconSize="16"
-                                            Grid.Column="2"
-                                            VerticalOptions="Center"
-                                            IconColor="{StaticResource secondary_text_color}"/>
-                                </Grid>
-                            </Border>
-                        </VerticalStackLayout>
-                    </VerticalStackLayout>
-
-                    <Button Text="Sair da Conta"
-                            TextColor="{StaticResource primary_orange_color}"
-                            FontAttributes="Bold"
-                            BackgroundColor="{StaticResource Gray100}"
-                            Command="{Binding LogoutCommand}"/>
-                </VerticalStackLayout>
-            </Grid>
-        </ScrollView>
-    </Grid>
+    </VerticalStackLayout>
+  </ScrollView>
 </ContentPage>

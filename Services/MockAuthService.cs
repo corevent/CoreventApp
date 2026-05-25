@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CoreventApp.Models;
@@ -116,7 +117,7 @@ public class MockAuthService : IAuthService
         _pendingEmail = email;
         _pendingCode = Random.Shared.Next(100000, 999999).ToString();
 
-        System.Diagnostics.Debug.WriteLine($"[MockAuthService] Verification code for {email}: {_pendingCode}");
+        Debug.WriteLine($"[MockAuthService] Verification code for {email}: {_pendingCode}");
 
         return Task.CompletedTask;
     }
@@ -193,18 +194,13 @@ public class MockAuthService : IAuthService
     public async Task<bool> ResetPasswordAsync(string email, string newPassword)
     {
         var registered = await GetRegisteredUsersAsync();
+
         if (!registered.ContainsKey(email))
             return false;
 
         registered[email] = newPassword;
         var json = JsonSerializer.Serialize(registered);
         await SecureStorage.Default.SetAsync(RegisteredUsersKey, json);
-
-        // Also update mock default user password if applicable
-        if (email == "teste@email.com")
-        {
-            _mockPassword = newPassword;
-        }
 
         return true;
     }
