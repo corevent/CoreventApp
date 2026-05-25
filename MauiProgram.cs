@@ -17,9 +17,7 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-				fonts.AddFont("PlusJakartaSans-Regular.ttf", "PlusJakartaSansRegular");
-				fonts.AddFont("PlusJakartaSans-SemiBold.ttf", "PlusJakartaSansSemiBold");
-				fonts.AddFont("PlusJakartaSans-Bold.ttf", "PlusJakartaSansBold");
+				fonts.AddFont("PlusJakartaSans-VariableFont_wght.ttf", "Plus Jakarta Sans");
 			})
 			.UseCupertinoMauiIcons();
 
