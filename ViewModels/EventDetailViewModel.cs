@@ -1,11 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Services;
+using System.Collections.ObjectModel;
 
 namespace CoreventApp.ViewModels;
 
 [QueryProperty(nameof(EventData), "EventData")]
 public partial class EventDetailViewModel : ObservableObject
 {
+    private readonly AttractionStore _store;
     private EventSummary? _event;
 
     [ObservableProperty]
@@ -44,6 +47,19 @@ public partial class EventDetailViewModel : ObservableObject
     [ObservableProperty]
     public partial string OnlineUrl { get; set; } = string.Empty;
 
+    [ObservableProperty]
+    public partial bool HasAttractions { get; set; }
+
+    [ObservableProperty]
+    public partial bool NoAttractions { get; set; } = true;
+
+    public ObservableCollection<Attraction> Attractions { get; } = new();
+
+    public EventDetailViewModel(AttractionStore store)
+    {
+        _store = store;
+    }
+
     public EventSummary? EventData
     {
         set
@@ -63,8 +79,20 @@ public partial class EventDetailViewModel : ObservableObject
                 Type = value.Type;
                 OnlineUrl = value.OnlineUrl;
                 IsFavorite = value.IsFavorite;
+
+                LoadAttractions();
             }
         }
+    }
+
+    private void LoadAttractions()
+    {
+        var stored = _store.GetAttractions(EventName);
+        Attractions.Clear();
+        foreach (var a in stored)
+            Attractions.Add(a);
+        HasAttractions = Attractions.Count > 0;
+        NoAttractions = !HasAttractions;
     }
 
     [RelayCommand]

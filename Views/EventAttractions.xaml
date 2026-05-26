@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CoreventApp.ViewModels"
+             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             x:Class="CoreventApp.Views.EventAttractions"
+             x:DataType="vm:EventAttractionsViewModel"
+             x:Name="ThisPage"
+             Title="Programação"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource background_color}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16,14,16,20"
+                             Spacing="18">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="Auto, *"
+                  VerticalOptions="Center">
+                <Border WidthRequest="40"
+                        HeightRequest="40"
+                        Stroke="{StaticResource Gray200}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="{StaticResource White}">
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                                 IconSize="18"
+                                 IconColor="{StaticResource primary_text_color}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <VerticalStackLayout Grid.Column="1"
+                                     Margin="12,0,0,0"
+                                     VerticalOptions="Center"
+                                     Spacing="2">
+                    <Label Text="Programação"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource primary_text_color}"/>
+                    <Label Text="{Binding EventName}"
+                           FontSize="12"
+                           TextColor="{StaticResource secondary_text_color}"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Add Attraction Card -->
+            <Border Stroke="{StaticResource Gray100}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 18"
+                    BackgroundColor="{StaticResource White}"
+                    Padding="16">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Adicionar Atração"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource primary_text_color}"/>
+
+                    <Entry Text="{Binding NewTitle}"
+                           Placeholder="Título da atração"
+                           TextColor="{StaticResource input_text}"
+                           BackgroundColor="{StaticResource input_color}"/>
+
+                    <Entry Text="{Binding NewGuest}"
+                           Placeholder="Nome do palestrante"
+                           TextColor="{StaticResource input_text}"
+                           BackgroundColor="{StaticResource input_color}"/>
+
+                    <Label Text="Horário de início"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource primary_text_color}"/>
+
+                    <Border Stroke="{StaticResource Gray100}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 10"
+                            BackgroundColor="{StaticResource input_color}"
+                            Padding="12, 4">
+                        <TimePicker Time="{Binding NewStartTime}"
+                                    TextColor="{StaticResource input_text}"
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center"
+                                    FontSize="15"/>
+                    </Border>
+
+                    <Label Text="Horário de término"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource primary_text_color}"/>
+
+                    <Border Stroke="{StaticResource Gray100}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 10"
+                            BackgroundColor="{StaticResource input_color}"
+                            Padding="12, 4">
+                        <TimePicker Time="{Binding NewEndTime}"
+                                    TextColor="{StaticResource input_text}"
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center"
+                                    FontSize="15"/>
+                    </Border>
+
+                    <Button Text="Adicionar"
+                            TextColor="{StaticResource White}"
+                            FontAttributes="Bold"
+                            HeightRequest="46"
+                            Background="{StaticResource gradient_button}"
+                            Command="{Binding AddAttractionCommand}"
+                            CornerRadius="12"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Attractions List -->
+            <VerticalStackLayout Spacing="10"
+                                 IsVisible="{Binding Attractions.Count}">
+                <Label FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource primary_text_color}">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Atrações"/>
+                            <Span Text="  "/>
+                            <Span Text="{Binding Attractions.Count}"
+                                  FontAttributes="None"
+                                  TextColor="{StaticResource secondary_text_color}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Attractions}"
+                                     Spacing="10">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="vm:Attraction">
+                            <Border Stroke="{StaticResource Gray100}"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 14"
+                                    BackgroundColor="{StaticResource White}"
+                                    Padding="12">
+                                <Grid ColumnDefinitions="Auto, *, Auto"
+                                      ColumnSpacing="12">
+                                    <Border WidthRequest="40"
+                                            HeightRequest="40"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 10"
+                                            BackgroundColor="{StaticResource card_icon_bg}">
+                                        <mi:MauiIcon Icon="{mi:Cupertino MusicNote}"
+                                                     IconSize="18"
+                                                     IconColor="{StaticResource secondary_text_color}"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center"/>
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1"
+                                                         VerticalOptions="Center"
+                                                         Spacing="2">
+                                        <Label Text="{Binding Title}"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource primary_text_color}"/>
+                                        <Label Text="{Binding Guest}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"/>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="2"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="End"
+                                                         Spacing="6">
+                                        <Border Padding="8,4"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 8"
+                                                BackgroundColor="#DBEAFE"
+                                                HorizontalOptions="End">
+                                            <Label Text="{Binding FormattedTimeRange}"
+                                                   FontSize="11"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#2563EB"/>
+                                        </Border>
+                                        <Border WidthRequest="32"
+                                                HeightRequest="32"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 16"
+                                                BackgroundColor="{StaticResource delete_bg}"
+                                                HorizontalOptions="End">
+                                            <mi:MauiIcon Icon="{mi:Cupertino Trash}"
+                                                         IconSize="14"
+                                                         IconColor="{StaticResource secondary_text_color}"
+                                                         HorizontalOptions="Center"
+                                                         VerticalOptions="Center"/>
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.RemoveAttractionCommand}"
+                                                                      CommandParameter="{Binding}"/>
+                                            </Border.GestureRecognizers>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

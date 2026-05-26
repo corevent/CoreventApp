@@ -14,13 +14,13 @@ public partial class CheckInPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        cameraReader.BarcodesDetected += OnBarcodesDetected;
+        CameraReader.BarcodesDetected += OnBarcodesDetected;
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        cameraReader.BarcodesDetected -= OnBarcodesDetected;
+        CameraReader.BarcodesDetected -= OnBarcodesDetected;
     }
 
     private async void OnBarcodesDetected(object? sender, BarcodeDetectionEventArgs e)

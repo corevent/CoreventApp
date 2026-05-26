@@ -111,12 +111,6 @@ public partial class ManageEventViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task ManageTicketsAsync()
-    {
-        await Task.CompletedTask;
-    }
-
-    [RelayCommand]
     private async Task CheckInAsync()
     {
         if (_currentEvent is null) return;
@@ -143,5 +137,20 @@ public partial class ManageEventViewModel : ObservableObject
         {
             ["EventName"] = EventName
         });
+    }
+
+    [RelayCommand]
+    private async Task AttractionsAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(Views.EventAttractions), new Dictionary<string, object>
+        {
+            ["EventName"] = EventName
+        });
+    }
+
+    [RelayCommand]
+    private async Task ManageTicketsAsync()
+    {
+        await Task.CompletedTask;
     }
 }

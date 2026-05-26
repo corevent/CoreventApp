@@ -25,6 +25,7 @@ public static class MauiProgram
 		
 		// Services
 		builder.Services.AddSingleton<IAuthService, MockAuthService>();
+		builder.Services.AddSingleton<AttractionStore>();
 		
 		// ViewModels
 		builder.Services.AddTransient<ViewModels.WelcomeViewModel>();
@@ -54,6 +55,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<ViewModels.ParticipantListViewModel>();
 		builder.Services.AddTransient<ViewModels.EventTeamViewModel>();
 		builder.Services.AddTransient<ViewModels.CheckInViewModel>();
+		builder.Services.AddTransient<ViewModels.EventAttractionsViewModel>();
 		builder.Services.AddTransient<ViewModels.SettingsViewModel>();
 		builder.Services.AddTransient<ViewModels.CollaboratorEventDetailViewModel>();
 		builder.Services.AddTransient<ViewModels.EventDetailViewModel>();
@@ -65,6 +67,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<Views.ParticipantList>();
 		builder.Services.AddTransient<Views.EventTeam>();
 		builder.Services.AddTransient<Views.CheckInPage>();
+		builder.Services.AddTransient<Views.EventAttractions>();
 		builder.Services.AddTransient<Views.Welcome>();
 		builder.Services.AddTransient<Views.Login>();
 		builder.Services.AddTransient<Views.Register>();
