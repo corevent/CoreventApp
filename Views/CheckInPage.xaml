@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              x:Class="CoreventApp.Views.CheckInPage"
@@ -65,7 +65,7 @@
                 <Grid>
                     <!-- Camera feed -->
                     <zxing:CameraBarcodeReaderView
-                        x:Name="cameraReader"
+                        x:Name="CameraReader"
                         IsDetecting="{Binding IsScanning}"
                         VerticalOptions="Fill"
                         HorizontalOptions="Fill"

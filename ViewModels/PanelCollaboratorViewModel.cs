@@ -8,23 +8,23 @@ namespace CoreventApp.ViewModels;
 public partial class PanelCollaboratorViewModel : ObservableObject
 {
     [ObservableProperty]
-    private bool _isAgendaVisible = true;
+    public partial bool IsAgendaVisible { get; set; } = true;
 
     [ObservableProperty]
-    private bool _isHistoricoVisible = false;
+    public partial bool IsHistoricoVisible { get; set; } = false;
 
     public ObservableCollection<CollaboratorEvent> EventsToday { get; } = new();
     public ObservableCollection<CollaboratorEvent> UpcomingEvents { get; } = new();
     public ObservableCollection<CollaboratorEvent> PastEvents { get; } = new();
 
     [ObservableProperty]
-    private bool _hasEventsToday;
+    public partial bool HasEventsToday { get; set; }
 
     [ObservableProperty]
-    private bool _hasUpcomingEvents;
+    public partial bool HasUpcomingEvents { get; set; }
 
     [ObservableProperty]
-    private bool _hasPastEvents;
+    public partial bool HasPastEvents { get; set; }
 
     public PanelCollaboratorViewModel()
     {
