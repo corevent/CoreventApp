@@ -59,10 +59,10 @@
                         </Border>
                     </Grid>
 
-                    <!-- CPF -->
+                    <!-- TELEFONE -->
                     <Grid Grid.Row="1" RowDefinitions="auto, auto" RowSpacing="6">
                         <Label Grid.Row="0"
-                               Text="CPF"
+                               Text="TELEFONE"
                                FontSize="13"
                                TextColor="{StaticResource Gray500}"/>
                         <Border Grid.Row="1"
@@ -71,33 +71,16 @@
                                 StrokeShape="RoundRectangle 8"
                                 BackgroundColor="{StaticResource White}"
                                 Padding="12,0">
-                            <Entry Text="{Binding UserCpf}"
-                                   Placeholder="000.000.000-00"
+                            <Entry Text="{Binding UserPhone}"
+                                   Placeholder="(11) 91234-5678"
+                                   Keyboard="Telephone"
                                    BackgroundColor="Transparent"
                                    TextColor="{StaticResource input_text}"/>
                         </Border>
                     </Grid>
 
-                    <!-- DATA DE NASCIMENTO -->
-                    <Grid Grid.Row="2" RowDefinitions="auto, auto" RowSpacing="6">
-                        <Label Grid.Row="0"
-                               Text="DATA DE NASCIMENTO"
-                               FontSize="13"
-                               TextColor="{StaticResource Gray500}"/>
-                        <Border Grid.Row="1"
-                                Stroke="{StaticResource Gray100}"
-                                StrokeThickness="1"
-                                StrokeShape="RoundRectangle 8"
-                                BackgroundColor="{StaticResource White}"
-                                Padding="12,0">
-                            <DatePicker Date="{Binding BirthDate}"
-                                        BackgroundColor="Transparent"
-                                        TextColor="{StaticResource input_text}"/>
-                        </Border>
-                    </Grid>
-
                     <!-- Botão Salvar -->
-                    <Button Grid.Row="3"
+                    <Button Grid.Row="2"
                             Text="Salvar Alterações"
                             Command="{Binding SaveCommand}"
                             Background="{StaticResource gradient_button}"

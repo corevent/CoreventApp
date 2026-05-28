@@ -4,8 +4,11 @@ using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
 
+[QueryProperty(nameof(Name), "Name")]
 [QueryProperty(nameof(Email), "Email")]
 [QueryProperty(nameof(Password), "Password")]
+[QueryProperty(nameof(Cpf), "Cpf")]
+[QueryProperty(nameof(BirthDate), "BirthDate")]
 [QueryProperty(nameof(Mode), "Mode")]
 public partial class EmailVerificationViewModel : ObservableObject
 {
@@ -19,10 +22,19 @@ public partial class EmailVerificationViewModel : ObservableObject
     }
 
     [ObservableProperty]
+    public partial string Name { get; set; } = string.Empty;
+
+    [ObservableProperty]
     public partial string Email { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string Password { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Cpf { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string BirthDate { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string Mode { get; set; } = "register";
@@ -60,6 +72,8 @@ public partial class EmailVerificationViewModel : ObservableObject
     [RelayCommand]
     private async Task VerifyAsync()
     {
+        if (IsLoading) return;
+
         if (string.IsNullOrWhiteSpace(Code) || Code.Length != 6 || !Code.All(char.IsDigit))
         {
             IsError = true;
@@ -71,44 +85,28 @@ public partial class EmailVerificationViewModel : ObservableObject
         IsError = false;
         ErrorMessage = string.Empty;
 
-        bool isValid;
-
         if (Mode == "reset")
         {
-            isValid = await _authService.VerifyResetCodeAsync(Email, Code);
+            await Shell.Current.GoToAsync(
+                $"ResetPassword?Email={Uri.EscapeDataString(Email)}&Code={Uri.EscapeDataString(Code)}");
         }
         else
         {
-            isValid = await _authService.VerifyCodeAsync(Email, Code);
-        }
+            var user = await _authService.CreateUserAsync(
+                Name, Email, Password, Cpf, BirthDate, Code);
 
-        IsLoading = false;
-
-        if (isValid)
-        {
-            if (Mode == "reset")
+            if (user != null)
             {
-                await Shell.Current.GoToAsync(
-                    $"ResetPassword?Email={Uri.EscapeDataString(Email)}");
+                await Shell.Current.GoToAsync("//main/home");
             }
             else
             {
-                var user = await _authService.LoginAsync(Email, Password);
-                if (user != null)
-                {
-                    await Shell.Current.GoToAsync("//main/home");
-                }
-                else
-                {
-                    await Shell.Current.GoToAsync("//welcome");
-                }
+                IsError = true;
+                ErrorMessage = "Erro ao criar conta. Verifique o código e tente novamente.";
             }
         }
-        else
-        {
-            IsError = true;
-            ErrorMessage = "Código inválido. Verifique o código recebido e tente novamente.";
-        }
+
+        IsLoading = false;
     }
 
     [RelayCommand]

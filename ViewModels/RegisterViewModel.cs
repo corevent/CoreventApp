@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Helpers;
 using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
@@ -13,6 +14,9 @@ public partial class RegisterViewModel : ObservableObject
   {
     _authService = authService;
   }
+
+  [ObservableProperty]
+  public partial bool IsBusy { get; set; }
 
   [ObservableProperty]
   public partial int CurrentStep { get; set; } = 1;
@@ -38,6 +42,8 @@ public partial class RegisterViewModel : ObservableObject
   [RelayCommand]
   private async Task NextAsync()
   {
+    if (IsBusy) return;
+
     if (CurrentStep < TotalSteps)
     {
       if (!ValidateStep(CurrentStep)) return;
@@ -48,15 +54,18 @@ public partial class RegisterViewModel : ObservableObject
     {
       if (!ValidateAll()) return;
 
-      await _authService.RegisterUserAsync(
-        Form.Nome,
-        Form.Email,
-        Form.Senha,
-        Form.Cpf,
-        Form.DataNascimento.ToString("dd/MM/yyyy"));
+      IsBusy = true;
+
+      await _authService.SendVerificationEmailAsync(Form.Email);
+
+      IsBusy = false;
 
       await Shell.Current.GoToAsync(
-        $"EmailVerification?Email={Uri.EscapeDataString(Form.Email)}&Password={Uri.EscapeDataString(Form.Senha)}");
+        $"EmailVerification?Name={Uri.EscapeDataString(Form.Nome)}" +
+        $"&Email={Uri.EscapeDataString(Form.Email)}" +
+        $"&Password={Uri.EscapeDataString(Form.Senha)}" +
+        $"&Cpf={Uri.EscapeDataString(Form.Cpf)}" +
+        $"&BirthDate={Uri.EscapeDataString(Form.DataNascimento.ToString("yyyy-MM-dd"))}");
     }
   }
 
@@ -78,10 +87,20 @@ public partial class RegisterViewModel : ObservableObject
     return step switch
     {
       1 => !string.IsNullOrWhiteSpace(Form.Nome),
-      2 => !string.IsNullOrWhiteSpace(Form.Cpf),
+       2 => ValidateCpf(),
       3 => ValidateStep3(),
       _ => true
     };
+  }
+
+  private bool ValidateCpf()
+  {
+    if (!ValidationHelper.IsValidCpf(Form.Cpf))
+    {
+      Shell.Current.DisplayAlertAsync("Erro", "CPF inválido. Informe um CPF com 11 dígitos.", "OK");
+      return false;
+    }
+    return true;
   }
 
   private bool ValidateStep3()
@@ -111,11 +130,8 @@ public partial class RegisterViewModel : ObservableObject
       Shell.Current.DisplayAlertAsync("Erro", "Preencha seu nome.", "OK");
       return false;
     }
-    if (string.IsNullOrWhiteSpace(Form.Cpf))
-    {
-      Shell.Current.DisplayAlertAsync("Erro", "Preencha seu CPF.", "OK");
+    if (!ValidateCpf())
       return false;
-    }
     return ValidateStep3();
   }
 
