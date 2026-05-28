@@ -1,3 +1,5 @@
+using CoreventApp.Models.Dtos;
+
 namespace CoreventApp.Models;
 
 public class User
@@ -7,7 +9,19 @@ public class User
     public string Email { get; set; } = string.Empty;
     public string CPF { get; set; } = string.Empty;
     public string BirthDate { get; set; } = string.Empty;
-    public string Cellphone { get; set; } = string.Empty; // Atributo temporário
+    public string PhoneNumber { get; set; } = string.Empty;
     public string AvatarUrl { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
+
+    public static User FromUserDataDto(UserDataDto dto) => new()
+    {
+        Id = dto.Id,
+        Name = dto.Name,
+        Email = dto.Email,
+        CPF = dto.Cpf,
+        BirthDate = dto.BirthDate,
+        PhoneNumber = dto.PhoneNumber,
+        AvatarUrl = dto.AvatarUrl,
+        CreatedAt = dto.CreatedAt
+    };
 }

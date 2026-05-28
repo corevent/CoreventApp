@@ -4,18 +4,20 @@ namespace CoreventApp.Services;
 
 public interface IAuthService
 {
+    User? CurrentCachedUser { get; }
+
     Task<User?> LoginAsync(string email, string password);
     Task LogoutAsync();
-    Task<User?> GetCurrentUserAsync();
+    Task<User?> GetCurrentUserAsync(bool forceRefresh = false);
+
     Task<bool> UpdateEmailAsync(string newEmail, string currentPassword);
     Task<bool> UpdatePasswordAsync(string currentPassword, string newPassword);
-    Task<bool> UpdateProfileAsync(string name, string cpf, string birthDate);
+    Task<bool> UpdateProfileAsync(string name, string? phoneNumber, string? avatarUrl);
 
     Task SendVerificationEmailAsync(string email);
-    Task<bool> VerifyCodeAsync(string email, string code);
-    Task<bool> RegisterUserAsync(string name, string email, string password, string cpf, string birthDate);
+    Task<User?> CreateUserAsync(string name, string email, string password,
+        string cpf, string birthDate, string code);
 
     Task SendResetCodeAsync(string email);
-    Task<bool> VerifyResetCodeAsync(string email, string code);
-    Task<bool> ResetPasswordAsync(string email, string newPassword);
+    Task<bool> ResetPasswordAsync(string email, string code, string newPassword);
 }

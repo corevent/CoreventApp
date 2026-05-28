@@ -80,6 +80,11 @@
         <VerticalStackLayout Grid.Row="3"
                              VerticalOptions="End"
                              Spacing="20">
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               Color="{StaticResource primary_orange_color}"
+                               HeightRequest="30"
+                               HorizontalOptions="Center"/>
             <Button TextColor="{StaticResource White}"
                     FontAttributes="Bold"
                     Background="{StaticResource gradient_button}"

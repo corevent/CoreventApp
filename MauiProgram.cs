@@ -1,4 +1,6 @@
-﻿using CoreventApp.Services;
+﻿using System.Text.Json;
+using CoreventApp.Services;
+using CoreventApp.Services.Api;
 using MauiIcons.Cupertino;
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
@@ -22,11 +24,20 @@ public static class MauiProgram
 			.UseCupertinoMauiIcons();
 
 		builder.Services.AddSingleton<AppShell>();
-		
+
 		// Services
-		builder.Services.AddSingleton<IAuthService, MockAuthService>();
-		builder.Services.AddSingleton<AttractionStore>();
+		builder.Services.AddSingleton<TokenService>();
+		builder.Services.AddTransient<AuthTokenHandler>();
+
+		string baseUrl = "http://localhost:3000";
 		
+		builder.Services.AddHttpClient<AuthApiClient>(c => c.BaseAddress = new Uri(baseUrl));
+		builder.Services.AddHttpClient<UsersApiClient>(c => c.BaseAddress = new Uri(baseUrl))
+			.AddHttpMessageHandler<AuthTokenHandler>();
+
+		builder.Services.AddSingleton<IAuthService, AuthService>();
+		builder.Services.AddSingleton<AttractionStore>();
+
 		// ViewModels
 		builder.Services.AddTransient<ViewModels.WelcomeViewModel>();
 		builder.Services.AddTransient<ViewModels.LoginViewModel>();
