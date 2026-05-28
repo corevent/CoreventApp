@@ -9,4 +9,11 @@ public partial class Home : ContentPage
     InitializeComponent();
     BindingContext = viewModel;
   }
+
+  protected override void OnAppearing()
+  {
+    base.OnAppearing();
+    if (BindingContext is HomeViewModel vm)
+      _ = vm.LoadCommand.ExecuteAsync(null);
+  }
 }

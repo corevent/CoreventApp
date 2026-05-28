@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
+             xmlns:dtos="clr-namespace:CoreventApp.Models.Dtos"
              xmlns:cv="clr-namespace:CoreventApp.Converters"
              x:Class="CoreventApp.Views.PanelOrganizer"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
@@ -14,6 +15,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <cv:IntegerToVisibilityConverter x:Key="IntToVisibility"/>
+            <cv:StatusDisplayConverter x:Key="StatusDisplayConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -193,7 +195,7 @@
                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding MyEvents}"
                                      Spacing="12">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="vm:EventSummary">
+                        <DataTemplate x:DataType="dtos:EventListItemDto">
                             <Border Stroke="{StaticResource Gray100}"
                                     StrokeThickness="1"
                                     StrokeShape="RoundRectangle 20"
@@ -204,117 +206,106 @@
                                         Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SelectEventCommand}"
                                         CommandParameter="{Binding}"/>
                                 </Border.GestureRecognizers>
-                                <VerticalStackLayout Spacing="12">
-                                    <Grid ColumnDefinitions="80, *, Auto"
-                                          ColumnSpacing="12">
-                                        <Border WidthRequest="80"
-                                                HeightRequest="80"
-                                                StrokeThickness="0"
-                                                StrokeShape="RoundRectangle 14">
-                                            <Image Source="{Binding ImageUrl}"
-                                                   Aspect="AspectFill"/>
-                                        </Border>
+                                <Grid ColumnDefinitions="80, *, Auto"
+                                      ColumnSpacing="12">
+                                    <Border WidthRequest="80"
+                                            HeightRequest="80"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 14">
+                                        <Image Source="https://placehold.co/200x200/FF5722/FFFFFF?text={Binding Title}"
+                                               Aspect="AspectFill"/>
+                                    </Border>
 
-                                        <VerticalStackLayout Grid.Column="1"
-                                                             Spacing="4"
-                                                             VerticalOptions="Center">
-                                            <Label Text="{Binding Name}"
-                                                   FontSize="16"
-                                                   FontAttributes="Bold"
-                                                   TextColor="{StaticResource primary_text_color}"/>
-                                            <Label Text="{Binding Date}"
-                                                   FontSize="12"
-                                                   TextColor="{StaticResource secondary_text_color}"/>
-
-                                            <HorizontalStackLayout Spacing="8"
-                                                                   Margin="0,4,0,0">
-                                                <Border Padding="8,2"
-                                                        StrokeThickness="0"
-                                                        StrokeShape="RoundRectangle 8"
-                                                        BackgroundColor="#E8F5E9">
-                                                    <Border.Triggers>
-                                                        <DataTrigger TargetType="Border"
-                                                                     Binding="{Binding StatusDisplayText}"
-                                                                     Value="EM ANDAMENTO">
-                                                            <Setter Property="BackgroundColor"
-                                                                    Value="#DBEAFE"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger TargetType="Border"
-                                                                     Binding="{Binding StatusDisplayText}"
-                                                                     Value="ENCERRADO">
-                                                            <Setter Property="BackgroundColor"
-                                                                    Value="#F3F4F6"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger TargetType="Border"
-                                                                     Binding="{Binding StatusDisplayText}"
-                                                                     Value="RASCUNHO">
-                                                            <Setter Property="BackgroundColor"
-                                                                    Value="#FEF9C3"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger TargetType="Border"
-                                                                     Binding="{Binding StatusDisplayText}"
-                                                                     Value="CANCELADO">
-                                                            <Setter Property="BackgroundColor"
-                                                                    Value="#FEE2E2"/>
-                                                        </DataTrigger>
-                                                    </Border.Triggers>
-                                                    <Label Text="{Binding StatusDisplayText}"
-                                                           FontSize="10"
-                                                           FontAttributes="Bold"
-                                                           TextColor="#4CAF50">
-                                                        <Label.Triggers>
-                                                            <DataTrigger TargetType="Label"
-                                                                         Binding="{Binding StatusDisplayText}"
-                                                                         Value="EM ANDAMENTO">
-                                                                <Setter Property="TextColor"
-                                                                        Value="#2563EB"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger TargetType="Label"
-                                                                         Binding="{Binding StatusDisplayText}"
-                                                                         Value="ENCERRADO">
-                                                                <Setter Property="TextColor"
-                                                                        Value="#6B7280"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger TargetType="Label"
-                                                                         Binding="{Binding StatusDisplayText}"
-                                                                         Value="RASCUNHO">
-                                                                <Setter Property="TextColor"
-                                                                        Value="#A16207"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger TargetType="Label"
-                                                                         Binding="{Binding StatusDisplayText}"
-                                                                         Value="CANCELADO">
-                                                                <Setter Property="TextColor"
-                                                                        Value="#DC2626"/>
-                                                            </DataTrigger>
-                                                        </Label.Triggers>
-                                                    </Label>
-                                                </Border>
-                                            </HorizontalStackLayout>
-                                        </VerticalStackLayout>
-
-                                        <mi:MauiIcon Grid.Column="2"
-                                                     Icon="{mi:Cupertino ChevronRight}"
-                                                     IconSize="18"
-                                                     IconColor="{StaticResource chevron_color}"
-                                                     VerticalOptions="Center"/>
-                                    </Grid>
-
-                                    <ProgressBar Progress="{Binding SalesProgress}"
-                                                 ProgressColor="{StaticResource primary_orange_color}"/>
-
-                                    <Grid ColumnDefinitions="*, Auto">
-                                        <Label Text="{Binding TotalRevenue}"
-                                               FontSize="15"
+                                    <VerticalStackLayout Grid.Column="1"
+                                                         Spacing="4"
+                                                         VerticalOptions="Center">
+                                        <Label Text="{Binding Title}"
+                                               FontSize="16"
                                                FontAttributes="Bold"
                                                TextColor="{StaticResource primary_text_color}"/>
-                                        <Label Grid.Column="1"
-                                               Text="{Binding SoldCount}"
-                                               FontSize="11"
-                                               TextColor="{StaticResource secondary_text_color}"
-                                               VerticalOptions="Center"/>
-                                    </Grid>
-                                </VerticalStackLayout>
+                                        <Label Text="{Binding StartDate, StringFormat='{0:dd MMM, yyyy}'}"
+                                               FontSize="12"
+                                               TextColor="{StaticResource secondary_text_color}"/>
+
+                                        <HorizontalStackLayout Spacing="8"
+                                                                Margin="0,4,0,0">
+                                            <Border Padding="8,2"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 8"
+                                                    BackgroundColor="#E8F5E9">
+                                                <Border.Triggers>
+                                                    <DataTrigger TargetType="Border"
+                                                                 Binding="{Binding Status}"
+                                                                 Value="going">
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#DBEAFE"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Border"
+                                                                 Binding="{Binding Status}"
+                                                                 Value="finished">
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#F3F4F6"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Border"
+                                                                 Binding="{Binding Status}"
+                                                                 Value="draft">
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#FEF9C3"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Border"
+                                                                 Binding="{Binding Status}"
+                                                                 Value="canceled">
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#FEE2E2"/>
+                                                    </DataTrigger>
+                                                </Border.Triggers>
+                                                <Label FontSize="10"
+                                                       FontAttributes="Bold"
+                                                       TextColor="#4CAF50">
+                                                    <Label.Triggers>
+                                                        <DataTrigger TargetType="Label"
+                                                                     Binding="{Binding Status}"
+                                                                     Value="going">
+                                                            <Setter Property="TextColor"
+                                                                    Value="#2563EB"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label"
+                                                                     Binding="{Binding Status}"
+                                                                     Value="finished">
+                                                            <Setter Property="TextColor"
+                                                                    Value="#6B7280"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label"
+                                                                     Binding="{Binding Status}"
+                                                                     Value="draft">
+                                                            <Setter Property="TextColor"
+                                                                    Value="#A16207"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label"
+                                                                     Binding="{Binding Status}"
+                                                                     Value="canceled">
+                                                            <Setter Property="TextColor"
+                                                                    Value="#DC2626"/>
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                    <Label.Text>
+                                                        <Binding Path="Status">
+                                                            <Binding.Converter>
+                                                                <cv:StatusDisplayConverter/>
+                                                            </Binding.Converter>
+                                                        </Binding>
+                                                    </Label.Text>
+                                                </Label>
+                                            </Border>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+
+                                    <mi:MauiIcon Grid.Column="2"
+                                                 Icon="{mi:Cupertino ChevronRight}"
+                                                 IconSize="18"
+                                                 IconColor="{StaticResource chevron_color}"
+                                                 VerticalOptions="Center"/>
+                                </Grid>
                             </Border>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>

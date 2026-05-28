@@ -1,25 +1,19 @@
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Models.Dtos;
+using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
 
-[QueryProperty(nameof(EventData), "EventData")]
-[QueryProperty(nameof(EventName), "EventName")]
+[QueryProperty(nameof(EventId), "EventId")]
 public partial class CheckInViewModel : ObservableObject
 {
-    private EventSummary? _eventData;
+    private readonly EventsService _eventsService;
+    private string? _eventId;
 
     [ObservableProperty]
     public partial string EventName { get; set; } = string.Empty;
-
-    partial void OnEventNameChanged(string value)
-    {
-        if (_eventData is null && !string.IsNullOrEmpty(value))
-        {
-            IsScannerBlocked = false;
-            IsScanning = true;
-        }
-    }
 
     [ObservableProperty]
     public partial string CheckInCount { get; set; } = "0/0";
@@ -39,16 +33,33 @@ public partial class CheckInViewModel : ObservableObject
     [ObservableProperty]
     public partial bool IsScanning { get; set; }
 
-    public EventSummary? EventData
+    private string _eventStatus = string.Empty;
+
+    public string? EventId
     {
         set
         {
-            if (value is null) return;
+            _eventId = value;
+            if (value is not null) _ = LoadEventAsync(value);
+        }
+    }
 
-            _eventData = value;
-            EventName = value.Name;
+    public CheckInViewModel(EventsService eventsService)
+    {
+        _eventsService = eventsService;
+    }
 
-            var canCheckIn = value.Status is EventStatus.Opened or EventStatus.Going;
+    private async Task LoadEventAsync(string eventId)
+    {
+        try
+        {
+            var evt = await _eventsService.GetByIdAsync(eventId);
+            if (evt is null) return;
+
+            EventName = evt.Title;
+            _eventStatus = evt.Status;
+
+            var canCheckIn = evt.Status is "opened" or "going";
             IsScannerBlocked = !canCheckIn;
             IsScanning = canCheckIn;
 
@@ -59,15 +70,18 @@ public partial class CheckInViewModel : ObservableObject
                 IsResultSuccess = false;
             }
         }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"CheckIn LoadEventAsync failed: {ex.Message}");
+        }
     }
 
     [RelayCommand]
     private async Task ProcessBarcodeAsync(string? barcode)
     {
-        if (string.IsNullOrWhiteSpace(barcode))
-            return;
+        if (string.IsNullOrWhiteSpace(barcode)) return;
 
-        if (_eventData?.Status is not (EventStatus.Opened or EventStatus.Going))
+        if (_eventStatus is not ("opened" or "going"))
             return;
 
         IsScanning = false;
@@ -75,7 +89,6 @@ public partial class CheckInViewModel : ObservableObject
         // Simulated check-in logic
         await Task.Delay(500);
 
-        // Simulate success for any valid barcode
         IsResultSuccess = true;
         ResultMessage = $"Check-in confirmado para o ingresso #{barcode}";
         IsResultVisible = true;

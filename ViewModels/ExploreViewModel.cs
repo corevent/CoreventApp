@@ -1,7 +1,9 @@
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
-using System.Linq;
+using CoreventApp.Models.Dtos;
+using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
 
@@ -11,104 +13,152 @@ public partial class CategoryItem : ObservableObject
     public partial string Name { get; set; } = string.Empty;
 
     [ObservableProperty]
+    public partial string ApiValue { get; set; } = string.Empty;
+
+    [ObservableProperty]
     public partial bool IsSelected { get; set; }
 }
 
 public partial class ExploreViewModel : ObservableObject
 {
+    private readonly EventsService _eventsService;
+    private int _currentPage = 1;
+    private const int PageSize = 10;
+    private bool _hasMorePages = true;
+
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
 
+    [ObservableProperty]
+    public partial bool IsLoading { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsLoadingMore { get; set; }
+
     public ObservableCollection<CategoryItem> Categories { get; } = new();
-    public ObservableCollection<EventSummary> Events { get; } = new();
+    public ObservableCollection<EventListItemDto> Events { get; } = new();
 
-    private List<EventSummary> _allEvents = new();
-
-    public ExploreViewModel()
+    public ExploreViewModel(EventsService eventsService)
     {
-        Categories.Add(new CategoryItem { Name = "Todos", IsSelected = true });
-        Categories.Add(new CategoryItem { Name = "Música" });
-        Categories.Add(new CategoryItem { Name = "Tecnologia" });
-        Categories.Add(new CategoryItem { Name = "Gastronomia" });
-        Categories.Add(new CategoryItem { Name = "Arte" });
-        Categories.Add(new CategoryItem { Name = "Esporte" });
+        _eventsService = eventsService;
 
-        LoadMockData();
+        Categories.Add(new CategoryItem { Name = "Todos", ApiValue = "", IsSelected = true });
+        Categories.Add(new CategoryItem { Name = "Música", ApiValue = "music" });
+        Categories.Add(new CategoryItem { Name = "Tecnologia", ApiValue = "tech" });
+        Categories.Add(new CategoryItem { Name = "Gastronomia", ApiValue = "gastronomy" });
+        Categories.Add(new CategoryItem { Name = "Arte e Cultura", ApiValue = "art_culture" });
+        Categories.Add(new CategoryItem { Name = "Esportes", ApiValue = "sports" });
+        Categories.Add(new CategoryItem { Name = "Educação", ApiValue = "education" });
+        Categories.Add(new CategoryItem { Name = "Negócios", ApiValue = "business" });
+        Categories.Add(new CategoryItem { Name = "Saúde e Bem-estar", ApiValue = "health_wellness" });
+        Categories.Add(new CategoryItem { Name = "Família e Crianças", ApiValue = "family_kids" });
+        Categories.Add(new CategoryItem { Name = "Religioso/Espiritual", ApiValue = "religious_spiritual" });
+        Categories.Add(new CategoryItem { Name = "Jogos", ApiValue = "games" });
+        Categories.Add(new CategoryItem { Name = "Comunidade/Social", ApiValue = "community_social" });
+        Categories.Add(new CategoryItem { Name = "Moda e Beleza", ApiValue = "fashion_beauty" });
+        Categories.Add(new CategoryItem { Name = "Outro", ApiValue = "other" });
     }
 
     partial void OnSearchTextChanged(string value)
     {
-        FilterEvents();
+        _ = SearchCommand.ExecuteAsync(null);
     }
 
-    private void FilterEvents()
+    [RelayCommand]
+    private async Task SearchAsync()
     {
-        var selected = Categories.FirstOrDefault(c => c.IsSelected);
-        var categoryName = selected?.Name ?? "Todos";
+        if (IsLoading) return;
+        IsLoading = true;
+        _currentPage = 1;
+        _hasMorePages = true;
 
-        var filtered = _allEvents.AsEnumerable();
-
-        if (categoryName != "Todos")
-            filtered = filtered.Where(e => e.Category == categoryName);
-
-        if (!string.IsNullOrWhiteSpace(SearchText))
+        try
         {
-            var search = SearchText.ToLower();
-            filtered = filtered.Where(e =>
-                e.Name.ToLower().Contains(search) ||
-                e.Location.ToLower().Contains(search));
+            var selected = GetSelectedCategoryApiValue();
+
+            var result = await _eventsService.GetAllAsync(
+                page: _currentPage, limit: PageSize,
+                search: string.IsNullOrWhiteSpace(SearchText) ? null : SearchText,
+                category: selected,
+                stateId: null,
+                cityId: null,
+                status: "opened");
+
+            Events.Clear();
+            foreach (var item in result.Data)
+                Events.Add(item);
+
+            _hasMorePages = _currentPage < result.Meta.TotalPages;
         }
-
-        Events.Clear();
-        foreach (var item in filtered)
-            Events.Add(item);
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Explore SearchAsync failed: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]
-    private async Task OpenFilterAsync()
+    private async Task LoadMoreAsync()
     {
-        await Shell.Current.DisplayAlertAsync("Filtrar", "Opções de filtro em breve.", "OK");
+        if (IsLoadingMore || !_hasMorePages) return;
+        IsLoadingMore = true;
+
+        try
+        {
+            _currentPage++;
+            var selected = GetSelectedCategoryApiValue();
+
+            var result = await _eventsService.GetAllAsync(
+                page: _currentPage, limit: PageSize,
+                search: string.IsNullOrWhiteSpace(SearchText) ? null : SearchText,
+                category: selected,
+                stateId: null,
+                cityId: null,
+                status: "opened");
+
+            foreach (var item in result.Data)
+                Events.Add(item);
+
+            _hasMorePages = _currentPage < result.Meta.TotalPages;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Explore LoadMoreAsync failed: {ex.Message}");
+            _currentPage--;
+        }
+        finally
+        {
+            IsLoadingMore = false;
+        }
     }
 
     [RelayCommand]
-    private void SelectCategory(CategoryItem category)
+    private async Task SelectCategoryAsync(CategoryItem category)
     {
         foreach (var c in Categories)
             c.IsSelected = c == category;
-        FilterEvents();
+        await SearchCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]
-    private void ToggleFavorite(EventSummary eventItem)
+    private async Task SelectEventAsync(EventListItemDto? eventItem)
     {
-        eventItem.IsFavorite = !eventItem.IsFavorite;
-    }
+        if (eventItem is null) return;
 
-    [RelayCommand]
-    private async Task SelectEventAsync(EventSummary eventItem)
-    {
         await Shell.Current.GoToAsync(nameof(Views.EventDetail), new Dictionary<string, object>
         {
-            ["EventData"] = eventItem
+            ["EventId"] = eventItem.Id
         });
     }
 
-    private void LoadMockData()
+    private string? GetSelectedCategoryApiValue()
     {
-        _allEvents = new List<EventSummary>
-        {
-            new() { Name = "Festival de Verão 2026", Category = "Música", Date = "15 Out, 2026", Location = "Praia de Copacabana, RJ", ImageUrl = "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop", Price = "R$ 150", Rating = 4.8, Type = EventType.Presencial, OrganizerName = "Corevent Produções", OrganizerAvatar = "profile_default_icon.png", Description = "O maior festival de verão do Brasil! Venha curtir os melhores artistas em um evento inesquecível à beira-mar. São mais de 20 atrações nacionais e internacionais confirmadas.", IsFavorite = true },
-            new() { Name = "Tech Summit 2026", Category = "Tecnologia", Date = "22 Nov, 2026", Location = "Centro de Convenções, SP", ImageUrl = "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=400&fit=crop", Price = "R$ 90", Rating = 4.9, Type = EventType.Hibrido, OnlineUrl = "https://zoom.us/techsummit2026", OrganizerName = "Tech Events Brasil", OrganizerAvatar = "profile_default_icon.png", Description = "O maior encontro de tecnologia da América Latina. Palestras, workshops e networking com os maiores nomes do setor. Disponível presencial e online.", IsFavorite = true },
-            new() { Name = "Workshop de Fotografia", Category = "Arte", Date = "5 Dez, 2026", Location = "Online", ImageUrl = "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=400&fit=crop", Price = "Grátis", Rating = 4.5, Type = EventType.Remoto, OnlineUrl = "https://meet.google.com/fotografia", OrganizerName = "Instituto de Artes", OrganizerAvatar = "profile_default_icon.png", Description = "Aprenda técnicas avançadas de fotografia digital com profissionais renomados. Curso gratuito e ao vivo com certificado de participação." },
-            new() { Name = "Feira Gastronômica", Category = "Gastronomia", Date = "12 Jan, 2027", Location = "Parque Ibirapuera, SP", ImageUrl = "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400&h=400&fit=crop", Price = "R$ 45", Rating = 4.7, Type = EventType.Presencial, OrganizerName = "Gastro Experience", OrganizerAvatar = "profile_default_icon.png", Description = "Uma jornada gastronômica com os melhores chefs da cidade. Degustações, aulas show e muito sabor em um só lugar." },
-            new() { Name = "Hackathon de Inovação", Category = "Tecnologia", Date = "5 Jan, 2027", Location = "Online", ImageUrl = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=400&fit=crop", Price = "Grátis", Rating = 4.6, Type = EventType.Remoto, OnlineUrl = "https://discord.gg/hackathon", OrganizerName = "InovaLab", OrganizerAvatar = "profile_default_icon.png", Description = "48 horas para criar soluções inovadoras para desafios reais. Equipes premiadas ganham mentoria e investimento." },
-            new() { Name = "Concerto de Primavera", Category = "Música", Date = "20 Set, 2026", Location = "Teatro Municipal, RJ", ImageUrl = "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop", Price = "R$ 200", Rating = 4.9, Type = EventType.Presencial, OrganizerName = "Orquestra Sinfônica", OrganizerAvatar = "profile_default_icon.png", Description = "A Orquestra Sinfônica apresenta seu concerto de primavera com um repertório especial que celebra as obras clássicas mais apreciadas." },
-            new() { Name = "Exposição de Arte Moderna", Category = "Arte", Date = "8 Fev, 2027", Location = "MASP, SP", ImageUrl = "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop", Price = "R$ 30", Rating = 4.4, Type = EventType.Presencial, OrganizerName = "MASP Cultural", OrganizerAvatar = "profile_default_icon.png", Description = "Uma exposição imperdível com obras dos maiores artistas modernistas brasileiros e internacionais. Curadoria exclusiva." },
-            new() { Name = "Maratona Esportiva", Category = "Esporte", Date = "15 Mar, 2027", Location = "Avenida Paulista, SP", ImageUrl = "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop", Price = "Grátis", Rating = 4.3, Type = EventType.Hibrido, OnlineUrl = "https://youtube.com/maratonaevent", OrganizerName = "Esporte Brasil", OrganizerAvatar = "profile_default_icon.png", Description = "Participe da maior maratona esportiva do país. Percurso de 10km pelas principais avenidas com opção de participação virtual." },
-        };
-
-        Events.Clear();
-        foreach (var item in _allEvents)
-            Events.Add(item);
+        var selected = Categories.FirstOrDefault(c => c.IsSelected);
+        return selected is not null && !string.IsNullOrEmpty(selected.ApiValue)
+            ? selected.ApiValue
+            : null;
     }
 }

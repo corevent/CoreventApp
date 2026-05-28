@@ -140,7 +140,7 @@
                                TextColor="{StaticResource primary_text_color}"/>
                         <DatePicker Date="{Binding Form.StartDate}"
                                     IsEnabled="{Binding IsEditable}"
-                                    MinimumDate="{Binding Today}"
+                                    MinimumDate="{Binding Tomorrow}"
                                     Format="dd/MM/yyyy"
                                     TextColor="{StaticResource primary_text_color}"
                                     BackgroundColor="{StaticResource input_color}"/>
@@ -207,13 +207,39 @@
                                    BackgroundColor="{StaticResource input_color}"/>
                         </VerticalStackLayout>
                         <VerticalStackLayout Spacing="6">
+                            <Label Text="Estado"
+                                   TextColor="{StaticResource primary_text_color}"/>
+                            <Border Stroke="{StaticResource Gray100}"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 8"
+                                    BackgroundColor="{StaticResource input_color}"
+                                    Padding="4,0">
+                                <Picker x:Name="StatePicker"
+                                        ItemsSource="{Binding Form.States}"
+                                        IsEnabled="{Binding IsEditable}"
+                                        SelectedIndex="{Binding Form.SelectedStateIndex}"
+                                        ItemDisplayBinding="{Binding Name}"
+                                        Title="Selecione o estado"
+                                        TextColor="{StaticResource input_text}"
+                                        BackgroundColor="Transparent"/>
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Spacing="6">
                             <Label Text="Cidade"
                                    TextColor="{StaticResource primary_text_color}"/>
-                            <Entry Text="{Binding Form.City}"
-                                   IsEnabled="{Binding IsEditable}"
-                                   Placeholder="Ex: São Paulo"
-                                   TextColor="{StaticResource input_text}"
-                                   BackgroundColor="{StaticResource input_color}"/>
+                            <Border Stroke="{StaticResource Gray100}"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 8"
+                                    BackgroundColor="{StaticResource input_color}"
+                                    Padding="4,0">
+                                <Picker ItemsSource="{Binding Form.Cities}"
+                                        IsEnabled="{Binding IsEditable}"
+                                        SelectedIndex="{Binding Form.SelectedCityIndex}"
+                                        ItemDisplayBinding="{Binding Name}"
+                                        Title="Selecione a cidade"
+                                        TextColor="{StaticResource input_text}"
+                                        BackgroundColor="Transparent"/>
+                            </Border>
                         </VerticalStackLayout>
                         <Grid ColumnDefinitions="*, *"
                               ColumnSpacing="12">

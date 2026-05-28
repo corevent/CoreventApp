@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
+             xmlns:dtos="clr-namespace:CoreventApp.Models.Dtos"
              x:Class="CoreventApp.Views.Home"
              x:DataType="vm:HomeViewModel"
              x:Name="ThisPage"
@@ -98,158 +99,58 @@
                  VerticalOptions="Center"/>
         </Grid>
 
+        <!-- Highlighted Events from API -->
         <ScrollView Orientation="Horizontal">
-          <HorizontalStackLayout Spacing="12">
-            <Border WidthRequest="290"
-                    Stroke="{StaticResource Gray100}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 20"
-                    BackgroundColor="{StaticResource White}">
-              <Border.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.NavigateToFestivalCommand}"/>
-              </Border.GestureRecognizers>
-              <Grid RowDefinitions="178, Auto">
-                <Grid>
-                  <Image Source="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=900&amp;auto=format&amp;fit=crop"
-                         Aspect="AspectFill"/>
-                  <Border Margin="12"
-                          Padding="12,6"
-                          StrokeThickness="0"
-                          StrokeShape="RoundRectangle 14"
-                          BackgroundColor="{StaticResource primary_orange_color}"
-                          HorizontalOptions="Start"
-                          VerticalOptions="End">
-                    <Label Text="MUSICA"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource White}"/>
-                  </Border>
-                </Grid>
-
-                <VerticalStackLayout Grid.Row="1"
-                                     Padding="14,12,14,14"
-                                     Spacing="8">
-                  <Label Text="Festival de Verão 2026"
-                         FontSize="16"
-                         FontAttributes="Bold"
-                         TextColor="{StaticResource primary_text_color}"/>
-                  <Label Text="15 Out, 2026 - 18:00"
-                         FontSize="12"
-                         TextColor="{StaticResource secondary_text_color}"/>
-                  <VerticalStackLayout Spacing="0">
-                    <Label Text="A PARTIR DE"
-                           FontAttributes="Bold"
-                           FontSize="10"
-                           TextColor="{StaticResource secondary_text_color}"/>
-                    <Label Text="R$ 150"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource primary_text_color}"/>
-                  </VerticalStackLayout>
-                </VerticalStackLayout>
-              </Grid>
-            </Border>
-
-            <Border WidthRequest="290"
-                    Stroke="{StaticResource Gray100}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 20"
-                    BackgroundColor="{StaticResource White}">
-              <Border.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.NavigateToTechCommand}"/>
-              </Border.GestureRecognizers>
-              <Grid RowDefinitions="178, Auto">
-                <Grid>
-                  <Image Source="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=900&amp;auto=format&amp;fit=crop"
-                         Aspect="AspectFill"/>
-                  <Border Margin="12"
-                          Padding="12,6"
-                          StrokeThickness="0"
-                          StrokeShape="RoundRectangle 14"
-                          BackgroundColor="{StaticResource primary_orange_color}"
-                          HorizontalOptions="Start"
-                          VerticalOptions="End">
-                    <Label Text="TEC"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource White}"/>
-                  </Border>
-                </Grid>
-
-                <VerticalStackLayout Grid.Row="1"
-                                     Padding="14,12,14,14"
-                                     Spacing="8">
-                  <Label Text="Tech Summit 2026"
-                         FontSize="16"
-                         FontAttributes="Bold"
-                         TextColor="{StaticResource primary_text_color}"/>
-                  <Label Text="22 Nov, 2026 - 09:00"
-                         FontSize="12"
-                         TextColor="{StaticResource secondary_text_color}"/>
-                  <VerticalStackLayout Spacing="0">
-                    <Label Text="A PARTIR DE"
-                           FontAttributes="Bold"
-                           FontSize="10"
-                           TextColor="{StaticResource secondary_text_color}"/>
-                    <Label Text="R$ 90"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource primary_text_color}"/>
-                  </VerticalStackLayout>
-                </VerticalStackLayout>
-              </Grid>
-            </Border>
-          </HorizontalStackLayout>
-        </ScrollView>
-
-        <Grid VerticalOptions="Center">
-          <Label Text="Para você"
-                 FontSize="20"
-                 FontAttributes="Bold"
-                 TextColor="{StaticResource primary_text_color}"/>
-        </Grid>
-
-        <ScrollView Orientation="Horizontal">
-          <HorizontalStackLayout Spacing="12">
-            <Border WidthRequest="168"
-                    Stroke="{StaticResource Gray100}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 18"
-                    BackgroundColor="{StaticResource White}">
-              <Grid RowDefinitions="138, Auto">
-                <Image Source="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=700&amp;auto=format&amp;fit=crop"
-                       Aspect="AspectFill"/>
-                <Label Grid.Row="1"
-                       Padding="12,8"
-                       Text="Gastronomia na brasa"
-                       FontAttributes="Bold"
-                       FontSize="14"
-                       LineBreakMode="TailTruncation"
-                       TextColor="{StaticResource primary_text_color}"/>
-              </Grid>
-            </Border>
-
-            <Border WidthRequest="168"
-                    Stroke="{StaticResource Gray100}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 18"
-                    BackgroundColor="{StaticResource White}">
-              <Grid RowDefinitions="138, Auto">
-                <Image Source="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=700&amp;auto=format&amp;fit=crop"
-                       Aspect="AspectFill"/>
-                <Label Grid.Row="1"
-                       Padding="12,8"
-                       Text="Workshop de fotografia"
-                       FontAttributes="Bold"
-                       FontSize="14"
-                       LineBreakMode="TailTruncation"
-                       TextColor="{StaticResource primary_text_color}"/>
-              </Grid>
-            </Border>
+          <HorizontalStackLayout BindableLayout.ItemsSource="{Binding HighlightedEvents}"
+                                 Spacing="12">
+            <BindableLayout.ItemTemplate>
+              <DataTemplate x:DataType="dtos:EventListItemDto">
+                <Border WidthRequest="290"
+                        Stroke="{StaticResource Gray100}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="{StaticResource White}">
+                  <Border.GestureRecognizers>
+                    <TapGestureRecognizer
+                      Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SelectEventCommand}"
+                      CommandParameter="{Binding}"/>
+                  </Border.GestureRecognizers>
+                  <Grid RowDefinitions="178, Auto">
+                    <Grid>
+                      <!-- Aplicar o titulo da placeholder no link atraves de binding context -->
+                      <Image Source="https://placehold.co/600x400/FF5722/FFFFFF.png?text=Evento"
+                             Aspect="AspectFill"/>
+                      <Border Margin="12"
+                              Padding="12,6"
+                              StrokeThickness="0"
+                              StrokeShape="RoundRectangle 14"
+                              BackgroundColor="{StaticResource primary_orange_color}"
+                              HorizontalOptions="Start"
+                              VerticalOptions="End">
+                        <Label Text="{Binding Category, Converter={StaticResource CategoryDisplayConverter}}"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"/>
+                      </Border>
+                    </Grid>
+                    <VerticalStackLayout Grid.Row="1"
+                                         Padding="14,12,14,14"
+                                         Spacing="8">
+                      <Label Text="{Binding Title}"
+                             FontSize="16"
+                             FontAttributes="Bold"
+                             TextColor="{StaticResource primary_text_color}"/>
+                      <Label Text="{Binding StartDate, StringFormat='{0:dd MMM, yyyy - HH:mm}'}"
+                             FontSize="12"
+                             TextColor="{StaticResource secondary_text_color}"/>
+                    </VerticalStackLayout>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </BindableLayout.ItemTemplate>
           </HorizontalStackLayout>
         </ScrollView>
       </VerticalStackLayout>
     </ScrollView>
-
   </Grid>
 </ContentPage>

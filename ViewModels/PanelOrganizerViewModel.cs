@@ -1,86 +1,73 @@
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
+using CoreventApp.Models.Dtos;
+using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
 
 public partial class PanelOrganizerViewModel : ObservableObject
 {
-    [ObservableProperty]
-    public partial string TotalRevenue { get; set; } = "R$ 199.500";
+    private readonly EventsService _eventsService;
+    private readonly IAuthService _authService;
 
     [ObservableProperty]
-    public partial string TicketsSold { get; set; } = "1.285";
+    public partial string TotalRevenue { get; set; } = "R$ 0";
 
-    public ObservableCollection<EventSummary> MyEvents { get; } = new();
+    [ObservableProperty]
+    public partial string TicketsSold { get; set; } = "0";
 
-    public PanelOrganizerViewModel()
+    [ObservableProperty]
+    public partial bool IsLoading { get; set; }
+
+    public ObservableCollection<EventListItemDto> MyEvents { get; } = new();
+
+    public PanelOrganizerViewModel(EventsService eventsService, IAuthService authService)
     {
-        LoadMockData();
+        _eventsService = eventsService;
+        _authService = authService;
     }
 
-    private void LoadMockData()
+    [RelayCommand]
+    private async Task LoadAsync()
     {
-        MyEvents.Add(new EventSummary
+        if (IsLoading) return;
+        IsLoading = true;
+
+        try
         {
-            Name = "Festival de Verão 2026",
-            Date = "15 Out, 2026",
-            ImageUrl = "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
-            SalesProgress = 0.62,
-            TotalRevenue = "R$ 186.000",
-            SoldCount = "1240 VENDIDOS",
-            Status = EventStatus.Going,
-            StartDate = new DateTime(2026, 10, 15),
-            EndDate = new DateTime(2026, 10, 16)
-        });
-        MyEvents.Add(new EventSummary
+            var currentUserId = _authService.CurrentCachedUser?.Id;
+            // Load a reasonable batch (max allowed by API)
+            var result = await _eventsService.GetAllAsync(page: 1, limit: 100);
+
+            MyEvents.Clear();
+
+            int totalSold = 0;
+            decimal totalRev = 0;
+
+            foreach (var item in result.Data)
+            {
+                // Filter by current user's organizer ID
+                if (item.Organizer.Id == currentUserId)
+                {
+                    MyEvents.Add(item);
+                }
+            }
+
+            TicketsSold = totalSold > 0 ? $"{totalSold}" : "0";
+            TotalRevenue = totalRev > 0
+                ? $"R$ {totalRev:N0}"
+                : "R$ 0";
+        }
+        catch (Exception ex)
         {
-            Name = "Workshop de Design Grátis",
-            Date = "20 Nov, 2026",
-            ImageUrl = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=400&fit=crop",
-            SalesProgress = 0.85,
-            TotalRevenue = "R$ 42.500",
-            SoldCount = "850 VENDIDOS",
-            Status = EventStatus.Opened,
-            StartDate = new DateTime(2026, 11, 20),
-            EndDate = new DateTime(2026, 11, 20)
-        });
-        MyEvents.Add(new EventSummary
+            Debug.WriteLine($"PanelOrganizer LoadAsync failed: {ex.Message}");
+        }
+        finally
         {
-            Name = "Conferência de Tecnologia",
-            Date = "10 Mar, 2026",
-            ImageUrl = "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400&h=400&fit=crop",
-            SalesProgress = 1.0,
-            TotalRevenue = "R$ 312.000",
-            SoldCount = "2000 VENDIDOS",
-            Status = EventStatus.Finished,
-            StartDate = new DateTime(2026, 3, 10),
-            EndDate = new DateTime(2026, 3, 12)
-        });
-        MyEvents.Add(new EventSummary
-        {
-            Name = "Hackathon de Inovação",
-            Date = "5 Jan, 2027",
-            ImageUrl = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=400&fit=crop",
-            SalesProgress = 0.0,
-            TotalRevenue = "R$ 0",
-            SoldCount = "0 VENDIDOS",
-            Status = EventStatus.Draft,
-            StartDate = new DateTime(2027, 1, 5),
-            EndDate = new DateTime(2027, 1, 7)
-        });
-        MyEvents.Add(new EventSummary
-        {
-            Name = "Feira de Carreiras",
-            Date = "12 Fev, 2026",
-            ImageUrl = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=400&fit=crop",
-            SalesProgress = 0.3,
-            TotalRevenue = "R$ 0",
-            SoldCount = "0 VENDIDOS",
-            Status = EventStatus.Canceled,
-            StartDate = new DateTime(2026, 2, 12),
-            EndDate = new DateTime(2026, 2, 12)
-        });
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]
@@ -102,97 +89,13 @@ public partial class PanelOrganizerViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task SelectEventAsync(EventSummary eventSummary)
+    private async Task SelectEventAsync(EventListItemDto? eventItem)
     {
+        if (eventItem is null) return;
+
         await Shell.Current.GoToAsync(nameof(Views.ManageEvent), new Dictionary<string, object>
         {
-            ["EventData"] = eventSummary
+            ["EventId"] = eventItem.Id
         });
     }
-}
-
-public enum EventStatus
-{
-    Draft,
-    Opened,
-    Going,
-    Canceled,
-    Finished
-}
-
-public enum EventType
-{
-    Presencial,
-    Remoto,
-    Hibrido
-}
-
-public partial class EventSummary : ObservableObject
-{
-    [ObservableProperty]
-    public partial string Name { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string Date { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string ImageUrl { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string Category { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string Location { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string Description { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string Price { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string OrganizerName { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string OrganizerAvatar { get; set; } = "profile_default_icon.png";
-
-    [ObservableProperty]
-    public partial double SalesProgress { get; set; }
-
-    [ObservableProperty]
-    public partial string TotalRevenue { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string SoldCount { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial EventStatus Status { get; set; } = EventStatus.Draft;
-
-    [ObservableProperty]
-    public partial DateTime StartDate { get; set; } = DateTime.Today.AddDays(30);
-
-    [ObservableProperty]
-    public partial DateTime EndDate { get; set; } = DateTime.Today.AddDays(31);
-
-    [ObservableProperty]
-    public partial double Rating { get; set; }
-
-    [ObservableProperty]
-    public partial bool IsFavorite { get; set; }
-
-    [ObservableProperty]
-    public partial EventType Type { get; set; } = EventType.Presencial;
-
-    [ObservableProperty]
-    public partial string OnlineUrl { get; set; } = string.Empty;
-
-    public string StatusDisplayText => Status switch
-    {
-        EventStatus.Draft => "RASCUNHO",
-        EventStatus.Opened => "ATIVO",
-        EventStatus.Going => "EM ANDAMENTO",
-        EventStatus.Canceled => "CANCELADO",
-        EventStatus.Finished => "ENCERRADO",
-        _ => "ATIVO"
-    };
 }

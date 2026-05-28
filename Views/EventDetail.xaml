@@ -15,7 +15,7 @@
         <Grid Grid.Row="0"
               HeightRequest="320"
               VerticalOptions="Start">
-            <Image Source="{Binding ImageUrl}"
+            <Image Source="https://placehold.co/1000x500/FF5722/FFFFFF.png?text=Evento"
                    Aspect="AspectFill"
                    HeightRequest="320"/>
 
@@ -127,7 +127,7 @@
                                     StrokeThickness="0"
                                     StrokeShape="RoundRectangle 10"
                                     BackgroundColor="{StaticResource home_highlight_bg}">
-                                <Label Text="{Binding Category}"
+                                <Label Text="{Binding Category, Converter={StaticResource CategoryDisplayConverter}}"
                                        FontSize="12"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource primary_orange_color}"/>
@@ -136,39 +136,12 @@
                             <Border Padding="12,6"
                                     StrokeThickness="0"
                                     StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="#DBEAFE"
                                     VerticalOptions="Center">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="BackgroundColor" Value="#DBEAFE"/>
-                                        <Style.Triggers>
-                                            <DataTrigger TargetType="Border" Binding="{Binding Type}" Value="Remoto">
-                                                <Setter Property="BackgroundColor" Value="#E8F5E9"/>
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Border" Binding="{Binding Type}" Value="Hibrido">
-                                                <Setter Property="BackgroundColor" Value="#F3E8FF"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <Label FontSize="12"
-                                       FontAttributes="Bold">
-                                    <Label.Style>
-                                        <Style TargetType="Label">
-                                            <Setter Property="Text" Value="Presencial"/>
-                                            <Setter Property="TextColor" Value="#2563EB"/>
-                                            <Style.Triggers>
-                                                <DataTrigger TargetType="Label" Binding="{Binding Type}" Value="Remoto">
-                                                    <Setter Property="Text" Value="Online"/>
-                                                    <Setter Property="TextColor" Value="#10B981"/>
-                                                </DataTrigger>
-                                                <DataTrigger TargetType="Label" Binding="{Binding Type}" Value="Hibrido">
-                                                    <Setter Property="Text" Value="Híbrido"/>
-                                                    <Setter Property="TextColor" Value="#7C3AED"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Label.Style>
-                                </Label>
+                                <Label Text="{Binding LocationTypeDisplay}"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       TextColor="#2563EB"/>
                             </Border>
                         </HorizontalStackLayout>
 
@@ -208,91 +181,34 @@
                             </VerticalStackLayout>
                         </Grid>
 
-                        <!-- Location / Online -->
-                        <Grid>
-                            <!-- Presencial / Hibrido -->
-                            <Grid ColumnDefinitions="36, *"
-                                  ColumnSpacing="10"
-                                  IsVisible="False">
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="IsVisible" Value="False"/>
-                                        <Style.Triggers>
-                                            <DataTrigger TargetType="Grid" Binding="{Binding Type}" Value="Presencial">
-                                                <Setter Property="IsVisible" Value="True"/>
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Grid" Binding="{Binding Type}" Value="Hibrido">
-                                                <Setter Property="IsVisible" Value="True"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-                                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 10"
-                                        WidthRequest="36"
-                                        HeightRequest="36"
-                                        HorizontalOptions="Start"
-                                        VerticalOptions="Center">
-                                    <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
-                                                 IconSize="18"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 HorizontalOptions="Center"
-                                                 VerticalOptions="Center"/>
-                                </Border>
-                                <VerticalStackLayout Grid.Column="1"
-                                                     VerticalOptions="Center"
-                                                     Spacing="2">
-                                    <Label Text="Local"
-                                           FontSize="11"
-                                           TextColor="{StaticResource secondary_text_color}"/>
-                                    <Label Text="{Binding Location}"
-                                           FontSize="15"
-                                           FontAttributes="Bold"
-                                           TextColor="{StaticResource primary_text_color}"
-                                           LineBreakMode="TailTruncation"/>
-                                </VerticalStackLayout>
-                            </Grid>
-
-                            <!-- Remoto -->
-                            <Grid ColumnDefinitions="36, *"
-                                  ColumnSpacing="10"
-                                  IsVisible="False">
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="IsVisible" Value="False"/>
-                                        <Style.Triggers>
-                                            <DataTrigger TargetType="Grid" Binding="{Binding Type}" Value="Remoto">
-                                                <Setter Property="IsVisible" Value="True"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-                                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 10"
-                                        WidthRequest="36"
-                                        HeightRequest="36"
-                                        HorizontalOptions="Start"
-                                        VerticalOptions="Center">
-                                    <mi:MauiIcon Icon="{mi:Cupertino Globe}"
-                                                 IconSize="18"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 HorizontalOptions="Center"
-                                                 VerticalOptions="Center"/>
-                                </Border>
-                                <VerticalStackLayout Grid.Column="1"
-                                                     VerticalOptions="Center"
-                                                     Spacing="2">
-                                    <Label Text="Evento Online"
-                                           FontSize="11"
-                                           TextColor="{StaticResource secondary_text_color}"/>
-                                    <Label Text="Participe de qualquer lugar"
-                                           FontSize="13"
-                                           FontAttributes="Bold"
-                                           TextColor="{StaticResource primary_text_color}"/>
-                                </VerticalStackLayout>
-                            </Grid>
+                        <!-- Location -->
+                        <Grid ColumnDefinitions="36, *"
+                              ColumnSpacing="10">
+                            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 10"
+                                    WidthRequest="36"
+                                    HeightRequest="36"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center">
+                                <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
+                                             IconSize="18"
+                                             IconColor="{StaticResource secondary_text_color}"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1"
+                                                 VerticalOptions="Center"
+                                                 Spacing="2">
+                                <Label Text="Local"
+                                       FontSize="11"
+                                       TextColor="{StaticResource secondary_text_color}"/>
+                                <Label Text="{Binding Location}"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource primary_text_color}"
+                                       LineBreakMode="TailTruncation"/>
+                            </VerticalStackLayout>
                         </Grid>
 
                         <!-- Organizer Card -->
@@ -321,45 +237,19 @@
                                            FontAttributes="Bold"
                                            TextColor="{StaticResource primary_text_color}"/>
                                 </VerticalStackLayout>
-                                <Border Grid.Column="2"
-                                        Padding="14,6"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 12"
-                                        BackgroundColor="{StaticResource home_highlight_bg}"
-                                        VerticalOptions="Center">
-                                    <Label Text="Seguir"
-                                           FontSize="12"
-                                           FontAttributes="Bold"
-                                           TextColor="{StaticResource primary_orange_color}"/>
-                                </Border>
+            <!-- Seguir button removed (not backed by API) -->
                             </Grid>
                         </Border>
 
-                        <!-- Description -->
-                        <VerticalStackLayout Spacing="8">
-                            <Label Text="Sobre o Evento"
-                                   FontSize="18"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource primary_text_color}"/>
-                            <Label Text="{Binding Description}"
-                                   FontSize="14"
-                                   TextColor="{StaticResource secondary_text_color}"
-                                   LineBreakMode="WordWrap"
-                                   LineHeight="1.5"/>
-                        </VerticalStackLayout>
-
-                        <!-- Attractions / Programação -->
+                        <!-- Attractions / Programação (placeholder - API not integrated yet) -->
                         <VerticalStackLayout Spacing="10">
                             <Label Text="Programação"
                                    FontSize="18"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource primary_text_color}"/>
-
-                            <!-- Empty State -->
                             <VerticalStackLayout Spacing="8"
                                                  HorizontalOptions="Center"
-                                                 Margin="0,12,0,0"
-                                                 IsVisible="{Binding NoAttractions}">
+                                                 Margin="0,12,0,0">
                                 <Border BackgroundColor="{StaticResource card_icon_bg}"
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 16"
@@ -377,58 +267,6 @@
                                        TextColor="{StaticResource secondary_text_color}"
                                        HorizontalTextAlignment="Center"
                                        HorizontalOptions="Center"/>
-                            </VerticalStackLayout>
-
-                            <!-- Attractions List -->
-                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Attractions}"
-                                                 Spacing="10"
-                                                 IsVisible="{Binding HasAttractions}">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:Attraction">
-                                        <Border Stroke="{StaticResource Gray100}"
-                                                StrokeThickness="1"
-                                                StrokeShape="RoundRectangle 14"
-                                                BackgroundColor="{StaticResource White}"
-                                                Padding="12">
-                                            <Grid ColumnDefinitions="Auto, *, Auto"
-                                                  ColumnSpacing="12">
-                                                <Border WidthRequest="40"
-                                                        HeightRequest="40"
-                                                        StrokeThickness="0"
-                                                        StrokeShape="RoundRectangle 10"
-                                                        BackgroundColor="{StaticResource card_icon_bg}">
-                                                    <mi:MauiIcon Icon="{mi:Cupertino MusicNote}"
-                                                                 IconSize="18"
-                                                                 IconColor="{StaticResource secondary_text_color}"
-                                                                 HorizontalOptions="Center"
-                                                                 VerticalOptions="Center"/>
-                                                </Border>
-                                                <VerticalStackLayout Grid.Column="1"
-                                                                     VerticalOptions="Center"
-                                                                     Spacing="2">
-                                                    <Label Text="{Binding Title}"
-                                                           FontSize="14"
-                                                           FontAttributes="Bold"
-                                                           TextColor="{StaticResource primary_text_color}"/>
-                                                    <Label Text="{Binding Guest}"
-                                                           FontSize="11"
-                                                           TextColor="{StaticResource secondary_text_color}"/>
-                                                </VerticalStackLayout>
-                                                <Border Grid.Column="2"
-                                                        Padding="10,6"
-                                                        StrokeThickness="0"
-                                                        StrokeShape="RoundRectangle 8"
-                                                        BackgroundColor="#DBEAFE"
-                                                        VerticalOptions="Center">
-                                                    <Label Text="{Binding FormattedTimeRange}"
-                                                           FontSize="11"
-                                                           FontAttributes="Bold"
-                                                           TextColor="#2563EB"/>
-                                                </Border>
-                                            </Grid>
-                                        </Border>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
                             </VerticalStackLayout>
                         </VerticalStackLayout>
 
@@ -449,29 +287,14 @@
                         Radius="12"
                         Opacity="0.4"/>
             </Border.Shadow>
-            <Grid ColumnDefinitions="Auto, *"
-                  ColumnSpacing="14">
-                <VerticalStackLayout VerticalOptions="Center"
-                                     Spacing="2">
-                    <Label Text="A PARTIR DE"
-                           FontSize="10"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource secondary_text_color}"/>
-                    <Label Text="{Binding Price}"
-                           FontSize="22"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource primary_text_color}"/>
-                </VerticalStackLayout>
-                <Button Grid.Column="1"
-                        Text="Comprar agora"
-                        TextColor="{StaticResource White}"
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        HeightRequest="50"
-                        Background="{StaticResource gradient_button}"
-                        CornerRadius="14"
-                        Command="{Binding BuyTicketCommand}"/>
-            </Grid>
+            <Button Text="Comprar ingresso"
+                    TextColor="{StaticResource White}"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    HeightRequest="50"
+                    Background="{StaticResource gradient_button}"
+                    CornerRadius="14"
+                    Command="{Binding BuyTicketCommand}"/>
         </Border>
 
     </Grid>

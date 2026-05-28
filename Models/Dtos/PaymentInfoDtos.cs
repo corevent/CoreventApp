@@ -36,8 +36,6 @@ public record OrganizerPaymentInfoResDto(OrganizerPaymentInfoDataDto Data);
 
 public record ListOrganizerPaymentInfoDto(string Id, string Description);
 
-public record PaginationMetaDto(int Page, int Limit, int TotalItems, int TotalPages);
-
 public record OrganizerPaymentInfoPageDto(
     List<ListOrganizerPaymentInfoDto> Data,
     PaginationMetaDto Meta);

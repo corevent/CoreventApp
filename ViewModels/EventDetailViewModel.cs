@@ -1,15 +1,16 @@
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Models.Dtos;
 using CoreventApp.Services;
-using System.Collections.ObjectModel;
 
 namespace CoreventApp.ViewModels;
 
-[QueryProperty(nameof(EventData), "EventData")]
+[QueryProperty(nameof(EventId), "EventId")]
 public partial class EventDetailViewModel : ObservableObject
 {
-    private readonly AttractionStore _store;
-    private EventSummary? _event;
+    private readonly EventsService _eventsService;
+    private string? _eventId;
 
     [ObservableProperty]
     public partial string EventName { get; set; } = string.Empty;
@@ -24,12 +25,6 @@ public partial class EventDetailViewModel : ObservableObject
     public partial string Location { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string Description { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string Price { get; set; } = string.Empty;
-
-    [ObservableProperty]
     public partial string ImageUrl { get; set; } = string.Empty;
 
     [ObservableProperty]
@@ -39,60 +34,74 @@ public partial class EventDetailViewModel : ObservableObject
     public partial string OrganizerAvatar { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial bool IsFavorite { get; set; }
+    public partial string Price { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial EventType Type { get; set; } = EventType.Presencial;
+    public partial bool IsFavorite { get; set; }
 
     [ObservableProperty]
     public partial string OnlineUrl { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial bool HasAttractions { get; set; }
+    public partial string LocationTypeDisplay { get; set; } = "Presencial";
 
     [ObservableProperty]
-    public partial bool NoAttractions { get; set; } = true;
+    public partial bool IsLoading { get; set; }
 
-    public ObservableCollection<Attraction> Attractions { get; } = new();
-
-    public EventDetailViewModel(AttractionStore store)
-    {
-        _store = store;
-    }
-
-    public EventSummary? EventData
+    public string? EventId
     {
         set
         {
-            if (value is not null)
-            {
-                _event = value;
-                EventName = value.Name;
-                EventDate = value.Date;
-                ImageUrl = value.ImageUrl;
-                Category = value.Category;
-                Location = value.Location;
-                Description = value.Description;
-                Price = value.Price;
-                OrganizerName = value.OrganizerName;
-                OrganizerAvatar = value.OrganizerAvatar;
-                Type = value.Type;
-                OnlineUrl = value.OnlineUrl;
-                IsFavorite = value.IsFavorite;
-
-                LoadAttractions();
-            }
+            _eventId = value;
+            if (value is not null) _ = LoadEventAsync(value);
         }
     }
 
-    private void LoadAttractions()
+    public EventDetailViewModel(EventsService eventsService)
     {
-        var stored = _store.GetAttractions(EventName);
-        Attractions.Clear();
-        foreach (var a in stored)
-            Attractions.Add(a);
-        HasAttractions = Attractions.Count > 0;
-        NoAttractions = !HasAttractions;
+        _eventsService = eventsService;
+    }
+
+    private async Task LoadEventAsync(string eventId)
+    {
+        if (IsLoading) return;
+        IsLoading = true;
+
+        try
+        {
+            var evt = await _eventsService.GetByIdAsync(eventId);
+            if (evt is null) return;
+
+            EventName = evt.Title;
+            EventDate = $"{evt.StartDate:dd MMM, yyyy - HH:mm}";
+            ImageUrl = evt.BannerUrl ?? string.Empty;
+            Category = evt.Category;
+
+            // Combine locationName + cityName for display
+            var cityPart = !string.IsNullOrEmpty(evt.CityName) ? $", {evt.CityName}" : "";
+            if (!string.IsNullOrEmpty(evt.StateAcronym))
+                cityPart += $" - {evt.StateAcronym}";
+            Location = $"{evt.LocationName}{cityPart}";
+
+            OrganizerName = evt.Organizer.Name ?? string.Empty;
+            OrganizerAvatar = evt.Organizer.AvatarUrl ?? "profile_default_icon.png";
+            OnlineUrl = evt.LocationType == "online" ? evt.LocationName : string.Empty;
+            LocationTypeDisplay = evt.LocationType switch
+            {
+                "online" => "Online",
+                "in_person" => "Presencial",
+                "hybrid" => "Híbrido",
+                _ => "Presencial"
+            };
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"EventDetail LoadEventAsync failed: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]
@@ -105,8 +114,6 @@ public partial class EventDetailViewModel : ObservableObject
     private void ToggleFavorite()
     {
         IsFavorite = !IsFavorite;
-        if (_event is not null)
-            _event.IsFavorite = IsFavorite;
     }
 
     [RelayCommand]
