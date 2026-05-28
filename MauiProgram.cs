@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using CoreventApp.Services;
+﻿using CoreventApp.Services;
 using CoreventApp.Services.Api;
 using MauiIcons.Cupertino;
 using Microsoft.Extensions.Logging;
@@ -29,8 +28,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<TokenService>();
 		builder.Services.AddTransient<AuthTokenHandler>();
 
-		string baseUrl = "http://localhost:3000";
-		
+		string baseUrl = "https://corevent-app-fatec-d78bb2efd71a.herokuapp.com/";
 		builder.Services.AddHttpClient<AuthApiClient>(c => c.BaseAddress = new Uri(baseUrl));
 		builder.Services.AddHttpClient<UsersApiClient>(c => c.BaseAddress = new Uri(baseUrl))
 			.AddHttpMessageHandler<AuthTokenHandler>();
