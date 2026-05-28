@@ -1,127 +1,345 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CoreventApp.Views.Favorites"
+             xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             x:Class="CoreventApp.Views.Favorites"
+             x:DataType="vm:FavoritesViewModel"
+             x:Name="ThisPage"
              Title="Favorites"
+             Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource background_color}">
-    <ScrollView>
-        <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
-            <Grid Grid.Row="0"
+
+    <Grid RowDefinitions="Auto, *" Padding="20" RowSpacing="20">
+
+        <!-- Header -->
+        <Grid Grid.Row="0"
               ColumnDefinitions="Auto, *, Auto"
               VerticalOptions="Center">
-                <Border WidthRequest="40"
-                        HeightRequest="40"
-                        Stroke="{StaticResource Gray200}"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 20"
-                        BackgroundColor="{StaticResource White}">
-                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                        IconColor="{StaticResource primary_text_color}"
-                        IconSize="18"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"/>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
-                    </Border.GestureRecognizers>
-                </Border>
+            <Border WidthRequest="40"
+                    HeightRequest="40"
+                    Stroke="{StaticResource Gray200}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
+                    BackgroundColor="{StaticResource White}">
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                    IconColor="{StaticResource primary_text_color}"
+                    IconSize="18"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                </Border.GestureRecognizers>
+            </Border>
 
-                <Label Grid.Column="1"
-                    Text="Seus Favoritos"
-                    FontSize="20"
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource primary_text_color}"
-                    VerticalOptions="Center"
-                    Margin="12,0,0,0"/>
-            </Grid>
-
-
-            <Grid Grid.Row="1" RowDefinitions="auto, auto, auto" RowSpacing="20">
-                <Border
-        Stroke="{StaticResource Gray100}"
-        StrokeThickness="1"
-        StrokeShape="RoundRectangle 20"
-        BackgroundColor="{StaticResource White}">
-    <Grid ColumnDefinitions="72, *, Auto"
-          Padding="14,14,14,14"
-          ColumnSpacing="14">
-
-        <!-- Thumbnail -->
-        <Border StrokeThickness="0"
-                StrokeShape="RoundRectangle 14"
-                HeightRequest="72"
-                WidthRequest="72">
-            <Image Source="https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=400&amp;auto=format&amp;fit=crop"
-                Aspect="AspectFill"/>
-        </Border>
-
-        <!-- Infos -->
-        <VerticalStackLayout Grid.Column="1"
-                             Spacing="3"
-                             VerticalOptions="Center">
-
-            <Label Text="Vintage Culture – Open Air"
-                   FontSize="15"
+            <Label Grid.Column="1"
+                   Text="Seus Favoritos"
+                   FontSize="20"
                    FontAttributes="Bold"
                    TextColor="{StaticResource primary_text_color}"
-                   LineBreakMode="TailTruncation"/>
-
-            <HorizontalStackLayout Spacing="4">
-                <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
-                       IconColor="{StaticResource secondary_text_color}"
-                       IconSize="13"
-                       VerticalOptions="Center"/>
-                <Label Text="15 Out 2024"
-                       FontSize="12"
-                       TextColor="{StaticResource secondary_text_color}"
-                       VerticalOptions="Center"/>
-            </HorizontalStackLayout>
-
-            <HorizontalStackLayout Spacing="4">
-                <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
-                       IconColor="{StaticResource secondary_text_color}"
-                       IconSize="13"
-                       VerticalOptions="Center"/>
-                <Label Text="São Paulo, SP"
-                       FontSize="12"
-                       TextColor="{StaticResource secondary_text_color}"
-                       VerticalOptions="Center"/>
-            </HorizontalStackLayout>
-
-            <Label Text="R$ 250,00"
-                   FontSize="15"
-                   FontAttributes="Bold"
-                   TextColor="{StaticResource primary_orange_color}"
-                   Margin="0,2,0,0"/>
-
-        </VerticalStackLayout>
-
-        <!-- Botão deletar -->
-        <Border Grid.Column="2"
-                WidthRequest="36"
-                HeightRequest="36"
-                StrokeThickness="1"
-                Stroke="{StaticResource delete_stroke}"
-                StrokeShape="RoundRectangle 10"
-                BackgroundColor="{StaticResource delete_bg}"
-                VerticalOptions="Center">
-            
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer 
-                    Command="{Binding DeleteFavoriteEventCommand}" 
-                    CommandParameter="{Binding .}" />
-            </Border.GestureRecognizers>
-
-            <mi:MauiIcon Icon="{mi:Cupertino Trash}"
-                   IconColor="{StaticResource primary_text_color}"
-                   IconSize="18"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"/>
-        </Border>
-
-    </Grid>
-</Border>
-            </Grid>
+                   VerticalOptions="Center"
+                   Margin="12,0,0,0"/>
         </Grid>
-    </ScrollView>
+
+        <!-- Favorite Events List -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding FavoriteEvents}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                        ItemSpacing="14"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center"
+                                     VerticalOptions="Center"
+                                     Padding="40">
+                    <Label Text="Nenhum favorito ainda"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Eventos favoritados aparecerão aqui"
+                           FontSize="13"
+                           TextColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"
+                           Margin="0,8,0,0"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:EventSummary">
+                    <Border Stroke="{StaticResource Gray100}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 20"
+                            BackgroundColor="{StaticResource White}">
+                        <Grid ColumnDefinitions="100, *">
+                            <!-- Left: Image + Favorite -->
+                            <Border WidthRequest="100"
+                                    HeightRequest="100"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 20,0,20,0">
+                                <Grid>
+                                    <Image Source="{Binding ImageUrl}"
+                                           Aspect="AspectFill">
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Opacity"
+                                                        Value="1"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Image"
+                                                            Binding="{Binding ImageUrl, Converter={x:Null}}"
+                                                            Value="{x:Null}">
+                                                        <Setter Property="Source"
+                                                                Value="profile_default_icon.png"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+
+                                    <!-- Favorite Button -->
+                                    <Border WidthRequest="26"
+                                            HeightRequest="26"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 13"
+                                            BackgroundColor="{StaticResource White}"
+                                            Padding="0"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Start"
+                                            Margin="0,5,5,0">
+
+                                        <Grid>
+                                            <mi:MauiIcon Icon="{mi:Cupertino HeartFill}"
+                                                         IconSize="13"
+                                                         IconColor="{StaticResource Red}"
+                                                         IsVisible="False"
+                                                         HorizontalOptions="Center"
+                                                         VerticalOptions="Center">
+                                                <mi:MauiIcon.Triggers>
+                                                    <DataTrigger TargetType="mi:MauiIcon"
+                                                            Binding="{Binding IsFavorite}"
+                                                            Value="True">
+                                                        <Setter Property="IsVisible" Value="True"/>
+                                                    </DataTrigger>
+                                                </mi:MauiIcon.Triggers>
+                                            </mi:MauiIcon>
+                                            <mi:MauiIcon Icon="{mi:Cupertino Heart}"
+                                                         IconSize="13"
+                                                         IconColor="{StaticResource secondary_text_color}"
+                                                         HorizontalOptions="Center"
+                                                         VerticalOptions="Center">
+                                                <mi:MauiIcon.Triggers>
+                                                    <DataTrigger TargetType="mi:MauiIcon"
+                                                            Binding="{Binding IsFavorite}"
+                                                            Value="True">
+                                                        <Setter Property="IsVisible" Value="False"/>
+                                                    </DataTrigger>
+                                                </mi:MauiIcon.Triggers>
+                                            </mi:MauiIcon>
+                                        </Grid>
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.ToggleFavoriteCommand}"
+                                                CommandParameter="{Binding}"/>
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                </Grid>
+                            </Border>
+
+                            <!-- Right: Details -->
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Padding="12,10,12,10"
+                                                 Spacing="3"
+                                                 VerticalOptions="Center">
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SelectEventCommand}"
+                                        CommandParameter="{Binding}"/>
+                                </VerticalStackLayout.GestureRecognizers>
+
+                                <!-- Category + Type row -->
+                                <Grid ColumnDefinitions="Auto, Auto, *">
+                                    <Label Text="{Binding Category}"
+                                           FontSize="10"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource secondary_text_color}"
+                                           VerticalOptions="Center"/>
+
+                                    <Border Grid.Column="1"
+                                            Padding="6,2"
+                                            Margin="6,0,0,0"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 6"
+                                            VerticalOptions="Center">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="BackgroundColor"
+                                                        Value="#E8F5E9"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Border"
+                                                            Binding="{Binding Type}"
+                                                            Value="Presencial">
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#DBEAFE"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Border"
+                                                            Binding="{Binding Type}"
+                                                            Value="Hibrido">
+                                                        <Setter Property="BackgroundColor"
+                                                                Value="#F3E8FF"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <Label FontSize="9"
+                                               FontAttributes="Bold"
+                                               VerticalOptions="Center">
+                                            <Label.Style>
+                                                <Style TargetType="Label">
+                                                    <Setter Property="Text"
+                                                            Value="Online"/>
+                                                    <Setter Property="TextColor"
+                                                            Value="#10B981"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger TargetType="Label"
+                                                                Binding="{Binding Type}"
+                                                                Value="Presencial">
+                                                            <Setter Property="Text"
+                                                                    Value="Presencial"/>
+                                                            <Setter Property="TextColor"
+                                                                    Value="#2563EB"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Label"
+                                                                Binding="{Binding Type}"
+                                                                Value="Hibrido">
+                                                            <Setter Property="Text"
+                                                                    Value="Híbrido"/>
+                                                            <Setter Property="TextColor"
+                                                                    Value="#7C3AED"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Title -->
+                                <Label Text="{Binding Name}"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource primary_text_color}"
+                                       LineBreakMode="TailTruncation"/>
+
+                                <!-- Location / Online -->
+                                <Grid>
+                                    <!-- Presencial / Hibrido -->
+                                    <HorizontalStackLayout Spacing="4"
+                                                           IsVisible="False">
+                                        <HorizontalStackLayout.Style>
+                                            <Style TargetType="HorizontalStackLayout">
+                                                <Setter Property="IsVisible"
+                                                        Value="False"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="HorizontalStackLayout"
+                                                            Binding="{Binding Type}"
+                                                            Value="Presencial">
+                                                        <Setter Property="IsVisible"
+                                                                Value="True"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="HorizontalStackLayout"
+                                                            Binding="{Binding Type}"
+                                                            Value="Hibrido">
+                                                        <Setter Property="IsVisible"
+                                                                Value="True"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </HorizontalStackLayout.Style>
+                                        <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
+                                                     IconSize="11"
+                                                     IconColor="{StaticResource secondary_text_color}"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center"/>
+                                        <Label Text="{Binding Location}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"
+                                               LineBreakMode="TailTruncation"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Remoto -->
+                                    <HorizontalStackLayout Spacing="4"
+                                                           IsVisible="False">
+                                        <HorizontalStackLayout.Style>
+                                            <Style TargetType="HorizontalStackLayout">
+                                                <Setter Property="IsVisible"
+                                                        Value="False"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="HorizontalStackLayout"
+                                                            Binding="{Binding Type}"
+                                                            Value="Remoto">
+                                                        <Setter Property="IsVisible"
+                                                                Value="True"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </HorizontalStackLayout.Style>
+                                        <mi:MauiIcon Icon="{mi:Cupertino Globe}"
+                                                     IconSize="11"
+                                                     IconColor="{StaticResource secondary_text_color}"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center"/>
+                                        <Label Text="Evento Online"
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </Grid>
+
+                                <!-- Date + Price row -->
+                                <Grid ColumnDefinitions="Auto, *"
+                                      Margin="0,2,0,0">
+                                    <HorizontalStackLayout Spacing="4">
+                                        <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                                     IconSize="11"
+                                                     IconColor="{StaticResource secondary_text_color}"
+                                                     HorizontalOptions="Center"
+                                                     VerticalOptions="Center"/>
+                                        <Label Text="{Binding Date}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Price}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Center">
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource primary_text_color}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger TargetType="Label"
+                                                            Binding="{Binding Price}"
+                                                            Value="Grátis">
+                                                        <Setter Property="TextColor"
+                                                                Value="{StaticResource status_success_text}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>
