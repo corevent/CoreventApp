@@ -1,17 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Models.Dtos;
 using CoreventApp.Services;
 using System.Collections.ObjectModel;
 
 namespace CoreventApp.ViewModels;
 
-[QueryProperty(nameof(EventName), "EventName")]
+[QueryProperty(nameof(EventId), "EventId")]
 public partial class EventAttractionsViewModel : ObservableObject
 {
-    private readonly AttractionStore _store;
+    private readonly AttractionsService _attractionsService;
 
     [ObservableProperty]
-    public partial string EventName { get; set; } = string.Empty;
+    public partial string EventId { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string NewTitle { get; set; } = string.Empty;
@@ -20,39 +21,47 @@ public partial class EventAttractionsViewModel : ObservableObject
     public partial string NewGuest { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial TimeSpan NewStartTime { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 14, 0, 0).TimeOfDay;
+    public partial TimeSpan NewStartTime { get; set; } = new(14, 0, 0);
 
     [ObservableProperty]
-    public partial TimeSpan NewEndTime { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 15, 0, 0).TimeOfDay;
+    public partial TimeSpan NewEndTime { get; set; } = new(15, 0, 0);
 
     [ObservableProperty]
     public partial bool HasAttractions { get; set; }
 
+    [ObservableProperty]
+    public partial bool IsLoading { get; set; }
+
     public ObservableCollection<Attraction> Attractions { get; } = new();
 
-    public EventAttractionsViewModel(AttractionStore store)
+    public EventAttractionsViewModel(AttractionsService attractionsService)
     {
-        _store = store;
+        _attractionsService = attractionsService;
     }
 
-    partial void OnEventNameChanged(string value)
+    partial void OnEventIdChanged(string value)
     {
-        if (string.IsNullOrEmpty(value)) return;
-
-        var stored = _store.GetAttractions(value);
-
-        Attractions.CollectionChanged -= OnAttractionsChanged;
-        Attractions.Clear();
-        foreach (var a in stored)
-            Attractions.Add(a);
-        Attractions.CollectionChanged += OnAttractionsChanged;
-
-        HasAttractions = Attractions.Count > 0;
+        if (!string.IsNullOrEmpty(value))
+            _ = LoadAttractionsAsync();
     }
 
-    private void OnAttractionsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private async Task LoadAttractionsAsync()
     {
-        HasAttractions = Attractions.Count > 0;
+        if (IsLoading) return;
+        IsLoading = true;
+
+        try
+        {
+            var result = await _attractionsService.GetAllAsync(EventId);
+            Attractions.Clear();
+            foreach (var item in result.Data)
+                Attractions.Add(MapToPresentation(item));
+            HasAttractions = Attractions.Count > 0;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]
@@ -61,34 +70,33 @@ public partial class EventAttractionsViewModel : ObservableObject
         if (string.IsNullOrWhiteSpace(NewTitle) || string.IsNullOrWhiteSpace(NewGuest))
             return;
 
-        var baseTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+        var baseDate = DateTime.Today;
+        var dto = new CreateAttractionDto(
+            NewTitle.Trim(),
+            NewGuest.Trim(),
+            baseDate + NewStartTime,
+            baseDate + NewEndTime);
 
-        var attraction = new Attraction
-        {
-            Title = NewTitle.Trim(),
-            Guest = NewGuest.Trim(),
-            StartTime = NewStartTime,
-            EndTime = NewEndTime
-        };
+        var result = await _attractionsService.CreateAsync(EventId, dto);
+        if (result is null) return;
 
-        var stored = _store.GetAttractions(EventName);
-        stored.Add(attraction);
-        Attractions.Add(attraction);
+        Attractions.Add(MapToPresentation(result));
+        HasAttractions = true;
 
         NewTitle = string.Empty;
         NewGuest = string.Empty;
-        NewStartTime = baseTime.AddHours(14).TimeOfDay;
-        NewEndTime = baseTime.AddHours(15).TimeOfDay;
-
-        await Task.CompletedTask;
+        NewStartTime = new TimeSpan(14, 0, 0);
+        NewEndTime = new TimeSpan(15, 0, 0);
     }
 
     [RelayCommand]
-    private void RemoveAttraction(Attraction attraction)
+    private async Task RemoveAttraction(Attraction attraction)
     {
-        var stored = _store.GetAttractions(EventName);
-        stored.Remove(attraction);
+        var success = await _attractionsService.DeleteAsync(attraction.Id);
+        if (!success) return;
+
         Attractions.Remove(attraction);
+        HasAttractions = Attractions.Count > 0;
     }
 
     [RelayCommand]
@@ -96,10 +104,22 @@ public partial class EventAttractionsViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync("..");
     }
+
+    private static Attraction MapToPresentation(AttractionDto dto) => new()
+    {
+        Id = dto.Id,
+        Title = dto.Title,
+        Guest = dto.Guest,
+        StartDate = dto.StartDate,
+        EndDate = dto.EndDate
+    };
 }
 
 public partial class Attraction : ObservableObject
 {
+    [ObservableProperty]
+    public partial string Id { get; set; } = string.Empty;
+
     [ObservableProperty]
     public partial string Title { get; set; } = string.Empty;
 
@@ -107,10 +127,10 @@ public partial class Attraction : ObservableObject
     public partial string Guest { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial TimeSpan StartTime { get; set; }
+    public partial DateTime StartDate { get; set; }
 
     [ObservableProperty]
-    public partial TimeSpan EndTime { get; set; }
+    public partial DateTime EndDate { get; set; }
 
-    public string FormattedTimeRange => $"{StartTime.Hours:D2}:{StartTime.Minutes:D2} - {EndTime.Hours:D2}:{EndTime.Minutes:D2}";
+    public string FormattedTimeRange => $"{StartDate:HH:mm} - {EndDate:HH:mm}";
 }

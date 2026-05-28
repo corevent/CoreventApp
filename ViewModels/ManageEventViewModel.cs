@@ -208,9 +208,11 @@ public partial class ManageEventViewModel : ObservableObject
     [RelayCommand]
     private async Task AttractionsAsync()
     {
+        if (_eventId is null) return;
+
         await Shell.Current.GoToAsync(nameof(Views.EventAttractions), new Dictionary<string, object>
         {
-            ["EventName"] = EventName
+            ["EventId"] = _eventId
         });
     }
 

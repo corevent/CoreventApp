@@ -42,10 +42,13 @@ public static class MauiProgram
 		builder.Services.AddHttpClient<EventsApiClient>(c => c.BaseAddress = new Uri(baseUrl))
 			.AddHttpMessageHandler<AuthTokenHandler>();
 
+		builder.Services.AddHttpClient<AttractionsApiClient>(c => c.BaseAddress = new Uri(baseUrl))
+			.AddHttpMessageHandler<AuthTokenHandler>();
+
 		builder.Services.AddSingleton<IAuthService, AuthService>();
-		builder.Services.AddSingleton<AttractionStore>();
 		builder.Services.AddTransient<PaymentInfoService>();
 		builder.Services.AddTransient<EventsService>();
+		builder.Services.AddTransient<AttractionsService>();
 
 		// ViewModels
 		builder.Services.AddTransient<ViewModels.WelcomeViewModel>();

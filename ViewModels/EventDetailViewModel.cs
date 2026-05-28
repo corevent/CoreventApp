@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -10,6 +11,7 @@ namespace CoreventApp.ViewModels;
 public partial class EventDetailViewModel : ObservableObject
 {
     private readonly EventsService _eventsService;
+    private readonly AttractionsService _attractionsService;
     private string? _eventId;
 
     [ObservableProperty]
@@ -48,6 +50,9 @@ public partial class EventDetailViewModel : ObservableObject
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
 
+    [ObservableProperty]
+    public partial bool HasAttractions { get; set; }
+
     public string? EventId
     {
         set
@@ -57,9 +62,12 @@ public partial class EventDetailViewModel : ObservableObject
         }
     }
 
-    public EventDetailViewModel(EventsService eventsService)
+    public ObservableCollection<AttractionDto> Attractions { get; } = new();
+
+    public EventDetailViewModel(EventsService eventsService, AttractionsService attractionsService)
     {
         _eventsService = eventsService;
+        _attractionsService = attractionsService;
     }
 
     private async Task LoadEventAsync(string eventId)
@@ -77,7 +85,6 @@ public partial class EventDetailViewModel : ObservableObject
             ImageUrl = evt.BannerUrl ?? string.Empty;
             Category = evt.Category;
 
-            // Combine locationName + cityName for display
             var cityPart = !string.IsNullOrEmpty(evt.CityName) ? $", {evt.CityName}" : "";
             if (!string.IsNullOrEmpty(evt.StateAcronym))
                 cityPart += $" - {evt.StateAcronym}";
@@ -93,6 +100,8 @@ public partial class EventDetailViewModel : ObservableObject
                 "hybrid" => "Híbrido",
                 _ => "Presencial"
             };
+
+            _ = LoadAttractionsAsync(eventId);
         }
         catch (Exception ex)
         {
@@ -101,6 +110,22 @@ public partial class EventDetailViewModel : ObservableObject
         finally
         {
             IsLoading = false;
+        }
+    }
+
+    private async Task LoadAttractionsAsync(string eventId)
+    {
+        try
+        {
+            var result = await _attractionsService.GetAllAsync(eventId);
+            Attractions.Clear();
+            foreach (var item in result.Data)
+                Attractions.Add(item);
+            HasAttractions = Attractions.Count > 0;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"EventDetail LoadAttractionsAsync failed: {ex.Message}");
         }
     }
 
