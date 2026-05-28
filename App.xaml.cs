@@ -22,8 +22,6 @@ public partial class App : Application
 
 		Window w = new(loadingPage)
 		{
-			Width = 360,
-			Height = 800,
 			Title = "Corevent",
 		};
 
