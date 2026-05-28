@@ -64,7 +64,7 @@
                     </Grid>
                 </Border>
 
-                <!-- Bank Accounts Section -->
+                    <!-- Bank Accounts Section -->
                 <VerticalStackLayout Spacing="12">
                     <Grid ColumnDefinitions="*, Auto">
                         <Label Text="CONTAS BANCÁRIAS"
@@ -83,64 +83,66 @@
                         </Label>
                     </Grid>
 
-                    <Border Stroke="{StaticResource Gray100}"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 22"
-                            BackgroundColor="{StaticResource White}"
-                            Padding="0">
-                        <Grid ColumnDefinitions="6, *">
-                            <BoxView Grid.Column="0" 
-                                     BackgroundColor="#E53935" 
-                                     CornerRadius="3,0,3,0"
-                                     WidthRequest="6"/>
-                            
-                            <Grid Grid.Column="1" ColumnDefinitions="60, *, Auto" Padding="12,16,16,16" ColumnSpacing="12">
-                                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 14"
-                                        WidthRequest="48"
-                                        HeightRequest="48">
-                                    <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
-                                                 IconSize="22"
-                                                 IconColor="{StaticResource primary_text_color}"
-                                                 HorizontalOptions="Center"
-                                                 VerticalOptions="Center"/>
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding BankAccounts}" Spacing="12">
+                        <BindableLayout.EmptyView>
+                            <Label Text="Nenhuma conta cadastrada"
+                                   FontSize="13"
+                                   TextColor="{StaticResource secondary_text_color}"
+                                   HorizontalOptions="Center"
+                                   Margin="0,8"/>
+                        </BindableLayout.EmptyView>
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:BankAccountItem">
+                                <Border Stroke="{StaticResource Gray100}"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 22"
+                                        BackgroundColor="{StaticResource White}"
+                                        Padding="0">
+                                    <Grid ColumnDefinitions="6, *">
+                                        <BoxView Grid.Column="0" 
+                                                 BackgroundColor="#E53935" 
+                                                 CornerRadius="3,0,3,0"
+                                                 WidthRequest="6"/>
+                                        
+                                        <Grid Grid.Column="1" ColumnDefinitions="60, *, Auto" Padding="12,16,16,16" ColumnSpacing="12">
+                                            <Border BackgroundColor="{StaticResource card_icon_bg}"
+                                                    StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 14"
+                                                    WidthRequest="48"
+                                                    HeightRequest="48">
+                                                <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
+                                                             IconSize="22"
+                                                             IconColor="{StaticResource primary_text_color}"
+                                                             HorizontalOptions="Center"
+                                                             VerticalOptions="Center"/>
+                                            </Border>
+
+                                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                                <Label Text="{Binding Description}"
+                                                       FontSize="15"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource primary_text_color}"/>
+                                                <Label Text="{Binding DisplayText}"
+                                                       FontSize="11"
+                                                       TextColor="{StaticResource secondary_text_color}"/>
+                                            </VerticalStackLayout>
+
+                                            <mi:MauiIcon Grid.Column="2"
+                                                         Icon="{mi:Cupertino Trash}"
+                                                         IconSize="20"
+                                                         IconColor="{StaticResource secondary_text_color}"
+                                                         VerticalOptions="Center">
+                                                <mi:MauiIcon.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TransferSettingsViewModel}}, Path=DeleteBankAccountCommand}"
+                                                                          CommandParameter="{Binding .}"/>
+                                                </mi:MauiIcon.GestureRecognizers>
+                                            </mi:MauiIcon>
+                                        </Grid>
+                                    </Grid>
                                 </Border>
-
-                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                    <HorizontalStackLayout Spacing="8">
-                                        <Label Text="{Binding PrimaryAccount.BankName}"
-                                               FontSize="15"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource primary_text_color}"/>
-                                        <Border BackgroundColor="#FFF1F0" 
-                                                Padding="6,2" 
-                                                StrokeThickness="0"
-                                                StrokeShape="RoundRectangle 6"
-                                                IsVisible="{Binding PrimaryAccount.IsDefault}">
-                                            <Label Text="PADRÃO" 
-                                                   FontSize="9" 
-                                                   FontAttributes="Bold" 
-                                                   TextColor="#E53935"/>
-                                        </Border>
-                                    </HorizontalStackLayout>
-                                    <Label Text="{Binding PrimaryAccount.BankDetails}"
-                                           FontSize="11"
-                                           FontAttributes="Bold"
-                                           TextColor="{StaticResource secondary_text_color}"/>
-                                    <Label Text="{Binding PrimaryAccount.AccountNumber}"
-                                           FontSize="11"
-                                           TextColor="{StaticResource secondary_text_color}"/>
-                                </VerticalStackLayout>
-
-                                <mi:MauiIcon Grid.Column="2"
-                                             Icon="{mi:Cupertino ChevronRight}"
-                                             IconSize="18"
-                                             IconColor="{StaticResource chevron_color}"
-                                             VerticalOptions="Center"/>
-                            </Grid>
-                        </Grid>
-                    </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
 
                 <!-- Pix Keys Section -->
@@ -253,5 +255,17 @@
 
             </VerticalStackLayout>
         </ScrollView>
+
+        <!-- Loading Overlay -->
+        <Grid IsVisible="{Binding IsLoading}"
+              Grid.RowSpan="2"
+              BackgroundColor="#80000000">
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               Color="{StaticResource primary_orange_color}"
+                               HeightRequest="50"
+                               WidthRequest="50"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+        </Grid>
     </Grid>
 </ContentPage>

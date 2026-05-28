@@ -66,13 +66,13 @@
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Agência" FontSize="13" TextColor="{StaticResource secondary_text_color}"/>
                         <Border Stroke="{StaticResource Gray100}" StrokeThickness="1" StrokeShape="RoundRectangle 12" BackgroundColor="{StaticResource White}" Padding="12,4">
-                            <Entry Text="{Binding Agency}" Placeholder="0001" Keyboard="Numeric" TextColor="{StaticResource primary_text_color}"/>
+                            <Entry Text="{Binding BranchNumber}" Placeholder="0001" Keyboard="Numeric" TextColor="{StaticResource primary_text_color}"/>
                         </Border>
                     </VerticalStackLayout>
                     <VerticalStackLayout Grid.Column="1" Spacing="6">
                         <Label Text="Dígito" FontSize="13" TextColor="{StaticResource secondary_text_color}"/>
                         <Border Stroke="{StaticResource Gray100}" StrokeThickness="1" StrokeShape="RoundRectangle 12" BackgroundColor="{StaticResource White}" Padding="12,4">
-                            <Entry Text="{Binding AgencyDigit}" Placeholder="0" Keyboard="Numeric" TextColor="{StaticResource primary_text_color}"/>
+                            <Entry Text="{Binding BranchDigit}" Placeholder="0" Keyboard="Numeric" TextColor="{StaticResource primary_text_color}"/>
                         </Border>
                     </VerticalStackLayout>
                 </Grid>
@@ -92,6 +92,13 @@
                         </Border>
                     </VerticalStackLayout>
                 </Grid>
+
+                <!-- Loading -->
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   IsVisible="{Binding IsLoading}"
+                                   Color="{StaticResource primary_orange_color}"
+                                   HeightRequest="30"
+                                   HorizontalOptions="Center"/>
 
                 <!-- Action Button -->
                 <Button Text="Salvar Conta"

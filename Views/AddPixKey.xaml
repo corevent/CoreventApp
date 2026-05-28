@@ -45,6 +45,14 @@
             <VerticalStackLayout Padding="16,14,16,20"
                                  Spacing="18">
 
+                <!-- Description -->
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Descrição (ex: Chave Principal)" FontSize="13" TextColor="{StaticResource secondary_text_color}"/>
+                    <Border Stroke="{StaticResource Gray100}" StrokeThickness="1" StrokeShape="RoundRectangle 12" BackgroundColor="{StaticResource White}" Padding="12,4">
+                        <Entry Text="{Binding Description}" Placeholder="Nome para identificar a chave" TextColor="{StaticResource primary_text_color}"/>
+                    </Border>
+                </VerticalStackLayout>
+
                 <!-- Key Type -->
                 <VerticalStackLayout Spacing="6">
                     <Label Text="Tipo de Chave" FontSize="13" TextColor="{StaticResource secondary_text_color}"/>
@@ -63,6 +71,13 @@
                         <Entry Text="{Binding KeyValue}" Placeholder="Insira sua chave aqui" TextColor="{StaticResource primary_text_color}"/>
                     </Border>
                 </VerticalStackLayout>
+
+                <!-- Loading -->
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   IsVisible="{Binding IsLoading}"
+                                   Color="{StaticResource primary_orange_color}"
+                                   HeightRequest="30"
+                                   HorizontalOptions="Center"/>
 
                 <!-- Action Button -->
                 <Button Text="Adicionar Chave"

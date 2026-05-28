@@ -1,10 +1,19 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Models.Dtos;
+using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
 
 public partial class AddBankAccountViewModel : ObservableObject
 {
+    private readonly PaymentInfoService _paymentInfoService;
+
+    public AddBankAccountViewModel(PaymentInfoService paymentInfoService)
+    {
+        _paymentInfoService = paymentInfoService;
+    }
+
     [ObservableProperty]
     public partial string Description { get; set; } = string.Empty;
 
@@ -12,16 +21,19 @@ public partial class AddBankAccountViewModel : ObservableObject
     public partial string BankCode { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string Agency { get; set; } = string.Empty;
+    public partial string BranchNumber { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string AgencyDigit { get; set; } = string.Empty;
+    public partial string BranchDigit { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string AccountNumber { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string AccountDigit { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial bool IsLoading { get; set; }
 
     [RelayCommand]
     private async Task SaveAsync()
@@ -38,7 +50,7 @@ public partial class AddBankAccountViewModel : ObservableObject
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(Agency))
+        if (string.IsNullOrWhiteSpace(BranchNumber))
         {
             await Shell.Current.DisplayAlertAsync("Erro", "A agência é obrigatória.", "OK");
             return;
@@ -50,8 +62,24 @@ public partial class AddBankAccountViewModel : ObservableObject
             return;
         }
 
-        // Logic to save would go here (or passing back to TransferSettings)
-        await Shell.Current.GoToAsync("..");
+        var dto = new CreateOrganizerPaymentInfoDto(
+            Description,
+            BranchNumber,
+            string.IsNullOrWhiteSpace(BranchDigit) ? null : BranchDigit,
+            AccountNumber,
+            string.IsNullOrWhiteSpace(AccountDigit) ? null : AccountDigit,
+            null,
+            null,
+            BankCode);
+
+        IsLoading = true;
+        var result = await _paymentInfoService.CreateAsync(dto);
+        IsLoading = false;
+
+        if (result != null)
+            await Shell.Current.GoToAsync("..");
+        else
+            await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível salvar a conta. Tente novamente.", "OK");
     }
 
     [RelayCommand]
