@@ -7,9 +7,4 @@ public partial class Favorites : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
-
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-	{
-		
-	}
 }

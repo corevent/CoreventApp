@@ -1,25 +1,72 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Views;
+using System.Collections.ObjectModel;
 
 namespace CoreventApp.ViewModels;
 
 public partial class FavoritesViewModel : ObservableObject
 {
-  [RelayCommand]
-  private async Task DeleteFavoriteEventAsync()
-  {
-    bool confirm = await Shell.Current.DisplayAlertAsync("Excluir evento", "Deseja excluir este evento dos seus favoritos?", "Sim", "Não");
+    public ObservableCollection<EventSummary> FavoriteEvents { get; } = new();
 
-    if (confirm)
+    public FavoritesViewModel()
     {
-      await Shell.Current.DisplayAlertAsync("Sucesso", "Evento excluído dos favoritos com sucesso!", "Sim");
-    }
-  }
+        FavoriteEvents.Add(new EventSummary
+        {
+            Name = "Festival de Verão 2026",
+            Category = "Música",
+            Date = "15 Out, 2026",
+            Location = "Praia de Copacabana, RJ",
+            ImageUrl = "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
+            Price = "R$ 150",
+            Rating = 4.8,
+            Type = EventType.Presencial,
+            OrganizerName = "Corevent Produções",
+            OrganizerAvatar = "profile_default_icon.png",
+            Description = "O maior festival de verão do Brasil! Venha curtir os melhores artistas em um evento inesquecível à beira-mar. São mais de 20 atrações nacionais e internacionais confirmadas.",
+            IsFavorite = true
+        });
 
-  [RelayCommand]
-  private async Task GoBack()
-  {
-      await Shell.Current.GoToAsync("..");
-  }
+        FavoriteEvents.Add(new EventSummary
+        {
+            Name = "Tech Summit 2026",
+            Category = "Tecnologia",
+            Date = "22 Nov, 2026",
+            Location = "Centro de Convenções, SP",
+            ImageUrl = "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=400&fit=crop",
+            Price = "R$ 90",
+            Rating = 4.9,
+            Type = EventType.Hibrido,
+            OnlineUrl = "https://zoom.us/techsummit2026",
+            OrganizerName = "Tech Events Brasil",
+            OrganizerAvatar = "profile_default_icon.png",
+            Description = "O maior encontro de tecnologia da América Latina. Palestras, workshops e networking com os maiores nomes do setor. Disponível presencial e online.",
+            IsFavorite = true
+        });
+    }
+
+    [RelayCommand]
+    private void ToggleFavorite(EventSummary eventItem)
+    {
+        eventItem.IsFavorite = !eventItem.IsFavorite;
+        if (!eventItem.IsFavorite)
+        {
+            FavoriteEvents.Remove(eventItem);
+        }
+    }
+
+    [RelayCommand]
+    private async Task SelectEventAsync(EventSummary eventItem)
+    {
+        await Shell.Current.GoToAsync(nameof(Views.EventDetail), new Dictionary<string, object>
+        {
+            ["EventData"] = eventItem
+        });
+    }
+
+    [RelayCommand]
+    private async Task GoBack()
+    {
+        await Shell.Current.GoToAsync("..");
+    }
 }
