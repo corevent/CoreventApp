@@ -15,18 +15,27 @@ public partial class LoginViewModel : ObservableObject
   }
 
   [ObservableProperty]
+  public partial bool IsBusy { get; set; }
+
+  [ObservableProperty]
   public partial LoginRequest Form { get; set; } = new();
 
   [RelayCommand]
   private async Task LoginAsync()
   {
+    if (IsBusy) return;
+
     if (string.IsNullOrWhiteSpace(Form.Email) || string.IsNullOrWhiteSpace(Form.Password))
     {
       await Shell.Current.DisplayAlertAsync("Erro", "Preencha todos os campos.", "OK");
       return;
     }
 
+    IsBusy = true;
+
     var user = await _authService.LoginAsync(Form.Email, Form.Password);
+
+    IsBusy = false;
 
     if (user != null)
     {

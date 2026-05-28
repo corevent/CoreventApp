@@ -157,10 +157,15 @@
                      </VerticalStackLayout>
               </Grid>
 
-              <VerticalStackLayout Grid.Row="4"
-                                   VerticalOptions="End"
-                                   Spacing="20">
-                     <Button x:Name="BtnNext"
+               <VerticalStackLayout Grid.Row="4"
+                                    VerticalOptions="End"
+                                    Spacing="20">
+                      <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                         IsVisible="{Binding IsBusy}"
+                                         Color="{StaticResource primary_orange_color}"
+                                         HeightRequest="30"
+                                         HorizontalOptions="Center"/>
+                      <Button x:Name="BtnNext"
                              Text="{Binding ButtonNextText}"
                              TextColor="{StaticResource White}"
                              FontAttributes="Bold"

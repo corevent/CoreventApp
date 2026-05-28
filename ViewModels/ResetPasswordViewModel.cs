@@ -5,6 +5,7 @@ using CoreventApp.Services;
 namespace CoreventApp.ViewModels;
 
 [QueryProperty(nameof(Email), "Email")]
+[QueryProperty(nameof(Code), "Code")]
 public partial class ResetPasswordViewModel : ObservableObject
 {
     private readonly IAuthService _authService;
@@ -16,6 +17,9 @@ public partial class ResetPasswordViewModel : ObservableObject
 
     [ObservableProperty]
     public partial string Email { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Code { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string NewPassword { get; set; } = string.Empty;
@@ -45,6 +49,8 @@ public partial class ResetPasswordViewModel : ObservableObject
     [RelayCommand]
     private async Task ResetAsync()
     {
+        if (IsLoading) return;
+
         if (string.IsNullOrWhiteSpace(NewPassword) || NewPassword.Length < 6)
         {
             ShowError("A senha deve ter pelo menos 6 caracteres.");
@@ -60,7 +66,7 @@ public partial class ResetPasswordViewModel : ObservableObject
         IsLoading = true;
         ClearError();
 
-        var success = await _authService.ResetPasswordAsync(Email, NewPassword);
+        var success = await _authService.ResetPasswordAsync(Email, Code, NewPassword);
 
         IsLoading = false;
 
@@ -68,7 +74,7 @@ public partial class ResetPasswordViewModel : ObservableObject
         {
             await Shell.Current.DisplayAlertAsync("Sucesso",
                 "Senha redefinida com sucesso!", "OK");
-            await Shell.Current.GoToAsync("../..");
+            await Shell.Current.GoToAsync($"//welcome/{nameof(CoreventApp.Views.Login)}");
         }
         else
         {

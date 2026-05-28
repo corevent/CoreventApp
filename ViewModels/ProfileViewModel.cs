@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Services;
@@ -12,8 +13,13 @@ public partial class ProfileViewModel : ObservableObject
   {
     _authService = authService;
 
-    LoadUserAsync();
+    var cached = _authService.CurrentCachedUser;
+    if (cached != null)
+      ApplyUser(cached);
   }
+
+  [ObservableProperty]
+  public partial bool IsBusy { get; set; }
 
   [ObservableProperty]
   public partial string UserName { get; set; } = string.Empty;
@@ -24,19 +30,35 @@ public partial class ProfileViewModel : ObservableObject
   [ObservableProperty]
   public partial string UserAvatar { get; set; } = "profile_default_icon.png";
 
-  private async void LoadUserAsync()
+  public async Task LoadUserAsync()
   {
-    var user = await _authService.GetCurrentUserAsync();
-    if (user != null)
+    if (IsBusy)
+      return;
+
+    try
     {
-      UserName = user.Name;
-      UserEmail = user.Email;
-      
-      if (!string.IsNullOrWhiteSpace(user.AvatarUrl))
-      {
-        UserAvatar = user.AvatarUrl;
-      }
+      IsBusy = true;
+      var user = await _authService.GetCurrentUserAsync();
+      if (user != null)
+        ApplyUser(user);
     }
+    catch (Exception ex)
+    {
+      Debug.WriteLine($"ProfileViewModel.LoadUserAsync failed: {ex.Message}");
+    }
+    finally
+    {
+      IsBusy = false;
+    }
+  }
+
+  private void ApplyUser(Models.User user)
+  {
+    UserName = user.Name;
+    UserEmail = user.Email;
+
+    if (!string.IsNullOrWhiteSpace(user.AvatarUrl))
+      UserAvatar = user.AvatarUrl;
   }
 
   [RelayCommand]

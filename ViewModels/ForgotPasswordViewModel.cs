@@ -22,6 +22,8 @@ public partial class ForgotPasswordViewModel : ObservableObject
     [RelayCommand]
     private async Task SendResetCodeAsync()
     {
+        if (IsLoading) return;
+
         if (string.IsNullOrWhiteSpace(Email))
         {
             await Shell.Current.DisplayAlertAsync("Aviso", "Informe seu e-mail para recuperar a senha.", "OK");

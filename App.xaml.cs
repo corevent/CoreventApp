@@ -1,4 +1,5 @@
 ﻿using CoreventApp.Services;
+using CoreventApp.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreventApp;
@@ -17,24 +18,32 @@ public partial class App : Application
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
-		Window w = new(appShell)
+		var loadingPage = new LoadingPage();
+
+		Window w = new(loadingPage)
 		{
 			Width = 360,
 			Height = 800,
+			Title = "Corevent",
 		};
+
+		_ = InitializeAsync(w);
 
 		return w;
 	}
 
-	protected override async void OnStart()
+	private async Task InitializeAsync(Window window)
 	{
-		base.OnStart();
-
 		var user = await authService.GetCurrentUserAsync();
 
-		if (user != null)
+		MainThread.BeginInvokeOnMainThread(async () =>
 		{
-			await Shell.Current.GoToAsync("//main");
-		}
+			window.Page = appShell;
+
+			if (user != null)
+			{
+				await Shell.Current.GoToAsync("//main");
+			}
+		});
 	}
 }
