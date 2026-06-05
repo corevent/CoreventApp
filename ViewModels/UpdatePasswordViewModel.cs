@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Helpers;
 using CoreventApp.Services;
-using System.Text.RegularExpressions;
 
 namespace CoreventApp.ViewModels;
 
@@ -50,7 +50,7 @@ public partial class UpdatePasswordViewModel : ObservableObject
             return;
         }
 
-        if (!ValidatePasswordComplexity(NewPassword))
+        if (!ValidationHelper.IsValidPassword(NewPassword))
         {
             ErrorMessage = "A senha deve ter 8+ caracteres, maiúscula, minúscula, número e símbolo.";
             return;
@@ -85,13 +85,4 @@ public partial class UpdatePasswordViewModel : ObservableObject
         }
     }
 
-    private bool ValidatePasswordComplexity(string password)
-    {
-        if (password.Length < 8) return false;
-        if (!Regex.IsMatch(password, @"[A-Z]")) return false;
-        if (!Regex.IsMatch(password, @"[a-z]")) return false;
-        if (!Regex.IsMatch(password, @"[0-9]")) return false;
-        if (!Regex.IsMatch(password, @"[!@#\$%\^&\*\(\),\.\?\"":\{\}\|<>]")) return false;
-        return true;
-    }
 }

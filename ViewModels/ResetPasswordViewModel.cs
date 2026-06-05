@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Helpers;
 using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
@@ -51,9 +52,9 @@ public partial class ResetPasswordViewModel : ObservableObject
     {
         if (IsLoading) return;
 
-        if (string.IsNullOrWhiteSpace(NewPassword) || NewPassword.Length < 6)
+        if (!ValidationHelper.IsValidPassword(NewPassword))
         {
-            ShowError("A senha deve ter pelo menos 6 caracteres.");
+            ShowError("A senha deve ter 8+ caracteres, com maiúscula, minúscula, número e símbolo.");
             return;
         }
 

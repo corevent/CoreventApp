@@ -41,12 +41,21 @@
                 <Label Grid.Row="0"
                        TextColor="{StaticResource primary_text_color}"
                        Text="E-mail"/>
-                <Entry Grid.Row="1"
-                       x:Name="user_email"
-                       Text="{Binding Form.Email}"
-                       Placeholder="seu@email.com"
-                       BackgroundColor="{StaticResource input_color}"
-                       TextColor="{StaticResource input_text}"/>
+                <Border Grid.Row="1"
+                        Stroke="{StaticResource Gray200}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        BackgroundColor="{StaticResource input_color}"
+                        Padding="12,0"
+                        HeightRequest="50">
+                    <Entry x:Name="user_email"
+                           Text="{Binding Form.Email}"
+                           Placeholder="seu@email.com"
+                           Keyboard="Email"
+                           VerticalOptions="Center"
+                           TextColor="{StaticResource input_text}"
+                           BackgroundColor="Transparent"/>
+                </Border>
 
 
                 <Grid Grid.Row="2"
@@ -67,13 +76,21 @@
                     </Label>
 
                 </Grid>
-                <Entry Grid.Row="3"
-                       Text="{Binding Form.Password}"
-                       TextColor="{StaticResource secondary_text_color}"
-                       IsPassword="True"
-                       x:Name="user_password"
-                       Placeholder="******"
-                       BackgroundColor="{StaticResource input_color}"/>
+                <Border Grid.Row="3"
+                        Stroke="{StaticResource Gray200}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        BackgroundColor="{StaticResource input_color}"
+                        Padding="12,0"
+                        HeightRequest="50">
+                    <Entry Text="{Binding Form.Password}"
+                           TextColor="{StaticResource input_text}"
+                           IsPassword="True"
+                           x:Name="user_password"
+                           Placeholder="******"
+                           VerticalOptions="Center"
+                           BackgroundColor="Transparent"/>
+                </Border>
             </Grid>
         </VerticalStackLayout>
 

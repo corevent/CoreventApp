@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using CoreventApp.Models;
 using CoreventApp.Models.Dtos;
 using CoreventApp.Services.Api;
@@ -139,13 +140,14 @@ public class AuthService : IAuthService
     {
         try
         {
-            var dto = new CreateUserDto(
+            cpf = Regex.Replace(cpf, @"\D", "");
+
+            var dto = new RegisterDto(
                 name, "14981234567", "https://placehold.co/300x300/jpg", email, password, birthDate, cpf, code);
 
-            // send dto data to debug in json format:
-            Debug.WriteLine($"CreateUserDto: {System.Text.Json.JsonSerializer.Serialize(dto)}");
+            Debug.WriteLine($"RegisterDto: {System.Text.Json.JsonSerializer.Serialize(dto)}");
 
-            await _usersApi.CreateUser(dto);
+            await _authApi.Register(dto);
 
             // Auto-login after creation
             return await LoginAsync(email, password);

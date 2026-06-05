@@ -86,7 +86,7 @@ public partial class RegisterViewModel : ObservableObject
   {
     return step switch
     {
-      1 => !string.IsNullOrWhiteSpace(Form.Nome),
+      1 => !string.IsNullOrWhiteSpace(Form.Nome) && Form.Nome.Trim().Length >= 3,
        2 => ValidateCpf(),
       3 => ValidateStep3(),
       _ => true
@@ -105,14 +105,14 @@ public partial class RegisterViewModel : ObservableObject
 
   private bool ValidateStep3()
   {
-    if (string.IsNullOrWhiteSpace(Form.Email))
+    if (!ValidationHelper.IsValidEmail(Form.Email))
     {
-      Shell.Current.DisplayAlertAsync("Erro", "Informe seu e-mail.", "OK");
+      Shell.Current.DisplayAlertAsync("Erro", "Informe um e-mail válido.", "OK");
       return false;
     }
-    if (string.IsNullOrWhiteSpace(Form.Senha) || Form.Senha.Length < 6)
+    if (!ValidationHelper.IsValidPassword(Form.Senha))
     {
-      Shell.Current.DisplayAlertAsync("Erro", "A senha deve ter pelo menos 6 caracteres.", "OK");
+      Shell.Current.DisplayAlertAsync("Erro", "A senha deve ter 8+ caracteres, com maiúscula, minúscula, número e símbolo.", "OK");
       return false;
     }
     if (Form.Senha != Form.ConfirmarSenha)
@@ -125,9 +125,9 @@ public partial class RegisterViewModel : ObservableObject
 
   private bool ValidateAll()
   {
-    if (string.IsNullOrWhiteSpace(Form.Nome))
+    if (string.IsNullOrWhiteSpace(Form.Nome) || Form.Nome.Trim().Length < 3)
     {
-      Shell.Current.DisplayAlertAsync("Erro", "Preencha seu nome.", "OK");
+      Shell.Current.DisplayAlertAsync("Erro", "O nome deve ter pelo menos 3 caracteres.", "OK");
       return false;
     }
     if (!ValidateCpf())

@@ -6,3 +6,12 @@ public record RefreshTokenDto(string RefreshToken);
 public record EmailDto(string Email);
 public record ResetPasswordDto(string Email, string Code, string NewPassword);
 public record MessageDto(string Message);
+public record RegisterDto(
+    string Name,
+    string PhoneNumber,
+    string AvatarUrl,
+    string Email,
+    string Password,
+    string BirthDate,
+    string Cpf,
+    string VerifyEmailCode);

@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Helpers;
 using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
@@ -24,7 +25,7 @@ public partial class ForgotPasswordViewModel : ObservableObject
     {
         if (IsLoading) return;
 
-        if (string.IsNullOrWhiteSpace(Email))
+        if (!ValidationHelper.IsValidEmail(Email))
         {
             await Shell.Current.DisplayAlertAsync("Aviso", "Informe seu e-mail para recuperar a senha.", "OK");
             return;

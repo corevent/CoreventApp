@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Helpers;
 using CoreventApp.Services;
 using CoreventApp.Views;
 
@@ -25,7 +26,7 @@ public partial class LoginViewModel : ObservableObject
   {
     if (IsBusy) return;
 
-    if (string.IsNullOrWhiteSpace(Form.Email) || string.IsNullOrWhiteSpace(Form.Password))
+    if (!ValidationHelper.IsValidEmail(Form.Email) || string.IsNullOrWhiteSpace(Form.Password))
     {
       await Shell.Current.DisplayAlertAsync("Erro", "Preencha todos os campos.", "OK");
       return;
