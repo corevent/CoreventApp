@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Helpers;
 using CoreventApp.Models.Dtos;
 using CoreventApp.Services;
 using System.Collections.ObjectModel;
@@ -69,6 +70,24 @@ public partial class EventAttractionsViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(NewTitle) || string.IsNullOrWhiteSpace(NewGuest))
             return;
+
+        if (NewTitle.Trim().Length < 3)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "O título da atração deve ter pelo menos 3 caracteres.", "OK");
+            return;
+        }
+
+        if (NewGuest.Trim().Length < 3)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "O nome do convidado deve ter pelo menos 3 caracteres.", "OK");
+            return;
+        }
+
+        if (NewEndTime <= NewStartTime)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "O horário de término deve ser posterior ao horário de início.", "OK");
+            return;
+        }
 
         var baseDate = DateTime.Today;
         var dto = new CreateAttractionDto(

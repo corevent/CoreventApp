@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Helpers;
 using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
@@ -50,6 +51,12 @@ public partial class UpdateEmailViewModel : ObservableObject
         if (string.IsNullOrWhiteSpace(NewEmail) || string.IsNullOrWhiteSpace(Password))
         {
             ErrorMessage = "Preencha todos os campos.";
+            return;
+        }
+
+        if (!ValidationHelper.IsValidEmail(NewEmail))
+        {
+            ErrorMessage = "Informe um e-mail válido.";
             return;
         }
 

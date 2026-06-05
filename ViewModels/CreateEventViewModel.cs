@@ -370,7 +370,7 @@ public partial class CreateEventViewModel : ObservableObject
     {
         return step switch
         {
-            1 => !string.IsNullOrWhiteSpace(Form.Title),
+            1 => ValidateStep1(),
             2 => Form.StartDate != default &&
                  (IsEditing || Form.StartDate > DateTime.Now) &&
                  Form.EndDate >= Form.StartDate,
@@ -378,10 +378,31 @@ public partial class CreateEventViewModel : ObservableObject
         };
     }
 
+    private bool ValidateStep1()
+    {
+        if (string.IsNullOrWhiteSpace(Form.Title) || Form.Title.Trim().Length < 3)
+        {
+            Shell.Current.DisplayAlertAsync("Erro", "O título deve ter pelo menos 3 caracteres.", "OK");
+            return false;
+        }
+        if (Form.Title.Trim().Length > 200)
+        {
+            Shell.Current.DisplayAlertAsync("Erro", "O título deve ter no máximo 200 caracteres.", "OK");
+            return false;
+        }
+        if (Form.Description?.Length > 2000)
+        {
+            Shell.Current.DisplayAlertAsync("Erro", "A descrição deve ter no máximo 2000 caracteres.", "OK");
+            return false;
+        }
+        return true;
+    }
+
     private bool ValidateAll()
     {
-        var valid =
-            !string.IsNullOrWhiteSpace(Form.Title) &&
+        var valid = ValidateStep1();
+
+        valid = valid &&
             Form.StartDate != default &&
             Form.EndDate != default &&
             Form.EndDate >= Form.StartDate;
@@ -389,14 +410,32 @@ public partial class CreateEventViewModel : ObservableObject
         if (!IsEditing && Form.StartDate <= DateTime.Now)
             valid = false;
 
+        if (Form.MaxParticipants < 1)
+        {
+            Shell.Current.DisplayAlertAsync("Erro", "O número máximo de participantes deve ser pelo menos 1.", "OK");
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(Form.Category))
+        {
+            Shell.Current.DisplayAlertAsync("Erro", "Selecione uma categoria para o evento.", "OK");
+            return false;
+        }
+
         if (Form.LocationType != "Online")
         {
             valid = valid &&
                 !string.IsNullOrWhiteSpace(Form.Street) &&
                 Form.Number.Length > 0 && int.TryParse(Form.Number, out int num) && num > 0 &&
                 !string.IsNullOrWhiteSpace(Form.Neighborhood) &&
-                !string.IsNullOrWhiteSpace(Form.ZipCode) &&
+                !string.IsNullOrWhiteSpace(Form.ZipCode) && Form.ZipCode.Trim().Length == 8 && Form.ZipCode.All(char.IsDigit) &&
                 Form.SelectedCityId > 0;
+
+            if (!valid)
+            {
+                Shell.Current.DisplayAlertAsync("Erro", "Preencha todos os campos de endereço corretamente.", "OK");
+                return false;
+            }
         }
 
         return valid;

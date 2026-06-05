@@ -59,13 +59,19 @@ public partial class EditProfileViewModel : ObservableObject
   [RelayCommand]
   private async Task Save()
   {
+    if (string.IsNullOrWhiteSpace(UserName) || UserName.Trim().Length < 3)
+    {
+      await Shell.Current.DisplayAlertAsync("Erro", "O nome deve ter pelo menos 3 caracteres.", "OK");
+      return;
+    }
+
     if (!string.IsNullOrWhiteSpace(UserPhone) && !ValidationHelper.IsValidPhone(UserPhone))
     {
       await Shell.Current.DisplayAlertAsync("Erro", "Telefone inválido. Use o formato (11) 91234-5678.", "OK");
       return;
     }
 
-    var success = await _authService.UpdateProfileAsync(UserName, UserPhone, null);
+    var success = await _authService.UpdateProfileAsync(UserName.Trim(), UserPhone, null);
     if (success)
     {
       await Shell.Current.GoToAsync("..");

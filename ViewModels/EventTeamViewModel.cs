@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Helpers;
 using CoreventApp.Models.Dtos;
 using CoreventApp.Services.Api;
 
@@ -111,6 +112,12 @@ public partial class EventTeamViewModel : ObservableObject
     private async Task InviteAsync()
     {
         if (string.IsNullOrWhiteSpace(InviteEmail) || _eventId is null) return;
+
+        if (!ValidationHelper.IsValidEmail(InviteEmail))
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "Informe um e-mail válido.", "OK");
+            return;
+        }
 
         var accessLevel = SelectedRole == "Credenciamento" ? "checkin" : "readonly";
         var dto = new CreateEventStaffInvitationDto(InviteEmail.Trim(), accessLevel);

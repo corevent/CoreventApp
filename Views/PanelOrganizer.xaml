@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto, Auto, *">
+    <Grid RowDefinitions="Auto, *">
         <!-- Header -->
         <Grid Grid.Row="0"
               ColumnDefinitions="Auto, *, Auto"
@@ -50,63 +50,56 @@
                    Margin="12,0,0,0"/>
         </Grid>
 
-        <!-- Transfer Banner -->
-        <Border Grid.Row="1"
-                Stroke="{StaticResource home_highlight_bg}"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 18"
-                BackgroundColor="{StaticResource home_highlight_bg}"
-                Padding="16,12"
-                Margin="16,0,16,0">
-            <Grid ColumnDefinitions="48, *, Auto"
-                  ColumnSpacing="12"
-                  VerticalOptions="Center">
-                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                        StrokeThickness="0"
-                        StrokeShape="RoundRectangle 12"
-                        WidthRequest="44"
-                        HeightRequest="44"
-                        HorizontalOptions="Start">
-                    <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
-                                 IconSize="22"
-                                 IconColor="{StaticResource secondary_text_color}"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"/>
-                </Border>
-
-                <VerticalStackLayout Grid.Column="1"
-                                     Spacing="2">
-                    <Label Text="Dados de Repasse"
-                           FontAttributes="Bold"
-                           FontSize="15"
-                           TextColor="{StaticResource primary_text_color}"/>
-                    <Label Text="Configure como você recebe suas vendas"
-                           FontSize="11"
-                           TextColor="{StaticResource secondary_text_color}"/>
-                </VerticalStackLayout>
-
-                <Border Grid.Column="2"
-                        Stroke="{StaticResource Gray100}"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 16"
-                        BackgroundColor="{StaticResource White}"
-                        Padding="12,4">
-                    <Label Text="Configurar"
-                           TextColor="{StaticResource primary_orange_color}"
-                           FontSize="12"
-                           VerticalOptions="Center"
-                           FontAttributes="Bold"/>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ConfigureTransferCommand}"/>
-                    </Border.GestureRecognizers>
-                </Border>
-            </Grid>
-        </Border>
-
         <!-- Content -->
-        <ScrollView Grid.Row="2">
+        <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="16,14,16,20"
                                  Spacing="18">
+
+                <!-- Transfer Banner -->
+                <Border Stroke="{StaticResource Gray100}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        BackgroundColor="{StaticResource White}"
+                        Padding="16,12">
+                    <Grid ColumnDefinitions="48, *, Auto"
+                          ColumnSpacing="12"
+                          VerticalOptions="Center">
+                        <Border BackgroundColor="#FEF3C7"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 12"
+                                WidthRequest="44"
+                                HeightRequest="44"
+                                HorizontalOptions="Start">
+                            <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
+                                         IconSize="22"
+                                         IconColor="{StaticResource primary_orange_color}"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center"/>
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1"
+                                             Spacing="2">
+                            <Label Text="Dados de Repasse"
+                                   FontAttributes="Bold"
+                                   FontSize="15"
+                                   TextColor="{StaticResource primary_text_color}"/>
+                            <Label Text="Configure como você recebe suas vendas"
+                                   FontSize="11"
+                                   TextColor="{StaticResource secondary_text_color}"/>
+                        </VerticalStackLayout>
+
+                        <Button Grid.Column="2"
+                                Text="Configurar"
+                                TextColor="{StaticResource White}"
+                                FontSize="12"
+                                FontAttributes="Bold"
+                                HeightRequest="34"
+                                Padding="16,0"
+                                Background="{StaticResource gradient_button}"
+                                CornerRadius="16"
+                                Command="{Binding ConfigureTransferCommand}"/>
+                    </Grid>
+                </Border>
 
                 <!-- Filter Chips -->
                 <ScrollView Orientation="Horizontal"
@@ -161,7 +154,7 @@
                            FontAttributes="Bold"
                            TextColor="{StaticResource primary_text_color}"/>
 
-                    <Button Text="+ Novo Evento"
+                    <Button Text="Novo Evento"
                             TextColor="{StaticResource White}"
                             FontAttributes="Bold"
                             FontSize="15"

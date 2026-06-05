@@ -53,7 +53,7 @@
                     <Grid ColumnDefinitions="24, *" ColumnSpacing="12">
                         <mi:MauiIcon Icon="{mi:Cupertino InfoCircle}"
                                      IconSize="16"
-                                     IconColor="{StaticResource White}"
+                                     IconColor="#1E88E5"
                                      HorizontalOptions="Center"
                                      VerticalOptions="Center"/>
                         <Label Grid.Column="1"

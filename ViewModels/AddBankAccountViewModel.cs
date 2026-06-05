@@ -44,15 +44,15 @@ public partial class AddBankAccountViewModel : ObservableObject
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(BankCode) || BankCode.Length < 3)
+        if (string.IsNullOrWhiteSpace(BankCode) || BankCode.Trim().Length != 3 || !BankCode.All(char.IsDigit))
         {
-            await Shell.Current.DisplayAlertAsync("Erro", "O código do banco é inválido.", "OK");
+            await Shell.Current.DisplayAlertAsync("Erro", "O código do banco deve ter exatamente 3 dígitos.", "OK");
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(BranchNumber))
+        if (string.IsNullOrWhiteSpace(BranchNumber) || BranchNumber.Trim().Length < 4 || !BranchNumber.All(char.IsDigit))
         {
-            await Shell.Current.DisplayAlertAsync("Erro", "A agência é obrigatória.", "OK");
+            await Shell.Current.DisplayAlertAsync("Erro", "A agência deve ter pelo menos 4 dígitos.", "OK");
             return;
         }
 
@@ -64,7 +64,7 @@ public partial class AddBankAccountViewModel : ObservableObject
 
         var dto = new CreateOrganizerPaymentInfoDto(
             Description,
-            BranchNumber,
+            BranchNumber.Trim(),
             string.IsNullOrWhiteSpace(BranchDigit) ? null : BranchDigit,
             AccountNumber,
             string.IsNullOrWhiteSpace(AccountDigit) ? null : AccountDigit,

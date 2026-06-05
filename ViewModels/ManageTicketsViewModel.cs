@@ -81,9 +81,35 @@ public partial class ManageTicketsViewModel : ObservableObject
             string.IsNullOrEmpty(EventId))
             return;
 
-        if (!decimal.TryParse(NewPrice, out var price) ||
-            !int.TryParse(NewTotalQuantity, out var quantity))
+        if (NewName.Trim().Length < 3)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "O nome do ingresso deve ter pelo menos 3 caracteres.", "OK");
             return;
+        }
+
+        if (!decimal.TryParse(NewPrice, out var price) || price < 0)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "Informe um preço válido (maior ou igual a zero).", "OK");
+            return;
+        }
+
+        if (!int.TryParse(NewTotalQuantity, out var quantity) || quantity < 1)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "A quantidade total deve ser pelo menos 1.", "OK");
+            return;
+        }
+
+        if (NewEndDate <= NewStartDate)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "A data de término deve ser posterior à data de início.", "OK");
+            return;
+        }
+
+        if (NewStartDate < DateTime.Today)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "A data de início deve ser hoje ou futura.", "OK");
+            return;
+        }
 
         var dto = new CreateTicketTypeDto(
             NewName.Trim(),

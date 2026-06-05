@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoreventApp.Helpers;
 using CoreventApp.Models.Dtos;
 using CoreventApp.Services;
 using System.Collections.ObjectModel;
@@ -67,21 +68,21 @@ public partial class AddPixKeyViewModel : ObservableObject
         switch (SelectedKeyType)
         {
             case "Email":
-                if (!KeyValue.Contains("@") || !KeyValue.Contains("."))
+                if (!ValidationHelper.IsValidEmail(KeyValue))
                 {
                     isValid = false;
                     errorMessage = "E-mail inválido.";
                 }
                 break;
             case "CPF":
-                if (KeyValue.Length < 11)
+                if (!ValidationHelper.IsValidCpf(KeyValue))
                 {
                     isValid = false;
-                    errorMessage = "CPF deve ter pelo menos 11 dígitos.";
+                    errorMessage = "CPF inválido.";
                 }
                 break;
             case "Telefone":
-                if (KeyValue.Length < 10)
+                if (!ValidationHelper.IsValidPhone(KeyValue))
                 {
                     isValid = false;
                     errorMessage = "Telefone inválido.";
