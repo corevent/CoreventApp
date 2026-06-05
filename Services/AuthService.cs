@@ -131,7 +131,6 @@ public class AuthService : IAuthService
         catch (Exception ex)
         {
             Debug.WriteLine($"SendVerificationEmail failed: {ex.Message}");
-            throw;
         }
     }
 
@@ -167,7 +166,6 @@ public class AuthService : IAuthService
         catch (Exception ex)
         {
             Debug.WriteLine($"SendResetCode failed: {ex.Message}");
-            throw;
         }
     }
 

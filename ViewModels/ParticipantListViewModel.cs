@@ -4,9 +4,13 @@ using System.Collections.ObjectModel;
 
 namespace CoreventApp.ViewModels;
 
+[QueryProperty(nameof(EventId), "EventId")]
 [QueryProperty(nameof(EventName), "EventName")]
 public partial class ParticipantListViewModel : ObservableObject
 {
+    [ObservableProperty]
+    public partial string EventId { get; set; } = string.Empty;
+
     [ObservableProperty]
     public partial string EventName { get; set; } = string.Empty;
 

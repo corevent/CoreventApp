@@ -1,12 +1,29 @@
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
+using CoreventApp.Models.Dtos;
+using CoreventApp.Services.Api;
 
 namespace CoreventApp.ViewModels;
 
 [QueryProperty(nameof(EventName), "EventName")]
 public partial class EventTeamViewModel : ObservableObject
 {
+    private readonly EventStaffApiClient _staffApi;
+    private readonly StaffInvitesApiClient _invitesApi;
+    private string? _eventId;
+
+    public string? EventId
+    {
+        get => _eventId;
+        set
+        {
+            _eventId = value;
+            if (value is not null) _ = LoadDataAsync(value);
+        }
+    }
+
     [ObservableProperty]
     public partial string EventName { get; set; } = string.Empty;
 
@@ -16,23 +33,72 @@ public partial class EventTeamViewModel : ObservableObject
     [ObservableProperty]
     public partial string SelectedRole { get; set; } = "Credenciamento";
 
+    [ObservableProperty]
+    public partial bool IsLoading { get; set; }
+
     public ObservableCollection<TeamMember> PendingInvites { get; } = new();
     public ObservableCollection<TeamMember> ActiveTeam { get; } = new();
 
     public int PendingCount => PendingInvites.Count;
     public int ActiveCount => ActiveTeam.Count;
 
-    public EventTeamViewModel()
+    public EventTeamViewModel(EventStaffApiClient staffApi, StaffInvitesApiClient invitesApi)
     {
-        LoadMockData();
+        _staffApi = staffApi;
+        _invitesApi = invitesApi;
     }
 
-    private void LoadMockData()
+    private async Task LoadDataAsync(string eventId)
     {
-        PendingInvites.Add(new TeamMember { Email = "marina@email.com", Role = "Credenciamento", IsPending = true });
+        if (IsLoading) return;
+        IsLoading = true;
 
-        ActiveTeam.Add(new TeamMember { Name = "Lucas Alencar", Email = "lucas@email.com", Role = "Credenciamento" });
-        ActiveTeam.Add(new TeamMember { Name = "Ana Beatriz", Email = "ana@email.com", Role = "Organização" });
+        try
+        {
+            var staffTask = _staffApi.GetAllAsync(eventId, page: 1, limit: 100);
+            var invitesTask = _invitesApi.GetAllAsync(eventId, page: 1, limit: 100);
+
+            await Task.WhenAll(staffTask, invitesTask);
+
+            var staffResult = staffTask.Result;
+            var invitesResult = invitesTask.Result;
+
+            PendingInvites.Clear();
+            foreach (var invite in invitesResult.Data)
+            {
+                PendingInvites.Add(new TeamMember
+                {
+                    Email = invite.Email,
+                    Role = invite.OriginalAccessLevel == "checkin" ? "Credenciamento" : "Organização",
+                    IsPending = true,
+                    InvitationId = invite.Id
+                });
+            }
+
+            ActiveTeam.Clear();
+            foreach (var staff in staffResult.Data)
+            {
+                ActiveTeam.Add(new TeamMember
+                {
+                    Name = staff.User.Name ?? staff.User.Email,
+                    Email = staff.User.Email,
+                    Role = staff.AccessLevel == "checkin" ? "Credenciamento" : "Organização",
+                    IsPending = false,
+                    StaffId = staff.Id
+                });
+            }
+
+            OnPropertyChanged(nameof(PendingCount));
+            OnPropertyChanged(nameof(ActiveCount));
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", $"EventTeam LoadDataAsync failed: {ex.Message}", "OK");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     [RelayCommand]
@@ -44,32 +110,52 @@ public partial class EventTeamViewModel : ObservableObject
     [RelayCommand]
     private async Task InviteAsync()
     {
-        if (string.IsNullOrWhiteSpace(InviteEmail)) return;
+        if (string.IsNullOrWhiteSpace(InviteEmail) || _eventId is null) return;
 
-        PendingInvites.Add(new TeamMember
+        var accessLevel = SelectedRole == "Credenciamento" ? "checkin" : "readonly";
+        var dto = new CreateEventStaffInvitationDto(InviteEmail.Trim(), accessLevel);
+
+        try
         {
-            Email = InviteEmail.Trim(),
-            Role = SelectedRole,
-            IsPending = true
-        });
+            await _invitesApi.CreateAsync(_eventId, dto);
 
-        InviteEmail = string.Empty;
-        OnPropertyChanged(nameof(PendingCount));
-        await Task.CompletedTask;
+            PendingInvites.Add(new TeamMember
+            {
+                Email = InviteEmail.Trim(),
+                Role = SelectedRole,
+                IsPending = true
+            });
+
+            InviteEmail = string.Empty;
+            OnPropertyChanged(nameof(PendingCount));
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", $"EventTeam InviteAsync failed: {ex.Message}", "OK");
+        }
     }
 
     [RelayCommand]
-    private void RemoveMember(TeamMember member)
+    private async Task RemoveMember(TeamMember member)
     {
-        if (member.IsPending)
+        try
         {
-            PendingInvites.Remove(member);
-            OnPropertyChanged(nameof(PendingCount));
+            if (member.IsPending && !string.IsNullOrEmpty(member.InvitationId))
+            {
+                await _invitesApi.CancelAsync(member.InvitationId);
+                PendingInvites.Remove(member);
+                OnPropertyChanged(nameof(PendingCount));
+            }
+            else if (!string.IsNullOrEmpty(member.StaffId))
+            {
+                await _staffApi.DeleteAsync(member.StaffId);
+                ActiveTeam.Remove(member);
+                OnPropertyChanged(nameof(ActiveCount));
+            }
         }
-        else
+        catch (Exception ex)
         {
-            ActiveTeam.Remove(member);
-            OnPropertyChanged(nameof(ActiveCount));
+            await Shell.Current.DisplayAlertAsync("Erro", $"EventTeam RemoveMember failed: {ex.Message}", "OK");
         }
     }
 
@@ -94,5 +180,8 @@ public partial class TeamMember : ObservableObject
     [ObservableProperty]
     public partial bool IsPending { get; set; }
 
-    public string Initial => string.IsNullOrEmpty(Name) ? "?" : Name[..1].ToUpper();
+    public string? StaffId { get; set; }
+    public string? InvitationId { get; set; }
+
+    public string Initial => string.IsNullOrEmpty(Name) ? (string.IsNullOrEmpty(Email) ? "?" : Email[..1].ToUpper()) : Name[..1].ToUpper();
 }

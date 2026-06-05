@@ -36,7 +36,7 @@ public partial class HomeViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Home LoadAsync failed: {ex.Message}");
+            await Shell.Current.DisplayAlertAsync("Erro", $"Home LoadAsync failed: {ex.Message}", "OK");
         }
         finally
         {

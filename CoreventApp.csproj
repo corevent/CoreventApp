@@ -129,6 +129,9 @@
 		<MauiXaml Update="Views\ManageEvent.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\ManageTicketsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\PanelCollaborator.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Services;
@@ -72,9 +73,10 @@ public partial class UpdatePasswordViewModel : ObservableObject
                 ErrorMessage = "Senha atual incorreta.";
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            ErrorMessage = "Ocorreu um erro ao atualizar.";
+            Debug.WriteLine($"UpdatePassword failed: {ex.Message}");
+            await Shell.Current.DisplayAlertAsync("Erro", "Ocorreu um erro ao atualizar a senha.", "OK");
         }
         finally
         {

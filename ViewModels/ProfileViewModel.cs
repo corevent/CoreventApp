@@ -44,7 +44,7 @@ public partial class ProfileViewModel : ObservableObject
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"ProfileViewModel.LoadUserAsync failed: {ex.Message}");
+      await Shell.Current.DisplayAlertAsync("Erro", $"ProfileViewModel.LoadUserAsync failed: {ex.Message}", "OK");
     }
     finally
     {

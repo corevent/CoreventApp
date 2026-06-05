@@ -45,6 +45,18 @@ public static class MauiProgram
 		builder.Services.AddHttpClient<AttractionsApiClient>(c => c.BaseAddress = new Uri(baseUrl))
 			.AddHttpMessageHandler<AuthTokenHandler>();
 
+		builder.Services.AddHttpClient<TicketTypesApiClient>(c => c.BaseAddress = new Uri(baseUrl))
+			.AddHttpMessageHandler<AuthTokenHandler>();
+
+		builder.Services.AddHttpClient<OrdersApiClient>(c => c.BaseAddress = new Uri(baseUrl))
+			.AddHttpMessageHandler<AuthTokenHandler>();
+
+		builder.Services.AddHttpClient<EventStaffApiClient>(c => c.BaseAddress = new Uri(baseUrl))
+			.AddHttpMessageHandler<AuthTokenHandler>();
+
+		builder.Services.AddHttpClient<StaffInvitesApiClient>(c => c.BaseAddress = new Uri(baseUrl))
+			.AddHttpMessageHandler<AuthTokenHandler>();
+
 		builder.Services.AddSingleton<IAuthService, AuthService>();
 		builder.Services.AddTransient<PaymentInfoService>();
 		builder.Services.AddTransient<EventsService>();
@@ -82,6 +94,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<ViewModels.SettingsViewModel>();
 		builder.Services.AddTransient<ViewModels.CollaboratorEventDetailViewModel>();
 		builder.Services.AddTransient<ViewModels.EventDetailViewModel>();
+		builder.Services.AddTransient<ViewModels.ManageTicketsViewModel>();
 		builder.Services.AddTransient<ViewModels.CheckoutViewModel>();
 
 		// Views
@@ -116,6 +129,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<Views.Settings>();
 		builder.Services.AddTransient<Views.CollaboratorEventDetail>();
 		builder.Services.AddTransient<Views.EventDetail>();
+		builder.Services.AddTransient<Views.ManageTicketsPage>();
 		builder.Services.AddTransient<Views.CheckoutPage>();
 
 #if DEBUG

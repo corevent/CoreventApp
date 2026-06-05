@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Services;
@@ -75,9 +76,10 @@ public partial class UpdateEmailViewModel : ObservableObject
                 ErrorMessage = "Senha incorreta.";
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            ErrorMessage = "Ocorreu um erro ao atualizar.";
+            Debug.WriteLine($"UpdateEmail failed: {ex.Message}");
+            await Shell.Current.DisplayAlertAsync("Erro", "Ocorreu um erro ao atualizar o e-mail.", "OK");
         }
         finally
         {

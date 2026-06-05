@@ -73,6 +73,7 @@ public partial class CheckInViewModel : ObservableObject
         catch (Exception ex)
         {
             Debug.WriteLine($"CheckIn LoadEventAsync failed: {ex.Message}");
+            await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível carregar os dados do evento.", "OK");
         }
     }
 

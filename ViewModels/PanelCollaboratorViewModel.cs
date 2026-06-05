@@ -1,12 +1,20 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Models;
+using CoreventApp.Models.Dtos;
+using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
 
 public partial class PanelCollaboratorViewModel : ObservableObject
 {
+    private readonly EventsService _eventsService;
+
+    [ObservableProperty]
+    public partial bool IsLoading { get; set; }
+
     [ObservableProperty]
     public partial bool IsAgendaVisible { get; set; } = true;
 
@@ -26,76 +34,69 @@ public partial class PanelCollaboratorViewModel : ObservableObject
     [ObservableProperty]
     public partial bool HasPastEvents { get; set; }
 
-    public PanelCollaboratorViewModel()
+    public PanelCollaboratorViewModel(EventsService eventsService)
     {
-        LoadSampleData();
+        _eventsService = eventsService;
     }
 
-    private void LoadSampleData()
+    [RelayCommand]
+    private async Task LoadAsync()
     {
-        EventsToday.Add(new CollaboratorEvent
-        {
-            ImageUrl = "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&amp;auto=format&amp;fit=crop",
-            Title = "Techno Night Under",
-            Date = "21 Mai, 2026",
-            Role = "CREDENCIAMENTO",
-            RoleColor = "#E0F2FE",
-            RoleTextColor = "#0284C7",
-            HasActionButton = true,
-            ParticipantCount = 128
-        });
+        if (IsLoading) return;
+        IsLoading = true;
 
-        UpcomingEvents.Add(new CollaboratorEvent
+        try
         {
-            ImageUrl = "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&amp;auto=format&amp;fit=crop",
-            Title = "Jazz & Wine Sunset",
-            Date = "25 Out, 2026",
-            Role = "ORGANIZAÇÃO",
-            RoleColor = "#F3E8FF",
-            RoleTextColor = "#9333EA",
-            HasActionButton = false,
-            ParticipantCount = 67
-        });
+            var result = await _eventsService.GetMyStaffEventsAllAsync(page: 1, limit: 100);
 
-        UpcomingEvents.Add(new CollaboratorEvent
+            EventsToday.Clear();
+            UpcomingEvents.Clear();
+            PastEvents.Clear();
+
+            foreach (var item in result.Data)
+            {
+                var ce = MapToCollaboratorEvent(item);
+
+                if (item.StartDate.Date == DateTime.Today)
+                    EventsToday.Add(ce);
+                else if (item.StartDate.Date > DateTime.Today)
+                    UpcomingEvents.Add(ce);
+                else
+                    PastEvents.Add(ce);
+            }
+
+            HasEventsToday = EventsToday.Count > 0;
+            HasUpcomingEvents = UpcomingEvents.Count > 0;
+            HasPastEvents = PastEvents.Count > 0;
+        }
+        catch (Exception ex)
         {
-            ImageUrl = "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&amp;auto=format&amp;fit=crop",
-            Title = "Festival de Verão",
-            Date = "12 Dez, 2026",
-            Role = "PRODUÇÃO",
-            RoleColor = "#FEF3C7",
-            RoleTextColor = "#D97706",
-            HasActionButton = false,
-            ParticipantCount = 312
-        });
-
-        PastEvents.Add(new CollaboratorEvent
+            await Shell.Current.DisplayAlertAsync("Erro", $"PanelCollaborator LoadAsync failed: {ex.Message}", "OK");
+        }
+        finally
         {
-            ImageUrl = "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&amp;auto=format&amp;fit=crop",
-            Title = "Samba Fest",
-            Date = "02 Set, 2026",
-            Role = "PRODUÇÃO",
-            RoleColor = "#F3F4F6",
-            RoleTextColor = "#6B7280",
-            HasActionButton = false,
-            ParticipantCount = 89
-        });
+            IsLoading = false;
+        }
+    }
 
-        PastEvents.Add(new CollaboratorEvent
+    private static CollaboratorEvent MapToCollaboratorEvent(StaffEventListItemDto item)
+    {
+        var isCheckin = item.AccessLevel == "checkin";
+        var role = isCheckin ? "CREDENCIAMENTO" : "ORGANIZAÇÃO";
+        var roleColor = isCheckin ? "#E0F2FE" : "#F3E8FF";
+        var roleTextColor = isCheckin ? "#0284C7" : "#9333EA";
+
+        return new CollaboratorEvent
         {
-            ImageUrl = "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&amp;auto=format&amp;fit=crop",
-            Title = "Rock in Rio",
-            Date = "15 Ago, 2026",
-            Role = "CREDENCIAMENTO",
-            RoleColor = "#F3F4F6",
-            RoleTextColor = "#6B7280",
-            HasActionButton = false,
-            ParticipantCount = 450
-        });
-
-        HasEventsToday = EventsToday.Count > 0;
-        HasUpcomingEvents = UpcomingEvents.Count > 0;
-        HasPastEvents = PastEvents.Count > 0;
+            ImageUrl = "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&auto=format&fit=crop",
+            Title = item.Title,
+            Date = item.StartDate.ToString("dd MMM, yyyy"),
+            Role = role,
+            RoleColor = roleColor,
+            RoleTextColor = roleTextColor,
+            HasActionButton = item.StartDate.Date == DateTime.Today && isCheckin,
+            ParticipantCount = 0
+        };
     }
 
     [RelayCommand]

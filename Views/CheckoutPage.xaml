@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.CheckoutPage"
-             xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+              xmlns:models="clr-namespace:CoreventApp.Models.Dtos"
              x:DataType="vm:CheckoutViewModel"
              Title="Checkout"
              Shell.NavBarIsVisible="False"
@@ -71,13 +72,77 @@
                             <Label Text="{Binding EventDate}"
                                    FontSize="13"
                                    TextColor="{StaticResource secondary_text_color}"/>
-                            <Label Text="{Binding EventPrice, StringFormat='R$ {0:F0}'}"
+                            <Label Text="{Binding SelectedTicketType.Price, StringFormat='R$ {0:F0}'}"
                                    FontSize="18"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource primary_orange_color}"
                                    Margin="0,4,0,0"/>
                         </VerticalStackLayout>
                     </Grid>
+                </Border>
+
+                <!-- Ticket Type Selector -->
+                <Border Stroke="{StaticResource Gray100}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="{StaticResource White}"
+                        Padding="16,20">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Tipo de Ingresso"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource primary_text_color}"/>
+                            <CollectionView ItemsSource="{Binding TicketTypes}"
+                                            HeightRequest="180"
+                                            SelectionMode="Single"
+                                            SelectedItem="{Binding SelectedTicketType}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:TicketTypeDataDto">
+                                    <Border StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 14"
+                                            Padding="14,10"
+                                            Margin="0,0,0,6"
+                                            BackgroundColor="{StaticResource White}">
+                                        <Grid ColumnDefinitions="*, Auto, Auto"
+                                              ColumnSpacing="10">
+                                            <VerticalStackLayout Spacing="2">
+                                                <Label Text="{Binding Name}"
+                                                       FontSize="15"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource primary_text_color}"/>
+                                                <Label FontSize="12"
+                                                       TextColor="{StaticResource secondary_text_color}">
+                                                    <Label.Text>
+                                                        <MultiBinding StringFormat="{}{0} disponíveis">
+                                                            <Binding Path="AvailableQuantity"/>
+                                                        </MultiBinding>
+                                                    </Label.Text>
+                                                </Label>
+                                            </VerticalStackLayout>
+                                            <Label Grid.Column="1"
+                                                   VerticalOptions="Center"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource primary_orange_color}">
+                                                <Label.Text>
+                                                    <MultiBinding StringFormat="R$ {0:F0}">
+                                                        <Binding Path="Price"/>
+                                                    </MultiBinding>
+                                                </Label.Text>
+                                            </Label>
+                                            <Border Grid.Column="2"
+                                                    WidthRequest="20"
+                                                    HeightRequest="20"
+                                                    StrokeThickness="2"
+                                                    StrokeShape="RoundRectangle 10"
+                                                    VerticalOptions="Center"
+                                                    Stroke="{StaticResource Gray200}"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
                 </Border>
 
                 <!-- Quantity Selector -->
@@ -346,12 +411,22 @@
                 StrokeThickness="0"
                 StrokeShape="RoundRectangle 16"
                 Background="{StaticResource gradient_button}">
-            <Label Text="Finalizar Compra"
-                   TextColor="White"
-                   FontSize="16"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"/>
+            <Grid ColumnDefinitions="Auto, *"
+                  Padding="20,0">
+                <ActivityIndicator IsRunning="{Binding IsPurchasing}"
+                                   IsVisible="{Binding IsPurchasing}"
+                                   Color="White"
+                                   WidthRequest="24"
+                                   HeightRequest="24"
+                                   VerticalOptions="Center"/>
+                <Label Grid.Column="1"
+                       Text="Finalizar Compra"
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </Grid>
             <Border.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding FinalizePurchaseCommand}"/>
             </Border.GestureRecognizers>

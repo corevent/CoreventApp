@@ -23,9 +23,21 @@ public class AttractionsApiClient
         return JsonSerializer.Deserialize<AttractionResponseDto>(body, JsonConfig.Options)!;
     }
 
-    public async Task<AttractionListPageDto> GetAllAsync(string eventId, int page = 1, int limit = 10)
+    public async Task<AttractionListPageDto> GetAllAsync(
+        string eventId,
+        int page = 1, int limit = 10,
+        string? search = null,
+        string? guest = null,
+        DateTime? startDate = null,
+        DateTime? endDate = null)
     {
-        var response = await _http.GetAsync($"/api/events/{eventId}/attractions?page={page}&limit={limit}");
+        var query = $"?page={page}&limit={limit}";
+        if (!string.IsNullOrEmpty(search)) query += $"&search={Uri.EscapeDataString(search)}";
+        if (!string.IsNullOrEmpty(guest)) query += $"&guest={Uri.EscapeDataString(guest)}";
+        if (startDate.HasValue) query += $"&startDate={startDate.Value:yyyy-MM-dd}";
+        if (endDate.HasValue) query += $"&endDate={endDate.Value:yyyy-MM-dd}";
+
+        var response = await _http.GetAsync($"/api/events/{eventId}/attractions{query}");
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<AttractionListPageDto>(body, JsonConfig.Options)!;

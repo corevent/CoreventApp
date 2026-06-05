@@ -7,26 +7,17 @@ namespace CoreventApp.Services;
 public class PaymentInfoService
 {
     private readonly PaymentInfoApiClient _api;
-    private readonly IAuthService _authService;
 
-    public PaymentInfoService(PaymentInfoApiClient api, IAuthService authService)
+    public PaymentInfoService(PaymentInfoApiClient api)
     {
         _api = api;
-        _authService = authService;
-    }
-
-    private string GetUserId()
-    {
-        return _authService.CurrentCachedUser?.Id
-            ?? throw new InvalidOperationException("User not authenticated");
     }
 
     public async Task<OrganizerPaymentInfoDataDto?> CreateAsync(CreateOrganizerPaymentInfoDto dto)
     {
         try
         {
-            var userId = GetUserId();
-            var result = await _api.CreateAsync(userId, dto);
+            var result = await _api.CreateAsync(dto);
             return result.Data;
         }
         catch (Exception ex)
@@ -40,8 +31,7 @@ public class PaymentInfoService
     {
         try
         {
-            var userId = GetUserId();
-            var page = await _api.GetAllAsync(userId, 1, 50);
+            var page = await _api.GetAllAsync(1, 50);
             if (page.Data.Count == 0)
                 return new List<OrganizerPaymentInfoDataDto>();
 

@@ -42,7 +42,7 @@ public partial class EditProfileViewModel : ObservableObject
     }
     catch (Exception ex)
     {
-      Debug.WriteLine($"EditProfileViewModel.LoadUserAsync failed: {ex.Message}");
+      await Shell.Current.DisplayAlertAsync("Erro", $"EditProfileViewModel.LoadUserAsync failed: {ex.Message}", "OK");
     }
     finally
     {

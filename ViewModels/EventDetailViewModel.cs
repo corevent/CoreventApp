@@ -105,7 +105,7 @@ public partial class EventDetailViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"EventDetail LoadEventAsync failed: {ex.Message}");
+            await Shell.Current.DisplayAlertAsync("Erro", $"EventDetail LoadEventAsync failed: {ex.Message}", "OK");
         }
         finally
         {
@@ -125,7 +125,7 @@ public partial class EventDetailViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"EventDetail LoadAttractionsAsync failed: {ex.Message}");
+            await Shell.Current.DisplayAlertAsync("Erro", $"EventDetail LoadAttractionsAsync failed: {ex.Message}", "OK");
         }
     }
 
@@ -154,6 +154,7 @@ public partial class EventDetailViewModel : ObservableObject
     [RelayCommand]
     private async Task BuyTicket()
     {
-        await Shell.Current.GoToAsync(nameof(Views.CheckoutPage));
+        if (_eventId is null) return;
+        await Shell.Current.GoToAsync($"{nameof(Views.CheckoutPage)}?EventId={_eventId}");
     }
 }

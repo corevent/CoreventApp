@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, Auto, *">
         <!-- Header -->
         <Grid Grid.Row="0"
               ColumnDefinitions="Auto, *, Auto"
@@ -50,149 +50,129 @@
                    Margin="12,0,0,0"/>
         </Grid>
 
+        <!-- Transfer Banner -->
+        <Border Grid.Row="1"
+                Stroke="{StaticResource home_highlight_bg}"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 18"
+                BackgroundColor="{StaticResource home_highlight_bg}"
+                Padding="16,12"
+                Margin="16,0,16,0">
+            <Grid ColumnDefinitions="48, *, Auto"
+                  ColumnSpacing="12"
+                  VerticalOptions="Center">
+                <Border BackgroundColor="{StaticResource card_icon_bg}"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 12"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        HorizontalOptions="Start">
+                    <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
+                                 IconSize="22"
+                                 IconColor="{StaticResource secondary_text_color}"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
+                </Border>
+
+                <VerticalStackLayout Grid.Column="1"
+                                     Spacing="2">
+                    <Label Text="Dados de Repasse"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           TextColor="{StaticResource primary_text_color}"/>
+                    <Label Text="Configure como você recebe suas vendas"
+                           FontSize="11"
+                           TextColor="{StaticResource secondary_text_color}"/>
+                </VerticalStackLayout>
+
+                <Border Grid.Column="2"
+                        Stroke="{StaticResource Gray100}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{StaticResource White}"
+                        Padding="12,4">
+                    <Label Text="Configurar"
+                           TextColor="{StaticResource primary_orange_color}"
+                           FontSize="12"
+                           VerticalOptions="Center"
+                           FontAttributes="Bold"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ConfigureTransferCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
+            </Grid>
+        </Border>
+
         <!-- Content -->
-        <ScrollView Grid.Row="1">
+        <ScrollView Grid.Row="2">
             <VerticalStackLayout Padding="16,14,16,20"
                                  Spacing="18">
 
-                <!-- Transfer Data Banner -->
-                <Border Stroke="{StaticResource home_highlight_bg}"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 18"
-                        BackgroundColor="{StaticResource home_highlight_bg}"
-                        Padding="16,12">
-                    <Grid ColumnDefinitions="48, *, Auto"
-                          ColumnSpacing="12"
-                          VerticalOptions="Center">
-                        <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                StrokeThickness="0"
-                                StrokeShape="RoundRectangle 12"
-                                WidthRequest="44"
-                                HeightRequest="44"
-                                HorizontalOptions="Start">
-                            <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
-                                         IconSize="22"
-                                         IconColor="{StaticResource secondary_text_color}"
-                                         HorizontalOptions="Center"
-                                         VerticalOptions="Center"/>
-                        </Border>
+                <!-- Filter Chips -->
+                <ScrollView Orientation="Horizontal"
+                            HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="8"
+                                           BindableLayout.ItemsSource="{Binding FilterChips}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:StatusFilterChip">
+                                <Border Padding="14,7"
+                                        StrokeShape="RoundRectangle 18"
+                                        StrokeThickness="1"
+                                        Stroke="{StaticResource Gray100}"
+                                        BackgroundColor="{StaticResource White}">
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border"
+                                                     Binding="{Binding IsSelected}"
+                                                     Value="True">
+                                            <Setter Property="BackgroundColor"
+                                                    Value="{StaticResource primary_orange_color}"/>
+                                            <Setter Property="Stroke"
+                                                    Value="{StaticResource primary_orange_color}"/>
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Label Text="{Binding Label}"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource secondary_text_color}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding IsSelected}"
+                                                         Value="True">
+                                                <Setter Property="TextColor"
+                                                        Value="{StaticResource White}"/>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.FilterByStatusCommand}"
+                                            CommandParameter="{Binding}"/>
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                </ScrollView>
 
-                        <VerticalStackLayout Grid.Column="1"
-                                             Spacing="2">
-                            <Label Text="Dados de Repasse"
-                                   FontAttributes="Bold"
-                                   FontSize="15"
-                                   TextColor="{StaticResource primary_text_color}"/>
-                            <Label Text="Configure como você recebe suas vendas"
-                                   FontSize="11"
-                                   TextColor="{StaticResource secondary_text_color}"/>
-                        </VerticalStackLayout>
-
-                        <Border Grid.Column="2"
-                                Stroke="{StaticResource Gray100}"
-                                StrokeThickness="1"
-                                StrokeShape="RoundRectangle 16"
-                                BackgroundColor="{StaticResource White}"
-                                Padding="12,4">
-                            <Label Text="Configurar"
-                                   TextColor="{StaticResource primary_orange_color}"
-                                   FontSize="12"
-                                   VerticalOptions="Center"
-                                   FontAttributes="Bold"/>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ConfigureTransferCommand}"/>
-                            </Border.GestureRecognizers>
-                        </Border>
-                    </Grid>
-                </Border>
-
-                <!-- Metrics Cards -->
-                <Grid ColumnDefinitions="*, *"
-                      ColumnSpacing="12">
-                    <Border Grid.Column="0"
-                            Stroke="{StaticResource Gray100}"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 18"
-                            BackgroundColor="{StaticResource White}"
-                            Padding="16">
-                        <VerticalStackLayout Spacing="8">
-                            <Border BackgroundColor="{StaticResource home_highlight_bg}"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 10"
-                                    WidthRequest="32"
-                                    HeightRequest="32"
-                                    HorizontalOptions="Start">
-                                <mi:MauiIcon Icon="{mi:Cupertino ChartBar}"
-                                             IconSize="18"
-                                             IconColor="{StaticResource secondary_text_color}"
-                                             HorizontalOptions="Center"
-                                             VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="RECEITA TOTAL"
-                                   FontSize="10"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource secondary_text_color}"/>
-                            <Label Text="{Binding TotalRevenue}"
-                                   FontSize="18"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource primary_text_color}"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <Border Grid.Column="1"
-                            Stroke="{StaticResource Gray100}"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 18"
-                            BackgroundColor="{StaticResource White}"
-                            Padding="16">
-                        <VerticalStackLayout Spacing="8">
-                            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 10"
-                                    WidthRequest="32"
-                                    HeightRequest="32"
-                                    HorizontalOptions="Start">
-                                <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
-                                             IconSize="18"
-                                             IconColor="{StaticResource secondary_text_color}"
-                                             HorizontalOptions="Center"
-                                             VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="INGRESSOS VENDIDOS"
-                                   FontSize="10"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource secondary_text_color}"/>
-                            <Label Text="{Binding TicketsSold}"
-                                   FontSize="18"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource primary_text_color}"/>
-                        </VerticalStackLayout>
-                    </Border>
-                </Grid>
-
-
-                <!-- My Events Header -->
-                <Grid ColumnDefinitions="*, Auto"
-                      VerticalOptions="Center">
+                <!-- My Events Header + New Event Button -->
+                <VerticalStackLayout Spacing="10">
                     <Label Text="Meus Eventos"
                            FontSize="18"
                            FontAttributes="Bold"
                            TextColor="{StaticResource primary_text_color}"/>
-                    <HorizontalStackLayout Grid.Column="1"
-                                           Spacing="4">
-                        <Label Text="+ Novo Evento"
-                               FontSize="13"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource primary_orange_color}"
-                               VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
-                    <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding NewEventCommand}"/>
-                    </Grid.GestureRecognizers>
-                </Grid>
+
+                    <Button Text="+ Novo Evento"
+                            TextColor="{StaticResource White}"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            HeightRequest="46"
+                            Background="{StaticResource gradient_button}"
+                            CornerRadius="12"
+                            Command="{Binding NewEventCommand}"/>
+                </VerticalStackLayout>
 
                 <!-- Events List -->
-                <VerticalStackLayout BindableLayout.ItemsSource="{Binding MyEvents}"
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding FilteredEvents}"
                                      Spacing="12">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="dtos:EventListItemDto">
@@ -212,7 +192,7 @@
                                             HeightRequest="80"
                                             StrokeThickness="0"
                                             StrokeShape="RoundRectangle 14">
-                                        <Image Source="https://placehold.co/200x200/FF5722/FFFFFF?text={Binding Title}"
+                                        <Image Source="https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento"
                                                Aspect="AspectFill"/>
                                     </Border>
 
@@ -310,6 +290,35 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
+
+                <!-- Empty State -->
+                <Label Text="Nenhum evento encontrado."
+                       FontSize="14"
+                       TextColor="{StaticResource secondary_text_color}"
+                       HorizontalOptions="Center"
+                       Margin="0,20,0,0"
+                       IsVisible="False">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding FilteredEvents.Count}"
+                                     Value="0">
+                            <Setter Property="IsVisible" Value="True"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+                <Label Text="Crie seu primeiro evento!"
+                       FontSize="14"
+                       TextColor="{StaticResource secondary_text_color}"
+                       HorizontalOptions="Center"
+                       IsVisible="False">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label"
+                                     Binding="{Binding AllEvents.Count}"
+                                     Value="0">
+                            <Setter Property="IsVisible" Value="True"/>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
 
             </VerticalStackLayout>
         </ScrollView>

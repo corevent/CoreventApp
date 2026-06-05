@@ -3,7 +3,7 @@ namespace CoreventApp.Models.Dtos;
 // States & Cities
 public record StateDataDto(int Id, string Name, string Uf);
 public record StateResponseDto(List<StateDataDto> Data);
-public record CityDataDto(int Id, string Name);
+public record CityDataDto(int Id, string Name, int StateId);
 public record CityResponseDto(List<CityDataDto> Data);
 
 // Events - List item (from ListEventsDto)
@@ -22,10 +22,10 @@ public record EventListItemDto(
     OrganizerInfoDto Organizer);
 
 // Organizer info inside list item
-public record OrganizerInfoDto(string Id, string Name, string? AvatarUrl);
+public record OrganizerInfoDto(string Id, string Name, string Email, string? AvatarUrl);
 
 // Pagination
-public record PaginationMetaDto(int TotalItems, int TotalPages, int CurrentPage, int ItemsPerPage);
+public record PaginationMetaDto(int TotalItems, int TotalPages, int Page, int Limit);
 
 public record EventListPageDto(List<EventListItemDto> Data, PaginationMetaDto Meta);
 
@@ -51,6 +51,8 @@ public record EventDetailDto(
     string? BannerUrl,
     bool IsAdultOnly,
     string Status,
+    string? EventChangesId,
+    DateTime? ChangeRefundDeadline,
     OrganizerInfoDto Organizer,
     DateTime? CreatedAt);
 

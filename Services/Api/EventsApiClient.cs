@@ -69,6 +69,54 @@ public class EventsApiClient
         return JsonSerializer.Deserialize<EventResponseDto>(body, JsonConfig.Options)!;
     }
 
+    public async Task<EventListPageDto> GetMyOrganizerEventsAsync(
+        int page, int limit,
+        string status,
+        string? search = null,
+        string? category = null,
+        DateTime? startDate = null,
+        bool? isAdultOnly = null,
+        int? stateId = null,
+        int? cityId = null)
+    {
+        var query = $"?page={page}&limit={limit}&status={Uri.EscapeDataString(status)}";
+        if (!string.IsNullOrEmpty(search)) query += $"&search={Uri.EscapeDataString(search)}";
+        if (!string.IsNullOrEmpty(category)) query += $"&category={Uri.EscapeDataString(category)}";
+        if (startDate.HasValue) query += $"&startDate={startDate.Value:yyyy-MM-dd}";
+        if (isAdultOnly.HasValue) query += $"&isAdultOnly={isAdultOnly.Value.ToString().ToLower()}";
+        if (stateId.HasValue) query += $"&stateId={stateId.Value}";
+        if (cityId.HasValue) query += $"&cityId={cityId.Value}";
+
+        var response = await _http.GetAsync($"/api/events/my/organizer{query}");
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<EventListPageDto>(body, JsonConfig.Options)!;
+    }
+
+    public async Task<StaffEventListPageDto> GetMyStaffEventsAsync(
+        int page, int limit,
+        string status,
+        string? search = null,
+        string? category = null,
+        DateTime? startDate = null,
+        bool? isAdultOnly = null,
+        int? stateId = null,
+        int? cityId = null)
+    {
+        var query = $"?page={page}&limit={limit}&status={Uri.EscapeDataString(status)}";
+        if (!string.IsNullOrEmpty(search)) query += $"&search={Uri.EscapeDataString(search)}";
+        if (!string.IsNullOrEmpty(category)) query += $"&category={Uri.EscapeDataString(category)}";
+        if (startDate.HasValue) query += $"&startDate={startDate.Value:yyyy-MM-dd}";
+        if (isAdultOnly.HasValue) query += $"&isAdultOnly={isAdultOnly.Value.ToString().ToLower()}";
+        if (stateId.HasValue) query += $"&stateId={stateId.Value}";
+        if (cityId.HasValue) query += $"&cityId={cityId.Value}";
+
+        var response = await _http.GetAsync($"/api/events/my/staff{query}");
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<StaffEventListPageDto>(body, JsonConfig.Options)!;
+    }
+
     public async Task DeleteAsync(string id)
     {
         var response = await _http.DeleteAsync($"/api/events/{id}");

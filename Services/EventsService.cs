@@ -49,6 +49,104 @@ public class EventsService
         }
     }
 
+    public async Task<EventListPageDto> GetMyOrganizerEventsAsync(
+        int page, int limit,
+        string status,
+        string? search = null,
+        string? category = null,
+        DateTime? startDate = null,
+        bool? isAdultOnly = null,
+        int? stateId = null,
+        int? cityId = null)
+    {
+        try
+        {
+            return await _api.GetMyOrganizerEventsAsync(page, limit, status, search, category, startDate, isAdultOnly, stateId, cityId);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Get my organizer events failed: {ex.Message}");
+            return new EventListPageDto(new List<EventListItemDto>(),
+                new PaginationMetaDto(0, 0, page, limit));
+        }
+    }
+
+    public async Task<EventListPageDto> GetMyOrganizerEventsAllAsync(
+        int page = 1, int limit = 100,
+        string? search = null,
+        string? category = null,
+        DateTime? startDate = null,
+        bool? isAdultOnly = null,
+        int? stateId = null,
+        int? cityId = null)
+    {
+        try
+        {
+            var statuses = new[] { "draft", "opened", "going", "canceled", "finished" };
+            var tasks = statuses.Select(s =>
+                _api.GetMyOrganizerEventsAsync(page, limit, s, search, category, startDate, isAdultOnly, stateId, cityId));
+            var results = await Task.WhenAll(tasks);
+            var combined = results.SelectMany(r => r.Data).ToList();
+            return new EventListPageDto(combined,
+                new PaginationMetaDto(combined.Count, 1, page, combined.Count));
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Get my organizer events all failed: {ex.Message}");
+            return new EventListPageDto(new List<EventListItemDto>(),
+                new PaginationMetaDto(0, 0, page, limit));
+        }
+    }
+
+    public async Task<StaffEventListPageDto> GetMyStaffEventsAsync(
+        int page, int limit,
+        string status,
+        string? search = null,
+        string? category = null,
+        DateTime? startDate = null,
+        bool? isAdultOnly = null,
+        int? stateId = null,
+        int? cityId = null)
+    {
+        try
+        {
+            return await _api.GetMyStaffEventsAsync(page, limit, status, search, category, startDate, isAdultOnly, stateId, cityId);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Get my staff events failed: {ex.Message}");
+            return new StaffEventListPageDto(new List<StaffEventListItemDto>(),
+                new PaginationMetaDto(0, 0, page, limit));
+        }
+    }
+
+    public async Task<StaffEventListPageDto> GetMyStaffEventsAllAsync(
+        int page = 1, int limit = 100,
+        string? search = null,
+        string? category = null,
+        DateTime? startDate = null,
+        bool? isAdultOnly = null,
+        int? stateId = null,
+        int? cityId = null)
+    {
+        try
+        {
+            var statuses = new[] { "opened", "going", "finished" };
+            var tasks = statuses.Select(s =>
+                _api.GetMyStaffEventsAsync(page, limit, s, search, category, startDate, isAdultOnly, stateId, cityId));
+            var results = await Task.WhenAll(tasks);
+            var combined = results.SelectMany(r => r.Data).ToList();
+            return new StaffEventListPageDto(combined,
+                new PaginationMetaDto(combined.Count, 1, page, combined.Count));
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Get my staff events all failed: {ex.Message}");
+            return new StaffEventListPageDto(new List<StaffEventListItemDto>(),
+                new PaginationMetaDto(0, 0, page, limit));
+        }
+    }
+
     public async Task<EventDetailDto?> GetByIdAsync(string id)
     {
         try

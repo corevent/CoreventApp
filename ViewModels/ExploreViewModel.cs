@@ -92,7 +92,7 @@ public partial class ExploreViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Explore SearchAsync failed: {ex.Message}");
+            await Shell.Current.DisplayAlertAsync("Erro", $"Explore SearchAsync failed: {ex.Message}", "OK");
         }
         finally
         {
@@ -126,7 +126,7 @@ public partial class ExploreViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Explore LoadMoreAsync failed: {ex.Message}");
+            await Shell.Current.DisplayAlertAsync("Erro", $"Explore LoadMoreAsync failed: {ex.Message}", "OK");
             _currentPage--;
         }
         finally

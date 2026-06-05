@@ -23,15 +23,6 @@ public partial class ManageEventViewModel : ObservableObject
     public partial string EventImage { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string TotalRevenue { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string TicketsSoldLabel { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial double SalesProgress { get; set; }
-
-    [ObservableProperty]
     public partial string Status { get; set; } = "draft";
 
     [ObservableProperty]
@@ -91,7 +82,7 @@ public partial class ManageEventViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"ManageEvent LoadEventAsync failed: {ex.Message}");
+            await Shell.Current.DisplayAlertAsync("Erro", $"ManageEvent LoadEventAsync failed: {ex.Message}", "OK");
         }
         finally
         {
@@ -190,8 +181,11 @@ public partial class ManageEventViewModel : ObservableObject
     [RelayCommand]
     private async Task ParticipantListAsync()
     {
+        if (_eventId is null) return;
+
         await Shell.Current.GoToAsync(nameof(Views.ParticipantList), new Dictionary<string, object>
         {
+            ["EventId"] = _eventId,
             ["EventName"] = EventName
         });
     }
@@ -199,8 +193,11 @@ public partial class ManageEventViewModel : ObservableObject
     [RelayCommand]
     private async Task TeamAsync()
     {
+        if (_eventId is null) return;
+
         await Shell.Current.GoToAsync(nameof(Views.EventTeam), new Dictionary<string, object>
         {
+            ["EventId"] = _eventId,
             ["EventName"] = EventName
         });
     }
@@ -219,6 +216,11 @@ public partial class ManageEventViewModel : ObservableObject
     [RelayCommand]
     private async Task ManageTicketsAsync()
     {
-        await Task.CompletedTask;
+        if (_eventId is null) return;
+
+        await Shell.Current.GoToAsync(nameof(Views.ManageTicketsPage), new Dictionary<string, object>
+        {
+            ["EventId"] = _eventId
+        });
     }
 }

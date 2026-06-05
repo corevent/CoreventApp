@@ -49,6 +49,14 @@ public class UsersApiClient
         return JsonSerializer.Deserialize<MessageDto>(body, JsonConfig.Options)!;
     }
 
+    public async Task<UserResponseDto> GetUserByIdAsync(string id)
+    {
+        var response = await _http.GetAsync($"/api/users/{id}");
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<UserResponseDto>(body, JsonConfig.Options)!;
+    }
+
     public async Task<UserResponseDto> GetProfile()
     {
         var response = await _http.GetAsync("/api/users/me");
