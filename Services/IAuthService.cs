@@ -10,7 +10,6 @@ public interface IAuthService
     Task LogoutAsync();
     Task<User?> GetCurrentUserAsync(bool forceRefresh = false);
 
-    Task<bool> UpdateEmailAsync(string newEmail, string currentPassword);
     Task<bool> UpdatePasswordAsync(string currentPassword, string newPassword);
     Task<bool> UpdateProfileAsync(string name, string? phoneNumber, string? avatarUrl);
 

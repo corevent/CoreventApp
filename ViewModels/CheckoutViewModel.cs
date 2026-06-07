@@ -136,7 +136,7 @@ public partial class CheckoutViewModel : ObservableObject
 
             var result = await _ordersApi.CreateAsync(_eventId, dto);
             _orderId = result.Data.OrderId;
-            _checkoutUrl = result.Data.CheckoutLinks?.FirstOrDefault()?.Href;
+            _checkoutUrl = result.Data.CheckoutLinks?.FirstOrDefault(l => l.Rel == "PAY")?.Href;
 
             if (!string.IsNullOrEmpty(_checkoutUrl))
             {

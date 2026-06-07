@@ -69,6 +69,19 @@ public class EventsApiClient
         return JsonSerializer.Deserialize<EventResponseDto>(body, JsonConfig.Options)!;
     }
 
+    public async Task<EventResponseDto> UpdateStatusAsync(string id, string status)
+    {
+        var json = JsonSerializer.Serialize(new UpdateEventStatusDto(status), JsonConfig.Options);
+        var request = new HttpRequestMessage(HttpMethod.Patch, $"/api/events/{id}")
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json")
+        };
+        var response = await _http.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<EventResponseDto>(body, JsonConfig.Options)!;
+    }
+
     public async Task<EventListPageDto> GetMyOrganizerEventsAsync(
         int page, int limit,
         string status,

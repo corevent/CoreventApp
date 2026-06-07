@@ -175,6 +175,20 @@ public class EventsService
         }
     }
 
+    public async Task<EventDetailDto?> UpdateStatusAsync(string id, string status)
+    {
+        try
+        {
+            var result = await _api.UpdateStatusAsync(id, status);
+            return result.Data;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Update event status failed: {ex.Message}");
+            return null;
+        }
+    }
+
     public async Task<bool> DeleteAsync(string id)
     {
         try

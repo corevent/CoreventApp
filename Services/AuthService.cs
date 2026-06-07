@@ -89,11 +89,6 @@ public class AuthService : IAuthService
         }
     }
 
-    public Task<bool> UpdateEmailAsync(string newEmail, string currentPassword)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<bool> UpdatePasswordAsync(string currentPassword, string newPassword)
     {
         try

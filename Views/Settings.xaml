@@ -167,31 +167,6 @@
                                 </Grid.GestureRecognizers>
                             </Grid>
 
-                            <BoxView HeightRequest="1"
-                                     Color="{StaticResource Gray100}"
-                                     Margin="48,0,0,0"/>
-
-                            <!-- Alterar E-mail -->
-                            <Grid ColumnDefinitions="40, *, Auto"
-                                  HeightRequest="56">
-                                <Border Style="{StaticResource MenuIconContainer}">
-                                    <mi:MauiIcon Icon="{mi:Cupertino Person}"
-                                                 Style="{StaticResource MenuIcon}"/>
-                                </Border>
-                                <Label Grid.Column="1"
-                                       Text="Alterar E-mail"
-                                       VerticalOptions="Center"
-                                       Margin="12,0"
-                                       FontSize="15"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource primary_text_color}"/>
-                                <mi:MauiIcon Grid.Column="2"
-                                             Icon="{mi:Cupertino ChevronRight}"
-                                             Style="{StaticResource ChevronIcon}"/>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding NavigateToEmailCommand}"/>
-                                </Grid.GestureRecognizers>
-                            </Grid>
 
                             <BoxView HeightRequest="1"
                                      Color="{StaticResource Gray100}"

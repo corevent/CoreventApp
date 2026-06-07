@@ -335,6 +335,19 @@
                     Command="{Binding CancelEventCommand}"
                     IsVisible="{Binding CanCancel}"/>
 
+            <!-- Delete Button (only for Draft) -->
+            <Button Text="Excluir Evento"
+                    TextColor="{StaticResource error_color}"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    HeightRequest="48"
+                    BackgroundColor="{StaticResource White}"
+                    BorderColor="{StaticResource delete_stroke}"
+                    BorderWidth="1"
+                    CornerRadius="14"
+                    Command="{Binding DeleteEventCommand}"
+                    IsVisible="{Binding CanDelete}"/>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

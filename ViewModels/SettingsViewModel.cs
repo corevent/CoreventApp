@@ -28,12 +28,6 @@ public partial class SettingsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task NavigateToEmail()
-    {
-        await Shell.Current.GoToAsync(nameof(UpdateEmail));
-    }
-
-    [RelayCommand]
     private async Task NavigateToPassword()
     {
         await Shell.Current.GoToAsync(nameof(UpdatePassword));

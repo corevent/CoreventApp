@@ -97,3 +97,5 @@ public record UpdateEventDto(
     string? BannerUrl,
     bool? IsAdultOnly,
     string? Status);
+
+public record UpdateEventStatusDto(string Status);

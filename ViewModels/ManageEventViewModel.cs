@@ -38,6 +38,9 @@ public partial class ManageEventViewModel : ObservableObject
     public partial bool CanCancel { get; set; }
 
     [ObservableProperty]
+    public partial bool CanDelete { get; set; }
+
+    [ObservableProperty]
     public partial bool IsLoading { get; set; }
 
     public string? EventId
@@ -95,6 +98,7 @@ public partial class ManageEventViewModel : ObservableObject
         CanEdit = Status == "draft";
         CanPublish = Status == "draft";
         CanCancel = Status == "opened" || Status == "going";
+        CanDelete = Status == "draft";
     }
 
     [RelayCommand]
@@ -108,11 +112,7 @@ public partial class ManageEventViewModel : ObservableObject
     {
         if (!CanPublish || _eventId is null) return;
 
-        var result = await _eventsService.UpdateAsync(_eventId,
-            new UpdateEventDto(
-                null, null, null, null, null, null,
-                null, null, null, null, null,
-                null, null, null, null, null, "opened"));
+        var result = await _eventsService.UpdateStatusAsync(_eventId, "opened");
 
         if (result is not null)
         {
@@ -165,6 +165,31 @@ public partial class ManageEventViewModel : ObservableObject
         {
             ["EventId"] = _eventId
         });
+    }
+
+    [RelayCommand]
+    private async Task DeleteEventAsync()
+    {
+        if (!CanDelete || _eventId is null) return;
+
+        bool confirm = await Shell.Current.DisplayAlertAsync("Excluir Evento",
+            "Tem certeza que deseja excluir este evento? Esta ação não pode ser desfeita.",
+            "Sim, Excluir", "Cancelar");
+
+        if (!confirm) return;
+
+        var success = await _eventsService.DeleteAsync(_eventId);
+        if (success)
+        {
+            await Shell.Current.DisplayAlertAsync("Evento Excluído",
+                "O evento foi excluído com sucesso.", "OK");
+            await Shell.Current.GoToAsync("..");
+        }
+        else
+        {
+            await Shell.Current.DisplayAlertAsync("Erro",
+                "Não foi possível excluir o evento.", "OK");
+        }
     }
 
     [RelayCommand]

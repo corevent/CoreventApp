@@ -72,7 +72,7 @@ public partial class CreateEventViewModel : ObservableObject
         "Comunidade/Social", "Moda e Beleza", "Outro"
     };
 
-    public List<string> LocationTypes { get; } = new()
+    public ObservableCollection<string> LocationTypes { get; } = new()
     {
         "Online", "Presencial", "Híbrido"
     };
@@ -151,6 +151,8 @@ public partial class CreateEventViewModel : ObservableObject
         if (categoryDisplay is not null)
             Form.Category = categoryDisplay;
 
+        UpdateLocationTypesForEditing();
+
         // Determine editability
         var now = DateTime.Now;
         IsEditable = evt.Status switch
@@ -165,7 +167,7 @@ public partial class CreateEventViewModel : ObservableObject
 
         bool isOpened = evt.Status == "opened";
         ShowPublishButton = IsEditable && !isOpened;
-        ShowDraftButton = IsEditable && !isOpened;
+        ShowDraftButton = IsEditable;
         DraftButtonText = isOpened ? "Salvar Alterações" : "Salvar Rascunho";
 
         UpdateUI();
@@ -178,6 +180,25 @@ public partial class CreateEventViewModel : ObservableObject
             var stateIdx = matchedState is not null ? Form.States.IndexOf(matchedState) : -1;
             if (stateIdx >= 0)
                 Form.SelectedStateIndex = stateIdx;
+        }
+    }
+
+    private void UpdateLocationTypesForEditing()
+    {
+        LocationTypes.Clear();
+        if (_originalEvent?.LocationType is not null &&
+            _originalEvent.LocationType != "online")
+        {
+            LocationTypes.Add("Presencial");
+            LocationTypes.Add("Híbrido");
+            if (Form.LocationType == "Online")
+                Form.LocationType = "Presencial";
+        }
+        else
+        {
+            LocationTypes.Add("Online");
+            LocationTypes.Add("Presencial");
+            LocationTypes.Add("Híbrido");
         }
     }
 
@@ -247,29 +268,26 @@ public partial class CreateEventViewModel : ObservableObject
     {
         if (!ValidateAll()) return;
 
-        if (_originalEvent?.Status == "opened")
-        {
-            await Shell.Current.DisplayAlertAsync("Operação Inválida",
-                "Um evento publicado não pode voltar a ser rascunho.", "OK");
-            return;
-        }
+        bool isOpened = _originalEvent?.Status == "opened";
+        string targetStatus = isOpened ? "opened" : "draft";
 
         IsSaving = true;
         try
         {
-            var dto = BuildCreateDto("draft");
+            var dto = BuildCreateDto(targetStatus, forUpdate: IsEditing);
 
             if (IsEditing && _editingEventId is not null)
             {
-                var updateDto = BuildUpdateDto(dto, "draft");
+                var updateDto = BuildUpdateDto(dto, targetStatus);
                 var result = await _eventsService.UpdateAsync(_editingEventId, updateDto);
                 if (result is null)
                 {
-                    await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível salvar o rascunho.", "OK");
+                    await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível salvar as alterações.", "OK");
                     return;
                 }
-                await Shell.Current.DisplayAlertAsync("Rascunho Atualizado",
-                    "As alterações foram salvas como rascunho.", "OK");
+                var msg = isOpened ? "Alterações Salvas" : "Rascunho Atualizado";
+                var detail = isOpened ? "Suas alterações foram salvas com sucesso." : "As alterações foram salvas como rascunho.";
+                await Shell.Current.DisplayAlertAsync(msg, detail, "OK");
             }
             else
             {
@@ -299,7 +317,7 @@ public partial class CreateEventViewModel : ObservableObject
         if (_originalEvent?.Status == "opened")
         {
             await Shell.Current.DisplayAlertAsync("Já Publicado",
-                "Este evento já está publicado. Salve as alterações como rascunho.", "OK");
+                "Este evento já está publicado. Use 'Salvar Alterações' para editar os dados.", "OK");
             return;
         }
 
@@ -319,7 +337,7 @@ public partial class CreateEventViewModel : ObservableObject
         IsSaving = true;
         try
         {
-            var dto = BuildCreateDto("opened");
+            var dto = BuildCreateDto("opened", forUpdate: IsEditing);
 
             if (IsEditing && _editingEventId is not null)
             {
@@ -441,14 +459,18 @@ public partial class CreateEventViewModel : ObservableObject
         return valid;
     }
 
-    private CreateEventDto BuildCreateDto(string status)
+    private CreateEventDto BuildCreateDto(string status, bool forUpdate = false)
     {
         var title = Form.Title.Trim();
         var category = CategoryToApi.GetValueOrDefault(Form.Category, "other");
         var locationType = LocationTypeToApi.GetValueOrDefault(Form.LocationType, "in_person");
-        var bannerUrl = string.IsNullOrWhiteSpace(Form.BannerUrl)
-            ? $"https://placehold.co/600x400/FF5722/FFFFFF?text={Uri.EscapeDataString(title)}"
-            : Form.BannerUrl;
+        string? bannerUrl;
+        if (forUpdate && string.IsNullOrWhiteSpace(Form.BannerUrl))
+            bannerUrl = null;
+        else if (string.IsNullOrWhiteSpace(Form.BannerUrl))
+            bannerUrl = $"https://placehold.co/600x400/FF5722/FFFFFF?text={Uri.EscapeDataString(title)}";
+        else
+            bannerUrl = Form.BannerUrl;
 
         var isOnline = locationType == "online";
 
