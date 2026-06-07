@@ -49,7 +49,6 @@
 | `ForgotPassword` | `ForgotPassword` | `ForgotPasswordViewModel` |
 | `ResetPassword` | `ResetPassword` | `ResetPasswordViewModel` |
 | `EditProfile` | `EditProfile` | `EditProfileViewModel` |
-| `UpdateEmail` | `UpdateEmail` | `UpdateEmailViewModel` |
 | `UpdatePassword` | `UpdatePassword` | `UpdatePasswordViewModel` |
 | `Privacy` | `Privacy` | `PrivacyViewModel` |
 | `Settings` | `Settings` | `SettingsViewModel` |
