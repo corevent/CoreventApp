@@ -66,17 +66,9 @@
           </Border.GestureRecognizers>
           <Grid ColumnDefinitions="Auto, *, Auto"
                 ColumnSpacing="14">
-            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 10"
-                    WidthRequest="36"
-                    HeightRequest="36"
-                    VerticalOptions="Center">
+            <Border Style="{StaticResource MenuIconContainer}">
               <mi:MauiIcon Icon="{mi:Cupertino Person}"
-                           IconSize="18"
-                           IconColor="{StaticResource secondary_text_color}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                           Style="{StaticResource MenuIcon}"/>
             </Border>
             <Label Text="Dados Pessoais"
                    Grid.Column="1"
@@ -85,9 +77,7 @@
                    TextColor="{StaticResource profile_menu_text}"/>
             <mi:MauiIcon Grid.Column="2"
                          Icon="{mi:Cupertino ChevronRight}"
-                         IconSize="16"
-                         VerticalOptions="Center"
-                         IconColor="{StaticResource chevron_color}"/>
+                         Style="{StaticResource ChevronIcon}"/>
           </Grid>
         </Border>
 
@@ -101,17 +91,9 @@
           </Border.GestureRecognizers>
           <Grid ColumnDefinitions="Auto, *, Auto"
                 ColumnSpacing="14">
-            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 10"
-                    WidthRequest="36"
-                    HeightRequest="36"
-                    VerticalOptions="Center">
+            <Border Style="{StaticResource MenuIconContainer}">
               <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
-                           IconSize="18"
-                           IconColor="{StaticResource secondary_text_color}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                           Style="{StaticResource MenuIcon}"/>
             </Border>
             <Label Text="Histórico de Compra"
                    Grid.Column="1"
@@ -120,9 +102,7 @@
                    TextColor="{StaticResource profile_menu_text}"/>
             <mi:MauiIcon Grid.Column="2"
                          Icon="{mi:Cupertino ChevronRight}"
-                         IconSize="16"
-                         VerticalOptions="Center"
-                         IconColor="{StaticResource chevron_color}"/>
+                         Style="{StaticResource ChevronIcon}"/>
           </Grid>
         </Border>
 
@@ -136,17 +116,9 @@
           </Border.GestureRecognizers>
           <Grid ColumnDefinitions="Auto, *, Auto"
                 ColumnSpacing="14">
-            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 10"
-                    WidthRequest="36"
-                    HeightRequest="36"
-                    VerticalOptions="Center">
+            <Border Style="{StaticResource MenuIconContainer}">
               <mi:MauiIcon Icon="{mi:Cupertino Heart}"
-                           IconSize="18"
-                           IconColor="{StaticResource secondary_text_color}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                           Style="{StaticResource MenuIcon}"/>
             </Border>
             <Label Text="Meus Favoritos"
                    Grid.Column="1"
@@ -155,9 +127,7 @@
                    TextColor="{StaticResource profile_menu_text}"/>
             <mi:MauiIcon Grid.Column="2"
                          Icon="{mi:Cupertino ChevronRight}"
-                         IconSize="16"
-                         VerticalOptions="Center"
-                         IconColor="{StaticResource chevron_color}"/>
+                         Style="{StaticResource ChevronIcon}"/>
           </Grid>
         </Border>
 
@@ -171,17 +141,9 @@
           </Border.GestureRecognizers>
           <Grid ColumnDefinitions="Auto, *, Auto"
                 ColumnSpacing="14">
-            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 10"
-                    WidthRequest="36"
-                    HeightRequest="36"
-                    VerticalOptions="Center">
+            <Border Style="{StaticResource MenuIconContainer}">
               <mi:MauiIcon Icon="{mi:Cupertino Star}"
-                           IconSize="18"
-                           IconColor="{StaticResource secondary_text_color}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                           Style="{StaticResource MenuIcon}"/>
             </Border>
             <Label Text="Avaliações"
                    Grid.Column="1"
@@ -190,9 +152,7 @@
                    TextColor="{StaticResource profile_menu_text}"/>
             <mi:MauiIcon Grid.Column="2"
                          Icon="{mi:Cupertino ChevronRight}"
-                         IconSize="16"
-                         VerticalOptions="Center"
-                         IconColor="{StaticResource chevron_color}"/>
+                         Style="{StaticResource ChevronIcon}"/>
           </Grid>
         </Border>
 
@@ -206,17 +166,9 @@
           </Border.GestureRecognizers>
           <Grid ColumnDefinitions="Auto, *, Auto"
                 ColumnSpacing="14">
-            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 10"
-                    WidthRequest="36"
-                    HeightRequest="36"
-                    VerticalOptions="Center">
+            <Border Style="{StaticResource MenuIconContainer}">
               <mi:MauiIcon Icon="{mi:Cupertino Gear}"
-                           IconSize="18"
-                           IconColor="{StaticResource secondary_text_color}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                           Style="{StaticResource MenuIcon}"/>
             </Border>
             <Label Text="Configurações"
                    Grid.Column="1"
@@ -225,9 +177,7 @@
                    TextColor="{StaticResource profile_menu_text}"/>
             <mi:MauiIcon Grid.Column="2"
                          Icon="{mi:Cupertino ChevronRight}"
-                         IconSize="16"
-                         VerticalOptions="Center"
-                         IconColor="{StaticResource chevron_color}"/>
+                         Style="{StaticResource ChevronIcon}"/>
           </Grid>
         </Border>
       </VerticalStackLayout>
@@ -249,17 +199,9 @@
           </Border.GestureRecognizers>
           <Grid ColumnDefinitions="Auto, *, Auto"
                 ColumnSpacing="14">
-            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 10"
-                    WidthRequest="36"
-                    HeightRequest="36"
-                    VerticalOptions="Center">
+            <Border Style="{StaticResource MenuIconContainer}">
               <mi:MauiIcon Icon="{mi:Cupertino RectangleGrid2x2}"
-                           IconSize="18"
-                           IconColor="{StaticResource secondary_text_color}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                           Style="{StaticResource MenuIcon}"/>
             </Border>
             <Label Text="Painel do Organizador"
                    Grid.Column="1"
@@ -268,9 +210,7 @@
                    TextColor="{StaticResource profile_menu_text}"/>
             <mi:MauiIcon Grid.Column="2"
                          Icon="{mi:Cupertino ChevronRight}"
-                         IconSize="16"
-                         VerticalOptions="Center"
-                         IconColor="{StaticResource chevron_color}"/>
+                         Style="{StaticResource ChevronIcon}"/>
           </Grid>
         </Border>
       </VerticalStackLayout>
@@ -292,17 +232,9 @@
           </Border.GestureRecognizers>
           <Grid ColumnDefinitions="Auto, *, Auto"
                 ColumnSpacing="14">
-            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                    StrokeThickness="0"
-                    StrokeShape="RoundRectangle 10"
-                    WidthRequest="36"
-                    HeightRequest="36"
-                    VerticalOptions="Center">
+            <Border Style="{StaticResource MenuIconContainer}">
               <mi:MauiIcon Icon="{mi:Cupertino Shield}"
-                           IconSize="18"
-                           IconColor="{StaticResource secondary_text_color}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                           Style="{StaticResource MenuIcon}"/>
             </Border>
             <Label Text="Painel do Colaborador"
                    Grid.Column="1"
@@ -311,9 +243,7 @@
                    TextColor="{StaticResource profile_menu_text}"/>
             <mi:MauiIcon Grid.Column="2"
                          Icon="{mi:Cupertino ChevronRight}"
-                         IconSize="16"
-                         VerticalOptions="Center"
-                         IconColor="{StaticResource chevron_color}"/>
+                         Style="{StaticResource ChevronIcon}"/>
           </Grid>
         </Border>
       </VerticalStackLayout>

@@ -25,17 +25,9 @@
               ColumnDefinitions="Auto, *, Auto"
               Padding="16,14,16,10"
               VerticalOptions="Center">
-            <Border WidthRequest="40"
-                    HeightRequest="40"
-                    Stroke="{StaticResource Gray200}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 20"
-                    BackgroundColor="{StaticResource White}">
+            <Border Style="{StaticResource BackButtonContainer}">
                 <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                             IconSize="18"
-                             IconColor="{StaticResource primary_text_color}"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource BackIcon}"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -72,7 +64,7 @@
                                 HorizontalOptions="Start">
                             <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
                                          IconSize="22"
-                                         IconColor="{StaticResource primary_orange_color}"
+                                         IconColor="{StaticResource icon_default_color}"
                                          HorizontalOptions="Center"
                                          VerticalOptions="Center"/>
                         </Border>
@@ -275,9 +267,7 @@
 
                                     <mi:MauiIcon Grid.Column="2"
                                                  Icon="{mi:Cupertino ChevronRight}"
-                                                 IconSize="18"
-                                                 IconColor="{StaticResource chevron_color}"
-                                                 VerticalOptions="Center"/>
+                                                 Style="{StaticResource ChevronIcon}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

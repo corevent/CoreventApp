@@ -25,6 +25,13 @@
     <Color x:Key="toggle_active_bg">#f49519</Color>
     <Color x:Key="card_icon_bg">#F3F5F8</Color>
     <Color x:Key="chevron_color">#C7C7CC</Color>
+
+    <!-- Cores de ícones -->
+    <Color x:Key="icon_default_color">#EF4444</Color>
+    <Color x:Key="icon_container_bg">#FFF5F0</Color>
+    <Color x:Key="icon_chevron_color">#C7C7CC</Color>
+    <Color x:Key="icon_star_color">#F59E0B</Color>
+    <Color x:Key="icon_on_accent">#FFFFFF</Color>
     <Color x:Key="error_color">#FF5A5F</Color>
     <Color x:Key="star_color">#F59E0B</Color>
     <Color x:Key="delete_bg">#FEF2F2</Color>

@@ -8,17 +8,9 @@
     <ScrollView>
         <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
             <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
-                <Border WidthRequest="40"
-                        HeightRequest="40"
-                        Stroke="{StaticResource Gray200}"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 20"
-                        BackgroundColor="{StaticResource White}">
+                <Border Style="{StaticResource BackButtonContainer}">
                     <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                             IconSize="18"
-                             IconColor="{StaticResource primary_text_color}"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource BackIcon}"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -88,9 +80,9 @@
                                 <HorizontalStackLayout Spacing="16">
                                     <HorizontalStackLayout Spacing="4">
                                         <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                                 Style="{StaticResource SmallIcon}"
                                                  IconSize="13"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 VerticalOptions="Center"/>
+                                                 IconColor="{StaticResource icon_default_color}"/>
                                         <Label Text="15 Mar 2024"
                                             FontSize="12"
                                             TextColor="{StaticResource secondary_text_color}"
@@ -99,9 +91,9 @@
 
                                     <HorizontalStackLayout Spacing="4">
                                         <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
+                                                 Style="{StaticResource SmallIcon}"
                                                  IconSize="13"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 VerticalOptions="Center"/>
+                                                 IconColor="{StaticResource icon_default_color}"/>
                                         <Label Text="2 Ingressos"
                                             FontSize="12"
                                             TextColor="{StaticResource secondary_text_color}"
@@ -147,9 +139,7 @@
                                         StrokeShape="RoundRectangle 12"
                                         BackgroundColor="{StaticResource Gray50}">
                                     <mi:MauiIcon Icon="{mi:Cupertino ArrowDownDoc}"
-                                             IconSize="18"
-                                             HorizontalOptions="Center"
-                                             VerticalOptions="Center"/>
+                                             Style="{StaticResource ActionIcon}"/>
                                 </Border>
 
                                 <!-- Botão Ver Detalhes -->

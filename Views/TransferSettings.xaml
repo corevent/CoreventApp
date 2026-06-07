@@ -15,17 +15,9 @@
               ColumnDefinitions="Auto, *, Auto"
               Padding="16,14,16,10"
               VerticalOptions="Center">
-            <Border WidthRequest="40"
-                    HeightRequest="40"
-                    Stroke="{StaticResource Gray200}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 20"
-                    BackgroundColor="{StaticResource White}">
+            <Border Style="{StaticResource BackButtonContainer}">
                 <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                                     IconSize="18"
-                                     IconColor="{StaticResource primary_text_color}"
-                                     HorizontalOptions="Center"
-                                     VerticalOptions="Center"/>
+                             Style="{StaticResource BackIcon}"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -52,10 +44,8 @@
                         Padding="16,14">
                     <Grid ColumnDefinitions="24, *" ColumnSpacing="12">
                         <mi:MauiIcon Icon="{mi:Cupertino InfoCircle}"
-                                     IconSize="16"
-                                     IconColor="#1E88E5"
-                                     HorizontalOptions="Center"
-                                     VerticalOptions="Center"/>
+                                     Style="{StaticResource SmallIcon}"
+                                     IconColor="{StaticResource icon_default_color}"/>
                         <Label Grid.Column="1"
                                Text="Seus repasses são automáticos. Mantenha os dados atualizados para evitar atrasos no recebimento das vendas."
                                FontSize="12"
@@ -105,11 +95,7 @@
                                                  WidthRequest="6"/>
                                         
                                         <Grid Grid.Column="1" ColumnDefinitions="60, *, Auto" Padding="12,16,16,16" ColumnSpacing="12">
-                                            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                                    StrokeThickness="0"
-                                                    StrokeShape="RoundRectangle 14"
-                                                    WidthRequest="48"
-                                                    HeightRequest="48">
+                                            <Border Style="{StaticResource LargeMenuIconContainer}">
                                                 <mi:MauiIcon Icon="{mi:Cupertino Creditcard}"
                                                              IconSize="22"
                                                              IconColor="{StaticResource primary_text_color}"
@@ -129,9 +115,8 @@
 
                                             <mi:MauiIcon Grid.Column="2"
                                                          Icon="{mi:Cupertino Trash}"
-                                                         IconSize="20"
-                                                         IconColor="{StaticResource secondary_text_color}"
-                                                         VerticalOptions="Center">
+                                                         Style="{StaticResource ActionIcon}"
+                                                         IconSize="20">
                                                 <mi:MauiIcon.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TransferSettingsViewModel}}, Path=DeleteBankAccountCommand}"
                                                                           CommandParameter="{Binding .}"/>
@@ -198,9 +183,8 @@
 
                                         <mi:MauiIcon Grid.Column="2"
                                                      Icon="{mi:Cupertino Trash}"
-                                                     IconSize="20"
-                                                     IconColor="{StaticResource secondary_text_color}"
-                                                     VerticalOptions="Center">
+                                                     Style="{StaticResource ActionIcon}"
+                                                     IconSize="20">
                                             <mi:MauiIcon.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TransferSettingsViewModel}}, Path=DeletePixKeyCommand}"
                                                                       CommandParameter="{Binding .}"/>

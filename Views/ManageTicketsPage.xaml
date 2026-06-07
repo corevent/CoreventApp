@@ -17,17 +17,8 @@
             <!-- Header -->
             <Grid ColumnDefinitions="Auto, *"
                   VerticalOptions="Center">
-                <Border WidthRequest="40"
-                        HeightRequest="40"
-                        Stroke="{StaticResource Gray200}"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 20"
-                        BackgroundColor="{StaticResource White}">
-                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                                 IconSize="18"
-                                 IconColor="{StaticResource primary_text_color}"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"/>
+                <Border Style="{StaticResource BackButtonContainer}">
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}" Style="{StaticResource BackIcon}"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -138,11 +129,7 @@
                                             StrokeShape="RoundRectangle 18"
                                             BackgroundColor="{StaticResource delete_bg}"
                                             VerticalOptions="Center">
-                                        <mi:MauiIcon Icon="{mi:Cupertino Trash}"
-                                                      IconSize="16"
-                                                      IconColor="{StaticResource secondary_text_color}"
-                                                      HorizontalOptions="Center"
-                                                      VerticalOptions="Center"/>
+                                        <mi:MauiIcon Icon="{mi:Cupertino Trash}" Style="{StaticResource ActionIcon}" IconSize="16"/>
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.DeleteTicketTypeCommand}"
                                                                   CommandParameter="{Binding}"/>

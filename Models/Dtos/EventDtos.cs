@@ -19,7 +19,8 @@ public record EventListItemDto(
     string Category,
     bool IsAdultOnly,
     string Status,
-    OrganizerInfoDto Organizer);
+    OrganizerInfoDto Organizer,
+    string? LocationType);
 
 // Organizer info inside list item
 public record OrganizerInfoDto(string Id, string Name, string Email, string? AvatarUrl);

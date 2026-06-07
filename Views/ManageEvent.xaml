@@ -17,17 +17,9 @@
             <!-- Header -->
             <Grid ColumnDefinitions="Auto, *, Auto"
                   VerticalOptions="Center">
-                <Border WidthRequest="40"
-                        HeightRequest="40"
-                        Stroke="{StaticResource Gray200}"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 20"
-                        BackgroundColor="{StaticResource White}">
+                <Border Style="{StaticResource BackButtonContainer}">
                     <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                             IconSize="18"
-                             IconColor="{StaticResource primary_text_color}"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource BackIcon}"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -140,17 +132,9 @@
                     Padding="16,14">
                 <Grid ColumnDefinitions="Auto, *, Auto"
                       ColumnSpacing="14">
-                    <Border BackgroundColor="{StaticResource card_icon_bg}"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 10"
-                            WidthRequest="40"
-                            HeightRequest="40"
-                            HorizontalOptions="Start">
+                    <Border Style="{StaticResource MenuIconContainer}">
                             <mi:MauiIcon Icon="{mi:Cupertino Qrcode}"
-                                     IconSize="20"
-                                     IconColor="{StaticResource secondary_text_color}"
-                                     HorizontalOptions="Center"
-                                     VerticalOptions="Center"/>
+                                     Style="{StaticResource MenuIcon}"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -165,9 +149,7 @@
                     </VerticalStackLayout>
                     <mi:MauiIcon Grid.Column="2"
                              Icon="{mi:Cupertino ChevronRight}"
-                             IconSize="20"
-                             IconColor="{StaticResource chevron_color}"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource ChevronIcon}"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding CheckInCommand}"/>
@@ -181,17 +163,9 @@
                     Padding="16,14">
                 <Grid ColumnDefinitions="Auto, *, Auto"
                       ColumnSpacing="14">
-                    <Border BackgroundColor="{StaticResource card_icon_bg}"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 10"
-                            WidthRequest="40"
-                            HeightRequest="40"
-                            HorizontalOptions="Start">
+                    <Border Style="{StaticResource MenuIconContainer}">
                         <mi:MauiIcon Icon="{mi:Cupertino Person}"
-                                 IconSize="20"
-                                 IconColor="{StaticResource secondary_text_color}"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"/>
+                                 Style="{StaticResource MenuIcon}"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -206,9 +180,7 @@
                     </VerticalStackLayout>
                     <mi:MauiIcon Grid.Column="2"
                              Icon="{mi:Cupertino ChevronRight}"
-                             IconSize="20"
-                             IconColor="{StaticResource chevron_color}"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource ChevronIcon}"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ParticipantListCommand}"/>
@@ -222,17 +194,9 @@
                     Padding="16,14">
                 <Grid ColumnDefinitions="Auto, *, Auto"
                       ColumnSpacing="14">
-                    <Border BackgroundColor="{StaticResource card_icon_bg}"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 10"
-                            WidthRequest="40"
-                            HeightRequest="40"
-                            HorizontalOptions="Start">
+                    <Border Style="{StaticResource MenuIconContainer}">
                         <mi:MauiIcon Icon="{mi:Cupertino Shield}"
-                                 IconSize="20"
-                                 IconColor="{StaticResource secondary_text_color}"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"/>
+                                 Style="{StaticResource MenuIcon}"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -247,9 +211,7 @@
                     </VerticalStackLayout>
                     <mi:MauiIcon Grid.Column="2"
                              Icon="{mi:Cupertino ChevronRight}"
-                             IconSize="20"
-                             IconColor="{StaticResource chevron_color}"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource ChevronIcon}"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding TeamCommand}"/>
@@ -263,17 +225,9 @@
                     Padding="16,14">
                 <Grid ColumnDefinitions="Auto, *, Auto"
                       ColumnSpacing="14">
-                    <Border BackgroundColor="{StaticResource card_icon_bg}"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 10"
-                            WidthRequest="40"
-                            HeightRequest="40"
-                            HorizontalOptions="Start">
+                    <Border Style="{StaticResource MenuIconContainer}">
                         <mi:MauiIcon Icon="{mi:Cupertino MusicNote}"
-                                 IconSize="20"
-                                 IconColor="{StaticResource secondary_text_color}"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"/>
+                                 Style="{StaticResource MenuIcon}"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -288,9 +242,7 @@
                     </VerticalStackLayout>
                     <mi:MauiIcon Grid.Column="2"
                              Icon="{mi:Cupertino ChevronRight}"
-                             IconSize="20"
-                             IconColor="{StaticResource chevron_color}"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource ChevronIcon}"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding AttractionsCommand}"/>
@@ -304,17 +256,9 @@
                     Padding="16,14">
                 <Grid ColumnDefinitions="Auto, *, Auto"
                       ColumnSpacing="14">
-                    <Border BackgroundColor="{StaticResource card_icon_bg}"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 10"
-                            WidthRequest="40"
-                            HeightRequest="40"
-                            HorizontalOptions="Start">
+                    <Border Style="{StaticResource MenuIconContainer}">
                         <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
-                                 IconSize="20"
-                                 IconColor="{StaticResource secondary_text_color}"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"/>
+                                 Style="{StaticResource MenuIcon}"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -329,9 +273,7 @@
                     </VerticalStackLayout>
                     <mi:MauiIcon Grid.Column="2"
                              Icon="{mi:Cupertino ChevronRight}"
-                             IconSize="20"
-                             IconColor="{StaticResource chevron_color}"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource ChevronIcon}"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ManageTicketsCommand}"/>
@@ -345,17 +287,9 @@
                     Padding="16,14">
                 <Grid ColumnDefinitions="Auto, *, Auto"
                       ColumnSpacing="14">
-                    <Border BackgroundColor="{StaticResource card_icon_bg}"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 10"
-                            WidthRequest="40"
-                            HeightRequest="40"
-                            HorizontalOptions="Start">
+                    <Border Style="{StaticResource MenuIconContainer}">
                         <mi:MauiIcon Icon="{mi:Cupertino Gear}"
-                                 IconSize="20"
-                                 IconColor="{StaticResource secondary_text_color}"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"/>
+                                 Style="{StaticResource MenuIcon}"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1"
                                          VerticalOptions="Center"
@@ -370,9 +304,7 @@
                     </VerticalStackLayout>
                     <mi:MauiIcon Grid.Column="2"
                              Icon="{mi:Cupertino ChevronRight}"
-                             IconSize="20"
-                             IconColor="{StaticResource chevron_color}"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource ChevronIcon}"/>
                 </Grid>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding EditEventCommand}"/>

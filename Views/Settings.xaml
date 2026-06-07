@@ -15,17 +15,9 @@
               ColumnDefinitions="Auto, *, Auto"
               Padding="16,14,16,10"
               VerticalOptions="Center">
-            <Border WidthRequest="40"
-                    HeightRequest="40"
-                    Stroke="{StaticResource Gray200}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 20"
-                    BackgroundColor="{StaticResource White}">
+            <Border Style="{StaticResource BackButtonContainer}">
                 <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                             IconSize="18"
-                             IconColor="{StaticResource primary_text_color}"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"/>
+                             Style="{StaticResource BackIcon}"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -63,16 +55,9 @@
                             <!-- Notificações Push -->
                             <Grid ColumnDefinitions="40, *, 40"
                                   HeightRequest="56">
-                                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 12"
-                                        WidthRequest="36"
-                                        HeightRequest="36">
+                                <Border Style="{StaticResource MenuIconContainer}">
                                     <mi:MauiIcon Icon="{mi:Cupertino Bell}"
-                                                 IconSize="18"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 VerticalOptions="Center"
-                                                 HorizontalOptions="Center"/>
+                                                 Style="{StaticResource MenuIcon}"/>
                                 </Border>
                                 <Label Grid.Column="1"
                                        Text="Notificações Push"
@@ -94,16 +79,9 @@
                             <!-- Modo Escuro -->
                             <Grid ColumnDefinitions="40, *, 40"
                                   HeightRequest="56">
-                                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 12"
-                                        WidthRequest="36"
-                                        HeightRequest="36">
+                                <Border Style="{StaticResource MenuIconContainer}">
                                     <mi:MauiIcon Icon="{mi:Cupertino Moon}"
-                                                 IconSize="18"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 VerticalOptions="Center"
-                                                 HorizontalOptions="Center"/>
+                                                 Style="{StaticResource MenuIcon}"/>
                                 </Border>
                                 <Label Grid.Column="1"
                                        Text="Modo Escuro"
@@ -125,16 +103,9 @@
                             <!-- Idioma -->
                             <Grid ColumnDefinitions="40, *, Auto"
                                   HeightRequest="56">
-                                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 12"
-                                        WidthRequest="36"
-                                        HeightRequest="36">
+                                <Border Style="{StaticResource MenuIconContainer}">
                                     <mi:MauiIcon Icon="{mi:Cupertino Globe}"
-                                                 IconSize="18"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 VerticalOptions="Center"
-                                                 HorizontalOptions="Center"/>
+                                                 Style="{StaticResource MenuIcon}"/>
                                 </Border>
                                 <Label Grid.Column="1"
                                        Text="Idioma"
@@ -177,16 +148,9 @@
                             <!-- Privacidade -->
                             <Grid ColumnDefinitions="40, *, Auto"
                                   HeightRequest="56">
-                                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 12"
-                                        WidthRequest="36"
-                                        HeightRequest="36">
+                                <Border Style="{StaticResource MenuIconContainer}">
                                     <mi:MauiIcon Icon="{mi:Cupertino Shield}"
-                                                 IconSize="18"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 VerticalOptions="Center"
-                                                 HorizontalOptions="Center"/>
+                                                 Style="{StaticResource MenuIcon}"/>
                                 </Border>
                                 <Label Grid.Column="1"
                                        Text="Privacidade"
@@ -197,9 +161,7 @@
                                        TextColor="{StaticResource primary_text_color}"/>
                                 <mi:MauiIcon Grid.Column="2"
                                              Icon="{mi:Cupertino ChevronRight}"
-                                             IconSize="16"
-                                             IconColor="{StaticResource secondary_text_color}"
-                                             VerticalOptions="Center"/>
+                                             Style="{StaticResource ChevronIcon}"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding NavigateToPrivacyCommand}"/>
                                 </Grid.GestureRecognizers>
@@ -212,16 +174,9 @@
                             <!-- Alterar E-mail -->
                             <Grid ColumnDefinitions="40, *, Auto"
                                   HeightRequest="56">
-                                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 12"
-                                        WidthRequest="36"
-                                        HeightRequest="36">
+                                <Border Style="{StaticResource MenuIconContainer}">
                                     <mi:MauiIcon Icon="{mi:Cupertino Person}"
-                                                 IconSize="18"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 VerticalOptions="Center"
-                                                 HorizontalOptions="Center"/>
+                                                 Style="{StaticResource MenuIcon}"/>
                                 </Border>
                                 <Label Grid.Column="1"
                                        Text="Alterar E-mail"
@@ -232,9 +187,7 @@
                                        TextColor="{StaticResource primary_text_color}"/>
                                 <mi:MauiIcon Grid.Column="2"
                                              Icon="{mi:Cupertino ChevronRight}"
-                                             IconSize="16"
-                                             IconColor="{StaticResource secondary_text_color}"
-                                             VerticalOptions="Center"/>
+                                             Style="{StaticResource ChevronIcon}"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding NavigateToEmailCommand}"/>
                                 </Grid.GestureRecognizers>
@@ -247,16 +200,9 @@
                             <!-- Alterar Senha -->
                             <Grid ColumnDefinitions="40, *, Auto"
                                   HeightRequest="56">
-                                <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 12"
-                                        WidthRequest="36"
-                                        HeightRequest="36">
+                                <Border Style="{StaticResource MenuIconContainer}">
                                     <mi:MauiIcon Icon="{mi:Cupertino Shield}"
-                                                 IconSize="18"
-                                                 IconColor="{StaticResource secondary_text_color}"
-                                                 VerticalOptions="Center"
-                                                 HorizontalOptions="Center"/>
+                                                 Style="{StaticResource MenuIcon}"/>
                                 </Border>
                                 <Label Grid.Column="1"
                                        Text="Alterar Senha"
@@ -267,9 +213,7 @@
                                        TextColor="{StaticResource primary_text_color}"/>
                                 <mi:MauiIcon Grid.Column="2"
                                              Icon="{mi:Cupertino ChevronRight}"
-                                             IconSize="16"
-                                             IconColor="{StaticResource secondary_text_color}"
-                                             VerticalOptions="Center"/>
+                                             Style="{StaticResource ChevronIcon}"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding NavigateToPasswordCommand}"/>
                                 </Grid.GestureRecognizers>

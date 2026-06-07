@@ -18,17 +18,8 @@
               ColumnDefinitions="Auto, *"
               VerticalOptions="Center"
               Margin="0,0,0,16">
-            <Border WidthRequest="40"
-                    HeightRequest="40"
-                    Stroke="{StaticResource Gray200}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 20"
-                    BackgroundColor="{StaticResource White}">
-                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"
-                             IconSize="18"
-                             IconColor="{StaticResource primary_text_color}"/>
+            <Border Style="{StaticResource BackButtonContainer}">
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}" Style="{StaticResource BackIcon}"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>

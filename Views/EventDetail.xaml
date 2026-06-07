@@ -37,33 +37,21 @@
                   Padding="16,14,16,0"
                   VerticalOptions="Start">
 
-                <Border WidthRequest="40"
-                        HeightRequest="40"
-                        Stroke="#50FFFFFF"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 20"
-                        BackgroundColor="#30FFFFFF">
+                <Border Style="{StaticResource OverlayIconContainer}">
                     <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                                 IconSize="18"
-                                 IconColor="{StaticResource White}"
-                                 HorizontalOptions="Center"
-                                 VerticalOptions="Center"/>
+                                 Style="{StaticResource BackIcon}"
+                                 IconColor="{StaticResource icon_on_accent}"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
                 </Border>
 
                 <Border Grid.Column="2"
-                        WidthRequest="40"
-                        HeightRequest="40"
-                        Stroke="#50FFFFFF"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 20"
-                        BackgroundColor="#30FFFFFF"
+                        Style="{StaticResource OverlayIconContainer}"
                         Margin="0,0,8,0">
                     <mi:MauiIcon Icon="{mi:Cupertino ArrowshapeTurnupRight}"
-                                 IconSize="18"
-                                 IconColor="{StaticResource White}"
+                                 Style="{StaticResource ActionIcon}"
+                                 IconColor="{StaticResource icon_on_accent}"
                                  HorizontalOptions="Center"
                                  VerticalOptions="Center"/>
                     <Border.GestureRecognizers>
@@ -72,19 +60,13 @@
                 </Border>
 
                 <Border Grid.Column="3"
-                        WidthRequest="40"
-                        HeightRequest="40"
-                        Stroke="#50FFFFFF"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 20"
-                        BackgroundColor="#30FFFFFF">
-                    <Grid>
+                        Style="{StaticResource OverlayIconContainer}">
+                    <Grid VerticalOptions="Center"
+                          HorizontalOptions="Center">
                         <mi:MauiIcon Icon="{mi:Cupertino HeartFill}"
-                                     IconSize="18"
-                                     IconColor="{StaticResource primary_orange_color}"
-                                     IsVisible="False"
-                                     HorizontalOptions="Center"
-                                     VerticalOptions="Center">
+                                     Style="{StaticResource ActionIcon}"
+                                     IconColor="{StaticResource icon_default_color}"
+                                     IsVisible="False">
                             <mi:MauiIcon.Triggers>
                                 <DataTrigger TargetType="mi:MauiIcon" Binding="{Binding IsFavorite}" Value="True">
                                     <Setter Property="IsVisible" Value="True"/>
@@ -92,10 +74,8 @@
                             </mi:MauiIcon.Triggers>
                         </mi:MauiIcon>
                         <mi:MauiIcon Icon="{mi:Cupertino Heart}"
-                                     IconSize="18"
-                                     IconColor="{StaticResource White}"
-                                     HorizontalOptions="Center"
-                                     VerticalOptions="Center">
+                                     Style="{StaticResource ActionIcon}"
+                                     IconColor="{StaticResource icon_on_accent}">
                             <mi:MauiIcon.Triggers>
                                 <DataTrigger TargetType="mi:MauiIcon" Binding="{Binding IsFavorite}" Value="True">
                                     <Setter Property="IsVisible" Value="False"/>
@@ -156,18 +136,9 @@
                         <!-- Date & Time -->
                         <Grid ColumnDefinitions="36, *"
                               ColumnSpacing="10">
-                            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 10"
-                                    WidthRequest="36"
-                                    HeightRequest="36"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="Center">
+                            <Border Style="{StaticResource MenuIconContainer}">
                                 <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
-                                             IconSize="18"
-                                             IconColor="{StaticResource secondary_text_color}"
-                                             HorizontalOptions="Center"
-                                             VerticalOptions="Center"/>
+                                             Style="{StaticResource MenuIcon}"/>
                             </Border>
                             <VerticalStackLayout Grid.Column="1"
                                                  VerticalOptions="Center"
@@ -185,18 +156,9 @@
                         <!-- Location -->
                         <Grid ColumnDefinitions="36, *"
                               ColumnSpacing="10">
-                            <Border BackgroundColor="{StaticResource card_icon_bg}"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 10"
-                                    WidthRequest="36"
-                                    HeightRequest="36"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="Center">
+                            <Border Style="{StaticResource MenuIconContainer}">
                                 <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
-                                             IconSize="18"
-                                             IconColor="{StaticResource secondary_text_color}"
-                                             HorizontalOptions="Center"
-                                             VerticalOptions="Center"/>
+                                             Style="{StaticResource MenuIcon}"/>
                             </Border>
                             <VerticalStackLayout Grid.Column="1"
                                                  VerticalOptions="Center"
@@ -267,10 +229,8 @@
                                                             HeightRequest="36"
                                                             BackgroundColor="{StaticResource White}">
                                                         <mi:MauiIcon Icon="{mi:Cupertino MusicNote}"
-                                                                     IconSize="16"
-                                                                     IconColor="{StaticResource secondary_text_color}"
-                                                                     HorizontalOptions="Center"
-                                                                     VerticalOptions="Center"/>
+                                                                     Style="{StaticResource SmallIcon}"
+                                                                     IconColor="{StaticResource icon_default_color}"/>
                                                     </Border>
                                                     <VerticalStackLayout Grid.Column="1"
                                                                          VerticalOptions="Center"
@@ -327,7 +287,7 @@
                                         HorizontalOptions="Center">
                                     <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
                                                  IconSize="26"
-                                                 IconColor="{StaticResource secondary_text_color}"
+                                                 IconColor="{StaticResource icon_default_color}"
                                                  HorizontalOptions="Center"
                                                  VerticalOptions="Center"/>
                                 </Border>

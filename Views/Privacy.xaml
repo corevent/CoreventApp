@@ -15,17 +15,9 @@
               ColumnDefinitions="Auto, *, Auto"
               Padding="16,14,16,10"
               VerticalOptions="Center">
-            <Border WidthRequest="40"
-                    HeightRequest="40"
-                    Stroke="{StaticResource Gray200}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 20"
-                    BackgroundColor="{StaticResource White}">
+            <Border Style="{StaticResource BackButtonContainer}">
                 <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                         IconSize="18"
-                         IconColor="{StaticResource primary_text_color}"
-                         HorizontalOptions="Center"
-                         VerticalOptions="Center"/>
+                         Style="{StaticResource BackIcon}"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -59,7 +51,8 @@
                                 HeightRequest="50"
                                 HorizontalOptions="Start">
                             <mi:MauiIcon Icon="{mi:Cupertino Shield}"
-                                    IconSize="24"/>
+                                    IconSize="24"
+                                    IconColor="{StaticResource icon_default_color}"/>
                         </Border>
 
                         <Label Text="Sua privacidade é soberana"
@@ -101,7 +94,8 @@
                                     WidthRequest="36"
                                     HeightRequest="36">
                                 <mi:MauiIcon Icon="{mi:Cupertino ArrowDownDoc}"
-                                        IconSize="18"/>
+                                        IconSize="18"
+                                        IconColor="{StaticResource icon_default_color}"/>
                             </Border>
 
                             <VerticalStackLayout Grid.Column="1"
@@ -118,9 +112,7 @@
 
                             <mi:MauiIcon Grid.Column="2"
                                     Icon="{mi:Cupertino ChevronRight}"
-                                    IconSize="22"
-                                    IconColor="{StaticResource chevron_color}"
-                                    VerticalOptions="Center"/>
+                                    Style="{StaticResource ChevronIcon}"/>
 
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding DownloadDataCommand}"/>

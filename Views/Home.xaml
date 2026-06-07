@@ -52,7 +52,7 @@
                     VerticalOptions="Center">
               <mi:MauiIcon Icon="{mi:Cupertino Search}"
                            IconSize="24"
-                           IconColor="{StaticResource primary_orange_color}"
+                           IconColor="{StaticResource icon_default_color}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"/>
             </Border>
@@ -77,10 +77,9 @@
                     HeightRequest="36"
                     VerticalOptions="Center">
               <mi:MauiIcon Icon="{mi:Cupertino LineHorizontal3Decrease}"
+                           Style="{StaticResource SmallIcon}"
                            IconSize="15"
-                           IconColor="{StaticResource home_filter_text}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                           IconColor="{StaticResource icon_default_color}"/>
             </Border>
           </Grid>
         </Border>
@@ -115,35 +114,103 @@
                       Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SelectEventCommand}"
                       CommandParameter="{Binding}"/>
                   </Border.GestureRecognizers>
-                  <Grid RowDefinitions="178, Auto">
+                  <Grid RowDefinitions="178, *, Auto">
                     <Grid>
-                      <!-- Aplicar o titulo da placeholder no link atraves de binding context -->
                       <Image Source="https://placehold.co/600x400/FF5722/FFFFFF.png?text=Evento"
                              Aspect="AspectFill"/>
-                      <Border Margin="12"
-                              Padding="12,6"
-                              StrokeThickness="0"
-                              StrokeShape="RoundRectangle 14"
-                              BackgroundColor="{StaticResource primary_orange_color}"
-                              HorizontalOptions="Start"
-                              VerticalOptions="End">
-                        <Label Text="{Binding Category, Converter={StaticResource CategoryDisplayConverter}}"
-                               FontSize="12"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource White}"/>
-                      </Border>
+                      <HorizontalStackLayout Margin="12"
+                                             Spacing="6"
+                                             HorizontalOptions="Start"
+                                             VerticalOptions="End">
+                        <Border Padding="12,6"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 14"
+                                BackgroundColor="{StaticResource primary_orange_color}">
+                          <Label Text="{Binding Category, Converter={StaticResource CategoryDisplayConverter}}"
+                                 FontSize="12"
+                                 FontAttributes="Bold"
+                                 TextColor="{StaticResource White}"/>
+                        </Border>
+                        <Border Padding="12,6"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 14"
+                                BackgroundColor="#DBEAFE">
+                          <Label Text="{Binding LocationType, Converter={StaticResource LocationTypeDisplayConverter}}"
+                                 FontSize="12"
+                                 FontAttributes="Bold"
+                                 TextColor="#2563EB"/>
+                        </Border>
+                        <Border Padding="12,6"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 14"
+                                BackgroundColor="#FEE2E2"
+                                IsVisible="{Binding IsAdultOnly}">
+                          <Label Text="+18"
+                                 FontSize="12"
+                                 FontAttributes="Bold"
+                                 TextColor="#DC2626"/>
+                        </Border>
+                      </HorizontalStackLayout>
                     </Grid>
                     <VerticalStackLayout Grid.Row="1"
-                                         Padding="14,12,14,14"
-                                         Spacing="8">
+                                         Padding="14,8,14,0"
+                                         Spacing="6">
                       <Label Text="{Binding Title}"
                              FontSize="16"
                              FontAttributes="Bold"
-                             TextColor="{StaticResource primary_text_color}"/>
-                      <Label Text="{Binding StartDate, StringFormat='{0:dd MMM, yyyy - HH:mm}'}"
-                             FontSize="12"
-                             TextColor="{StaticResource secondary_text_color}"/>
+                             TextColor="{StaticResource primary_text_color}"
+                             LineBreakMode="TailTruncation"/>
+                      <HorizontalStackLayout Spacing="4">
+                        <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                     IconSize="12"
+                                     IconColor="{StaticResource icon_default_color}"
+                                     VerticalOptions="Center"/>
+                        <Label Text="{Binding StartDate, StringFormat='{0:dd MMM, yyyy}'}"
+                               FontSize="12"
+                               TextColor="{StaticResource secondary_text_color}"
+                               VerticalOptions="Center"/>
+                        <Label Text="-"
+                               FontSize="12"
+                               TextColor="{StaticResource secondary_text_color}"
+                               VerticalOptions="Center"/>
+                        <Label Text="{Binding EndDate, StringFormat='{0:dd MMM, yyyy}'}"
+                               FontSize="12"
+                               TextColor="{StaticResource secondary_text_color}"
+                               VerticalOptions="Center"/>
+                      </HorizontalStackLayout>
+                      <HorizontalStackLayout Spacing="4">
+                        <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
+                                     IconSize="12"
+                                     IconColor="{StaticResource icon_default_color}"
+                                     VerticalOptions="Center"/>
+                        <Label Text="{Binding LocationName}"
+                               FontSize="12"
+                               TextColor="{StaticResource secondary_text_color}"
+                               LineBreakMode="TailTruncation"
+                               VerticalOptions="Center">
+                          <Label.Triggers>
+                            <DataTrigger TargetType="Label"
+                                         Binding="{Binding LocationType}"
+                                         Value="online">
+                              <Setter Property="Text" Value="Evento Online"/>
+                            </DataTrigger>
+                          </Label.Triggers>
+                        </Label>
+                      </HorizontalStackLayout>
                     </VerticalStackLayout>
+                    <HorizontalStackLayout Grid.Row="2"
+                                           Padding="14,8,14,12"
+                                           Spacing="4">
+                      <mi:MauiIcon Icon="{mi:Cupertino Person}"
+                                   IconSize="12"
+                                   IconColor="{StaticResource icon_default_color}"
+                                   VerticalOptions="Center"/>
+                      <Label Text="{Binding Organizer.Name}"
+                             FontSize="12"
+                             TextColor="{StaticResource secondary_text_color}"
+                             LineBreakMode="TailTruncation"
+                             VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
                   </Grid>
                 </Border>
               </DataTemplate>

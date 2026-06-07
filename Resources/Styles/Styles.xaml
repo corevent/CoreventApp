@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons">
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color"
@@ -572,6 +573,106 @@
                 Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource White}}"/>
         <Setter Property="IconColor"
                 Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource White}}"/>
+    </Style>
+
+    <!-- ===================== ICON STYLES ===================== -->
+
+    <!-- Default icon for menu items (inside MenuIconContainer) -->
+    <Style x:Key="MenuIcon" TargetType="mi:MauiIcon">
+        <Setter Property="IconSize" Value="18"/>
+        <Setter Property="IconColor" Value="{StaticResource icon_default_color}"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Back button icon (ArrowLeft in BackButtonContainer) -->
+    <Style x:Key="BackIcon" TargetType="mi:MauiIcon">
+        <Setter Property="IconSize" Value="18"/>
+        <Setter Property="IconColor" Value="{StaticResource primary_text_color}"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Action icon (not in a container, e.g. logout, share) -->
+    <Style x:Key="ActionIcon" TargetType="mi:MauiIcon">
+        <Setter Property="IconSize" Value="18"/>
+        <Setter Property="IconColor" Value="{StaticResource icon_default_color}"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Chevron right arrow -->
+    <Style x:Key="ChevronIcon" TargetType="mi:MauiIcon">
+        <Setter Property="IconSize" Value="16"/>
+        <Setter Property="IconColor" Value="{StaticResource icon_chevron_color}"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Small info/decorative icon -->
+    <Style x:Key="SmallIcon" TargetType="mi:MauiIcon">
+        <Setter Property="IconSize" Value="16"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Large decorative icon (watermark) -->
+    <Style x:Key="LargeWatermarkIcon" TargetType="mi:MauiIcon">
+        <Setter Property="IconSize" Value="60"/>
+        <Setter Property="Opacity" Value="0.1"/>
+    </Style>
+
+    <!-- Star rating icon -->
+    <Style x:Key="StarIcon" TargetType="mi:MauiIcon">
+        <Setter Property="IconSize" Value="16"/>
+        <Setter Property="IconColor" Value="{StaticResource icon_star_color}"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Tab bar icon -->
+    <Style x:Key="TabIcon" TargetType="mi:MauiIcon">
+        <Setter Property="IconSize" Value="22"/>
+    </Style>
+
+    <!-- ===================== CONTAINER STYLES ===================== -->
+
+    <!-- Container for menu item icons (36x36 rounded square) -->
+    <Style x:Key="MenuIconContainer" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource icon_container_bg}"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
+        <Setter Property="WidthRequest" Value="36"/>
+        <Setter Property="HeightRequest" Value="36"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Container for back button (40x40 circle with border) -->
+    <Style x:Key="BackButtonContainer" TargetType="Border">
+        <Setter Property="WidthRequest" Value="40"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="Stroke" Value="{StaticResource Gray200}"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 20"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
+    </Style>
+
+    <!-- Container for menu row icons (48x48) -->
+    <Style x:Key="LargeMenuIconContainer" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource icon_container_bg}"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 14"/>
+        <Setter Property="WidthRequest" Value="48"/>
+        <Setter Property="HeightRequest" Value="48"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- Overlay icon container (semi-transparent, for headers over images) -->
+    <Style x:Key="OverlayIconContainer" TargetType="Border">
+        <Setter Property="WidthRequest" Value="40"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="Stroke" Value="#50FFFFFF"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 20"/>
+        <Setter Property="BackgroundColor" Value="#30FFFFFF"/>
     </Style>
 
     <Style TargetType="TabbedPage">

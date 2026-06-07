@@ -31,7 +31,7 @@
                             VerticalOptions="Center">
                         <mi:MauiIcon Icon="{mi:Cupertino Search}"
                                      IconSize="14"
-                                     IconColor="{StaticResource secondary_text_color}"
+                                     IconColor="{StaticResource icon_default_color}"
                                      HorizontalOptions="Center"
                                      VerticalOptions="Center"/>
                     </Border>
@@ -175,7 +175,7 @@
                                 <HorizontalStackLayout Spacing="4">
                                     <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
                                                  IconSize="11"
-                                                 IconColor="{StaticResource secondary_text_color}"
+                                                 IconColor="{StaticResource icon_default_color}"
                                                  VerticalOptions="Center"/>
                                     <Label Text="{Binding LocationName}"
                                            FontSize="11"
@@ -187,7 +187,7 @@
                                 <HorizontalStackLayout Spacing="4">
                                     <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
                                                  IconSize="11"
-                                                 IconColor="{StaticResource secondary_text_color}"
+                                                 IconColor="{StaticResource icon_default_color}"
                                                  VerticalOptions="Center"/>
                                     <Label Text="{Binding StartDate, StringFormat='{0:dd MMM, yyyy}'}"
                                            FontSize="11"

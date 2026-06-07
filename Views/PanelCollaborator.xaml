@@ -17,17 +17,8 @@
               ColumnDefinitions="Auto, *, Auto"
               Padding="16,14,16,10"
               VerticalOptions="Center">
-            <Border WidthRequest="40"
-                    HeightRequest="40"
-                    Stroke="{StaticResource Gray200}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 20"
-                    BackgroundColor="{StaticResource White}">
-                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                            IconSize="20"
-                            IconColor="{StaticResource primary_text_color}"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"/>
+            <Border Style="{StaticResource BackButtonContainer}">
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}" Style="{StaticResource BackIcon}"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -138,10 +129,7 @@
                                                            TextColor="{StaticResource primary_text_color}"/>
 
                                                     <HorizontalStackLayout Spacing="4">
-                                                <mi:MauiIcon Icon="{mi:Cupertino CircleFill}"
-                                                            IconSize="10"
-                                                            IconColor="#FF3B30"
-                                                            VerticalOptions="Center"/>
+                <mi:MauiIcon Icon="{mi:Cupertino CircleFill}" IconSize="10" IconColor="{StaticResource icon_default_color}" VerticalOptions="Center"/>
                                                         <Label Text="{Binding Date}"
                                                                FontSize="13"
                                                                TextColor="{StaticResource secondary_text_color}"
