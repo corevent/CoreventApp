@@ -217,6 +217,106 @@
             </BindableLayout.ItemTemplate>
           </HorizontalStackLayout>
         </ScrollView>
+
+        <!-- All Events -->
+        <Label Text="Outros Eventos"
+               FontSize="20"
+               FontAttributes="Bold"
+               TextColor="{StaticResource primary_text_color}"/>
+
+        <VerticalStackLayout BindableLayout.ItemsSource="{Binding OtherEvents}"
+                             Spacing="12">
+          <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="dtos:EventListItemDto">
+              <Border Stroke="{StaticResource Gray100}"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 20"
+                      BackgroundColor="{StaticResource White}">
+                <Border.GestureRecognizers>
+                  <TapGestureRecognizer
+                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SelectEventCommand}"
+                    CommandParameter="{Binding}"/>
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="100, *" Padding="8, 6">
+                  <Border WidthRequest="100"
+                          HeightRequest="100"
+                          StrokeThickness="0"
+                          StrokeShape="RoundRectangle 20">
+                    <Image Source="https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento"
+                           Aspect="AspectFill"/>
+                  </Border>
+
+                  <VerticalStackLayout Grid.Column="1"
+                                       Padding="12,6,12,6"
+                                       Spacing="2"
+                                       VerticalOptions="Center">
+                    <Label Text="{Binding Category, Converter={StaticResource CategoryDisplayConverter}}"
+                           FontSize="10"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource secondary_text_color}"/>
+
+                    <Label Text="{Binding Title}"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource primary_text_color}"
+                           LineBreakMode="TailTruncation"/>
+
+                    <HorizontalStackLayout Spacing="4">
+                      <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                   IconSize="11"
+                                   IconColor="{StaticResource icon_default_color}"
+                                   VerticalOptions="Center"/>
+                      <Label Text="{Binding StartDate, StringFormat='{0:dd MMM, yyyy}'}"
+                             FontSize="11"
+                             TextColor="{StaticResource secondary_text_color}"
+                             VerticalOptions="Center"/>
+                      <Label Text="-"
+                             FontSize="11"
+                             TextColor="{StaticResource secondary_text_color}"
+                             VerticalOptions="Center"/>
+                      <Label Text="{Binding EndDate, StringFormat='{0:dd MMM, yyyy}'}"
+                             FontSize="11"
+                             TextColor="{StaticResource secondary_text_color}"
+                             VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="4">
+                      <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
+                                   IconSize="11"
+                                   IconColor="{StaticResource icon_default_color}"
+                                   VerticalOptions="Center"/>
+                      <Label Text="{Binding LocationName}"
+                             FontSize="11"
+                             TextColor="{StaticResource secondary_text_color}"
+                             LineBreakMode="TailTruncation"
+                             VerticalOptions="Center">
+                        <Label.Triggers>
+                          <DataTrigger TargetType="Label"
+                                       Binding="{Binding LocationType}"
+                                       Value="online">
+                            <Setter Property="Text" Value="Evento Online"/>
+                          </DataTrigger>
+                        </Label.Triggers>
+                      </Label>
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="4">
+                      <mi:MauiIcon Icon="{mi:Cupertino Person}"
+                                   IconSize="11"
+                                   IconColor="{StaticResource icon_default_color}"
+                                   VerticalOptions="Center"/>
+                      <Label Text="{Binding Organizer.Name}"
+                             FontSize="11"
+                             TextColor="{StaticResource secondary_text_color}"
+                             LineBreakMode="TailTruncation"
+                             VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                  </VerticalStackLayout>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
       </VerticalStackLayout>
     </ScrollView>
   </Grid>

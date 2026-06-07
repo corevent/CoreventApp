@@ -148,11 +148,11 @@
                                 Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SelectEventCommand}"
                                 CommandParameter="{Binding}"/>
                         </Border.GestureRecognizers>
-                        <Grid ColumnDefinitions="100, *">
+                        <Grid ColumnDefinitions="100, *" Padding="8, 6">
                             <Border WidthRequest="100"
                                     HeightRequest="100"
                                     StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 20,0,20,0">
+                                    StrokeShape="RoundRectangle 20,18">
                                 <Image Source="https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento"
                                        Aspect="AspectFill"/>
                             </Border>

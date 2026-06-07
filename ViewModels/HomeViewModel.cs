@@ -14,7 +14,11 @@ public partial class HomeViewModel : ObservableObject
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
 
-    public ObservableCollection<EventListItemDto> HighlightedEvents { get; } = new();
+    [ObservableProperty]
+    public partial ObservableCollection<EventListItemDto> HighlightedEvents { get; set; } = new();
+
+    [ObservableProperty]
+    public partial ObservableCollection<EventListItemDto> OtherEvents { get; set; } = new();
 
     public HomeViewModel(EventsService eventsService)
     {
@@ -29,10 +33,10 @@ public partial class HomeViewModel : ObservableObject
 
         try
         {
-            var result = await _eventsService.GetAllAsync(page: 1, limit: 10, status: "opened");
-            HighlightedEvents.Clear();
-            foreach (var item in result.Data)
-                HighlightedEvents.Add(item);
+            var result = await _eventsService.GetAllAsync(page: 1, limit: 50, status: "opened");
+            var scored = result.Data.OrderByDescending(CalculateScore).ToList();
+            HighlightedEvents = new ObservableCollection<EventListItemDto>(scored.Take(5));
+            OtherEvents = new ObservableCollection<EventListItemDto>(scored.Skip(5));
         }
         catch (Exception ex)
         {
@@ -42,6 +46,30 @@ public partial class HomeViewModel : ObservableObject
         {
             IsLoading = false;
         }
+    }
+
+    private static int CalculateScore(EventListItemDto evt)
+    {
+        int score = 0;
+
+        var daysUntilStart = (evt.StartDate - DateTime.UtcNow).TotalDays;
+        if (daysUntilStart is >= 0 and <= 60)
+            score += (int)(60 - daysUntilStart);
+
+        score += Math.Min(evt.MaxParticipants / 10, 30);
+
+        score += evt.LocationType switch
+        {
+            "hybrid" => 20,
+            "in_person" => 15,
+            "online" => 5,
+            _ => 10
+        };
+
+        if ((evt.EndDate - evt.StartDate).TotalDays >= 1)
+            score += 10;
+
+        return score;
     }
 
     [RelayCommand]
