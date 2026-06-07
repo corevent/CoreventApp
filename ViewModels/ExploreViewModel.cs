@@ -25,6 +25,8 @@ public partial class ExploreViewModel : ObservableObject
     private int _currentPage = 1;
     private const int PageSize = 10;
     private bool _hasMorePages = true;
+    private CancellationTokenSource? _debounceCts;
+    private const int DebounceDelayMs = 400;
 
     [ObservableProperty]
     public partial string SearchText { get; set; } = string.Empty;
@@ -61,7 +63,20 @@ public partial class ExploreViewModel : ObservableObject
 
     partial void OnSearchTextChanged(string value)
     {
-        _ = SearchCommand.ExecuteAsync(null);
+        _debounceCts?.Cancel();
+        _debounceCts = new CancellationTokenSource();
+        _ = DebounceSearchAsync(_debounceCts.Token);
+    }
+
+    private async Task DebounceSearchAsync(CancellationToken token)
+    {
+        try
+        {
+            await Task.Delay(DebounceDelayMs, token);
+            if (!token.IsCancellationRequested)
+                await SearchCommand.ExecuteAsync(null);
+        }
+        catch (TaskCanceledException) { }
     }
 
     [RelayCommand]
