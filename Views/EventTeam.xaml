@@ -13,7 +13,6 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <cv:IntegerToVisibilityConverter x:Key="IntToVisibility"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -169,8 +168,7 @@
             </Border>
 
             <!-- Pending Invites Section -->
-            <VerticalStackLayout Spacing="10"
-                                 IsVisible="{Binding PendingCount, Converter={StaticResource IntToVisibility}, ConverterParameter=1}">
+            <VerticalStackLayout Spacing="10">
                 <Label FontSize="16"
                        FontAttributes="Bold"
                        TextColor="{StaticResource primary_text_color}">
@@ -241,8 +239,7 @@
             </VerticalStackLayout>
 
             <!-- Active Team Section -->
-            <VerticalStackLayout Spacing="10"
-                                 IsVisible="{Binding ActiveCount, Converter={StaticResource IntToVisibility}, ConverterParameter=1}">
+            <VerticalStackLayout Spacing="10">
                 <Label FontSize="16"
                        FontAttributes="Bold"
                        TextColor="{StaticResource primary_text_color}">

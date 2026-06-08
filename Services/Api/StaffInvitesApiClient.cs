@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using CoreventApp.Models.Dtos;
@@ -25,21 +26,19 @@ public class StaffInvitesApiClient
 
     public async Task<PaginateEventStaffInvitationsDto> GetAllAsync(
         string eventId,
-        int page = 1, int limit = 10,
-        string? name = null,
-        string? email = null,
-        string? invitationStatus = null,
-        string? originalAccessLevel = null)
+        string invitationStatus,
+        int page = 1,
+        int limit = 10
+    )
     {
+        Debug.WriteLine($"Fetching invitations for event {eventId} with filters: invitationStatus={invitationStatus}");
         var query = $"?page={page}&limit={limit}";
-        if (!string.IsNullOrEmpty(name)) query += $"&name={Uri.EscapeDataString(name)}";
-        if (!string.IsNullOrEmpty(email)) query += $"&email={Uri.EscapeDataString(email)}";
         if (!string.IsNullOrEmpty(invitationStatus)) query += $"&invitationStatus={Uri.EscapeDataString(invitationStatus)}";
-        if (!string.IsNullOrEmpty(originalAccessLevel)) query += $"&originalAccessLevel={Uri.EscapeDataString(originalAccessLevel)}";
 
         var response = await _http.GetAsync($"/api/invitations/events/{eventId}{query}");
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadAsStringAsync();
+        Debug.WriteLine($"Received response: {body}");
         return JsonSerializer.Deserialize<PaginateEventStaffInvitationsDto>(body, JsonConfig.Options)!;
     }
 

@@ -14,14 +14,14 @@
 
         <!-- Event Image with Overlay Actions -->
         <Grid Grid.Row="0"
-              HeightRequest="320"
+              HeightRequest="200"
               VerticalOptions="Start">
             <Image Source="https://placehold.co/1000x500/FF5722/FFFFFF.png?text=Evento"
                    Aspect="AspectFill"
-                   HeightRequest="320"/>
+                   HeightRequest="200"/>
 
             <!-- Dark gradient overlay -->
-            <BoxView HeightRequest="200"
+            <BoxView HeightRequest="120"
                      VerticalOptions="Start"
                      Color="Transparent">
                 <BoxView.Background>
@@ -124,6 +124,17 @@
                                        FontAttributes="Bold"
                                        TextColor="#2563EB"/>
                             </Border>
+
+                            <Border Padding="12,6"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="#FEE2E2"
+                                    IsVisible="{Binding IsAdultOnlyVisible}">
+                                <Label Text="18+"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       TextColor="#DC2626"/>
+                            </Border>
                         </HorizontalStackLayout>
 
                         <!-- Title -->
@@ -132,6 +143,13 @@
                                FontAttributes="Bold"
                                TextColor="{StaticResource primary_text_color}"
                                LineBreakMode="WordWrap"/>
+
+                        <!-- Description -->
+                        <Label Text="{Binding Description}"
+                               FontSize="14"
+                               TextColor="{StaticResource secondary_text_color}"
+                               LineBreakMode="WordWrap"
+                               IsVisible="{Binding HasDescription}"/>
 
                         <!-- Date & Time -->
                         <Grid ColumnDefinitions="36, *"
@@ -155,7 +173,8 @@
 
                         <!-- Location -->
                         <Grid ColumnDefinitions="36, *"
-                              ColumnSpacing="10">
+                              ColumnSpacing="10"
+                              IsVisible="{Binding IsPhysicalLocation}">
                             <Border Style="{StaticResource MenuIconContainer}">
                                 <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
                                              Style="{StaticResource MenuIcon}"/>

@@ -37,8 +37,16 @@ public record EventStaffInvitationDataDto(
 
 public record EventStaffInvitationResponseDto(EventStaffInvitationDataDto Data);
 
+public record ListEventStaffInvitationDto(
+    string Id,
+    string UserId,
+    string EventId,
+    string OriginalAccessLevel,
+    string InvitationStatus,
+    UserInfoDto User);
+
 public record PaginateEventStaffInvitationsDto(
-    List<EventStaffInvitationDataDto> Data,
+    List<ListEventStaffInvitationDto> Data,
     PaginationMetaDto Meta);
 
 

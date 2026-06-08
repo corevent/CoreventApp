@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using CoreventApp.Models.Dtos;
 
@@ -20,6 +21,7 @@ public class EventStaffApiClient
         string? invitationStatus = null,
         string? accessLevel = null)
     {
+        Debug.WriteLine($"Fetching staff for event {eventId} with filters: name={name}, email={email}, invitationStatus={invitationStatus}, accessLevel={accessLevel}");
         var query = $"?page={page}&limit={limit}";
         if (!string.IsNullOrEmpty(name)) query += $"&name={Uri.EscapeDataString(name)}";
         if (!string.IsNullOrEmpty(email)) query += $"&email={Uri.EscapeDataString(email)}";

@@ -131,7 +131,7 @@
                                TextColor="{StaticResource primary_text_color}"/>
                         <DatePicker Date="{Binding Form.StartDate}"
                                     IsEnabled="{Binding IsEditable}"
-                                    MinimumDate="{Binding Tomorrow}"
+                                    MinimumDate="{Binding StartDateMinimum}"
                                     Format="dd/MM/yyyy"
                                     TextColor="{StaticResource primary_text_color}"
                                     BackgroundColor="{StaticResource input_color}"/>

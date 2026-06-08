@@ -18,7 +18,8 @@
               Padding="16,14,16,10"
               VerticalOptions="Center">
             <Border Style="{StaticResource BackButtonContainer}">
-                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}" Style="{StaticResource BackIcon}"/>
+                <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                        Style="{StaticResource BackIcon}"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -34,24 +35,47 @@
         </Grid>
 
         <!-- Toggle Abas: Agenda | Histórico -->
-        <Border Grid.Row="1" Margin="16,10,16,20" Padding="4" StrokeThickness="0" StrokeShape="RoundRectangle 30" BackgroundColor="{StaticResource Gray100}">
-            <Grid ColumnDefinitions="*, *" ColumnSpacing="0">
-                <Border StrokeThickness="0" StrokeShape="RoundRectangle 26">
+        <Border Grid.Row="1"
+                Margin="16,10,16,20"
+                Padding="4"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 30"
+                BackgroundColor="{StaticResource Gray100}">
+            <Grid ColumnDefinitions="*, *"
+                    ColumnSpacing="0">
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 26">
                     <Border.Triggers>
-                        <DataTrigger TargetType="Border" Binding="{Binding IsAgendaVisible}" Value="True">
-                            <Setter Property="BackgroundColor" Value="{StaticResource toggle_active_bg}"/>
+                        <DataTrigger TargetType="Border"
+                                Binding="{Binding IsAgendaVisible}"
+                                Value="True">
+                            <Setter Property="BackgroundColor"
+                                    Value="{StaticResource toggle_active_bg}"/>
                         </DataTrigger>
-                        <DataTrigger TargetType="Border" Binding="{Binding IsAgendaVisible}" Value="False">
-                            <Setter Property="BackgroundColor" Value="Transparent"/>
+                        <DataTrigger TargetType="Border"
+                                Binding="{Binding IsAgendaVisible}"
+                                Value="False">
+                            <Setter Property="BackgroundColor"
+                                    Value="Transparent"/>
                         </DataTrigger>
                     </Border.Triggers>
-                    <Label Text="Agenda" HorizontalOptions="Center" Padding="0,10" FontAttributes="Bold" FontSize="14">
+                    <Label Text="Agenda"
+                            HorizontalOptions="Center"
+                            Padding="0,10"
+                            FontAttributes="Bold"
+                            FontSize="14">
                         <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding IsAgendaVisible}" Value="True">
-                                <Setter Property="TextColor" Value="{StaticResource White}"/>
+                            <DataTrigger TargetType="Label"
+                                    Binding="{Binding IsAgendaVisible}"
+                                    Value="True">
+                                <Setter Property="TextColor"
+                                        Value="{StaticResource White}"/>
                             </DataTrigger>
-                            <DataTrigger TargetType="Label" Binding="{Binding IsAgendaVisible}" Value="False">
-                                <Setter Property="TextColor" Value="{StaticResource secondary_text_color}"/>
+                            <DataTrigger TargetType="Label"
+                                    Binding="{Binding IsAgendaVisible}"
+                                    Value="False">
+                                <Setter Property="TextColor"
+                                        Value="{StaticResource secondary_text_color}"/>
                             </DataTrigger>
                         </Label.Triggers>
                     </Label>
@@ -60,22 +84,40 @@
                     </Border.GestureRecognizers>
                 </Border>
 
-                <Border Grid.Column="1" StrokeThickness="0" StrokeShape="RoundRectangle 26">
+                <Border Grid.Column="1"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 26">
                     <Border.Triggers>
-                        <DataTrigger TargetType="Border" Binding="{Binding IsHistoricoVisible}" Value="True">
-                            <Setter Property="BackgroundColor" Value="{StaticResource toggle_active_bg}"/>
+                        <DataTrigger TargetType="Border"
+                                Binding="{Binding IsHistoricoVisible}"
+                                Value="True">
+                            <Setter Property="BackgroundColor"
+                                    Value="{StaticResource toggle_active_bg}"/>
                         </DataTrigger>
-                        <DataTrigger TargetType="Border" Binding="{Binding IsHistoricoVisible}" Value="False">
-                            <Setter Property="BackgroundColor" Value="Transparent"/>
+                        <DataTrigger TargetType="Border"
+                                Binding="{Binding IsHistoricoVisible}"
+                                Value="False">
+                            <Setter Property="BackgroundColor"
+                                    Value="Transparent"/>
                         </DataTrigger>
                     </Border.Triggers>
-                    <Label Text="Histórico" HorizontalOptions="Center" Padding="0,10" FontAttributes="Bold" FontSize="14">
+                    <Label Text="Histórico"
+                            HorizontalOptions="Center"
+                            Padding="0,10"
+                            FontAttributes="Bold"
+                            FontSize="14">
                         <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding IsHistoricoVisible}" Value="True">
-                                <Setter Property="TextColor" Value="{StaticResource White}"/>
+                            <DataTrigger TargetType="Label"
+                                    Binding="{Binding IsHistoricoVisible}"
+                                    Value="True">
+                                <Setter Property="TextColor"
+                                        Value="{StaticResource White}"/>
                             </DataTrigger>
-                            <DataTrigger TargetType="Label" Binding="{Binding IsHistoricoVisible}" Value="False">
-                                <Setter Property="TextColor" Value="{StaticResource secondary_text_color}"/>
+                            <DataTrigger TargetType="Label"
+                                    Binding="{Binding IsHistoricoVisible}"
+                                    Value="False">
+                                <Setter Property="TextColor"
+                                        Value="{StaticResource secondary_text_color}"/>
                             </DataTrigger>
                         </Label.Triggers>
                     </Label>
@@ -90,10 +132,13 @@
         <ScrollView Grid.Row="2">
             <Grid>
                 <!-- ===== AGENDA ===== -->
-                <VerticalStackLayout IsVisible="{Binding IsAgendaVisible}" Padding="16,0,16,20" Spacing="20">
+                <VerticalStackLayout IsVisible="{Binding IsAgendaVisible}"
+                        Padding="16,0,16,20"
+                        Spacing="20">
 
                     <!-- SEÇÃO HOJE -->
-                    <VerticalStackLayout Spacing="12" IsVisible="{Binding HasEventsToday}">
+                    <VerticalStackLayout Spacing="12"
+                            IsVisible="{Binding HasEventsToday}">
                         <Label Text="HOJE"
                                FontSize="12"
                                FontAttributes="Bold"
@@ -110,10 +155,12 @@
                                             BackgroundColor="{StaticResource White}"
                                             Padding="16">
                                         <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenEventDetailCommand}" CommandParameter="{Binding .}"/>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenEventDetailCommand}"
+                                                    CommandParameter="{Binding .}"/>
                                         </Border.GestureRecognizers>
                                         <VerticalStackLayout Spacing="16">
-                                            <Grid ColumnDefinitions="72, *, 24" ColumnSpacing="12">
+                                            <Grid ColumnDefinitions="72, *, 24"
+                                                    ColumnSpacing="12">
                                                 <Border StrokeThickness="0"
                                                         StrokeShape="RoundRectangle 14"
                                                         HeightRequest="72"
@@ -122,14 +169,19 @@
                                                            Aspect="AspectFill"/>
                                                 </Border>
 
-                                                <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                                <VerticalStackLayout Grid.Column="1"
+                                                        Spacing="4"
+                                                        VerticalOptions="Center">
                                                     <Label Text="{Binding Title}"
                                                            FontSize="16"
                                                            FontAttributes="Bold"
                                                            TextColor="{StaticResource primary_text_color}"/>
 
                                                     <HorizontalStackLayout Spacing="4">
-                <mi:MauiIcon Icon="{mi:Cupertino CircleFill}" IconSize="10" IconColor="{StaticResource icon_default_color}" VerticalOptions="Center"/>
+                                                        <mi:MauiIcon Icon="{mi:Cupertino CircleFill}"
+                                                                IconSize="10"
+                                                                IconColor="{StaticResource icon_default_color}"
+                                                                VerticalOptions="Center"/>
                                                         <Label Text="{Binding Date}"
                                                                FontSize="13"
                                                                TextColor="{StaticResource secondary_text_color}"
@@ -150,11 +202,11 @@
                                                 </VerticalStackLayout>
 
                                                 <mi:MauiIcon Grid.Column="2"
-                                                            Icon="{mi:Cupertino ChevronRight}"
-                                                            IconSize="16"
-                                                            IconColor="{StaticResource Gray200}"
-                                                            VerticalOptions="Start"
-                                                            HorizontalOptions="End"/>
+                                                             Icon="{mi:Cupertino ChevronRight}"
+                                                             IconSize="16"
+                                                             IconColor="{StaticResource Gray200}"
+                                                             VerticalOptions="Start"
+                                                             HorizontalOptions="End"/>
                                             </Grid>
 
                                             <Border StrokeThickness="0"
@@ -162,11 +214,12 @@
                                                     BackgroundColor="#111827"
                                                     Padding="0,14"
                                                     IsVisible="{Binding HasActionButton}">
-                                                <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
+                                                <HorizontalStackLayout HorizontalOptions="Center"
+                                                        Spacing="8">
                                                     <mi:MauiIcon Icon="{mi:Cupertino Qrcode}"
-                                                                IconSize="16"
-                                                                IconColor="{StaticResource White}"
-                                                                VerticalOptions="Center"/>
+                                                                 IconSize="16"
+                                                                 IconColor="{StaticResource White}"
+                                                                 VerticalOptions="Center"/>
                                                     <Label Text="Realizar Credenciamento"
                                                            TextColor="{StaticResource White}"
                                                            FontAttributes="Bold"
@@ -182,7 +235,8 @@
                     </VerticalStackLayout>
 
                     <!-- SEÇÃO PRÓXIMOS TRABALHOS -->
-                    <VerticalStackLayout Spacing="12" IsVisible="{Binding HasUpcomingEvents}">
+                    <VerticalStackLayout Spacing="12"
+                            IsVisible="{Binding HasUpcomingEvents}">
                         <Label Text="PRÓXIMOS TRABALHOS"
                                FontSize="12"
                                FontAttributes="Bold"
@@ -199,9 +253,11 @@
                                             BackgroundColor="{StaticResource White}"
                                             Padding="16">
                                         <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenEventDetailCommand}" CommandParameter="{Binding .}"/>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenEventDetailCommand}"
+                                                    CommandParameter="{Binding .}"/>
                                         </Border.GestureRecognizers>
-                                        <Grid ColumnDefinitions="72, *, 24" ColumnSpacing="12">
+                                        <Grid ColumnDefinitions="72, *, 24"
+                                                ColumnSpacing="12">
                                             <Border StrokeThickness="0"
                                                     StrokeShape="RoundRectangle 14"
                                                     HeightRequest="72"
@@ -210,7 +266,9 @@
                                                        Aspect="AspectFill"/>
                                             </Border>
 
-                                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                            <VerticalStackLayout Grid.Column="1"
+                                                    Spacing="4"
+                                                    VerticalOptions="Center">
                                                 <Label Text="{Binding Title}"
                                                        FontSize="16"
                                                        FontAttributes="Bold"
@@ -248,7 +306,9 @@
                 </VerticalStackLayout>
 
                 <!-- ===== HISTÓRICO ===== -->
-                <VerticalStackLayout IsVisible="{Binding IsHistoricoVisible}" Padding="16,0,16,20" Spacing="12">
+                <VerticalStackLayout IsVisible="{Binding IsHistoricoVisible}"
+                        Padding="16,0,16,20"
+                        Spacing="12">
                     <Label Text="EVENTOS PASSADOS"
                            FontSize="12"
                            FontAttributes="Bold"
@@ -267,9 +327,11 @@
                                         Padding="16"
                                         Opacity="0.65">
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenEventDetailCommand}" CommandParameter="{Binding .}"/>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.OpenEventDetailCommand}"
+                                                CommandParameter="{Binding .}"/>
                                     </Border.GestureRecognizers>
-                                    <Grid ColumnDefinitions="72, *, 24" ColumnSpacing="12">
+                                    <Grid ColumnDefinitions="72, *, 24"
+                                            ColumnSpacing="12">
                                         <Border StrokeThickness="0"
                                                 StrokeShape="RoundRectangle 14"
                                                 HeightRequest="72"
@@ -278,7 +340,9 @@
                                                    Aspect="AspectFill"/>
                                         </Border>
 
-                                        <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                        <VerticalStackLayout Grid.Column="1"
+                                                Spacing="4"
+                                                VerticalOptions="Center">
                                             <Label Text="{Binding Title}"
                                                    FontSize="16"
                                                    FontAttributes="Bold"

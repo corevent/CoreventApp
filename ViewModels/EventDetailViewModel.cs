@@ -48,10 +48,25 @@ public partial class EventDetailViewModel : ObservableObject
     public partial string LocationTypeDisplay { get; set; } = "Presencial";
 
     [ObservableProperty]
+    public partial string Description { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial bool IsAdultOnlyVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsPhysicalLocation { get; set; } = true;
+
+    [ObservableProperty]
     public partial bool IsLoading { get; set; }
 
     [ObservableProperty]
     public partial bool HasAttractions { get; set; }
+
+    public bool HasDescription => !string.IsNullOrWhiteSpace(Description);
+
+    partial void OnDescriptionChanged(string value) => OnPropertyChanged(nameof(HasDescription));
+
+    partial void OnLocationTypeDisplayChanged(string value) => OnPropertyChanged(nameof(IsPhysicalLocation));
 
     public string? EventId
     {
@@ -81,9 +96,12 @@ public partial class EventDetailViewModel : ObservableObject
             if (evt is null) return;
 
             EventName = evt.Title;
-            EventDate = $"{evt.StartDate:dd MMM, yyyy - HH:mm}";
+            EventDate = $"{evt.StartDate:dd MMM, yyyy} • {evt.StartDate:HH:mm} - {evt.EndDate:HH:mm}";
             ImageUrl = evt.BannerUrl ?? string.Empty;
             Category = evt.Category;
+            Description = evt.Description ?? string.Empty;
+            IsAdultOnlyVisible = evt.IsAdultOnly;
+            IsPhysicalLocation = evt.LocationType != "online";
 
             var cityPart = !string.IsNullOrEmpty(evt.CityName) ? $", {evt.CityName}" : "";
             if (!string.IsNullOrEmpty(evt.StateAcronym))

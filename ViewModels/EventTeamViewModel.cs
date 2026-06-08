@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Helpers;
@@ -8,12 +7,17 @@ using CoreventApp.Services.Api;
 
 namespace CoreventApp.ViewModels;
 
-[QueryProperty(nameof(EventName), "EventName")]
+[QueryProperty(nameof(EventName), nameof(EventName))]
+[QueryProperty(nameof(EventId), nameof(EventId))]
 public partial class EventTeamViewModel : ObservableObject
 {
     private readonly EventStaffApiClient _staffApi;
     private readonly StaffInvitesApiClient _invitesApi;
+
     private string? _eventId;
+
+    [ObservableProperty]
+    public partial string EventName { get; set; } = string.Empty;
 
     public string? EventId
     {
@@ -21,12 +25,13 @@ public partial class EventTeamViewModel : ObservableObject
         set
         {
             _eventId = value;
-            if (value is not null) _ = LoadDataAsync(value);
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _ = LoadDataAsync(value);
+            }
         }
     }
-
-    [ObservableProperty]
-    public partial string EventName { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string InviteEmail { get; set; } = string.Empty;
@@ -43,7 +48,9 @@ public partial class EventTeamViewModel : ObservableObject
     public int PendingCount => PendingInvites.Count;
     public int ActiveCount => ActiveTeam.Count;
 
-    public EventTeamViewModel(EventStaffApiClient staffApi, StaffInvitesApiClient invitesApi)
+    public EventTeamViewModel(
+        EventStaffApiClient staffApi,
+        StaffInvitesApiClient invitesApi)
     {
         _staffApi = staffApi;
         _invitesApi = invitesApi;
@@ -52,38 +59,49 @@ public partial class EventTeamViewModel : ObservableObject
     private async Task LoadDataAsync(string eventId)
     {
         if (IsLoading) return;
+
         IsLoading = true;
 
         try
         {
-            var staffTask = _staffApi.GetAllAsync(eventId, page: 1, limit: 100);
-            var invitesTask = _invitesApi.GetAllAsync(eventId, page: 1, limit: 100);
+            var eventStaff = await _staffApi.GetAllAsync(
+                eventId,
+                page: 1,
+                limit: 10);
 
-            await Task.WhenAll(staffTask, invitesTask);
-
-            var staffResult = staffTask.Result;
-            var invitesResult = invitesTask.Result;
+            var invites = await _invitesApi.GetAllAsync(
+                eventId,
+                invitationStatus: "pending",
+                page: 1,
+                limit: 10);
 
             PendingInvites.Clear();
-            foreach (var invite in invitesResult.Data)
+
+            foreach (var invite in invites.Data)
             {
                 PendingInvites.Add(new TeamMember
                 {
-                    Email = invite.Email,
-                    Role = invite.OriginalAccessLevel == "checkin" ? "Credenciamento" : "Organização",
+                    Name = invite.User.Name ?? invite.User.Email,
+                    Email = invite.User.Email,
+                    Role = invite.OriginalAccessLevel == "checkin"
+                        ? "Credenciamento"
+                        : "Organização",
                     IsPending = true,
                     InvitationId = invite.Id
                 });
             }
 
             ActiveTeam.Clear();
-            foreach (var staff in staffResult.Data)
+
+            foreach (var staff in eventStaff.Data)
             {
                 ActiveTeam.Add(new TeamMember
                 {
                     Name = staff.User.Name ?? staff.User.Email,
                     Email = staff.User.Email,
-                    Role = staff.AccessLevel == "checkin" ? "Credenciamento" : "Organização",
+                    Role = staff.AccessLevel == "checkin"
+                        ? "Credenciamento"
+                        : "Organização",
                     IsPending = false,
                     StaffId = staff.Id
                 });
@@ -94,7 +112,10 @@ public partial class EventTeamViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlertAsync("Erro", $"EventTeam LoadDataAsync failed: {ex.Message}", "OK");
+            await Shell.Current.DisplayAlertAsync(
+                "Erro",
+                $"EventTeam LoadDataAsync failed: {ex.Message}",
+                "OK");
         }
         finally
         {
@@ -111,20 +132,33 @@ public partial class EventTeamViewModel : ObservableObject
     [RelayCommand]
     private async Task InviteAsync()
     {
-        if (string.IsNullOrWhiteSpace(InviteEmail) || _eventId is null) return;
-
-        if (!ValidationHelper.IsValidEmail(InviteEmail))
+        if (string.IsNullOrWhiteSpace(InviteEmail) ||
+            string.IsNullOrWhiteSpace(EventId))
         {
-            await Shell.Current.DisplayAlertAsync("Erro", "Informe um e-mail válido.", "OK");
             return;
         }
 
-        var accessLevel = SelectedRole == "Credenciamento" ? "checkin" : "readonly";
-        var dto = new CreateEventStaffInvitationDto(InviteEmail.Trim(), accessLevel);
+        if (!ValidationHelper.IsValidEmail(InviteEmail))
+        {
+            await Shell.Current.DisplayAlertAsync(
+                "Erro",
+                "Informe um e-mail válido.",
+                "OK");
+
+            return;
+        }
+
+        var accessLevel = SelectedRole == "Credenciamento"
+            ? "checkin"
+            : "readonly";
+
+        var dto = new CreateEventStaffInvitationDto(
+            InviteEmail.Trim(),
+            accessLevel);
 
         try
         {
-            await _invitesApi.CreateAsync(_eventId, dto);
+            await _invitesApi.CreateAsync(EventId, dto);
 
             PendingInvites.Add(new TeamMember
             {
@@ -134,11 +168,15 @@ public partial class EventTeamViewModel : ObservableObject
             });
 
             InviteEmail = string.Empty;
+
             OnPropertyChanged(nameof(PendingCount));
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlertAsync("Erro", $"EventTeam InviteAsync failed: {ex.Message}", "OK");
+            await Shell.Current.DisplayAlertAsync(
+                "Erro",
+                $"EventTeam InviteAsync failed: {ex.Message}",
+                "OK");
         }
     }
 
@@ -147,22 +185,30 @@ public partial class EventTeamViewModel : ObservableObject
     {
         try
         {
-            if (member.IsPending && !string.IsNullOrEmpty(member.InvitationId))
+            if (member.IsPending &&
+                !string.IsNullOrEmpty(member.InvitationId))
             {
                 await _invitesApi.CancelAsync(member.InvitationId);
+
                 PendingInvites.Remove(member);
+
                 OnPropertyChanged(nameof(PendingCount));
             }
             else if (!string.IsNullOrEmpty(member.StaffId))
             {
                 await _staffApi.DeleteAsync(member.StaffId);
+
                 ActiveTeam.Remove(member);
+
                 OnPropertyChanged(nameof(ActiveCount));
             }
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlertAsync("Erro", $"EventTeam RemoveMember failed: {ex.Message}", "OK");
+            await Shell.Current.DisplayAlertAsync(
+                "Erro",
+                $"EventTeam RemoveMember failed: {ex.Message}",
+                "OK");
         }
     }
 
@@ -190,5 +236,10 @@ public partial class TeamMember : ObservableObject
     public string? StaffId { get; set; }
     public string? InvitationId { get; set; }
 
-    public string Initial => string.IsNullOrEmpty(Name) ? (string.IsNullOrEmpty(Email) ? "?" : Email[..1].ToUpper()) : Name[..1].ToUpper();
+    public string Initial =>
+        !string.IsNullOrEmpty(Name)
+            ? Name[..1].ToUpper()
+            : !string.IsNullOrEmpty(Email)
+                ? Email[..1].ToUpper()
+                : "?";
 }

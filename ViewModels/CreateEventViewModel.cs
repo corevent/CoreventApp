@@ -64,6 +64,8 @@ public partial class CreateEventViewModel : ObservableObject
     public DateTime Today => DateTime.Today;
     public DateTime Tomorrow => DateTime.Today.AddDays(1);
 
+    public DateTime StartDateMinimum => IsEditing ? Form.StartDate.AddDays(-1) : Tomorrow;
+
     public List<string> Categories { get; } = new()
     {
         "Música", "Esportes", "Tecnologia", "Negócios", "Educação",
@@ -126,6 +128,7 @@ public partial class CreateEventViewModel : ObservableObject
 
         _originalEvent = evt;
         IsEditing = true;
+        Form.IsEditingForm = true;
 
         Form.Title = evt.Title;
         Form.Description = evt.Description ?? string.Empty;
@@ -524,7 +527,7 @@ public partial class CreateEventViewModel : ObservableObject
         Progress = (double)CurrentStep / TotalSteps;
         PageTitle = IsEditing ? "Editar Evento" : "Criar Evento";
 
-        ButtonNextText = CurrentStep == TotalSteps ? "Criar Evento" : "Próximo";
+        ButtonNextText = CurrentStep == TotalSteps ? (IsEditing ? "Salvar" : "Criar Evento") : "Próximo";
 
         StepTitle = CurrentStep switch
         {
@@ -566,6 +569,9 @@ public partial class CreateEventRequest : ObservableObject
 
     [ObservableProperty]
     public partial DateTime EndDate { get; set; } = DateTime.Today.AddDays(31);
+
+    [ObservableProperty]
+    public partial bool IsEditingForm { get; set; }
 
     [ObservableProperty]
     public partial int MaxParticipants { get; set; } = 100;
@@ -649,10 +655,12 @@ public partial class CreateEventRequest : ObservableObject
         get
         {
             if (StartDate == default) return "A data de início é obrigatória.";
-            if (StartDate <= DateTime.Now) return "A data de início deve ser no futuro.";
+            if (!IsEditingForm && StartDate <= DateTime.Now) return "A data de início deve ser no futuro.";
             return null;
         }
     }
+
+    partial void OnIsEditingFormChanged(bool value) => OnPropertyChanged(nameof(StartDateError));
 
     public string? EndDateError
     {

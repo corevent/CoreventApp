@@ -95,7 +95,16 @@ public partial class ManageEventViewModel : ObservableObject
 
     private void UpdatePermissions()
     {
-        CanEdit = Status == "draft";
+        var now = DateTime.Now;
+        var startDate = _currentEvent?.StartDate;
+
+        CanEdit = Status switch
+        {
+            "draft" => true,
+            "opened" => startDate is not null && now <= startDate.Value,
+            _ => false
+        };
+
         CanPublish = Status == "draft";
         CanCancel = Status == "opened" || Status == "going";
         CanDelete = Status == "draft";
