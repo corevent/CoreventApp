@@ -66,22 +66,22 @@ public class StaffInvitesApiClient
         return JsonSerializer.Deserialize<MessageDto>(body, JsonConfig.Options)!;
     }
 
-    public async Task<PaginateEventStaffInvitationsDto> GetMyInvitationsAsync(
+    public async Task<UserInvitationPageDto> GetMyInvitationsAsync(
         int page = 1, int limit = 10,
         string? name = null,
         string? email = null,
-        string? invitationStatus = null,
+        string invitationStatus = "pending",
         string? originalAccessLevel = null)
     {
         var query = $"?page={page}&limit={limit}";
         if (!string.IsNullOrEmpty(name)) query += $"&name={Uri.EscapeDataString(name)}";
         if (!string.IsNullOrEmpty(email)) query += $"&email={Uri.EscapeDataString(email)}";
-        if (!string.IsNullOrEmpty(invitationStatus)) query += $"&invitationStatus={Uri.EscapeDataString(invitationStatus)}";
+        query += $"&invitationStatus={Uri.EscapeDataString(invitationStatus)}";
         if (!string.IsNullOrEmpty(originalAccessLevel)) query += $"&originalAccessLevel={Uri.EscapeDataString(originalAccessLevel)}";
 
         var response = await _http.GetAsync($"/api/invitations/me{query}");
         response.EnsureSuccessStatusCode();
         var body = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<PaginateEventStaffInvitationsDto>(body, JsonConfig.Options)!;
+        return JsonSerializer.Deserialize<UserInvitationPageDto>(body, JsonConfig.Options)!;
     }
 }

@@ -48,7 +48,8 @@
                     StrokeThickness="1"
                     StrokeShape="RoundRectangle 18"
                     BackgroundColor="{StaticResource White}"
-                    Padding="16">
+                    Padding="16"
+                    IsVisible="{Binding CanInvite}">
                 <VerticalStackLayout Spacing="14">
                     <Label Text="Convidar Colaborador"
                            FontSize="16"

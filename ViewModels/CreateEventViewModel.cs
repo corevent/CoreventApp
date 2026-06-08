@@ -277,12 +277,10 @@ public partial class CreateEventViewModel : ObservableObject
         IsSaving = true;
         try
         {
-            var dto = BuildCreateDto(targetStatus, forUpdate: IsEditing);
-
             if (IsEditing && _editingEventId is not null)
             {
-                var updateDto = BuildUpdateDto(dto, targetStatus);
-                var result = await _eventsService.UpdateAsync(_editingEventId, updateDto);
+                var payload = BuildUpdatePayload(targetStatus);
+                var result = await _eventsService.UpdatePartialAsync(_editingEventId, payload);
                 if (result is null)
                 {
                     await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível salvar as alterações.", "OK");
@@ -294,6 +292,7 @@ public partial class CreateEventViewModel : ObservableObject
             }
             else
             {
+                var dto = BuildCreateDto(targetStatus, forUpdate: IsEditing);
                 var result = await _eventsService.CreateAsync(dto);
                 if (result is null)
                 {
@@ -340,12 +339,10 @@ public partial class CreateEventViewModel : ObservableObject
         IsSaving = true;
         try
         {
-            var dto = BuildCreateDto("opened", forUpdate: IsEditing);
-
             if (IsEditing && _editingEventId is not null)
             {
-                var updateDto = BuildUpdateDto(dto, "opened");
-                var result = await _eventsService.UpdateAsync(_editingEventId, updateDto);
+                var payload = BuildUpdatePayload("opened");
+                var result = await _eventsService.UpdatePartialAsync(_editingEventId, payload);
                 if (result is null)
                 {
                     await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível publicar o evento.", "OK");
@@ -356,6 +353,7 @@ public partial class CreateEventViewModel : ObservableObject
             }
             else
             {
+                var dto = BuildCreateDto("opened", forUpdate: IsEditing);
                 var result = await _eventsService.CreateAsync(dto);
                 if (result is null)
                 {
@@ -500,26 +498,100 @@ public partial class CreateEventViewModel : ObservableObject
             Status: status);
     }
 
-    private static UpdateEventDto BuildUpdateDto(CreateEventDto source, string? status)
+    private Dictionary<string, object?> BuildUpdatePayload(string? status)
     {
-        return new UpdateEventDto(
-            Title: source.Title,
-            Description: source.Description,
-            MaxParticipants: source.MaxParticipants,
-            LocationType: source.LocationType,
-            LocationName: source.LocationName,
-            CityId: source.CityId,
-            ZipCode: source.ZipCode,
-            Neighborhood: source.Neighborhood,
-            Street: source.Street,
-            Number: source.Number,
-            Complement: source.Complement,
-            StartDate: source.StartDate,
-            EndDate: source.EndDate,
-            Category: source.Category,
-            BannerUrl: source.BannerUrl,
-            IsAdultOnly: source.IsAdultOnly,
-            Status: status);
+        var payload = new Dictionary<string, object?>();
+        var o = _originalEvent;
+        if (o is null) return payload;
+
+        var title = Form.Title.Trim();
+        if (title != o.Title)
+            payload["title"] = title;
+
+        if (Changed(Form.Description, o.Description, out var descVal))
+            payload["description"] = descVal;
+
+        if (Form.MaxParticipants != o.MaxParticipants)
+            payload["maxParticipants"] = Form.MaxParticipants;
+
+        var locationType = LocationTypeToApi.GetValueOrDefault(Form.LocationType, "in_person");
+        if (locationType != o.LocationType)
+            payload["locationType"] = locationType;
+
+        bool isOnline = locationType == "online";
+
+        if (isOnline)
+        {
+            if (locationType != o.LocationType)
+            {
+                payload["locationName"] = null;
+                payload["cityId"] = null;
+                payload["zipCode"] = null;
+                payload["neighborhood"] = null;
+                payload["street"] = null;
+                payload["number"] = null;
+            }
+        }
+        else
+        {
+            if (Changed(Form.LocationName, o.LocationName, out var locNameVal))
+                payload["locationName"] = locNameVal;
+
+            var cityId = Form.SelectedCityId;
+            if (cityId != (o.CityId ?? 0))
+                payload["cityId"] = cityId > 0 ? cityId : null;
+
+            if (Changed(Form.ZipCode, o.ZipCode, out var zipVal))
+                payload["zipCode"] = zipVal;
+
+            if (Changed(Form.Neighborhood, o.Neighborhood, out var neighVal))
+                payload["neighborhood"] = neighVal;
+
+            if (Changed(Form.Street, o.Street, out var streetVal))
+                payload["street"] = streetVal;
+
+            int number = 0;
+            int.TryParse(Form.Number, out number);
+            if (number != (o.Number ?? 0))
+                payload["number"] = number > 0 ? number : null;
+        }
+
+        if (Changed(Form.Complement, o.Complement, out var compVal))
+            payload["complement"] = compVal;
+
+        if (Form.StartDate != o.StartDate)
+            payload["startDate"] = Form.StartDate;
+
+        if (Form.EndDate != o.EndDate)
+            payload["endDate"] = Form.EndDate;
+
+        var category = CategoryToApi.GetValueOrDefault(Form.Category, "other");
+        if (category != o.Category)
+            payload["category"] = category;
+
+        if (Changed(Form.BannerUrl, o.BannerUrl, out var bannerVal))
+            payload["bannerUrl"] = bannerVal;
+
+        if (Form.IsOver18 != o.IsAdultOnly)
+            payload["isAdultOnly"] = Form.IsOver18;
+
+        if (status is not null && status != o.Status)
+            payload["status"] = status;
+
+        return payload;
+    }
+
+    private static bool Changed(string? formValue, string? originalValue, out string? valueToSend)
+    {
+        var form = formValue ?? string.Empty;
+        var orig = originalValue ?? string.Empty;
+        if (form == orig)
+        {
+            valueToSend = null;
+            return false;
+        }
+        valueToSend = string.IsNullOrWhiteSpace(form) ? null : form;
+        return true;
     }
 
     private void UpdateUI()

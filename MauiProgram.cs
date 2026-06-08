@@ -99,6 +99,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<ViewModels.EventDetailViewModel>();
 		builder.Services.AddTransient<ViewModels.ManageTicketsViewModel>();
 		builder.Services.AddTransient<ViewModels.CheckoutViewModel>();
+		builder.Services.AddTransient<ViewModels.UserInvitationsViewModel>();
 
 		// Views
 		builder.Services.AddTransient<Views.CreateEvent>();
@@ -133,6 +134,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<Views.EventDetail>();
 		builder.Services.AddTransient<Views.ManageTicketsPage>();
 		builder.Services.AddTransient<Views.CheckoutPage>();
+		builder.Services.AddTransient<Views.UserInvitations>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

@@ -187,6 +187,9 @@
 		<MauiXaml Update="Views\UpdatePassword.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\UserInvitations.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\Welcome.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

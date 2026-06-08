@@ -5,12 +5,14 @@ using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Models;
 using CoreventApp.Models.Dtos;
 using CoreventApp.Services;
+using CoreventApp.Services.Api;
 
 namespace CoreventApp.ViewModels;
 
 public partial class PanelCollaboratorViewModel : ObservableObject
 {
     private readonly EventsService _eventsService;
+    private readonly StaffInvitesApiClient _invitesApi;
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
@@ -20,6 +22,12 @@ public partial class PanelCollaboratorViewModel : ObservableObject
 
     [ObservableProperty]
     public partial bool IsHistoricoVisible { get; set; } = false;
+
+    [ObservableProperty]
+    public partial bool HasPendingInvites { get; set; }
+
+    [ObservableProperty]
+    public partial int PendingInvitesCount { get; set; }
 
     public ObservableCollection<CollaboratorEvent> EventsToday { get; } = new();
     public ObservableCollection<CollaboratorEvent> UpcomingEvents { get; } = new();
@@ -34,9 +42,10 @@ public partial class PanelCollaboratorViewModel : ObservableObject
     [ObservableProperty]
     public partial bool HasPastEvents { get; set; }
 
-    public PanelCollaboratorViewModel(EventsService eventsService)
+    public PanelCollaboratorViewModel(EventsService eventsService, StaffInvitesApiClient invitesApi)
     {
         _eventsService = eventsService;
+        _invitesApi = invitesApi;
     }
 
     [RelayCommand]
@@ -68,6 +77,17 @@ public partial class PanelCollaboratorViewModel : ObservableObject
             HasEventsToday = EventsToday.Count > 0;
             HasUpcomingEvents = UpcomingEvents.Count > 0;
             HasPastEvents = PastEvents.Count > 0;
+
+            try
+            {
+                var invites = await _invitesApi.GetMyInvitationsAsync(page: 1, limit: 10, invitationStatus: "pending");
+                PendingInvitesCount = invites.Meta.TotalItems;
+                HasPendingInvites = PendingInvitesCount > 0;
+            }
+            catch
+            {
+                HasPendingInvites = false;
+            }
         }
         catch (Exception ex)
         {
@@ -130,5 +150,11 @@ public partial class PanelCollaboratorViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync(
             $"CollaboratorEventDetail?EventTitle={Uri.EscapeDataString(evt.Title)}&EventDate={Uri.EscapeDataString(evt.Date)}&EventImage={Uri.EscapeDataString(evt.ImageUrl)}&EventRole={Uri.EscapeDataString(evt.Role)}&EventRoleColor={Uri.EscapeDataString(evt.RoleColor)}&EventRoleTextColor={Uri.EscapeDataString(evt.RoleTextColor)}&ParticipantCount={evt.ParticipantCount}");
+    }
+
+    [RelayCommand]
+    private async Task OpenInvitationsAsync()
+    {
+        await Shell.Current.GoToAsync("UserInvitations");
     }
 }

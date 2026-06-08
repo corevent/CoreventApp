@@ -9,6 +9,7 @@ namespace CoreventApp.ViewModels;
 
 [QueryProperty(nameof(EventName), nameof(EventName))]
 [QueryProperty(nameof(EventId), nameof(EventId))]
+[QueryProperty(nameof(EventStatus), nameof(EventStatus))]
 public partial class EventTeamViewModel : ObservableObject
 {
     private readonly EventStaffApiClient _staffApi;
@@ -18,6 +19,16 @@ public partial class EventTeamViewModel : ObservableObject
 
     [ObservableProperty]
     public partial string EventName { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string EventStatus { get; set; } = string.Empty;
+
+    partial void OnEventStatusChanged(string value)
+    {
+        OnPropertyChanged(nameof(CanInvite));
+    }
+
+    public bool CanInvite => EventStatus == "opened";
 
     public string? EventId
     {

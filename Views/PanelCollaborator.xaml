@@ -11,7 +11,7 @@
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource background_color}">
 
-    <Grid RowDefinitions="Auto, Auto, *">
+    <Grid RowDefinitions="Auto, Auto, Auto, *">
         <!-- Header -->
         <Grid Grid.Row="0"
               ColumnDefinitions="Auto, *, Auto"
@@ -34,8 +34,60 @@
                    Margin="12,0,0,0"/>
         </Grid>
 
-        <!-- Toggle Abas: Agenda | Histórico -->
+        <!-- Invitations Banner -->
         <Border Grid.Row="1"
+                Margin="16,0,16,10"
+                Padding="14"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 14"
+                BackgroundColor="#FFF7ED"
+                IsVisible="{Binding HasPendingInvites}">
+            <Grid ColumnDefinitions="Auto, *, Auto"
+                  ColumnSpacing="12">
+                <Border WidthRequest="40"
+                        HeightRequest="40"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="#FED7AA"
+                        VerticalOptions="Center">
+                    <mi:MauiIcon Icon="{mi:Cupertino Envelope}"
+                                 IconSize="18"
+                                 IconColor="#EA580C"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"/>
+                </Border>
+                <VerticalStackLayout Grid.Column="1"
+                                     VerticalOptions="Center"
+                                     Spacing="2">
+                    <Label FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#9A3412">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Você tem "/>
+                                <Span Text="{Binding PendingInvitesCount}"
+                                      FontAttributes="Bold"/>
+                                <Span Text=" convite(s) pendente(s)"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Text="Toque para ver"
+                           FontSize="11"
+                           TextColor="#C2410C"/>
+                </VerticalStackLayout>
+                <mi:MauiIcon Grid.Column="2"
+                             Icon="{mi:Cupertino ChevronRight}"
+                             IconSize="16"
+                             IconColor="#C2410C"
+                             VerticalOptions="Center"/>
+            </Grid>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OpenInvitationsCommand}"/>
+            </Border.GestureRecognizers>
+        </Border>
+
+        <!-- Toggle Abas: Agenda | Histórico -->
+        <Border Grid.Row="2"
                 Margin="16,10,16,20"
                 Padding="4"
                 StrokeThickness="0"
@@ -129,7 +181,7 @@
         </Border>
 
         <!-- Conteúdo -->
-        <ScrollView Grid.Row="2">
+        <ScrollView Grid.Row="3">
             <Grid>
                 <!-- ===== AGENDA ===== -->
                 <VerticalStackLayout IsVisible="{Binding IsAgendaVisible}"

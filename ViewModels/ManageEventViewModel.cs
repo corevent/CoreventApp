@@ -232,7 +232,8 @@ public partial class ManageEventViewModel : ObservableObject
         await Shell.Current.GoToAsync(nameof(Views.EventTeam), new Dictionary<string, object>
         {
             ["EventId"] = _eventId,
-            ["EventName"] = EventName
+            ["EventName"] = EventName,
+            ["EventStatus"] = Status
         });
     }
 

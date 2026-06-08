@@ -175,6 +175,20 @@ public class EventsService
         }
     }
 
+    public async Task<EventDetailDto?> UpdatePartialAsync(string id, Dictionary<string, object?> payload)
+    {
+        try
+        {
+            var result = await _api.UpdatePartialAsync(id, payload);
+            return result.Data;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Update event partial failed: {ex.Message}");
+            return null;
+        }
+    }
+
     public async Task<EventDetailDto?> UpdateStatusAsync(string id, string status)
     {
         try
