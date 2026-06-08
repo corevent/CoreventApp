@@ -136,6 +136,30 @@ public class EventsApiClient
         response.EnsureSuccessStatusCode();
     }
 
+    public async Task<EventListPageDto> GetMyFavoriteEventsAsync(
+        int page, int limit,
+        string status,
+        string? search = null,
+        string? category = null,
+        DateTime? startDate = null,
+        bool? isAdultOnly = null,
+        int? stateId = null,
+        int? cityId = null)
+    {
+        var query = $"?page={page}&limit={limit}&status={Uri.EscapeDataString(status)}";
+        if (!string.IsNullOrEmpty(search)) query += $"&search={Uri.EscapeDataString(search)}";
+        if (!string.IsNullOrEmpty(category)) query += $"&category={Uri.EscapeDataString(category)}";
+        if (startDate.HasValue) query += $"&startDate={startDate.Value:yyyy-MM-dd}";
+        if (isAdultOnly.HasValue) query += $"&isAdultOnly={isAdultOnly.Value.ToString().ToLower()}";
+        if (stateId.HasValue) query += $"&stateId={stateId.Value}";
+        if (cityId.HasValue) query += $"&cityId={cityId.Value}";
+
+        var response = await _http.GetAsync($"/api/events/my/favorites{query}");
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<EventListPageDto>(body, JsonConfig.Options)!;
+    }
+
     public async Task CancelAsync(string id)
     {
         var response = await _http.PostAsync($"/api/events/{id}/cancel", null);

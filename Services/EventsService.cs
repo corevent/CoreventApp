@@ -189,6 +189,33 @@ public class EventsService
         }
     }
 
+    public async Task<EventListPageDto> GetMyFavoriteEventsAsync(
+        int page = 1, int limit = 100,
+        string? search = null,
+        string? category = null,
+        DateTime? startDate = null,
+        bool? isAdultOnly = null,
+        int? stateId = null,
+        int? cityId = null)
+    {
+        try
+        {
+            var statuses = new[] { "opened", "going", "finished" };
+            var tasks = statuses.Select(s =>
+                _api.GetMyFavoriteEventsAsync(page, limit, s, search, category, startDate, isAdultOnly, stateId, cityId));
+            var results = await Task.WhenAll(tasks);
+            var combined = results.SelectMany(r => r.Data).ToList();
+            return new EventListPageDto(combined,
+                new PaginationMetaDto(combined.Count, 1, page, combined.Count));
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Get my favorite events failed: {ex.Message}");
+            return new EventListPageDto(new List<EventListItemDto>(),
+                new PaginationMetaDto(0, 0, page, limit));
+        }
+    }
+
     public async Task<bool> DeleteAsync(string id)
     {
         try

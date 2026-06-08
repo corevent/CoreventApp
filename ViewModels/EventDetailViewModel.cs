@@ -12,6 +12,7 @@ public partial class EventDetailViewModel : ObservableObject
 {
     private readonly EventsService _eventsService;
     private readonly AttractionsService _attractionsService;
+    private readonly FavoritesService _favoritesService;
     private string? _eventId;
 
     [ObservableProperty]
@@ -79,10 +80,11 @@ public partial class EventDetailViewModel : ObservableObject
 
     public ObservableCollection<AttractionDto> Attractions { get; } = new();
 
-    public EventDetailViewModel(EventsService eventsService, AttractionsService attractionsService)
+    public EventDetailViewModel(EventsService eventsService, AttractionsService attractionsService, FavoritesService favoritesService)
     {
         _eventsService = eventsService;
         _attractionsService = attractionsService;
+        _favoritesService = favoritesService;
     }
 
     private async Task LoadEventAsync(string eventId)
@@ -119,6 +121,8 @@ public partial class EventDetailViewModel : ObservableObject
                 _ => "Presencial"
             };
 
+            IsFavorite = _favoritesService.IsFavorite(eventId);
+
             _ = LoadAttractionsAsync(eventId);
         }
         catch (Exception ex)
@@ -154,9 +158,20 @@ public partial class EventDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ToggleFavorite()
+    private async Task ToggleFavorite()
     {
-        IsFavorite = !IsFavorite;
+        if (_eventId is null) return;
+
+        if (IsFavorite)
+        {
+            var removed = await _favoritesService.RemoveFavoriteAsync(_eventId);
+            if (removed) IsFavorite = false;
+        }
+        else
+        {
+            var result = await _favoritesService.AddFavoriteAsync(_eventId);
+            if (result is not null) IsFavorite = true;
+        }
     }
 
     [RelayCommand]

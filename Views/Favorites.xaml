@@ -33,62 +33,150 @@
                    Margin="12,0,0,0"/>
         </Grid>
 
-        <!-- Favorite Events List -->
-        <CollectionView Grid.Row="1"
-                        ItemsSource="{Binding FavoriteEvents}">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical"
-                        ItemSpacing="14"/>
-            </CollectionView.ItemsLayout>
-
-            <CollectionView.EmptyView>
-                <VerticalStackLayout HorizontalOptions="Center"
-                                     VerticalOptions="Center"
-                                     Padding="40">
-                    <Label Text="Nenhum favorito ainda"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource secondary_text_color}"
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.Row="1"
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="{StaticResource primary_orange_color}"
+                           VerticalOptions="Center"
                            HorizontalOptions="Center"/>
-                    <Label Text="Eventos favoritados aparecerão aqui"
-                           FontSize="13"
-                           TextColor="{StaticResource secondary_text_color}"
-                           HorizontalOptions="Center"
-                           Margin="0,8,0,0"/>
-                </VerticalStackLayout>
-            </CollectionView.EmptyView>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="dtos:EventListItemDto">
-                    <Border Stroke="{StaticResource Gray100}"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 20"
-                            BackgroundColor="{StaticResource White}"
-                            Padding="12">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SelectEventCommand}"
-                                CommandParameter="{Binding}"/>
-                        </Border.GestureRecognizers>
-                        <Grid ColumnDefinitions="Auto, *" ColumnSpacing="12">
-                            <VerticalStackLayout VerticalOptions="Center" Spacing="4">
-                                <Label Text="{Binding Title}"
-                                       FontSize="15"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource primary_text_color}"
-                                       LineBreakMode="TailTruncation"/>
-                                <Label Text="{Binding StartDate, StringFormat='{0:dd MMM, yyyy}'}"
-                                       FontSize="11"
-                                       TextColor="{StaticResource secondary_text_color}"/>
-                                <Label Text="{Binding LocationName}"
-                                       FontSize="11"
-                                       TextColor="{StaticResource secondary_text_color}"
-                                       LineBreakMode="TailTruncation"/>
-                            </VerticalStackLayout>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <!-- Favorites List with Pull-to-Refresh -->
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}"
+                     IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}">
+            <CollectionView ItemsSource="{Binding FavoriteEvents}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                            ItemSpacing="14"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Padding="40">
+                        <Label Text="Nenhum favorito ainda"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource secondary_text_color}"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Eventos favoritados aparecerão aqui"
+                               FontSize="13"
+                               TextColor="{StaticResource secondary_text_color}"
+                               HorizontalOptions="Center"
+                               Margin="0,8,0,0"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:EventListItemDto">
+                        <Border Stroke="{StaticResource Gray100}"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 20"
+                                BackgroundColor="{StaticResource White}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.SelectEventCommand}"
+                                    CommandParameter="{Binding}"/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="100, *" Padding="8, 6">
+                                <!-- Image -->
+                                <Border WidthRequest="100"
+                                        HeightRequest="100"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 20">
+                                    <Grid>
+                                        <Image Source="https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento"
+                                               Aspect="AspectFill"/>
+                                        <Border IsVisible="{Binding IsAdultOnly}"
+                                                Padding="6,2"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 8"
+                                                BackgroundColor="#FEE2E2"
+                                                HorizontalOptions="Start"
+                                                VerticalOptions="End"
+                                                Margin="6">
+                                            <Label Text="+18"
+                                                   FontSize="10"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#DC2626"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Content -->
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Padding="12,6,12,6"
+                                                     Spacing="2"
+                                                     VerticalOptions="Center">
+                                    <Label Text="{Binding Category, Converter={StaticResource CategoryDisplayConverter}}"
+                                           FontSize="10"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource secondary_text_color}"/>
+
+                                    <Label Text="{Binding Title}"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource primary_text_color}"
+                                           LineBreakMode="TailTruncation"/>
+
+                                    <HorizontalStackLayout Spacing="4">
+                                        <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
+                                                     IconSize="11"
+                                                     IconColor="{StaticResource icon_default_color}"
+                                                     VerticalOptions="Center"/>
+                                        <Label Text="{Binding LocationName}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"
+                                               LineBreakMode="TailTruncation"
+                                               VerticalOptions="Center">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label"
+                                                             Binding="{Binding LocationType}"
+                                                             Value="online">
+                                                    <Setter Property="Text" Value="Evento Online"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="4">
+                                        <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                                     IconSize="11"
+                                                     IconColor="{StaticResource icon_default_color}"
+                                                     VerticalOptions="Center"/>
+                                        <Label Text="{Binding StartDate, StringFormat='{0:dd MMM, yyyy}'}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"
+                                               VerticalOptions="Center"/>
+                                        <Label Text=" - "
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding EndDate, StringFormat='{0:dd MMM, yyyy}'}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+
+                                    <HorizontalStackLayout Spacing="4">
+                                        <mi:MauiIcon Icon="{mi:Cupertino Person}"
+                                                     IconSize="11"
+                                                     IconColor="{StaticResource icon_default_color}"
+                                                     VerticalOptions="Center"/>
+                                        <Label Text="{Binding Organizer.Name}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"
+                                               LineBreakMode="TailTruncation"
+                                               VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
     </Grid>
 </ContentPage>

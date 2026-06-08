@@ -12,6 +12,7 @@
             </ResourceDictionary.MergedDictionaries>
             <converters:CategoryDisplayConverter x:Key="CategoryDisplayConverter"/>
             <converters:LocationTypeDisplayConverter x:Key="LocationTypeDisplayConverter"/>
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
