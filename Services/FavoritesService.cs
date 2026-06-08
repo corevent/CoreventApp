@@ -30,7 +30,7 @@ public class FavoritesService
         _favoriteIdByEventId.Clear();
         foreach (var ev in events)
         {
-            _favoriteIdByEventId.TryAdd(ev.Id, string.Empty);
+            _favoriteIdByEventId.TryAdd(ev.Id, ev.FavoriteId ?? string.Empty);
         }
     }
 

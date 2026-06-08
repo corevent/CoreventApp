@@ -21,7 +21,8 @@ public record EventListItemDto(
     string Status,
     OrganizerInfoDto Organizer,
     string? LocationType,
-    double? AverageRating = null);
+    double? AverageRating = null,
+    string? FavoriteId = null);
 
 // Organizer info inside list item
 public record OrganizerInfoDto(string Id, string Name, string Email, string? AvatarUrl);
