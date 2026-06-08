@@ -193,6 +193,121 @@
                             </VerticalStackLayout>
                         </Grid>
 
+                        <!-- Rating Section -->
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="6"
+                                                   IsVisible="{Binding HasAverageRating}">
+                                <Label Text="{Binding AverageRatingDisplay}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource primary_text_color}"/>
+                                <mi:MauiIcon Icon="{mi:Cupertino StarFill}"
+                                             IconColor="{StaticResource star_color}"
+                                             IconSize="18"
+                                             VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <Border Stroke="{StaticResource Gray100}"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 12"
+                                    BackgroundColor="{StaticResource card_icon_bg}"
+                                    Padding="14,10">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Text="Sua avaliação"
+                                           FontSize="13"
+                                           TextColor="{StaticResource secondary_text_color}"
+                                           VerticalOptions="Center"/>
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="3">
+                                        <Grid WidthRequest="28" HeightRequest="28">
+                                            <mi:MauiIcon Icon="{mi:Cupertino StarFill}"
+                                                         IconColor="{StaticResource star_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star1Filled}"/>
+                                            <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                                         IconColor="{StaticResource secondary_text_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star1Filled, Converter={StaticResource InvertedBoolConverter}}"/>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SetRatingCommand}" CommandParameter="1"/>
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+                                        <Grid WidthRequest="28" HeightRequest="28">
+                                            <mi:MauiIcon Icon="{mi:Cupertino StarFill}"
+                                                         IconColor="{StaticResource star_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star2Filled}"/>
+                                            <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                                         IconColor="{StaticResource secondary_text_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star2Filled, Converter={StaticResource InvertedBoolConverter}}"/>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SetRatingCommand}" CommandParameter="2"/>
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+                                        <Grid WidthRequest="28" HeightRequest="28">
+                                            <mi:MauiIcon Icon="{mi:Cupertino StarFill}"
+                                                         IconColor="{StaticResource star_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star3Filled}"/>
+                                            <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                                         IconColor="{StaticResource secondary_text_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star3Filled, Converter={StaticResource InvertedBoolConverter}}"/>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SetRatingCommand}" CommandParameter="3"/>
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+                                        <Grid WidthRequest="28" HeightRequest="28">
+                                            <mi:MauiIcon Icon="{mi:Cupertino StarFill}"
+                                                         IconColor="{StaticResource star_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star4Filled}"/>
+                                            <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                                         IconColor="{StaticResource secondary_text_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star4Filled, Converter={StaticResource InvertedBoolConverter}}"/>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SetRatingCommand}" CommandParameter="4"/>
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+                                        <Grid WidthRequest="28" HeightRequest="28">
+                                            <mi:MauiIcon Icon="{mi:Cupertino StarFill}"
+                                                         IconColor="{StaticResource star_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star5Filled}"/>
+                                            <mi:MauiIcon Icon="{mi:Cupertino Star}"
+                                                         IconColor="{StaticResource secondary_text_color}"
+                                                         IconSize="18"
+                                                         VerticalOptions="Center"
+                                                         HorizontalOptions="Center"
+                                                         IsVisible="{Binding Star5Filled, Converter={StaticResource InvertedBoolConverter}}"/>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SetRatingCommand}" CommandParameter="5"/>
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+
                         <!-- Organizer Card -->
                         <Border Stroke="{StaticResource Gray100}"
                                 StrokeThickness="1"

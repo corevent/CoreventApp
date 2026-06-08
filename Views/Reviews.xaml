@@ -75,17 +75,7 @@
                             </VerticalStackLayout>
                         </Grid>
 
-                        <!-- Divisor -->
-                        <BoxView HeightRequest="0.5"
-                                Color="{StaticResource Gray100}"
-                                Margin="0,0,0,14"/>
 
-                        <!-- Comentário -->
-                        <Label Text="&quot;Evento sensacional! Organização impecável e o som estava incrível.&quot;"
-                            FontSize="14"
-                            FontAttributes="Italic"
-                            TextColor="{StaticResource secondary_text_color}"
-                            LineBreakMode="WordWrap"/>
                     </VerticalStackLayout>
                 </Border>
             </Grid>

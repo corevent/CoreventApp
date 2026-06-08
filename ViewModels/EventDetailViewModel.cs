@@ -1,9 +1,12 @@
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Models.Dtos;
 using CoreventApp.Services;
+using CoreventApp.Services.Api;
 
 namespace CoreventApp.ViewModels;
 
@@ -13,6 +16,8 @@ public partial class EventDetailViewModel : ObservableObject
     private readonly EventsService _eventsService;
     private readonly AttractionsService _attractionsService;
     private readonly FavoritesService _favoritesService;
+    private readonly EventRatingsApiClient _ratingsApiClient;
+    private readonly ConcurrentDictionary<string, (int Rating, string RatingId)> _ratingCache = new();
     private string? _eventId;
 
     [ObservableProperty]
@@ -63,11 +68,42 @@ public partial class EventDetailViewModel : ObservableObject
     [ObservableProperty]
     public partial bool HasAttractions { get; set; }
 
+    [ObservableProperty]
+    public partial double AverageRating { get; set; }
+
+    [ObservableProperty]
+    public partial int UserRating { get; set; }
+
     public bool HasDescription => !string.IsNullOrWhiteSpace(Description);
+    public bool HasAverageRating => AverageRating > 0;
+    public string AverageRatingDisplay => HasAverageRating ? AverageRating.ToString("F1") : "";
+    public bool HasRated => UserRating > 0;
+
+    public bool Star1Filled => UserRating >= 1;
+    public bool Star2Filled => UserRating >= 2;
+    public bool Star3Filled => UserRating >= 3;
+    public bool Star4Filled => UserRating >= 4;
+    public bool Star5Filled => UserRating >= 5;
 
     partial void OnDescriptionChanged(string value) => OnPropertyChanged(nameof(HasDescription));
 
     partial void OnLocationTypeDisplayChanged(string value) => OnPropertyChanged(nameof(IsPhysicalLocation));
+
+    partial void OnAverageRatingChanged(double value)
+    {
+        OnPropertyChanged(nameof(HasAverageRating));
+        OnPropertyChanged(nameof(AverageRatingDisplay));
+    }
+
+    partial void OnUserRatingChanged(int value)
+    {
+        OnPropertyChanged(nameof(HasRated));
+        OnPropertyChanged(nameof(Star1Filled));
+        OnPropertyChanged(nameof(Star2Filled));
+        OnPropertyChanged(nameof(Star3Filled));
+        OnPropertyChanged(nameof(Star4Filled));
+        OnPropertyChanged(nameof(Star5Filled));
+    }
 
     public string? EventId
     {
@@ -80,11 +116,12 @@ public partial class EventDetailViewModel : ObservableObject
 
     public ObservableCollection<AttractionDto> Attractions { get; } = new();
 
-    public EventDetailViewModel(EventsService eventsService, AttractionsService attractionsService, FavoritesService favoritesService)
+    public EventDetailViewModel(EventsService eventsService, AttractionsService attractionsService, FavoritesService favoritesService, EventRatingsApiClient ratingsApiClient)
     {
         _eventsService = eventsService;
         _attractionsService = attractionsService;
         _favoritesService = favoritesService;
+        _ratingsApiClient = ratingsApiClient;
     }
 
     private async Task LoadEventAsync(string eventId)
@@ -104,6 +141,8 @@ public partial class EventDetailViewModel : ObservableObject
             Description = evt.Description ?? string.Empty;
             IsAdultOnlyVisible = evt.IsAdultOnly;
             IsPhysicalLocation = evt.LocationType != "online";
+            AverageRating = evt.AverageRating ?? 0;
+            UserRating = LoadUserRatingFromCache(eventId);
 
             var cityPart = !string.IsNullOrEmpty(evt.CityName) ? $", {evt.CityName}" : "";
             if (!string.IsNullOrEmpty(evt.StateAcronym))
@@ -189,5 +228,82 @@ public partial class EventDetailViewModel : ObservableObject
     {
         if (_eventId is null) return;
         await Shell.Current.GoToAsync($"{nameof(Views.CheckoutPage)}?EventId={_eventId}");
+    }
+
+    [RelayCommand]
+    private async Task SetRating(string? stars)
+    {
+        if (_eventId is null) return;
+        if (stars is null || !int.TryParse(stars, out var rating) || rating < 1 || rating > 5) return;
+
+        try
+        {
+            var cached = GetCachedRating(_eventId);
+            if (cached is null)
+            {
+                var result = await _ratingsApiClient.CreateAsync(_eventId, new CreateEventRatingDto(rating));
+                SaveRatingToCache(_eventId, rating, result.Data.Id);
+                UserRating = rating;
+            }
+            else if (cached.Value.Rating == rating)
+            {
+                await _ratingsApiClient.DeleteAsync(cached.Value.RatingId);
+                RemoveRatingFromCache(_eventId);
+                UserRating = 0;
+            }
+            else
+            {
+                await _ratingsApiClient.UpdateAsync(cached.Value.RatingId, new CreateEventRatingDto(rating));
+                SaveRatingToCache(_eventId, rating, cached.Value.RatingId);
+                UserRating = rating;
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", $"Falha ao avaliar: {ex.Message}", "OK");
+        }
+    }
+
+    private record RatingCacheData(int Rating, string RatingId);
+
+    private (int Rating, string RatingId)? GetCachedRating(string eventId)
+    {
+        if (_ratingCache.TryGetValue(eventId, out var cached))
+            return cached;
+
+        var json = Preferences.Get($"rating_{eventId}", null);
+        if (json is not null)
+        {
+            try
+            {
+                var data = JsonSerializer.Deserialize<RatingCacheData>(json, JsonConfig.Options);
+                if (data is not null)
+                {
+                    _ratingCache[eventId] = (data.Rating, data.RatingId);
+                    return (data.Rating, data.RatingId);
+                }
+            }
+            catch { }
+        }
+        return null;
+    }
+
+    private void SaveRatingToCache(string eventId, int rating, string ratingId)
+    {
+        _ratingCache[eventId] = (rating, ratingId);
+        var json = JsonSerializer.Serialize(new RatingCacheData(rating, ratingId), JsonConfig.Options);
+        Preferences.Set($"rating_{eventId}", json);
+    }
+
+    private void RemoveRatingFromCache(string eventId)
+    {
+        _ratingCache.TryRemove(eventId, out _);
+        Preferences.Remove($"rating_{eventId}");
+    }
+
+    private int LoadUserRatingFromCache(string eventId)
+    {
+        var cached = GetCachedRating(eventId);
+        return cached?.Rating ?? 0;
     }
 }

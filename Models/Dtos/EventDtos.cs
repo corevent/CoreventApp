@@ -20,7 +20,8 @@ public record EventListItemDto(
     bool IsAdultOnly,
     string Status,
     OrganizerInfoDto Organizer,
-    string? LocationType);
+    string? LocationType,
+    double? AverageRating = null);
 
 // Organizer info inside list item
 public record OrganizerInfoDto(string Id, string Name, string Email, string? AvatarUrl);
@@ -55,7 +56,8 @@ public record EventDetailDto(
     string? EventChangesId,
     DateTime? ChangeRefundDeadline,
     OrganizerInfoDto Organizer,
-    DateTime? CreatedAt);
+    DateTime? CreatedAt,
+    double? AverageRating = null);
 
 public record EventResponseDto(EventDetailDto Data);
 

@@ -60,6 +60,9 @@ public static class MauiProgram
 		builder.Services.AddHttpClient<FavoritesApiClient>(c => c.BaseAddress = new Uri(baseUrl))
 			.AddHttpMessageHandler<AuthTokenHandler>();
 
+		builder.Services.AddHttpClient<EventRatingsApiClient>(c => c.BaseAddress = new Uri(baseUrl))
+			.AddHttpMessageHandler<AuthTokenHandler>();
+
 		builder.Services.AddSingleton<IAuthService, AuthService>();
 		builder.Services.AddTransient<PaymentInfoService>();
 		builder.Services.AddTransient<EventsService>();
