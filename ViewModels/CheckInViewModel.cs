@@ -10,6 +10,7 @@ namespace CoreventApp.ViewModels;
 public partial class CheckInViewModel : ObservableObject
 {
     private readonly EventsService _eventsService;
+    private readonly CheckInService _checkInService;
     private string? _eventId;
 
     [ObservableProperty]
@@ -44,9 +45,10 @@ public partial class CheckInViewModel : ObservableObject
         }
     }
 
-    public CheckInViewModel(EventsService eventsService)
+    public CheckInViewModel(EventsService eventsService, CheckInService checkInService)
     {
         _eventsService = eventsService;
+        _checkInService = checkInService;
     }
 
     private async Task LoadEventAsync(string eventId)
@@ -87,11 +89,19 @@ public partial class CheckInViewModel : ObservableObject
 
         IsScanning = false;
 
-        // Simulated check-in logic
-        await Task.Delay(500);
+        var data = await _checkInService.CheckinAsync(_eventId!, barcode);
 
-        IsResultSuccess = true;
-        ResultMessage = $"Check-in confirmado para o ingresso #{barcode}";
+        if (data is not null)
+        {
+            IsResultSuccess = true;
+            ResultMessage = $"{data.User.Name} — {data.Event.Title}";
+        }
+        else
+        {
+            IsResultSuccess = false;
+            ResultMessage = "QR Code inválido ou ingresso já utilizado.";
+        }
+
         IsResultVisible = true;
     }
 
