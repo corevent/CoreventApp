@@ -69,7 +69,7 @@ public partial class ManageEventViewModel : ObservableObject
 
             _currentEvent = evt;
             EventName = evt.Title;
-            EventDate = $"{evt.StartDate:dd MMM, yyyy - HH:mm}";
+            EventDate = $"{evt.StartDate.ToLocalTime():dd MMM, yyyy - HH:mm}";
             EventImage = evt.BannerUrl ?? string.Empty;
             Status = evt.Status;
             StatusDisplayText = evt.Status switch
@@ -95,7 +95,7 @@ public partial class ManageEventViewModel : ObservableObject
 
     private void UpdatePermissions()
     {
-        var now = DateTime.Now;
+        var now = DateTime.UtcNow;
         var startDate = _currentEvent?.StartDate;
 
         CanEdit = Status switch

@@ -135,7 +135,7 @@ public partial class EventDetailViewModel : ObservableObject
             if (evt is null) return;
 
             EventName = evt.Title;
-            EventDate = $"{evt.StartDate:dd MMM, yyyy} • {evt.StartDate:HH:mm} - {evt.EndDate:HH:mm}";
+            EventDate = $"{evt.StartDate.ToLocalTime():dd MMM, yyyy} • {evt.StartDate.ToLocalTime():HH:mm} - {evt.EndDate.ToLocalTime():HH:mm}";
             ImageUrl = evt.BannerUrl ?? string.Empty;
             Category = evt.Category;
             Description = evt.Description ?? string.Empty;
@@ -181,7 +181,11 @@ public partial class EventDetailViewModel : ObservableObject
             var result = await _attractionsService.GetAllAsync(eventId);
             Attractions.Clear();
             foreach (var item in result.Data)
-                Attractions.Add(item);
+                Attractions.Add(item with
+                {
+                    StartDate = item.StartDate.ToLocalTime(),
+                    EndDate = item.EndDate.ToLocalTime()
+                });
             HasAttractions = Attractions.Count > 0;
         }
         catch (Exception ex)

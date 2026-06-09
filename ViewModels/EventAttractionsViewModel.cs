@@ -33,6 +33,20 @@ public partial class EventAttractionsViewModel : ObservableObject
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
 
+    [ObservableProperty]
+    public partial string? EditingAttractionId { get; set; }
+
+    partial void OnEditingAttractionIdChanged(string? value)
+    {
+        OnPropertyChanged(nameof(IsEditing));
+        OnPropertyChanged(nameof(FormTitle));
+        OnPropertyChanged(nameof(FormButtonText));
+    }
+
+    public bool IsEditing => EditingAttractionId is not null;
+    public string FormTitle => IsEditing ? "Editar Atração" : "Adicionar Atração";
+    public string FormButtonText => IsEditing ? "Salvar" : "Adicionar";
+
     public ObservableCollection<Attraction> Attractions { get; } = new();
 
     public EventAttractionsViewModel(AttractionsService attractionsService)
@@ -66,8 +80,34 @@ public partial class EventAttractionsViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void EditAttraction(Attraction attraction)
+    {
+        EditingAttractionId = attraction.Id;
+        NewTitle = attraction.Title;
+        NewGuest = attraction.Guest;
+        NewStartTime = attraction.StartDate.TimeOfDay;
+        NewEndTime = attraction.EndDate.TimeOfDay;
+    }
+
+    [RelayCommand]
+    private void CancelEdit()
+    {
+        EditingAttractionId = null;
+        NewTitle = string.Empty;
+        NewGuest = string.Empty;
+        NewStartTime = new TimeSpan(14, 0, 0);
+        NewEndTime = new TimeSpan(15, 0, 0);
+    }
+
+    [RelayCommand]
     private async Task AddAttractionAsync()
     {
+        if (IsEditing && EditingAttractionId is not null)
+        {
+            await UpdateAttractionAsync();
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(NewTitle) || string.IsNullOrWhiteSpace(NewGuest))
             return;
 
@@ -90,11 +130,15 @@ public partial class EventAttractionsViewModel : ObservableObject
         }
 
         var baseDate = DateTime.Today;
+        var startDt = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day,
+            NewStartTime.Hours, NewStartTime.Minutes, NewStartTime.Seconds, DateTimeKind.Local);
+        var endDt = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day,
+            NewEndTime.Hours, NewEndTime.Minutes, NewEndTime.Seconds, DateTimeKind.Local);
         var dto = new CreateAttractionDto(
             NewTitle.Trim(),
             NewGuest.Trim(),
-            baseDate + NewStartTime,
-            baseDate + NewEndTime);
+            startDt.ToUniversalTime(),
+            endDt.ToUniversalTime());
 
         var result = await _attractionsService.CreateAsync(EventId, dto);
         if (result is null) return;
@@ -102,6 +146,48 @@ public partial class EventAttractionsViewModel : ObservableObject
         Attractions.Add(MapToPresentation(result));
         HasAttractions = true;
 
+        ResetForm();
+    }
+
+    private async Task UpdateAttractionAsync()
+    {
+        if (EditingAttractionId is null) return;
+
+        if (NewEndTime <= NewStartTime)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "O horário de término deve ser posterior ao horário de início.", "OK");
+            return;
+        }
+
+        var baseDate = DateTime.Today;
+        var startDt = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day,
+            NewStartTime.Hours, NewStartTime.Minutes, NewStartTime.Seconds, DateTimeKind.Local);
+        var endDt = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day,
+            NewEndTime.Hours, NewEndTime.Minutes, NewEndTime.Seconds, DateTimeKind.Local);
+        var dto = new UpdateAttractionDto(
+            NewTitle.Trim(),
+            NewGuest.Trim(),
+            startDt.ToUniversalTime(),
+            endDt.ToUniversalTime());
+
+        var result = await _attractionsService.UpdateAsync(EditingAttractionId, dto);
+        if (result is null) return;
+
+        var existing = Attractions.FirstOrDefault(a => a.Id == EditingAttractionId);
+        if (existing is not null)
+        {
+            existing.Title = result.Title;
+            existing.Guest = result.Guest;
+            existing.StartDate = result.StartDate;
+            existing.EndDate = result.EndDate;
+        }
+
+        ResetForm();
+    }
+
+    private void ResetForm()
+    {
+        EditingAttractionId = null;
         NewTitle = string.Empty;
         NewGuest = string.Empty;
         NewStartTime = new TimeSpan(14, 0, 0);
@@ -129,8 +215,8 @@ public partial class EventAttractionsViewModel : ObservableObject
         Id = dto.Id,
         Title = dto.Title,
         Guest = dto.Guest,
-        StartDate = dto.StartDate,
-        EndDate = dto.EndDate
+        StartDate = dto.StartDate.ToLocalTime(),
+        EndDate = dto.EndDate.ToLocalTime()
     };
 }
 

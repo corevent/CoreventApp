@@ -78,7 +78,7 @@ public partial class CheckoutViewModel : ObservableObject
             if (evt is null) return;
 
             EventName = evt.Title;
-            EventDate = $"{evt.StartDate:dd MMM, yyyy • HH:mm}";
+            EventDate = $"{evt.StartDate.ToLocalTime():dd MMM, yyyy • HH:mm}";
             EventImageUrl = evt.BannerUrl ?? string.Empty;
 
             var ticketResult = await _ticketTypesApi.GetAllAsync(eventId, availableOnly: true);

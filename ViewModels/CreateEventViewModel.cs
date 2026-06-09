@@ -157,7 +157,7 @@ public partial class CreateEventViewModel : ObservableObject
         UpdateLocationTypesForEditing();
 
         // Determine editability
-        var now = DateTime.Now;
+        var now = DateTime.UtcNow;
         IsEditable = evt.Status switch
         {
             "draft" => true,

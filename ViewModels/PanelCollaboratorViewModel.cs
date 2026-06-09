@@ -66,9 +66,10 @@ public partial class PanelCollaboratorViewModel : ObservableObject
             {
                 var ce = MapToCollaboratorEvent(item);
 
-                if (item.StartDate.Date == DateTime.Today)
+                var localDate = item.StartDate.ToLocalTime().Date;
+                if (localDate == DateTime.Today)
                     EventsToday.Add(ce);
-                else if (item.StartDate.Date > DateTime.Today)
+                else if (localDate > DateTime.Today)
                     UpcomingEvents.Add(ce);
                 else
                     PastEvents.Add(ce);
@@ -110,11 +111,11 @@ public partial class PanelCollaboratorViewModel : ObservableObject
         {
             ImageUrl = "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&auto=format&fit=crop",
             Title = item.Title,
-            Date = item.StartDate.ToString("dd MMM, yyyy"),
+            Date = item.StartDate.ToLocalTime().ToString("dd MMM, yyyy"),
             Role = role,
             RoleColor = roleColor,
             RoleTextColor = roleTextColor,
-            HasActionButton = item.StartDate.Date == DateTime.Today && isCheckin,
+            HasActionButton = item.StartDate.ToLocalTime().Date == DateTime.Today && isCheckin,
             ParticipantCount = 0
         };
     }

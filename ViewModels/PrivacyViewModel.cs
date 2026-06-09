@@ -27,7 +27,7 @@ public partial class PrivacyViewModel : ObservableObject
         
         var sb = new StringBuilder();
         sb.AppendLine("RESUMO DE DADOS LOCAIS - COREVENT");
-        sb.AppendLine($"Data de geração: {DateTime.Now:dd/MM/yyyy HH:mm}");
+        sb.AppendLine($"Data de geração: {DateTime.UtcNow.ToLocalTime():dd/MM/yyyy HH:mm}");
         sb.AppendLine("-----------------------------------");
         sb.AppendLine("");
         sb.AppendLine("DADOS DO PERFIL:");
