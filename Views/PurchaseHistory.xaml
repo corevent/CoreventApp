@@ -1,166 +1,163 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.PurchaseHistory"
              Title="PurchaseHistory"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:dtos="clr-namespace:CoreventApp.Models.Dtos"
              BackgroundColor="{StaticResource background_color}">
-    <ScrollView>
-        <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
-            <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
-                <Border Style="{StaticResource BackButtonContainer}">
-                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                             Style="{StaticResource BackIcon}"/>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
-                    </Border.GestureRecognizers>
-                </Border>
+  <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="20">
+    <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+      <Border Style="{StaticResource BackButtonContainer}">
+        <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                     Style="{StaticResource BackIcon}"/>
+        <Border.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+        </Border.GestureRecognizers>
+      </Border>
+      <Label Grid.Column="1"
+             Text="Histórico"
+             FontSize="20"
+             FontAttributes="Bold"
+             TextColor="{StaticResource primary_text_color}"
+             VerticalOptions="Center"
+             Margin="12,0,0,0"/>
+    </Grid>
 
-                <Label Grid.Column="1"
-                    Text="Histórico"
-                    FontSize="20"
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource primary_text_color}"
-                    VerticalOptions="Center"
-                    Margin="12,0,0,0"/>
-            </Grid>
+    <ScrollView Grid.Row="1">
+      <VerticalStackLayout Spacing="16">
 
-            <Grid Grid.Row="1" RowDefinitions="auto, auto, auto" RowSpacing="20">
-                <Border Stroke="{StaticResource Gray100}"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 20"
-                        BackgroundColor="{StaticResource White}">
-                    <VerticalStackLayout>
-                        <!-- Topo: thumbnail + info -->
-                        <Grid ColumnDefinitions="72, *"
-                            Padding="16,16,16,0"
-                            ColumnSpacing="14">
+        <!-- Loading -->
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="Center"
+                           Margin="0,40,0,0"
+                           Color="{StaticResource primary_orange_color}"/>
 
-                            <!-- Thumbnail quadrada -->
-                            <Border StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 14"
-                                    HeightRequest="72"
-                                    WidthRequest="72">
-                                <Image Source="https://www.eltonbrunetti.com.br/wp-content/uploads/2021/04/quadro-Leao-80-x-100-cm-Elton-Brunetti-scaled-jpg.webp"
-                                    Aspect="AspectFill"/>
-                            </Border>
+        <!-- Orders list -->
+        <VerticalStackLayout Spacing="16"
+                             BindableLayout.ItemsSource="{Binding Orders}">
+          <BindableLayout.EmptyView>
+            <Label Text="Nenhum pedido encontrado"
+                   FontSize="14"
+                   TextColor="{StaticResource secondary_text_color}"
+                   HorizontalOptions="Center"
+                   Margin="0,40,0,0"/>
+          </BindableLayout.EmptyView>
+          <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="dtos:MyOrdersDataDto">
+              <Border Stroke="{StaticResource Gray100}"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 20"
+                      BackgroundColor="{StaticResource White}">
+                <VerticalStackLayout>
 
-                            <!-- Coluna direita -->
-                            <VerticalStackLayout Grid.Column="1"
-                                                Spacing="4">
+                  <!-- Topo: info do evento -->
+                  <Grid ColumnDefinitions="54, *" Padding="14,14,14,0" ColumnSpacing="12">
+                    <Border StrokeThickness="0"
+                            StrokeShape="RoundRectangle 12"
+                            HeightRequest="54"
+                            WidthRequest="54"
+                            BackgroundColor="{StaticResource Gray100}">
+                      <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                   Style="{StaticResource SmallIcon}"
+                                   IconSize="22"
+                                   IconColor="{StaticResource primary_orange_color}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                    </Border>
 
-                                <!-- Número do pedido + Badge status -->
-                                <Grid ColumnDefinitions="*, Auto">
-                                    <Label Text="ORD-2024-001"
-                                        FontSize="11"
-                                        TextColor="{StaticResource Gray400}"
-                                        FontAttributes="Bold"
-                                        VerticalOptions="Center"/>
+                    <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                      <Label Text="{Binding Event.Title}"
+                             FontSize="15"
+                             FontAttributes="Bold"
+                             TextColor="{StaticResource primary_text_color}"
+                             LineBreakMode="TailTruncation"/>
 
-                                    <Border Grid.Column="1"
-                                            Padding="10,3"
-                                            StrokeThickness="0"
-                                            StrokeShape="RoundRectangle 20"
-                                            BackgroundColor="{StaticResource status_success_bg}">
-                                        <Label Text="CONCLUÍDO"
-                                            FontSize="11"
-                                            FontAttributes="Bold"
-                                            TextColor="{StaticResource status_success_text}"/>
-                                    </Border>
-                                </Grid>
-
-                                <!-- Título do evento -->
-                                <Label Text="Vintage Culture - Open Air"
-                                    FontSize="16"
-                                    FontAttributes="Bold"
-                                    TextColor="{StaticResource primary_text_color}"
-                                    LineBreakMode="TailTruncation"/>
-
-                                <!-- Data e ingressos -->
-                                <HorizontalStackLayout Spacing="16">
-                                    <HorizontalStackLayout Spacing="4">
-                                        <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
-                                                 Style="{StaticResource SmallIcon}"
-                                                 IconSize="13"
-                                                 IconColor="{StaticResource icon_default_color}"/>
-                                        <Label Text="15 Mar 2024"
-                                            FontSize="12"
-                                            TextColor="{StaticResource secondary_text_color}"
-                                            VerticalOptions="Center"/>
-                                    </HorizontalStackLayout>
-
-                                    <HorizontalStackLayout Spacing="4">
-                                        <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
-                                                 Style="{StaticResource SmallIcon}"
-                                                 IconSize="13"
-                                                 IconColor="{StaticResource icon_default_color}"/>
-                                        <Label Text="2 Ingressos"
-                                            FontSize="12"
-                                            TextColor="{StaticResource secondary_text_color}"
-                                            VerticalOptions="Center"/>
-                                    </HorizontalStackLayout>
-                                </HorizontalStackLayout>
-
-                            </VerticalStackLayout>
-                        </Grid>
-
-                        <!-- Divisor -->
-                        <BoxView HeightRequest="0.5"
-                                Margin="16,14,16,0"
-                                Color="{StaticResource Gray100}"/>
-
-                        <!-- Rodapé: preço + botões -->
-                        <Grid ColumnDefinitions="*, Auto"
-                            Padding="16,12,16,16"
-                            VerticalOptions="Center">
-
-                            <!-- Total pago -->
-                            <VerticalStackLayout Spacing="2">
-                                <Label Text="TOTAL PAGO"
-                                    FontSize="10"
-                                    FontAttributes="Bold"
-                                    TextColor="{StaticResource secondary_text_color}"/>
-                                <Label Text="R$ 250,00"
-                                    FontSize="22"
-                                    FontAttributes="Bold"
-                                    TextColor="{StaticResource primary_text_color}"/>
-                            </VerticalStackLayout>
-
-                            <!-- Botões -->
-                            <HorizontalStackLayout Grid.Column="1"
-                                                Spacing="8"
-                                                VerticalOptions="Center">
-
-                                <!-- Botão download -->
-                                <Border WidthRequest="40"
-                                        HeightRequest="40"
-                                        StrokeThickness="1"
-                                        Stroke="{StaticResource Gray200}"
-                                        StrokeShape="RoundRectangle 12"
-                                        BackgroundColor="{StaticResource Gray50}">
-                                    <mi:MauiIcon Icon="{mi:Cupertino ArrowDownDoc}"
-                                             Style="{StaticResource ActionIcon}"/>
-                                </Border>
-
-                                <!-- Botão Ver Detalhes -->
-                                <Border HeightRequest="40"
-                                        Padding="18,0"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 12"
-                                        BackgroundColor="{StaticResource purchase_btn_bg}">
-                                    <Label Text="Ver Detalhes"
-                                        FontSize="14"
-                                        FontAttributes="Bold"
-                                        TextColor="{StaticResource White}"
-                                        VerticalOptions="Center"/>
-                                </Border>
-
-                            </HorizontalStackLayout>
-                        </Grid>
-
+                      <HorizontalStackLayout Spacing="4">
+                        <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
+                                     Style="{StaticResource SmallIcon}"
+                                     IconSize="12"
+                                     IconColor="{StaticResource secondary_text_color}"/>
+                        <Label Text="{Binding Event.StartDate, StringFormat='{0:dd MMM, yyyy}'}"
+                               FontSize="12"
+                               TextColor="{StaticResource secondary_text_color}"/>
+                      </HorizontalStackLayout>
                     </VerticalStackLayout>
-                </Border>
-            </Grid>
-        </Grid>
+                  </Grid>
+
+                  <!-- Divisor -->
+                  <BoxView HeightRequest="0.5"
+                           Margin="14,12,14,0"
+                           Color="{StaticResource Gray100}"/>
+
+                  <!-- Rodapé: total + status -->
+                  <Grid ColumnDefinitions="*, Auto" Padding="14,12,14,14" VerticalOptions="Center">
+                    <VerticalStackLayout Spacing="2">
+                      <Label Text="TOTAL"
+                             FontSize="10"
+                             FontAttributes="Bold"
+                             TextColor="{StaticResource secondary_text_color}"/>
+                      <Label FontSize="20"
+                             FontAttributes="Bold"
+                             TextColor="{StaticResource primary_text_color}">
+                        <Label.FormattedText>
+                          <FormattedString>
+                            <Span Text="R$ "/>
+                            <Span Text="{Binding TotalAmount, StringFormat='{0:F2}'}"/>
+                          </FormattedString>
+                        </Label.FormattedText>
+                      </Label>
+                    </VerticalStackLayout>
+
+                    <Border Grid.Column="1"
+                            Padding="12,5"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 20"
+                            VerticalOptions="Center">
+                      <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="paid">
+                          <Setter Property="BackgroundColor" Value="#DCFCE7"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="pending">
+                          <Setter Property="BackgroundColor" Value="#FEF3C7"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="cancelled">
+                          <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                        </DataTrigger>
+                      </Border.Triggers>
+                      <Label FontSize="11" FontAttributes="Bold">
+                        <Label.Triggers>
+                          <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="paid">
+                            <Setter Property="Text" Value="CONCLUÍDO"/>
+                            <Setter Property="TextColor" Value="#16A34A"/>
+                          </DataTrigger>
+                          <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="pending">
+                            <Setter Property="Text" Value="PENDENTE"/>
+                            <Setter Property="TextColor" Value="#D97706"/>
+                          </DataTrigger>
+                          <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="cancelled">
+                            <Setter Property="Text" Value="CANCELADO"/>
+                            <Setter Property="TextColor" Value="#DC2626"/>
+                          </DataTrigger>
+                        </Label.Triggers>
+                      </Label>
+                    </Border>
+                  </Grid>
+
+                </VerticalStackLayout>
+                <Border.GestureRecognizers>
+                  <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PurchaseHistoryViewModel}}, Path=OpenOrderDetailCommand}"
+                                        CommandParameter="{Binding .}"/>
+                </Border.GestureRecognizers>
+              </Border>
+            </DataTemplate>
+          </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+
+      </VerticalStackLayout>
     </ScrollView>
+
+  </Grid>
 </ContentPage>

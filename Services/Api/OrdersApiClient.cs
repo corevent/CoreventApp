@@ -22,4 +22,20 @@ public class OrdersApiClient
         var body = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<OrderResponseDto>(body, JsonConfig.Options)!;
     }
+
+    public async Task<PaginateMyOrdersDto> GetMyOrdersAsync(int page = 1, int limit = 20)
+    {
+        var response = await _http.GetAsync($"/api/events/my/orders?page={page}&limit={limit}");
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<PaginateMyOrdersDto>(body, JsonConfig.Options)!;
+    }
+
+    public async Task<OrderDetailsResponseDto> GetByIdAsync(string orderId)
+    {
+        var response = await _http.GetAsync($"/api/events/orders/{orderId}");
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<OrderDetailsResponseDto>(body, JsonConfig.Options)!;
+    }
 }

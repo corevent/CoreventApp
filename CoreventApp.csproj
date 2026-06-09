@@ -75,6 +75,8 @@
 
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 
+		<PackageReference Include="QRCoder" Version="1.6.0" />
+
 		<PackageReference Include="ZXing.Net.Maui" Version="0.7.4" />
 
 		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.7.4" />
@@ -180,6 +182,12 @@
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\Tickets.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\TicketQrCodePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\OrderDetailPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\TransferSettings.xaml">

@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CoreventApp.ViewModels"
              x:Class="CoreventApp.Views.Tickets"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:dtos="clr-namespace:CoreventApp.Models.Dtos"
              Title="Ingressos"
              BackgroundColor="{StaticResource background_color}">
-  <ScrollView>
+  <Grid RowDefinitions="auto,auto,*" Padding="20" RowSpacing="20">
 
-  <Grid  RowDefinitions="auto,auto, *" Padding="20" RowSpacing="20">
     <Label Text="Meus Ingressos"
            Grid.Row="0"
            FontSize="22"
            FontAttributes="Bold"
            TextColor="{StaticResource primary_text_color}"/>
 
-
     <Border Grid.Row="1" Padding="4" StrokeThickness="0" StrokeShape="RoundRectangle 30" BackgroundColor="{StaticResource Gray100}">
-      <Grid ColumnDefinitions="*, *" ColumnSpacing="0">
-
-        <!-- Botão Próximos -->
+      <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
         <Border StrokeThickness="0" StrokeShape="RoundRectangle 26">
             <Border.Triggers>
                 <DataTrigger TargetType="Border" Binding="{Binding IsProximosVisible}" Value="True">
@@ -43,7 +41,6 @@
             </Border.GestureRecognizers>
         </Border>
 
-        <!-- Botão Passados -->
         <Border Grid.Column="1" StrokeThickness="0" StrokeShape="RoundRectangle 26">
             <Border.Triggers>
                 <DataTrigger TargetType="Border" Binding="{Binding IsPassadosVisible}" Value="True">
@@ -67,85 +64,215 @@
                 <TapGestureRecognizer Command="{Binding SelectPassadosCommand}"/>
             </Border.GestureRecognizers>
         </Border>
-
-    </Grid>
+      </Grid>
     </Border>
 
-<!-- Conteúdo Próximos -->
-<VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsProximosVisible}" Spacing="10">
-    <Border
-        Stroke="{StaticResource Gray100}"
-        StrokeThickness="1"
-        StrokeShape="RoundRectangle 20"
-        BackgroundColor="{StaticResource White}">
-    <Grid ColumnDefinitions="72, *"
-          Padding="12"
-          ColumnSpacing="12">
+    <ScrollView Grid.Row="2">
+      <VerticalStackLayout Spacing="10">
 
-        <!-- Thumbnail -->
-        <Border StrokeThickness="0"
-                StrokeShape="RoundRectangle 14"
-                HeightRequest="72"
-                WidthRequest="72">
-            <Image Source="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&amp;auto=format&amp;fit=crop"
-                   Aspect="AspectFill"/>
-        </Border>
+        <!-- Loading -->
+        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           HorizontalOptions="Center"
+                           Margin="0,40,0,0"
+                           Color="{StaticResource primary_orange_color}"/>
 
-        <!-- Infos -->
-        <VerticalStackLayout Grid.Column="1"
-                             Spacing="4"
-                             VerticalOptions="Center">
-
-            <Label Text="Tech Summit Brasil"
+        <!-- Próximos -->
+        <VerticalStackLayout Spacing="10"
+                             IsVisible="{Binding IsProximosVisible}"
+                             BindableLayout.ItemsSource="{Binding ProximosTickets}">
+          <BindableLayout.EmptyView>
+            <Label Text="Nenhum ingresso próximo"
                    FontSize="14"
-                   FontAttributes="Bold"
-                   TextColor="{StaticResource primary_text_color}"
-                   LineBreakMode="TailTruncation"/>
+                   TextColor="{StaticResource secondary_text_color}"
+                   HorizontalOptions="Center"
+                   Margin="0,40,0,0"/>
+          </BindableLayout.EmptyView>
+          <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="dtos:UserTicketDataDto">
+              <Border Stroke="{StaticResource Gray100}"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 16"
+                      BackgroundColor="{StaticResource White}"
+                      Padding="14">
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
 
-            <HorizontalStackLayout Spacing="4">
-                <mi:MauiIcon Icon="{mi:Cupertino Calendar}"
-                       WidthRequest="12" HeightRequest="12"
-                       VerticalOptions="Center"/>
-                <Label Text="22 Nov, 2026 • 09:00"
-                       FontSize="12"
-                       TextColor="{StaticResource secondary_text_color}"
-                       VerticalOptions="Center"/>
-            </HorizontalStackLayout>
+                  <Label Text="{Binding Event.Title}"
+                         FontSize="15"
+                         FontAttributes="Bold"
+                         TextColor="{StaticResource primary_text_color}"
+                         LineBreakMode="TailTruncation"/>
 
-            <!-- Local + Badge na mesma linha -->
-            <Grid ColumnDefinitions="*, Auto">
-                <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
-                    <mi:MauiIcon Icon="{mi:Cupertino MapPin}"
-                           WidthRequest="12" HeightRequest="12"
-                           VerticalOptions="Center"/>
-                    <Label Text="Centro de Convenções"
-                           FontSize="12"
-                           TextColor="{StaticResource secondary_text_color}"
-                           VerticalOptions="Center"
-                           LineBreakMode="TailTruncation"/>
-                </HorizontalStackLayout>
+                  <Border Grid.Column="1"
+                          Padding="10,3"
+                          StrokeThickness="0"
+                          StrokeShape="RoundRectangle 20"
+                          VerticalOptions="Start">
+                    <Border.Triggers>
+                      <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="pending">
+                        <Setter Property="BackgroundColor" Value="#FEF3C7"/>
+                      </DataTrigger>
+                      <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="paid">
+                        <Setter Property="BackgroundColor" Value="#DCFCE7"/>
+                      </DataTrigger>
+                      <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="checked_in">
+                        <Setter Property="BackgroundColor" Value="#DBEAFE"/>
+                      </DataTrigger>
+                      <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="cancelled">
+                        <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                      </DataTrigger>
+                    </Border.Triggers>
+                    <Label FontSize="11" FontAttributes="Bold">
+                      <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="pending">
+                          <Setter Property="Text" Value="Pendente"/>
+                          <Setter Property="TextColor" Value="#D97706"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="paid">
+                          <Setter Property="Text" Value="Confirmado"/>
+                          <Setter Property="TextColor" Value="#16A34A"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="checked_in">
+                          <Setter Property="Text" Value="Finalizado"/>
+                          <Setter Property="TextColor" Value="#2563EB"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="cancelled">
+                          <Setter Property="Text" Value="Cancelado"/>
+                          <Setter Property="TextColor" Value="#DC2626"/>
+                        </DataTrigger>
+                      </Label.Triggers>
+                    </Label>
+                  </Border>
 
-                <Border Grid.Column="1"
-                        Padding="10,4"
-                        StrokeThickness="0"
-                        StrokeShape="RoundRectangle 20"
-                        BackgroundColor="#DCFCE7">
-                    <Label Text="Confirmado"
-                           FontSize="11"
-                           FontAttributes="Bold"
-                           TextColor="#16A34A"/>
-                </Border>
-            </Grid>
+                  <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="6">
+                    <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
+                                 Style="{StaticResource SmallIcon}"
+                                 IconSize="14"
+                                 IconColor="{StaticResource secondary_text_color}"/>
+                    <Label Text="{Binding TicketType.Name}"
+                           FontSize="13"
+                           TextColor="{StaticResource secondary_text_color}"/>
+                    <Label Text="•"
+                           FontSize="13"
+                           TextColor="{StaticResource secondary_text_color}"/>
+                    <Label FontSize="13" TextColor="{StaticResource primary_orange_color}" FontAttributes="Bold">
+                      <Label.FormattedText>
+                        <FormattedString>
+                          <Span Text="R$ "/>
+                          <Span Text="{Binding TicketType.Price, StringFormat='{0:F2}'}"/>
+                        </FormattedString>
+                      </Label.FormattedText>
+                    </Label>
+                  </HorizontalStackLayout>
 
+                  <Label Grid.Row="2" Grid.ColumnSpan="2"
+                         FontSize="11"
+                         TextColor="{StaticResource Gray400}"
+                         LineBreakMode="MiddleTruncation"
+                         Text="{Binding QrToken, StringFormat='QR: {0}'}"/>
+
+                </Grid>
+                <Border.GestureRecognizers>
+                  <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TicketsViewModel}}, Path=OpenTicketQrCodeCommand}"
+                                        CommandParameter="{Binding .}"/>
+                </Border.GestureRecognizers>
+              </Border>
+            </DataTemplate>
+          </BindableLayout.ItemTemplate>
         </VerticalStackLayout>
-    </Grid>
-</Border>
-</VerticalStackLayout>
 
-<!-- Conteúdo Passados -->
-<VerticalStackLayout Grid.Row="2" IsVisible="{Binding IsPassadosVisible}">
-    <Label Text="Conteúdo Passados" TextColor="{StaticResource primary_text_color}"/>
-</VerticalStackLayout>
+        <!-- Passados -->
+        <VerticalStackLayout Spacing="10"
+                             IsVisible="{Binding IsPassadosVisible}"
+                             BindableLayout.ItemsSource="{Binding PassadosTickets}">
+          <BindableLayout.EmptyView>
+            <Label Text="Nenhum ingresso passado"
+                   FontSize="14"
+                   TextColor="{StaticResource secondary_text_color}"
+                   HorizontalOptions="Center"
+                   Margin="0,40,0,0"/>
+          </BindableLayout.EmptyView>
+          <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="dtos:UserTicketDataDto">
+              <Border Stroke="{StaticResource Gray100}"
+                      StrokeThickness="1"
+                      StrokeShape="RoundRectangle 16"
+                      BackgroundColor="{StaticResource White}"
+                      Padding="14">
+                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+
+                  <Label Text="{Binding Event.Title}"
+                         FontSize="15"
+                         FontAttributes="Bold"
+                         TextColor="{StaticResource primary_text_color}"
+                         LineBreakMode="TailTruncation"/>
+
+                  <Border Grid.Column="1"
+                          Padding="10,3"
+                          StrokeThickness="0"
+                          StrokeShape="RoundRectangle 20"
+                          VerticalOptions="Start">
+                    <Border.Triggers>
+                      <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="checked_in">
+                        <Setter Property="BackgroundColor" Value="#DBEAFE"/>
+                      </DataTrigger>
+                      <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="cancelled">
+                        <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                      </DataTrigger>
+                    </Border.Triggers>
+                    <Label FontSize="11" FontAttributes="Bold">
+                      <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="checked_in">
+                          <Setter Property="Text" Value="Finalizado"/>
+                          <Setter Property="TextColor" Value="#2563EB"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="cancelled">
+                          <Setter Property="Text" Value="Cancelado"/>
+                          <Setter Property="TextColor" Value="#DC2626"/>
+                        </DataTrigger>
+                      </Label.Triggers>
+                    </Label>
+                  </Border>
+
+                  <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="6">
+                    <mi:MauiIcon Icon="{mi:Cupertino TagCircleFill}"
+                                 Style="{StaticResource SmallIcon}"
+                                 IconSize="14"
+                                 IconColor="{StaticResource secondary_text_color}"/>
+                    <Label Text="{Binding TicketType.Name}"
+                           FontSize="13"
+                           TextColor="{StaticResource secondary_text_color}"/>
+                    <Label Text="•"
+                           FontSize="13"
+                           TextColor="{StaticResource secondary_text_color}"/>
+                    <Label FontSize="13" TextColor="{StaticResource primary_orange_color}" FontAttributes="Bold">
+                      <Label.FormattedText>
+                        <FormattedString>
+                          <Span Text="R$ "/>
+                          <Span Text="{Binding TicketType.Price, StringFormat='{0:F2}'}"/>
+                        </FormattedString>
+                      </Label.FormattedText>
+                    </Label>
+                  </HorizontalStackLayout>
+
+                  <Label Grid.Row="2" Grid.ColumnSpan="2"
+                         FontSize="11"
+                         TextColor="{StaticResource Gray400}"
+                         LineBreakMode="MiddleTruncation"
+                         Text="{Binding QrToken, StringFormat='QR: {0}'}"/>
+
+                </Grid>
+                <Border.GestureRecognizers>
+                  <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TicketsViewModel}}, Path=OpenTicketQrCodeCommand}"
+                                        CommandParameter="{Binding .}"/>
+                </Border.GestureRecognizers>
+              </Border>
+            </DataTemplate>
+          </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+
+      </VerticalStackLayout>
+    </ScrollView>
+
   </Grid>
-  </ScrollView>
 </ContentPage>
