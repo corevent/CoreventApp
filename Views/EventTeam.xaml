@@ -24,7 +24,8 @@
             <Grid ColumnDefinitions="Auto, *"
                   VerticalOptions="Center">
                 <Border Style="{StaticResource BackButtonContainer}">
-                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}" Style="{StaticResource BackIcon}"/>
+                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                            Style="{StaticResource BackIcon}"/>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                     </Border.GestureRecognizers>
@@ -51,7 +52,7 @@
                     Padding="16"
                     IsVisible="{Binding CanInvite}">
                 <VerticalStackLayout Spacing="14">
-                    <Label Text="Convidar Colaborador"
+                    <Label Text="{Binding AccessLevelFormTitle}"
                            FontSize="16"
                            FontAttributes="Bold"
                            TextColor="{StaticResource primary_text_color}"/>
@@ -60,7 +61,8 @@
                            Placeholder="E-mail do colaborador"
                            Keyboard="Email"
                            TextColor="{StaticResource input_text}"
-                           BackgroundColor="{StaticResource input_color}"/>
+                           BackgroundColor="{StaticResource input_color}"
+                           IsVisible="{Binding IsInviteFormVisible}"/>
 
                     <Label Text="Tipo de Colaborador"
                            FontSize="14"
@@ -77,8 +79,10 @@
                                 <DataTrigger TargetType="Border"
                                              Binding="{Binding SelectedRole}"
                                              Value="Organização">
-                                    <Setter Property="Stroke" Value="{StaticResource Gray100}"/>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
+                                    <Setter Property="Stroke"
+                                            Value="{StaticResource Gray100}"/>
+                                    <Setter Property="BackgroundColor"
+                                            Value="{StaticResource White}"/>
                                 </DataTrigger>
                             </Border.Triggers>
                             <Grid ColumnDefinitions="Auto, *"
@@ -90,10 +94,10 @@
                                         HeightRequest="42"
                                         VerticalOptions="Center">
                                     <mi:MauiIcon Icon="{mi:Cupertino Person}"
-                                                  IconSize="20"
-                                                  IconColor="{StaticResource secondary_text_color}"
-                                                  HorizontalOptions="Center"
-                                                  VerticalOptions="Center"/>
+                                                 IconSize="20"
+                                                 IconColor="{StaticResource secondary_text_color}"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"/>
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1"
                                                      VerticalOptions="Center"
@@ -121,8 +125,10 @@
                                 <DataTrigger TargetType="Border"
                                              Binding="{Binding SelectedRole}"
                                              Value="Organização">
-                                    <Setter Property="Stroke" Value="{StaticResource primary_orange_color}"/>
-                                    <Setter Property="BackgroundColor" Value="#FFF5F0"/>
+                                    <Setter Property="Stroke"
+                                            Value="{StaticResource primary_orange_color}"/>
+                                    <Setter Property="BackgroundColor"
+                                            Value="#FFF5F0"/>
                                 </DataTrigger>
                             </Border.Triggers>
                             <Grid ColumnDefinitions="Auto, *"
@@ -134,10 +140,10 @@
                                         HeightRequest="42"
                                         VerticalOptions="Center">
                                     <mi:MauiIcon Icon="{mi:Cupertino Shield}"
-                                                  IconSize="20"
-                                                  IconColor="{StaticResource secondary_text_color}"
-                                                  HorizontalOptions="Center"
-                                                  VerticalOptions="Center"/>
+                                                 IconSize="20"
+                                                 IconColor="{StaticResource secondary_text_color}"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"/>
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1"
                                                      VerticalOptions="Center"
@@ -158,13 +164,44 @@
                         </Border>
                     </VerticalStackLayout>
 
-                    <Button Text="Convidar"
-                            TextColor="{StaticResource White}"
+                    <Button TextColor="{StaticResource White}"
                             FontAttributes="Bold"
                             HeightRequest="46"
                             Background="{StaticResource gradient_button}"
                             Command="{Binding InviteCommand}"
-                            CornerRadius="12"/>
+                            CornerRadius="12">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsEditingAccessLevel}"
+                                         Value="False">
+                                <Setter Property="Text"
+                                        Value="Convidar"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsEditingAccessLevel}"
+                                         Value="True">
+                                <Setter Property="Text"
+                                        Value="Salvar"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <Border Stroke="{StaticResource Gray300}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            BackgroundColor="{StaticResource White}"
+                            Padding="14,10"
+                            IsVisible="{Binding IsEditFormVisible}"
+                            HorizontalOptions="Center">
+                        <Label Text="Cancelar"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource secondary_text_color}"
+                               HorizontalOptions="Center"/>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CancelEditAccessLevelCommand}"/>
+                        </Border.GestureRecognizers>
+                    </Border>
                 </VerticalStackLayout>
             </Border>
 
@@ -226,7 +263,9 @@
                                             StrokeShape="RoundRectangle 18"
                                             BackgroundColor="{StaticResource delete_bg}"
                                             VerticalOptions="Center">
-                                        <mi:MauiIcon Icon="{mi:Cupertino Trash}" Style="{StaticResource ActionIcon}" IconSize="16"/>
+                                        <mi:MauiIcon Icon="{mi:Cupertino Trash}"
+                                                Style="{StaticResource ActionIcon}"
+                                                IconSize="16"/>
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.RemoveMemberCommand}"
                                                                   CommandParameter="{Binding}"/>
@@ -264,7 +303,7 @@
                                     StrokeShape="RoundRectangle 14"
                                     BackgroundColor="{StaticResource White}"
                                     Padding="12">
-                                <Grid ColumnDefinitions="Auto, *, Auto"
+                                <Grid ColumnDefinitions="Auto, *, Auto, Auto"
                                       ColumnSpacing="12">
                                     <Border WidthRequest="40"
                                             HeightRequest="40"
@@ -302,7 +341,8 @@
                                                 <DataTrigger TargetType="Border"
                                                              Binding="{Binding Role}"
                                                              Value="Organização">
-                                                    <Setter Property="BackgroundColor" Value="#F3F4F6"/>
+                                                    <Setter Property="BackgroundColor"
+                                                            Value="#F3F4F6"/>
                                                 </DataTrigger>
                                             </Border.Triggers>
                                             <Label Text="{Binding Role}"
@@ -313,12 +353,29 @@
                                                     <DataTrigger TargetType="Label"
                                                                  Binding="{Binding Role}"
                                                                  Value="Organização">
-                                                        <Setter Property="TextColor" Value="#6B7280"/>
+                                                        <Setter Property="TextColor"
+                                                                Value="#6B7280"/>
                                                     </DataTrigger>
                                                 </Label.Triggers>
                                             </Label>
                                         </Border>
                                     </VerticalStackLayout>
+                                    <Border Grid.Column="3"
+                                            WidthRequest="36"
+                                            HeightRequest="36"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 18"
+                                            BackgroundColor="{StaticResource card_icon_bg}"
+                                            VerticalOptions="Center">
+                                        <mi:MauiIcon Icon="{mi:Cupertino Pencil}"
+                                                     Style="{StaticResource ActionIcon}"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"/>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference ThisPage}, Path=BindingContext.EditAccessLevelCommand}"
+                                                                  CommandParameter="{Binding}"/>
+                                        </Border.GestureRecognizers>
+                                    </Border>
                                 </Grid>
                             </Border>
                         </DataTemplate>

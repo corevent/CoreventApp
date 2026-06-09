@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using System.Text.Json;
 using CoreventApp.Models.Dtos;
 
@@ -46,5 +47,18 @@ public class EventStaffApiClient
     {
         var response = await _http.DeleteAsync($"/api/events/staff/{staffId}");
         response.EnsureSuccessStatusCode();
+    }
+
+    public async Task<EventStaffResponseDto> UpdateAccessLevelAsync(string staffId, UpdateEventStaffAccessLevelDto dto)
+    {
+        var json = JsonSerializer.Serialize(dto, JsonConfig.Options);
+        var request = new HttpRequestMessage(HttpMethod.Patch, $"/api/events/{staffId}/access-level")
+        {
+            Content = new StringContent(json, Encoding.UTF8, "application/json")
+        };
+        var response = await _http.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<EventStaffResponseDto>(body, JsonConfig.Options)!;
     }
 }

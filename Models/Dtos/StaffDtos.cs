@@ -49,4 +49,6 @@ public record PaginateEventStaffInvitationsDto(
     List<ListEventStaffInvitationDto> Data,
     PaginationMetaDto Meta);
 
+public record UpdateEventStaffAccessLevelDto(string AccessLevel);
+
 

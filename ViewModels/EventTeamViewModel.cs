@@ -53,6 +53,25 @@ public partial class EventTeamViewModel : ObservableObject
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
 
+    [ObservableProperty]
+    public partial TeamMember? EditingMember { get; set; }
+
+    partial void OnEditingMemberChanged(TeamMember? value)
+    {
+        OnPropertyChanged(nameof(IsEditingAccessLevel));
+        OnPropertyChanged(nameof(IsInviteFormVisible));
+        OnPropertyChanged(nameof(IsEditFormVisible));
+        OnPropertyChanged(nameof(AccessLevelFormTitle));
+    }
+
+    public bool IsEditingAccessLevel => EditingMember is not null;
+    public bool IsInviteFormVisible => EditingMember is null;
+    public bool IsEditFormVisible => EditingMember is not null;
+
+    public string AccessLevelFormTitle => EditingMember is not null
+        ? $"Editar {EditingMember.Name}"
+        : "Convidar Colaborador";
+
     public ObservableCollection<TeamMember> PendingInvites { get; } = new();
     public ObservableCollection<TeamMember> ActiveTeam { get; } = new();
 
@@ -141,8 +160,31 @@ public partial class EventTeamViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void EditAccessLevel(TeamMember member)
+    {
+        if (member.IsPending || string.IsNullOrEmpty(member.StaffId))
+            return;
+
+        EditingMember = member;
+        SelectedRole = member.Role;
+    }
+
+    [RelayCommand]
+    private void CancelEditAccessLevel()
+    {
+        EditingMember = null;
+        SelectedRole = "Credenciamento";
+    }
+
+    [RelayCommand]
     private async Task InviteAsync()
     {
+        if (IsEditingAccessLevel && EditingMember is not null)
+        {
+            await SaveAccessLevelAsync();
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(InviteEmail) ||
             string.IsNullOrWhiteSpace(EventId))
         {
@@ -187,6 +229,35 @@ public partial class EventTeamViewModel : ObservableObject
             await Shell.Current.DisplayAlertAsync(
                 "Erro",
                 $"EventTeam InviteAsync failed: {ex.Message}",
+                "OK");
+        }
+    }
+
+    private async Task SaveAccessLevelAsync()
+    {
+        if (EditingMember is null || string.IsNullOrEmpty(EditingMember.StaffId))
+            return;
+
+        var accessLevel = SelectedRole == "Credenciamento"
+            ? "checkin"
+            : "readonly";
+
+        var oldRole = EditingMember.Role;
+
+        try
+        {
+            var dto = new UpdateEventStaffAccessLevelDto(accessLevel);
+            await _staffApi.UpdateAccessLevelAsync(EditingMember.StaffId, dto);
+
+            EditingMember.Role = SelectedRole;
+            EditingMember = null;
+            SelectedRole = "Credenciamento";
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlertAsync(
+                "Erro",
+                $"Falha ao atualizar função: {ex.Message}",
                 "OK");
         }
     }
