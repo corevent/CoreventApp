@@ -11,6 +11,7 @@ namespace CoreventApp.ViewModels;
 public partial class ManageTicketsViewModel : ObservableObject
 {
     private readonly TicketTypesApiClient _ticketTypesApi;
+    private TicketTypeViewModel? _editingTicketType;
 
     [ObservableProperty]
     public partial string EventId { get; set; } = string.Empty;
@@ -35,6 +36,20 @@ public partial class ManageTicketsViewModel : ObservableObject
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
+
+    [ObservableProperty]
+    public partial string? EditingTicketId { get; set; }
+
+    public bool IsEditing => EditingTicketId is not null;
+    public string FormTitle => IsEditing ? "Editar Ingresso" : "Novo Tipo de Ingresso";
+    public string FormButtonText => IsEditing ? "Salvar" : "Adicionar";
+
+    partial void OnEditingTicketIdChanged(string? value)
+    {
+        OnPropertyChanged(nameof(IsEditing));
+        OnPropertyChanged(nameof(FormTitle));
+        OnPropertyChanged(nameof(FormButtonText));
+    }
 
     public ObservableCollection<TicketTypeViewModel> TicketTypes { get; } = new();
 
@@ -73,7 +88,7 @@ public partial class ManageTicketsViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task AddTicketTypeAsync()
+    private async Task SaveTicketTypeAsync()
     {
         if (string.IsNullOrWhiteSpace(NewName) ||
             string.IsNullOrWhiteSpace(NewPrice) ||
@@ -111,30 +126,32 @@ public partial class ManageTicketsViewModel : ObservableObject
             return;
         }
 
-        var dto = new CreateTicketTypeDto(
-            NewName.Trim(),
-            price,
-            quantity,
-            NewStartDate,
-            NewEndDate);
-
         try
         {
-            var result = await _ticketTypesApi.CreateAsync(EventId, dto);
-            if (result is null) return;
+            if (IsEditing && _editingTicketType is not null)
+            {
+                var updateDto = new UpdateTicketTypeDto(NewName.Trim(), price, quantity, NewStartDate, NewEndDate);
+                await _ticketTypesApi.UpdateAsync(_editingTicketType.Id, updateDto);
 
-            TicketTypes.Add(MapToPresentation(result.Data));
-            HasTickets = true;
+                _editingTicketType.Name = NewName.Trim();
+                _editingTicketType.Price = price;
+                _editingTicketType.TotalQuantity = quantity;
+            }
+            else
+            {
+                var dto = new CreateTicketTypeDto(NewName.Trim(), price, quantity, NewStartDate, NewEndDate);
+                var result = await _ticketTypesApi.CreateAsync(EventId, dto);
+                if (result is null) return;
 
-            NewName = string.Empty;
-            NewPrice = string.Empty;
-            NewTotalQuantity = string.Empty;
-            NewStartDate = DateTime.Today;
-            NewEndDate = DateTime.Today.AddMonths(1);
+                TicketTypes.Add(MapToPresentation(result.Data));
+                HasTickets = true;
+            }
+
+            ResetForm();
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlertAsync("Erro", $"ManageTickets AddTicketTypeAsync failed: {ex.Message}", "OK");
+            await Shell.Current.DisplayAlertAsync("Erro", $"Falha ao salvar ingresso: {ex.Message}", "OK");
         }
     }
 
@@ -145,12 +162,43 @@ public partial class ManageTicketsViewModel : ObservableObject
         {
             await _ticketTypesApi.DeleteAsync(ticketType.Id);
             TicketTypes.Remove(ticketType);
+
+            if (_editingTicketType?.Id == ticketType.Id)
+                CancelEdit();
+
             HasTickets = TicketTypes.Count > 0;
         }
         catch (Exception ex)
         {
             await Shell.Current.DisplayAlertAsync("Erro", $"ManageTickets DeleteTicketTypeAsync failed: {ex.Message}", "OK");
         }
+    }
+
+    [RelayCommand]
+    private void EditTicketType(TicketTypeViewModel ticketType)
+    {
+        _editingTicketType = ticketType;
+        EditingTicketId = ticketType.Id;
+        NewName = ticketType.Name;
+        NewPrice = ticketType.Price.ToString("F2");
+        NewTotalQuantity = ticketType.TotalQuantity.ToString();
+    }
+
+    [RelayCommand]
+    private void CancelEdit()
+    {
+        ResetForm();
+    }
+
+    private void ResetForm()
+    {
+        _editingTicketType = null;
+        EditingTicketId = null;
+        NewName = string.Empty;
+        NewPrice = string.Empty;
+        NewTotalQuantity = string.Empty;
+        NewStartDate = DateTime.Today;
+        NewEndDate = DateTime.Today.AddMonths(1);
     }
 
     [RelayCommand]
@@ -187,5 +235,5 @@ public partial class TicketTypeViewModel : ObservableObject
     public partial int AvailableQuantity { get; set; }
 
     public string FormattedPrice => $"R$ {Price:F2}";
-    public string AvailableLabel => $"{AvailableQuantity} / {TotalQuantity} disponíveis";
+    public string AvailableLabel => $"{AvailableQuantity} ingressos disponíveis";
 }
