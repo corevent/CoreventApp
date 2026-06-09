@@ -129,7 +129,7 @@
                                     <Label Text="{Binding TicketTypeName}"
                                            FontSize="11"
                                            FontAttributes="Bold"
-                                           TextColor="{StaticResource primary_orange_color}"/>
+                                           TextColor="{StaticResource White}"/>
                                 </HorizontalStackLayout>
                             </Border>
                         </Grid>
