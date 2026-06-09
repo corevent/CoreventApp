@@ -5,6 +5,7 @@
              xmlns:converters="clr-namespace:CoreventApp.Converters"
              x:Class="CoreventApp.Views.Register"
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="ViewModel:RegisterViewModel"
              Title="Register">
 
@@ -23,14 +24,14 @@
               <Grid Grid.Row="0"
                     ColumnDefinitions="Auto,*,Auto"
                     VerticalOptions="Center">
-                      <Border Style="{StaticResource BackButtonContainer}">
-                              <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                                      Style="{StaticResource BackIcon}">
-                                      <mi:MauiIcon.GestureRecognizers>
-                                              <TapGestureRecognizer Command="{Binding HeaderBackCommand}"/>
-                                      </mi:MauiIcon.GestureRecognizers>
-                              </mi:MauiIcon>
-                      </Border>
+                     <Border Style="{StaticResource BackButtonContainer}">
+                            <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
+                                         Style="{StaticResource BackIcon}">
+                                   <mi:MauiIcon.GestureRecognizers>
+                                          <TapGestureRecognizer Command="{Binding HeaderBackCommand}"/>
+                                   </mi:MauiIcon.GestureRecognizers>
+                            </mi:MauiIcon>
+                     </Border>
 
                      <Image Grid.Column="1"
                             Source="logo_corevent_full.png"
@@ -74,23 +75,23 @@
                      <VerticalStackLayout x:Name="Step1"
                                           IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=1}">
                             <Grid RowDefinitions="Auto, Auto, Auto, Auto">
-                                    <Label Grid.Row="0"
-                                           Text="Nome completo"
-                                           TextColor="{StaticResource primary_text_color}"/>
-                                    <Border Grid.Row="1"
-                                            Stroke="{StaticResource Gray200}"
-                                            StrokeThickness="1"
-                                            StrokeShape="RoundRectangle 12"
-                                            BackgroundColor="{StaticResource input_color}"
-                                            Padding="12,0"
-                                            HeightRequest="50">
-                                        <Entry x:Name="EntryNome"
-                                               Text="{Binding Form.Nome}"
-                                               Placeholder="Seu nome completo"
-                                               VerticalOptions="Center"
-                                               TextColor="{StaticResource input_text}"
-                                               BackgroundColor="Transparent"/>
-                                    </Border>
+                                   <Label Grid.Row="0"
+                                          Text="Nome completo"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Border Grid.Row="1"
+                                           Stroke="{StaticResource Gray200}"
+                                           StrokeThickness="1"
+                                           StrokeShape="RoundRectangle 12"
+                                           BackgroundColor="{StaticResource input_color}"
+                                           Padding="12,0"
+                                           HeightRequest="50">
+                                          <Entry x:Name="EntryNome"
+                                                 Text="{Binding Form.Nome}"
+                                                 Placeholder="Seu nome completo"
+                                                 VerticalOptions="Center"
+                                                 TextColor="{StaticResource input_text}"
+                                                 BackgroundColor="Transparent"/>
+                                   </Border>
 
                                    <Label Grid.Row="2"
                                           Margin="0,20,0,0"
@@ -109,103 +110,106 @@
                      <VerticalStackLayout x:Name="Step2"
                                           IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=2}">
                             <Grid RowDefinitions="Auto, Auto">
-                                    <Label Grid.Row="0"
-                                           Text="CPF"
-                                           TextColor="{StaticResource primary_text_color}"/>
-                                    <Border Grid.Row="1"
-                                            Stroke="{StaticResource Gray200}"
-                                            StrokeThickness="1"
-                                            StrokeShape="RoundRectangle 12"
-                                            BackgroundColor="{StaticResource input_color}"
-                                            Padding="12,0"
-                                            HeightRequest="50">
-                                        <Entry x:Name="EntryCpf"
-                                               Text="{Binding Form.Cpf}"
-                                               Placeholder="000.000.000-00"
-                                               Keyboard="Numeric"
-                                               MaxLength="14"
-                                               VerticalOptions="Center"
-                                               TextColor="{StaticResource input_text}"
-                                               BackgroundColor="Transparent"
-                                               TextChanged="OnCpfTextChanged"/>
-                                    </Border>
+                                   <Label Grid.Row="0"
+                                          Text="CPF"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Border Grid.Row="1"
+                                           Stroke="{StaticResource Gray200}"
+                                           StrokeThickness="1"
+                                           StrokeShape="RoundRectangle 12"
+                                           BackgroundColor="{StaticResource input_color}"
+                                           Padding="12,0"
+                                           HeightRequest="50">
+                                          <Entry x:Name="EntryCpf"
+                                                 Text="{Binding Form.Cpf}"
+                                                 Placeholder="000.000.000-00"
+                                                 Keyboard="Numeric"
+                                                 VerticalOptions="Center"
+                                                 TextColor="{StaticResource input_text}"
+                                                 BackgroundColor="Transparent">
+                                                 <Entry.Behaviors>
+                                                        <toolkit:MaskedBehavior Mask="XXX.XXX.XXX-XX"
+                                                                                UnmaskedCharacter="X"/>
+                                                 </Entry.Behaviors>
+                                          </Entry>
+                                   </Border>
                             </Grid>
                      </VerticalStackLayout>
 
                      <VerticalStackLayout x:Name="Step3"
                                           IsVisible="{Binding CurrentStep, Converter={StaticResource StepConverter}, ConverterParameter=3}">
                             <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
-                                    <Label Grid.Row="0"
-                                           Text="E-mail"
-                                           TextColor="{StaticResource primary_text_color}"/>
-                                    <Border Grid.Row="1"
-                                            Stroke="{StaticResource Gray200}"
-                                            StrokeThickness="1"
-                                            StrokeShape="RoundRectangle 12"
-                                            BackgroundColor="{StaticResource input_color}"
-                                            Padding="12,0"
-                                            HeightRequest="50">
-                                        <Entry x:Name="EntryEmail"
-                                               Text="{Binding Form.Email}"
-                                               Placeholder="seu@email.com"
-                                               Keyboard="Email"
-                                               VerticalOptions="Center"
-                                               TextColor="{StaticResource input_text}"
-                                               BackgroundColor="Transparent"/>
-                                    </Border>
+                                   <Label Grid.Row="0"
+                                          Text="E-mail"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Border Grid.Row="1"
+                                           Stroke="{StaticResource Gray200}"
+                                           StrokeThickness="1"
+                                           StrokeShape="RoundRectangle 12"
+                                           BackgroundColor="{StaticResource input_color}"
+                                           Padding="12,0"
+                                           HeightRequest="50">
+                                          <Entry x:Name="EntryEmail"
+                                                 Text="{Binding Form.Email}"
+                                                 Placeholder="seu@email.com"
+                                                 Keyboard="Email"
+                                                 VerticalOptions="Center"
+                                                 TextColor="{StaticResource input_text}"
+                                                 BackgroundColor="Transparent"/>
+                                   </Border>
 
-                                    <Label Grid.Row="2"
-                                           Margin="0,20,0,0"
-                                           Text="Senha"
-                                           TextColor="{StaticResource primary_text_color}"/>
-                                    <Border Grid.Row="3"
-                                            Stroke="{StaticResource Gray200}"
-                                            StrokeThickness="1"
-                                            StrokeShape="RoundRectangle 12"
-                                            BackgroundColor="{StaticResource input_color}"
-                                            Padding="12,0"
-                                            HeightRequest="50">
-                                        <Entry x:Name="EntrySenha"
-                                               Text="{Binding Form.Senha}"
-                                               Placeholder="Mínimo 8 caracteres"
-                                               IsPassword="True"
-                                               VerticalOptions="Center"
-                                               TextColor="{StaticResource input_text}"
-                                               BackgroundColor="Transparent"/>
-                                    </Border>
+                                   <Label Grid.Row="2"
+                                          Margin="0,20,0,0"
+                                          Text="Senha"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Border Grid.Row="3"
+                                           Stroke="{StaticResource Gray200}"
+                                           StrokeThickness="1"
+                                           StrokeShape="RoundRectangle 12"
+                                           BackgroundColor="{StaticResource input_color}"
+                                           Padding="12,0"
+                                           HeightRequest="50">
+                                          <Entry x:Name="EntrySenha"
+                                                 Text="{Binding Form.Senha}"
+                                                 Placeholder="Mínimo 8 caracteres"
+                                                 IsPassword="True"
+                                                 VerticalOptions="Center"
+                                                 TextColor="{StaticResource input_text}"
+                                                 BackgroundColor="Transparent"/>
+                                   </Border>
 
-                                    <Label Grid.Row="4"
-                                           Margin="0,20,0,0"
-                                           Text="Confirmar senha"
-                                           TextColor="{StaticResource primary_text_color}"/>
-                                    <Border Grid.Row="5"
-                                            Stroke="{StaticResource Gray200}"
-                                            StrokeThickness="1"
-                                            StrokeShape="RoundRectangle 12"
-                                            BackgroundColor="{StaticResource input_color}"
-                                            Padding="12,0"
-                                            HeightRequest="50">
-                                        <Entry x:Name="EntryConfirmarSenha"
-                                               Text="{Binding Form.ConfirmarSenha}"
-                                               Placeholder="Repita a senha"
-                                               IsPassword="True"
-                                               VerticalOptions="Center"
-                                               TextColor="{StaticResource input_text}"
-                                               BackgroundColor="Transparent"/>
-                                    </Border>
+                                   <Label Grid.Row="4"
+                                          Margin="0,20,0,0"
+                                          Text="Confirmar senha"
+                                          TextColor="{StaticResource primary_text_color}"/>
+                                   <Border Grid.Row="5"
+                                           Stroke="{StaticResource Gray200}"
+                                           StrokeThickness="1"
+                                           StrokeShape="RoundRectangle 12"
+                                           BackgroundColor="{StaticResource input_color}"
+                                           Padding="12,0"
+                                           HeightRequest="50">
+                                          <Entry x:Name="EntryConfirmarSenha"
+                                                 Text="{Binding Form.ConfirmarSenha}"
+                                                 Placeholder="Repita a senha"
+                                                 IsPassword="True"
+                                                 VerticalOptions="Center"
+                                                 TextColor="{StaticResource input_text}"
+                                                 BackgroundColor="Transparent"/>
+                                   </Border>
                             </Grid>
                      </VerticalStackLayout>
               </Grid>
 
-               <VerticalStackLayout Grid.Row="4"
-                                    VerticalOptions="End"
-                                    Spacing="20">
-                      <ActivityIndicator IsRunning="{Binding IsBusy}"
-                                         IsVisible="{Binding IsBusy}"
-                                         Color="{StaticResource primary_orange_color}"
-                                         HeightRequest="30"
-                                         HorizontalOptions="Center"/>
-                      <Button x:Name="BtnNext"
+              <VerticalStackLayout Grid.Row="4"
+                                   VerticalOptions="End"
+                                   Spacing="20">
+                     <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                        IsVisible="{Binding IsBusy}"
+                                        Color="{StaticResource primary_orange_color}"
+                                        HeightRequest="30"
+                                        HorizontalOptions="Center"/>
+                     <Button x:Name="BtnNext"
                              Text="{Binding ButtonNextText}"
                              TextColor="{StaticResource White}"
                              FontAttributes="Bold"

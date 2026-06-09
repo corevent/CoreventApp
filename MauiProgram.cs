@@ -1,4 +1,5 @@
-﻿using CoreventApp.Services;
+﻿using CommunityToolkit.Maui;
+using CoreventApp.Services;
 using CoreventApp.Services.Api;
 using MauiIcons.Cupertino;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
 			.UseBarcodeReader()
 			.ConfigureFonts(fonts =>
 			{
