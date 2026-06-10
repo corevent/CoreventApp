@@ -9,6 +9,17 @@
                 Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}"/>
     </Style>
 
+    <Style TargetType="TabBar">
+        <Setter Property="Shell.TabBarBackgroundColor"
+                Value="White" />
+        <Setter Property="Shell.TabBarTitleColor"
+                Value="#EF4444" />
+        <Setter Property="Shell.TabBarForegroundColor"
+                Value="#EF4444" />
+        <Setter Property="Shell.TabBarUnselectedColor"
+                Value="#919191" />
+    </Style>
+
     <Style TargetType="IndicatorView">
         <Setter Property="IndicatorColor"
                 Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}"/>
