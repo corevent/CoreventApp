@@ -22,6 +22,7 @@ public partial class CategoryItem : ObservableObject
 public partial class ExploreViewModel : ObservableObject
 {
     private readonly EventsService _eventsService;
+    private readonly IAuthService _authService;
     private int _currentPage = 1;
     private const int PageSize = 10;
     private bool _hasMorePages = true;
@@ -40,9 +41,10 @@ public partial class ExploreViewModel : ObservableObject
     public ObservableCollection<CategoryItem> Categories { get; } = new();
     public ObservableCollection<EventListItemDto> Events { get; } = new();
 
-    public ExploreViewModel(EventsService eventsService)
+    public ExploreViewModel(EventsService eventsService, IAuthService authService)
     {
         _eventsService = eventsService;
+        _authService = authService;
 
         Categories.Add(new CategoryItem { Name = "Todos", ApiValue = "", IsSelected = true });
         Categories.Add(new CategoryItem { Name = "Música", ApiValue = "music" });
@@ -99,8 +101,11 @@ public partial class ExploreViewModel : ObservableObject
                 cityId: null,
                 status: "opened");
 
+            var filtered = _authService.CurrentCachedUser?.IsAdult == false
+                ? result.Data.Where(e => !e.IsAdultOnly)
+                : result.Data;
             Events.Clear();
-            foreach (var item in result.Data)
+            foreach (var item in filtered)
                 Events.Add(item);
 
             _hasMorePages = _currentPage < result.Meta.TotalPages;
@@ -134,7 +139,10 @@ public partial class ExploreViewModel : ObservableObject
                 cityId: null,
                 status: "opened");
 
-            foreach (var item in result.Data)
+            var filtered = _authService.CurrentCachedUser?.IsAdult == false
+                ? result.Data.Where(e => !e.IsAdultOnly)
+                : result.Data;
+            foreach (var item in filtered)
                 Events.Add(item);
 
             _hasMorePages = _currentPage < result.Meta.TotalPages;

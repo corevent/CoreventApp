@@ -10,6 +10,7 @@ namespace CoreventApp.ViewModels;
 public partial class HomeViewModel : ObservableObject
 {
     private readonly EventsService _eventsService;
+    private readonly IAuthService _authService;
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
@@ -20,9 +21,10 @@ public partial class HomeViewModel : ObservableObject
     [ObservableProperty]
     public partial ObservableCollection<EventListItemDto> OtherEvents { get; set; } = new();
 
-    public HomeViewModel(EventsService eventsService)
+    public HomeViewModel(EventsService eventsService, IAuthService authService)
     {
         _eventsService = eventsService;
+        _authService = authService;
     }
 
     [RelayCommand]
@@ -34,7 +36,10 @@ public partial class HomeViewModel : ObservableObject
         try
         {
             var result = await _eventsService.GetAllAsync(page: 1, limit: 50, status: "opened");
-            var scored = result.Data.OrderByDescending(CalculateScore).ToList();
+            var filtered = _authService.CurrentCachedUser?.IsAdult == false
+                ? result.Data.Where(e => !e.IsAdultOnly)
+                : result.Data;
+            var scored = filtered.OrderByDescending(CalculateScore).ToList();
             HighlightedEvents = new ObservableCollection<EventListItemDto>(scored.Take(5));
             OtherEvents = new ObservableCollection<EventListItemDto>(scored.Skip(5));
         }

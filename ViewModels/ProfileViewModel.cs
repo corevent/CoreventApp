@@ -30,6 +30,9 @@ public partial class ProfileViewModel : ObservableObject
   [ObservableProperty]
   public partial string UserAvatar { get; set; } = "profile_default_icon.png";
 
+  [ObservableProperty]
+  public partial bool IsAdult { get; set; } = true;
+
   public async Task LoadUserAsync()
   {
     if (IsBusy)
@@ -59,6 +62,8 @@ public partial class ProfileViewModel : ObservableObject
 
     if (!string.IsNullOrWhiteSpace(user.AvatarUrl))
       UserAvatar = user.AvatarUrl;
+
+    IsAdult = user.IsAdult;
   }
 
   [RelayCommand]

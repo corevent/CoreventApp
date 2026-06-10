@@ -183,7 +183,8 @@
       </VerticalStackLayout>
 
       <!-- Organizador Section -->
-      <VerticalStackLayout Spacing="12">
+      <VerticalStackLayout Spacing="12"
+                           IsVisible="{Binding IsAdult}">
         <Label Text="ORGANIZADOR"
                FontSize="12"
                FontAttributes="Bold"
@@ -216,7 +217,8 @@
       </VerticalStackLayout>
 
       <!-- Colaborador Section -->
-      <VerticalStackLayout Spacing="12">
+      <VerticalStackLayout Spacing="12"
+                           IsVisible="{Binding IsAdult}">
         <Label Text="COLABORADOR"
                FontSize="12"
                FontAttributes="Bold"

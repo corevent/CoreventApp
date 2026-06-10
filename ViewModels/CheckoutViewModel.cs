@@ -33,6 +33,9 @@ public partial class CheckoutViewModel : ObservableObject
     [ObservableProperty]
     public partial bool IsPurchasing { get; set; }
 
+    [ObservableProperty]
+    public partial bool IsAdultOnly { get; set; }
+
     public string? EventId
     {
         set
@@ -80,6 +83,7 @@ public partial class CheckoutViewModel : ObservableObject
             EventName = evt.Title;
             EventDate = $"{evt.StartDate.ToLocalTime():dd MMM, yyyy • HH:mm}";
             EventImageUrl = evt.BannerUrl ?? string.Empty;
+            IsAdultOnly = evt.IsAdultOnly;
 
             var ticketResult = await _ticketTypesApi.GetAllAsync(eventId, availableOnly: true);
             TicketTypes.Clear();
@@ -137,6 +141,18 @@ public partial class CheckoutViewModel : ObservableObject
             var result = await _ordersApi.CreateAsync(_eventId, dto);
             _orderId = result.Data.OrderId;
             _checkoutUrl = result.Data.CheckoutLinks?.FirstOrDefault(l => l.Rel == "PAY")?.Href;
+
+            if (IsAdultOnly)
+            {
+                var consent = await Shell.Current.DisplayAlertAsync(
+                    "Aviso de Conteúdo +18",
+                    "Ao prosseguir com a compra, você declara estar ciente de que este evento é destinado exclusivamente a maiores de 18 anos.\n\n" +
+                    "Caso adquira mais de um ingresso, você se responsabiliza por garantir que todos os participantes também atendam a esse requisito de idade.\n\n" +
+                    "O não cumprimento dessa condição poderá resultar em impedimento de entrada no evento no momento do check-in.",
+                    "Estou ciente",
+                    "Cancelar");
+                if (!consent) return;
+            }
 
             if (!string.IsNullOrEmpty(_checkoutUrl))
             {

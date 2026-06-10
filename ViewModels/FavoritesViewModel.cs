@@ -11,6 +11,7 @@ public partial class FavoritesViewModel : ObservableObject
 {
     private readonly EventsService _eventsService;
     private readonly FavoritesService _favoritesService;
+    private readonly IAuthService _authService;
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
@@ -20,10 +21,11 @@ public partial class FavoritesViewModel : ObservableObject
 
     public ObservableCollection<EventListItemDto> FavoriteEvents { get; } = new();
 
-    public FavoritesViewModel(EventsService eventsService, FavoritesService favoritesService)
+    public FavoritesViewModel(EventsService eventsService, FavoritesService favoritesService, IAuthService authService)
     {
         _eventsService = eventsService;
         _favoritesService = favoritesService;
+        _authService = authService;
     }
 
     [RelayCommand]
@@ -35,11 +37,14 @@ public partial class FavoritesViewModel : ObservableObject
         try
         {
             var result = await _eventsService.GetMyFavoriteEventsAsync();
+            var filtered = _authService.CurrentCachedUser?.IsAdult == false
+                ? result.Data.Where(e => !e.IsAdultOnly).ToList()
+                : result.Data;
             FavoriteEvents.Clear();
-            foreach (var item in result.Data)
+            foreach (var item in filtered)
                 FavoriteEvents.Add(item);
 
-            _favoritesService.SetFavorites(result.Data);
+            _favoritesService.SetFavorites(filtered);
         }
         finally
         {
@@ -55,11 +60,14 @@ public partial class FavoritesViewModel : ObservableObject
         try
         {
             var result = await _eventsService.GetMyFavoriteEventsAsync();
+            var filtered = _authService.CurrentCachedUser?.IsAdult == false
+                ? result.Data.Where(e => !e.IsAdultOnly).ToList()
+                : result.Data;
             FavoriteEvents.Clear();
-            foreach (var item in result.Data)
+            foreach (var item in filtered)
                 FavoriteEvents.Add(item);
 
-            _favoritesService.SetFavorites(result.Data);
+            _favoritesService.SetFavorites(filtered);
         }
         finally
         {
