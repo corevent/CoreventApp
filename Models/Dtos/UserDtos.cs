@@ -10,7 +10,7 @@ public record CreateUserDto(
     string Cpf,
     string VerifyEmailCode);
 
-public record UpdateUserDto(string? Name, string? PhoneNumber, string? AvatarUrl);
+public record UpdateUserDto(string? Name, string? PhoneNumber);
 
 public record UpdatePassDto(string CurrentPassword, string NewPassword);
 

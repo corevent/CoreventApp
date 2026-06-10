@@ -9,10 +9,14 @@ namespace CoreventApp.ViewModels;
 public partial class EditProfileViewModel : ObservableObject
 {
   private readonly IAuthService _authService;
+  private readonly StorageService _storageService;
+  private Stream? _avatarStream;
+  private string? _avatarContentType;
 
-  public EditProfileViewModel(IAuthService authService)
+  public EditProfileViewModel(IAuthService authService, StorageService storageService)
   {
     _authService = authService;
+    _storageService = storageService;
 
     var cached = _authService.CurrentCachedUser;
     if (cached != null)
@@ -27,6 +31,9 @@ public partial class EditProfileViewModel : ObservableObject
 
   [ObservableProperty]
   public partial string UserPhone { get; set; } = string.Empty;
+
+  [ObservableProperty]
+  public partial string UserAvatar { get; set; } = string.Empty;
 
   public async Task LoadUserAsync()
   {
@@ -54,6 +61,39 @@ public partial class EditProfileViewModel : ObservableObject
   {
     UserName = user.Name;
     UserPhone = user.PhoneNumber ?? string.Empty;
+    UserAvatar = user.AvatarUrl;
+  }
+
+  [RelayCommand]
+  private async Task PickAvatar()
+  {
+    try
+    {
+      var photo = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions
+      {
+        Title = "Selecionar foto"
+      });
+
+      if (photo is null) return;
+
+      var contentType = photo.ContentType?.ToLowerInvariant() ?? string.Empty;
+      if (contentType != "image/jpeg" && contentType != "image/png" && contentType != "image/webp" && contentType != "image/jpg")
+      {
+        await Shell.Current.DisplayAlertAsync("Formato inválido", "Selecione uma imagem nos formatos JPEG, PNG ou WebP.", "OK");
+        return;
+      }
+
+      _avatarStream?.Dispose();
+      _avatarStream = await photo.OpenReadAsync();
+      _avatarContentType = contentType;
+
+      _avatarStream.Position = 0;
+      UserAvatar = photo.FullPath;
+    }
+    catch (Exception ex)
+    {
+      Debug.WriteLine($"PickAvatar failed: {ex.Message}");
+    }
   }
 
   [RelayCommand]
@@ -71,7 +111,24 @@ public partial class EditProfileViewModel : ObservableObject
       return;
     }
 
-    var success = await _authService.UpdateProfileAsync(UserName.Trim(), UserPhone, null);
+    string? avatarUrl = null;
+
+    if (_avatarStream is not null)
+    {
+      IsBusy = true;
+      _avatarStream.Position = 0;
+      avatarUrl = await _storageService.UploadAvatarAsync(_avatarStream, _avatarContentType!);
+      IsBusy = false;
+
+      if (avatarUrl is null)
+      {
+        await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível fazer upload da imagem. Verifique sua conexão.", "OK");
+        return;
+      }
+    }
+
+    var phone = string.IsNullOrWhiteSpace(UserPhone) ? null : UserPhone;
+    var success = await _authService.UpdateProfileAsync(UserName.Trim(), phone);
     if (success)
     {
       await Shell.Current.GoToAsync("..");
@@ -81,6 +138,8 @@ public partial class EditProfileViewModel : ObservableObject
   [RelayCommand]
   private async Task GoBack()
   {
+    _avatarStream?.Dispose();
+    _avatarStream = null;
     await Shell.Current.GoToAsync("..");
   }
 }

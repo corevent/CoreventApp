@@ -17,9 +17,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto"
-          Padding="20"
-          BackgroundColor="{StaticResource background_color}">
+    <Grid BackgroundColor="{StaticResource background_color}">
+        <Grid RowDefinitions="Auto, Auto, Auto, *, Auto"
+              Padding="20">
 
         <!-- Header -->
         <Grid Grid.Row="0"
@@ -111,6 +111,35 @@
                                     BackgroundColor="Transparent"/>
                         </Border>
                     </VerticalStackLayout>
+                    <!-- Banner -->
+                    <Border Stroke="{StaticResource Gray100}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 14"
+                            BackgroundColor="{StaticResource Gray50}"
+                            Padding="0"
+                            HeightRequest="160">
+                        <Grid>
+                            <Image Source="{Binding Form.BannerPreview}"
+                                   Aspect="AspectFill"
+                                   HeightRequest="160"/>
+                            <VerticalStackLayout VerticalOptions="Center"
+                                                 HorizontalOptions="Center"
+                                                 Spacing="4">
+                                <mi:MauiIcon Icon="{mi:Cupertino PhotoonRectangle}"
+                                             IconSize="32"
+                                             IconColor="{StaticResource Gray300}"
+                                             HorizontalOptions="Center"/>
+                                <Label Text="Adicionar Banner"
+                                       FontSize="14"
+                                       TextColor="{StaticResource Gray300}"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding PickBannerCommand}"/>
+                            </Border.GestureRecognizers>
+                        </Grid>
+                    </Border>
+
                     <HorizontalStackLayout Spacing="12"
                                            Margin="0,4,0,0">
                         <Switch IsToggled="{Binding Form.IsOver18}"
@@ -348,4 +377,24 @@
 
         </VerticalStackLayout>
     </Grid>
+
+    <!-- Loading Overlay -->
+    <Grid IsVisible="{Binding IsUploadingBanner}"
+          BackgroundColor="#80000000"
+          InputTransparent="False">
+        <VerticalStackLayout VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             Spacing="12">
+            <ActivityIndicator IsRunning="{Binding IsUploadingBanner}"
+                               Color="{StaticResource White}"
+                               HeightRequest="48"
+                               WidthRequest="48"/>
+            <Label Text="Enviando banner..."
+                   TextColor="{StaticResource White}"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"/>
+        </VerticalStackLayout>
+    </Grid>
+</Grid>
 </ContentPage>

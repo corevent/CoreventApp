@@ -103,11 +103,11 @@ public class AuthService : IAuthService
         }
     }
 
-    public async Task<bool> UpdateProfileAsync(string name, string? phoneNumber, string? avatarUrl)
+    public async Task<bool> UpdateProfileAsync(string name, string? phoneNumber)
     {
         try
         {
-            await _usersApi.UpdateUser(new UpdateUserDto(name, phoneNumber, avatarUrl));
+            await _usersApi.UpdateUser(new UpdateUserDto(name, phoneNumber));
             _cachedUser = null;
             return true;
         }

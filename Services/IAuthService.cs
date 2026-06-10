@@ -11,7 +11,7 @@ public interface IAuthService
     Task<User?> GetCurrentUserAsync(bool forceRefresh = false);
 
     Task<bool> UpdatePasswordAsync(string currentPassword, string newPassword);
-    Task<bool> UpdateProfileAsync(string name, string? phoneNumber, string? avatarUrl);
+    Task<bool> UpdateProfileAsync(string name, string? phoneNumber);
 
     Task SendVerificationEmailAsync(string email);
     Task<User?> CreateUserAsync(string name, string email, string password,

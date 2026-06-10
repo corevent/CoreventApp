@@ -16,6 +16,7 @@ public partial class CreateEventViewModel : ObservableObject
     private readonly EventsService _eventsService;
     private readonly StatesApiClient _statesApi;
     private readonly PaymentInfoService _paymentInfoService;
+    private readonly StorageService _storageService;
     private string? _editingEventId;
     private EventDetailDto? _originalEvent;
 
@@ -61,6 +62,9 @@ public partial class CreateEventViewModel : ObservableObject
     [ObservableProperty]
     public partial bool IsSaving { get; set; }
 
+    [ObservableProperty]
+    public partial bool IsUploadingBanner { get; set; }
+
     public DateTime Today => DateTime.Today;
     public DateTime Tomorrow => DateTime.Today.AddDays(1);
 
@@ -97,6 +101,8 @@ public partial class CreateEventViewModel : ObservableObject
         ["Outro"] = "other"
     };
 
+    private FileResult? _bannerFile;
+
     private static readonly Dictionary<string, string> LocationTypeToApi = new()
     {
         ["Online"] = "online",
@@ -104,11 +110,12 @@ public partial class CreateEventViewModel : ObservableObject
         ["Híbrido"] = "hybrid"
     };
 
-    public CreateEventViewModel(EventsService eventsService, StatesApiClient statesApi, PaymentInfoService paymentInfoService)
+    public CreateEventViewModel(EventsService eventsService, StatesApiClient statesApi, PaymentInfoService paymentInfoService, StorageService storageService)
     {
         _eventsService = eventsService;
         _statesApi = statesApi;
         _paymentInfoService = paymentInfoService;
+        _storageService = storageService;
     }
 
     public string? EditingEventId
@@ -267,6 +274,39 @@ public partial class CreateEventViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private async Task PickBanner()
+    {
+        try
+        {
+            var file = await FilePicker.Default.PickAsync(new PickOptions
+            {
+                PickerTitle = "Selecionar banner do evento",
+                FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                {
+                    { DevicePlatform.Android, new[] { "image/jpeg", "image/png", "image/webp" } },
+                    { DevicePlatform.WinUI, new[] { ".jpg", ".jpeg", ".png", ".webp" } },
+                })
+            });
+
+            if (file is null) return;
+
+            var contentType = file.ContentType?.ToLowerInvariant() ?? string.Empty;
+            if (contentType != "image/jpeg" && contentType != "image/png" && contentType != "image/webp" && contentType != "image/jpg")
+            {
+                await Shell.Current.DisplayAlertAsync("Formato inválido", "Selecione uma imagem nos formatos JPEG, PNG ou WebP.", "OK");
+                return;
+            }
+
+            _bannerFile = file;
+            Form.BannerPreview = file.FullPath;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"PickBanner failed: {ex.Message}");
+        }
+    }
+
+    [RelayCommand]
     private async Task SaveDraftAsync()
     {
         if (!ValidateAll()) return;
@@ -299,6 +339,7 @@ public partial class CreateEventViewModel : ObservableObject
                     await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível salvar o rascunho.", "OK");
                     return;
                 }
+                await UploadBannerIfNeeded(result.Id);
                 await Shell.Current.DisplayAlertAsync("Rascunho Salvo",
                     "Seu evento foi salvo como rascunho.", "OK");
             }
@@ -360,6 +401,7 @@ public partial class CreateEventViewModel : ObservableObject
                     await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível publicar o evento.", "OK");
                     return;
                 }
+                await UploadBannerIfNeeded(result.Id);
                 await Shell.Current.DisplayAlertAsync("Evento Publicado",
                     "Seu evento foi publicado com sucesso!", "OK");
             }
@@ -466,7 +508,9 @@ public partial class CreateEventViewModel : ObservableObject
         var category = CategoryToApi.GetValueOrDefault(Form.Category, "other");
         var locationType = LocationTypeToApi.GetValueOrDefault(Form.LocationType, "in_person");
         string? bannerUrl;
-        if (forUpdate && string.IsNullOrWhiteSpace(Form.BannerUrl))
+        if (_bannerFile is not null)
+            bannerUrl = null;
+        else if (forUpdate && string.IsNullOrWhiteSpace(Form.BannerUrl))
             bannerUrl = null;
         else if (string.IsNullOrWhiteSpace(Form.BannerUrl))
             bannerUrl = $"https://placehold.co/600x400/FF5722/FFFFFF?text={Uri.EscapeDataString(title)}";
@@ -617,6 +661,30 @@ public partial class CreateEventViewModel : ObservableObject
             _ => string.Empty
         };
     }
+
+    private async Task UploadBannerIfNeeded(string eventId)
+    {
+        if (_bannerFile is null) return;
+
+        try
+        {
+            IsUploadingBanner = true;
+            var contentType = _bannerFile.ContentType ?? "image/jpeg";
+            await using var stream = await _bannerFile.OpenReadAsync();
+            var publicUrl = await _storageService.UploadEventBannerAsync(eventId, stream, contentType);
+            if (publicUrl is not null)
+                Form.BannerUrl = publicUrl;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Banner upload failed: {ex.Message}");
+        }
+        finally
+        {
+            _bannerFile = null;
+            IsUploadingBanner = false;
+        }
+    }
 }
 
 public partial class CreateEventRequest : ObservableObject
@@ -656,6 +724,9 @@ public partial class CreateEventRequest : ObservableObject
 
     [ObservableProperty]
     public partial string BannerUrl { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string BannerPreview { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string ZipCode { get; set; } = string.Empty;

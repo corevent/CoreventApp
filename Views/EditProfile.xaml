@@ -5,34 +5,58 @@
              xmlns:mi="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              Title="EditProfile"
              BackgroundColor="{StaticResource background_color}">
-    <ScrollView>
-        <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="24">
+    <Grid>
+        <ScrollView>
+            <Grid RowDefinitions="auto, *" Padding="20" RowSpacing="24">
 
-            <!-- Header -->
-            <Grid Grid.Row="0"
-              ColumnDefinitions="Auto, *, Auto"
-              VerticalOptions="Center">
-                <Border Style="{StaticResource BackButtonContainer}">
-                    <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}" Style="{StaticResource BackIcon}"/>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
-                    </Border.GestureRecognizers>
-                </Border>
+                <!-- Header -->
+                <Grid Grid.Row="0"
+                  ColumnDefinitions="Auto, *, Auto"
+                  VerticalOptions="Center">
+                    <Border Style="{StaticResource BackButtonContainer}">
+                        <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}" Style="{StaticResource BackIcon}"/>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                        </Border.GestureRecognizers>
+                    </Border>
 
-                <Label Grid.Column="1"
-                    Text="Editar Perfil"
-                    FontSize="20"
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource primary_text_color}"
-                    VerticalOptions="Center"
-                    Margin="12,0,0,0"/>
-            </Grid>
+                    <Label Grid.Column="1"
+                        Text="Editar Perfil"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource primary_text_color}"
+                        VerticalOptions="Center"
+                        Margin="12,0,0,0"/>
+                </Grid>
 
-            <!-- Form -->
-            <Grid Grid.Row="1" RowDefinitions="auto, auto, auto, auto" RowSpacing="24">
+                <!-- Form -->
+                <Grid Grid.Row="1" RowDefinitions="auto, auto, auto, auto, auto" RowSpacing="24">
+
+                    <!-- Avatar -->
+                    <VerticalStackLayout Grid.Row="0" Spacing="8" HorizontalOptions="Center">
+                        <Border WidthRequest="96"
+                                HeightRequest="96"
+                                StrokeThickness="3"
+                                Stroke="{StaticResource primary_orange_color}"
+                                StrokeShape="RoundRectangle 48"
+                                BackgroundColor="{StaticResource card_icon_bg}"
+                                HorizontalOptions="Center">
+                            <Image Source="{Binding UserAvatar}"
+                                   Aspect="AspectFill"
+                                   WidthRequest="96"
+                                   HeightRequest="96"/>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding PickAvatarCommand}"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Label Text="Tocar para alterar foto"
+                               FontSize="12"
+                               TextColor="{StaticResource primary_orange_color}"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
 
                     <!-- NOME COMPLETO -->
-                    <Grid Grid.Row="0" RowDefinitions="auto, auto" RowSpacing="6">
+                    <Grid Grid.Row="1" RowDefinitions="auto, auto" RowSpacing="6">
                         <Label Grid.Row="0"
                                Text="NOME COMPLETO"
                                FontSize="13"
@@ -51,7 +75,7 @@
                     </Grid>
 
                     <!-- TELEFONE -->
-                    <Grid Grid.Row="1" RowDefinitions="auto, auto" RowSpacing="6">
+                    <Grid Grid.Row="2" RowDefinitions="auto, auto" RowSpacing="6">
                         <Label Grid.Row="0"
                                Text="TELEFONE"
                                FontSize="13"
@@ -71,7 +95,7 @@
                     </Grid>
 
                     <!-- Botão Salvar -->
-                    <Button Grid.Row="2"
+                    <Button Grid.Row="3"
                             Text="Salvar Alterações"
                             Command="{Binding SaveCommand}"
                             Background="{StaticResource gradient_button}"
@@ -81,6 +105,26 @@
                             FontAttributes="Bold"
                             Margin="0,8,0,0"/>
                 </Grid>
+            </Grid>
+        </ScrollView>
+
+        <!-- Loading Overlay -->
+        <Grid IsVisible="{Binding IsBusy}"
+              BackgroundColor="#80000000"
+              InputTransparent="False">
+            <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="12">
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   Color="{StaticResource White}"
+                                   HeightRequest="48"
+                                   WidthRequest="48"/>
+                <Label Text="Fazendo upload..."
+                       TextColor="{StaticResource White}"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
         </Grid>
-    </ScrollView>
+    </Grid>
 </ContentPage>
