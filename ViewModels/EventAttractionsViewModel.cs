@@ -11,6 +11,7 @@ namespace CoreventApp.ViewModels;
 public partial class EventAttractionsViewModel : ObservableObject
 {
     private readonly AttractionsService _attractionsService;
+    private readonly EventsService _eventsService;
 
     [ObservableProperty]
     public partial string EventId { get; set; } = string.Empty;
@@ -26,6 +27,18 @@ public partial class EventAttractionsViewModel : ObservableObject
 
     [ObservableProperty]
     public partial TimeSpan NewEndTime { get; set; } = new(15, 0, 0);
+
+    [ObservableProperty]
+    public partial DateTime NewStartDate { get; set; } = DateTime.Today.AddDays(1);
+
+    [ObservableProperty]
+    public partial DateTime NewEndDate { get; set; } = DateTime.Today.AddDays(1);
+
+    [ObservableProperty]
+    public partial DateTime EventStartDate { get; set; }
+
+    [ObservableProperty]
+    public partial DateTime EventEndDate { get; set; }
 
     [ObservableProperty]
     public partial bool HasAttractions { get; set; }
@@ -49,9 +62,10 @@ public partial class EventAttractionsViewModel : ObservableObject
 
     public ObservableCollection<Attraction> Attractions { get; } = new();
 
-    public EventAttractionsViewModel(AttractionsService attractionsService)
+    public EventAttractionsViewModel(AttractionsService attractionsService, EventsService eventsService)
     {
         _attractionsService = attractionsService;
+        _eventsService = eventsService;
     }
 
     partial void OnEventIdChanged(string value)
@@ -67,6 +81,15 @@ public partial class EventAttractionsViewModel : ObservableObject
 
         try
         {
+            var eventDetail = await _eventsService.GetByIdAsync(EventId);
+            if (eventDetail is not null)
+            {
+                EventStartDate = eventDetail.StartDate.ToLocalTime().Date;
+                EventEndDate = eventDetail.EndDate.ToLocalTime().Date;
+                NewStartDate = EventStartDate;
+                NewEndDate = EventStartDate;
+            }
+
             var result = await _attractionsService.GetAllAsync(EventId);
             Attractions.Clear();
             foreach (var item in result.Data)
@@ -85,7 +108,9 @@ public partial class EventAttractionsViewModel : ObservableObject
         EditingAttractionId = attraction.Id;
         NewTitle = attraction.Title;
         NewGuest = attraction.Guest;
+        NewStartDate = attraction.StartDate.Date;
         NewStartTime = attraction.StartDate.TimeOfDay;
+        NewEndDate = attraction.EndDate.Date;
         NewEndTime = attraction.EndDate.TimeOfDay;
     }
 
@@ -95,7 +120,10 @@ public partial class EventAttractionsViewModel : ObservableObject
         EditingAttractionId = null;
         NewTitle = string.Empty;
         NewGuest = string.Empty;
+        var defaultDate = EventStartDate != default ? EventStartDate : DateTime.Today.AddDays(1);
+        NewStartDate = defaultDate;
         NewStartTime = new TimeSpan(14, 0, 0);
+        NewEndDate = defaultDate;
         NewEndTime = new TimeSpan(15, 0, 0);
     }
 
@@ -123,17 +151,34 @@ public partial class EventAttractionsViewModel : ObservableObject
             return;
         }
 
-        if (NewEndTime <= NewStartTime)
+        var startDt = NewStartDate.Date + NewStartTime;
+        var endDt = NewEndDate.Date + NewEndTime;
+
+        if (endDt <= startDt)
         {
-            await Shell.Current.DisplayAlertAsync("Erro", "O horário de término deve ser posterior ao horário de início.", "OK");
+            await Shell.Current.DisplayAlertAsync("Erro", "O término deve ser posterior ao início.", "OK");
             return;
         }
 
-        var baseDate = DateTime.Today;
-        var startDt = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day,
-            NewStartTime.Hours, NewStartTime.Minutes, NewStartTime.Seconds, DateTimeKind.Local);
-        var endDt = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day,
-            NewEndTime.Hours, NewEndTime.Minutes, NewEndTime.Seconds, DateTimeKind.Local);
+        if (startDt.ToUniversalTime() < EventStartDate.ToUniversalTime() ||
+            endDt.ToUniversalTime() > EventEndDate.ToUniversalTime())
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "A atração deve estar dentro do período do evento.", "OK");
+            return;
+        }
+
+        var overlap = Attractions.Any(a =>
+            a.Id != EditingAttractionId &&
+            startDt.ToUniversalTime() < a.EndDate.ToUniversalTime() &&
+            endDt.ToUniversalTime() > a.StartDate.ToUniversalTime());
+
+        if (overlap)
+        {
+            await Shell.Current.DisplayAlertAsync("Conflito de Horário",
+                "Já existe uma atração neste horário. Escolha outro horário.", "OK");
+            return;
+        }
+
         var dto = new CreateAttractionDto(
             NewTitle.Trim(),
             NewGuest.Trim(),
@@ -153,17 +198,34 @@ public partial class EventAttractionsViewModel : ObservableObject
     {
         if (EditingAttractionId is null) return;
 
-        if (NewEndTime <= NewStartTime)
+        var startDt = NewStartDate.Date + NewStartTime;
+        var endDt = NewEndDate.Date + NewEndTime;
+
+        if (endDt <= startDt)
         {
-            await Shell.Current.DisplayAlertAsync("Erro", "O horário de término deve ser posterior ao horário de início.", "OK");
+            await Shell.Current.DisplayAlertAsync("Erro", "O término deve ser posterior ao início.", "OK");
             return;
         }
 
-        var baseDate = DateTime.Today;
-        var startDt = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day,
-            NewStartTime.Hours, NewStartTime.Minutes, NewStartTime.Seconds, DateTimeKind.Local);
-        var endDt = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day,
-            NewEndTime.Hours, NewEndTime.Minutes, NewEndTime.Seconds, DateTimeKind.Local);
+        if (startDt.ToUniversalTime() < EventStartDate.ToUniversalTime() ||
+            endDt.ToUniversalTime() > EventEndDate.ToUniversalTime())
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "A atração deve estar dentro do período do evento.", "OK");
+            return;
+        }
+
+        var overlap = Attractions.Any(a =>
+            a.Id != EditingAttractionId &&
+            startDt.ToUniversalTime() < a.EndDate.ToUniversalTime() &&
+            endDt.ToUniversalTime() > a.StartDate.ToUniversalTime());
+
+        if (overlap)
+        {
+            await Shell.Current.DisplayAlertAsync("Conflito de Horário",
+                "Já existe uma atração neste horário. Escolha outro horário.", "OK");
+            return;
+        }
+
         var dto = new UpdateAttractionDto(
             NewTitle.Trim(),
             NewGuest.Trim(),
@@ -190,7 +252,10 @@ public partial class EventAttractionsViewModel : ObservableObject
         EditingAttractionId = null;
         NewTitle = string.Empty;
         NewGuest = string.Empty;
+        var defaultDate = EventStartDate != default ? EventStartDate : DateTime.Today.AddDays(1);
+        NewStartDate = defaultDate;
         NewStartTime = new TimeSpan(14, 0, 0);
+        NewEndDate = defaultDate;
         NewEndTime = new TimeSpan(15, 0, 0);
     }
 
@@ -237,5 +302,13 @@ public partial class Attraction : ObservableObject
     [ObservableProperty]
     public partial DateTime EndDate { get; set; }
 
-    public string FormattedTimeRange => $"{StartDate:HH:mm} - {EndDate:HH:mm}";
+    public string FormattedTimeRange
+    {
+        get
+        {
+            if (StartDate.Date == EndDate.Date)
+                return $"{StartDate:dd/MM HH:mm} - {EndDate:HH:mm}";
+            return $"{StartDate:dd/MM HH:mm} - {EndDate:dd/MM HH:mm}";
+        }
+    }
 }

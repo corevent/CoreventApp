@@ -59,10 +59,25 @@
                            TextColor="{StaticResource input_text}"
                            BackgroundColor="{StaticResource input_color}"/>
 
-                    <Label Text="Horário de início"
+                    <Label Text="Data e hora de início"
                            FontSize="14"
                            FontAttributes="Bold"
                            TextColor="{StaticResource primary_text_color}"/>
+
+                    <Border Stroke="{StaticResource Gray100}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 10"
+                            BackgroundColor="{StaticResource input_color}"
+                            Padding="12, 4">
+                        <DatePicker Date="{Binding NewStartDate}"
+                                    MinimumDate="{Binding EventStartDate}"
+                                    MaximumDate="{Binding EventEndDate}"
+                                    Format="dd/MM/yyyy"
+                                    TextColor="{StaticResource input_text}"
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center"
+                                    FontSize="15"/>
+                    </Border>
 
                     <Border Stroke="{StaticResource Gray100}"
                             StrokeThickness="1"
@@ -77,10 +92,25 @@
                                     FontSize="15"/>
                     </Border>
 
-                    <Label Text="Horário de término"
+                    <Label Text="Data e hora de término"
                            FontSize="14"
                            FontAttributes="Bold"
                            TextColor="{StaticResource primary_text_color}"/>
+
+                    <Border Stroke="{StaticResource Gray100}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 10"
+                            BackgroundColor="{StaticResource input_color}"
+                            Padding="12, 4">
+                        <DatePicker Date="{Binding NewEndDate}"
+                                    MinimumDate="{Binding EventStartDate}"
+                                    MaximumDate="{Binding EventEndDate}"
+                                    Format="dd/MM/yyyy"
+                                    TextColor="{StaticResource input_text}"
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center"
+                                    FontSize="15"/>
+                    </Border>
 
                     <Border Stroke="{StaticResource Gray100}"
                             StrokeThickness="1"

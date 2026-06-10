@@ -3,6 +3,7 @@ using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoreventApp.Models.Dtos;
+using CoreventApp.Services;
 using CoreventApp.Services.Api;
 
 namespace CoreventApp.ViewModels;
@@ -11,6 +12,7 @@ namespace CoreventApp.ViewModels;
 public partial class ManageTicketsViewModel : ObservableObject
 {
     private readonly TicketTypesApiClient _ticketTypesApi;
+    private readonly EventsService _eventsService;
     private TicketTypeViewModel? _editingTicketType;
 
     [ObservableProperty]
@@ -30,6 +32,12 @@ public partial class ManageTicketsViewModel : ObservableObject
 
     [ObservableProperty]
     public partial DateTime NewEndDate { get; set; } = DateTime.Today.AddMonths(1);
+
+    [ObservableProperty]
+    public partial DateTime EventStartDate { get; set; }
+
+    [ObservableProperty]
+    public partial DateTime EventCreatedAt { get; set; }
 
     [ObservableProperty]
     public partial bool HasTickets { get; set; }
@@ -53,9 +61,10 @@ public partial class ManageTicketsViewModel : ObservableObject
 
     public ObservableCollection<TicketTypeViewModel> TicketTypes { get; } = new();
 
-    public ManageTicketsViewModel(TicketTypesApiClient ticketTypesApi)
+    public ManageTicketsViewModel(TicketTypesApiClient ticketTypesApi, EventsService eventsService)
     {
         _ticketTypesApi = ticketTypesApi;
+        _eventsService = eventsService;
     }
 
     partial void OnEventIdChanged(string value)
@@ -71,6 +80,15 @@ public partial class ManageTicketsViewModel : ObservableObject
 
         try
         {
+            var evt = await _eventsService.GetByIdAsync(EventId);
+            if (evt is not null)
+            {
+                EventCreatedAt = evt.CreatedAt?.ToLocalTime().Date ?? DateTime.Today;
+                EventStartDate = evt.StartDate.ToLocalTime().Date;
+                NewStartDate = EventCreatedAt;
+                NewEndDate = EventStartDate;
+            }
+
             var result = await _ticketTypesApi.GetAllAsync(EventId, page: 1, limit: 100, availableOnly: false);
             TicketTypes.Clear();
             foreach (var tt in result.Data)
@@ -120,9 +138,27 @@ public partial class ManageTicketsViewModel : ObservableObject
             return;
         }
 
-        if (NewStartDate < DateTime.Today)
+        if (NewStartDate < EventCreatedAt)
         {
-            await Shell.Current.DisplayAlertAsync("Erro", "A data de início deve ser hoje ou futura.", "OK");
+            await Shell.Current.DisplayAlertAsync("Erro", "A data de início deve ser a partir da criação do evento.", "OK");
+            return;
+        }
+
+        if (NewEndDate > EventStartDate)
+        {
+            await Shell.Current.DisplayAlertAsync("Erro", "A data de término não pode ultrapassar a data de início do evento.", "OK");
+            return;
+        }
+
+        var overlap = TicketTypes.Any(tt =>
+            tt.Id != EditingTicketId &&
+            NewStartDate < tt.EndDate &&
+            NewEndDate > tt.StartDate);
+
+        if (overlap)
+        {
+            await Shell.Current.DisplayAlertAsync("Conflito de Período",
+                "Já existe um tipo de ingresso cujo período sobrepõe este. Ajuste as datas.", "OK");
             return;
         }
 
@@ -136,6 +172,8 @@ public partial class ManageTicketsViewModel : ObservableObject
                 _editingTicketType.Name = NewName.Trim();
                 _editingTicketType.Price = price;
                 _editingTicketType.TotalQuantity = quantity;
+                _editingTicketType.StartDate = NewStartDate;
+                _editingTicketType.EndDate = NewEndDate;
             }
             else
             {
@@ -182,6 +220,8 @@ public partial class ManageTicketsViewModel : ObservableObject
         NewName = ticketType.Name;
         NewPrice = ticketType.Price.ToString("F2");
         NewTotalQuantity = ticketType.TotalQuantity.ToString();
+        NewStartDate = ticketType.StartDate;
+        NewEndDate = ticketType.EndDate;
     }
 
     [RelayCommand]
@@ -197,8 +237,8 @@ public partial class ManageTicketsViewModel : ObservableObject
         NewName = string.Empty;
         NewPrice = string.Empty;
         NewTotalQuantity = string.Empty;
-        NewStartDate = DateTime.Today;
-        NewEndDate = DateTime.Today.AddMonths(1);
+        NewStartDate = EventCreatedAt != default ? EventCreatedAt : DateTime.Today;
+        NewEndDate = EventStartDate != default ? EventStartDate : DateTime.Today.AddMonths(1);
     }
 
     [RelayCommand]
@@ -213,7 +253,9 @@ public partial class ManageTicketsViewModel : ObservableObject
         Name = dto.Name,
         Price = dto.Price,
         TotalQuantity = dto.TotalQuantity,
-        AvailableQuantity = dto.AvailableQuantity
+        AvailableQuantity = dto.AvailableQuantity,
+        StartDate = dto.StartDate.ToLocalTime(),
+        EndDate = dto.EndDate.ToLocalTime()
     };
 }
 
@@ -234,6 +276,13 @@ public partial class TicketTypeViewModel : ObservableObject
     [ObservableProperty]
     public partial int AvailableQuantity { get; set; }
 
+    [ObservableProperty]
+    public partial DateTime StartDate { get; set; }
+
+    [ObservableProperty]
+    public partial DateTime EndDate { get; set; }
+
     public string FormattedPrice => $"R$ {Price:F2}";
     public string AvailableLabel => $"{AvailableQuantity} ingressos disponíveis";
+    public string FormattedPeriod => $"{StartDate:dd/MM/yyyy} – {EndDate:dd/MM/yyyy}";
 }

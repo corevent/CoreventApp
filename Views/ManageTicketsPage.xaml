@@ -64,15 +64,32 @@
                                BackgroundColor="{StaticResource input_color}"/>
                     </Grid>
 
+                    <Label Text="Período de venda"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource primary_text_color}"/>
+
                     <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
-                        <DatePicker Grid.Column="0"
-                                    Date="{Binding NewStartDate}"
-                                    TextColor="{StaticResource input_text}"
-                                    BackgroundColor="{StaticResource input_color}"/>
-                        <DatePicker Grid.Column="1"
-                                    Date="{Binding NewEndDate}"
-                                    TextColor="{StaticResource input_text}"
-                                    BackgroundColor="{StaticResource input_color}"/>
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="Data de início"
+                                   FontSize="11"
+                                   TextColor="{StaticResource secondary_text_color}"/>
+                            <DatePicker Date="{Binding NewStartDate}"
+                                        MinimumDate="{Binding EventCreatedAt}"
+                                        MaximumDate="{Binding EventStartDate}"
+                                        TextColor="{StaticResource input_text}"
+                                        BackgroundColor="{StaticResource input_color}"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Data de término"
+                                   FontSize="11"
+                                   TextColor="{StaticResource secondary_text_color}"/>
+                            <DatePicker Date="{Binding NewEndDate}"
+                                        MinimumDate="{Binding EventCreatedAt}"
+                                        MaximumDate="{Binding EventStartDate}"
+                                        TextColor="{StaticResource input_text}"
+                                        BackgroundColor="{StaticResource input_color}"/>
+                        </VerticalStackLayout>
                     </Grid>
 
                     <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
@@ -130,6 +147,9 @@
                                                TextColor="{StaticResource primary_orange_color}"
                                                FontAttributes="Bold"/>
                                         <Label Text="{Binding AvailableLabel}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource secondary_text_color}"/>
+                                        <Label Text="{Binding FormattedPeriod}"
                                                FontSize="11"
                                                TextColor="{StaticResource secondary_text_color}"/>
                                     </VerticalStackLayout>
