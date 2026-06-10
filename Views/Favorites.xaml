@@ -87,7 +87,7 @@
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 20">
                                     <Grid>
-                                        <Image Source="https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento"
+                                        <Image Source="{Binding BannerUrl, TargetNullValue='https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento'}"
                                                Aspect="AspectFill"/>
                                         <Border IsVisible="{Binding IsAdultOnly}"
                                                 Padding="6,2"

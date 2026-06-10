@@ -22,7 +22,8 @@ public record EventListItemDto(
     OrganizerInfoDto Organizer,
     string? LocationType,
     double? AverageRating = null,
-    string? FavoriteId = null);
+    string? FavoriteId = null,
+    string? BannerUrl = null);
 
 // Organizer info inside list item
 public record OrganizerInfoDto(string Id, string Name, string Email, string? AvatarUrl);
@@ -78,7 +79,6 @@ public record CreateEventDto(
     DateTime StartDate,
     DateTime EndDate,
     string Category,
-    string? BannerUrl,
     bool IsAdultOnly,
     string Status);
 
@@ -97,7 +97,6 @@ public record UpdateEventDto(
     DateTime? StartDate,
     DateTime? EndDate,
     string? Category,
-    string? BannerUrl,
     bool? IsAdultOnly,
     string? Status);
 

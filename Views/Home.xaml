@@ -116,7 +116,7 @@
                   </Border.GestureRecognizers>
                   <Grid RowDefinitions="178, *, Auto">
                     <Grid>
-                      <Image Source="https://placehold.co/600x400/FF5722/FFFFFF.png?text=Evento"
+                      <Image Source="{Binding BannerUrl, TargetNullValue='https://placehold.co/600x400/FF5722/FFFFFF.png?text=Evento'}"
                              Aspect="AspectFill"/>
                       <HorizontalStackLayout Margin="12"
                                              Spacing="6"
@@ -242,7 +242,7 @@
                           HeightRequest="100"
                           StrokeThickness="0"
                           StrokeShape="RoundRectangle 20">
-                    <Image Source="https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento"
+                    <Image Source="{Binding BannerUrl, TargetNullValue='https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento'}"
                            Aspect="AspectFill"/>
                   </Border>
 

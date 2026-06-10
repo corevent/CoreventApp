@@ -16,7 +16,7 @@
         <Grid Grid.Row="0"
               HeightRequest="200"
               VerticalOptions="Start">
-            <Image Source="https://placehold.co/1000x500/FF5722/FFFFFF.png?text=Evento"
+            <Image Source="{Binding ImageUrl, TargetNullValue='https://placehold.co/1000x500/FF5722/FFFFFF.png?text=Evento'}"
                    Aspect="AspectFill"
                    HeightRequest="200"/>
 

@@ -191,7 +191,7 @@
                                             HeightRequest="80"
                                             StrokeThickness="0"
                                             StrokeShape="RoundRectangle 14">
-                                        <Image Source="https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento"
+                                        <Image Source="{Binding BannerUrl, TargetNullValue='https://placehold.co/200x200/FF5722/FFFFFF.png?text=Evento'}"
                                                Aspect="AspectFill"/>
                                     </Border>
 

@@ -326,6 +326,7 @@ public partial class CreateEventViewModel : ObservableObject
                     await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível salvar as alterações.", "OK");
                     return;
                 }
+                await UploadBannerIfNeeded(_editingEventId);
                 var msg = isOpened ? "Alterações Salvas" : "Rascunho Atualizado";
                 var detail = isOpened ? "Suas alterações foram salvas com sucesso." : "As alterações foram salvas como rascunho.";
                 await Shell.Current.DisplayAlertAsync(msg, detail, "OK");
@@ -389,6 +390,7 @@ public partial class CreateEventViewModel : ObservableObject
                     await Shell.Current.DisplayAlertAsync("Erro", "Não foi possível publicar o evento.", "OK");
                     return;
                 }
+                await UploadBannerIfNeeded(_editingEventId);
                 await Shell.Current.DisplayAlertAsync("Evento Atualizado",
                     "Suas alterações foram publicadas.", "OK");
             }
@@ -507,16 +509,6 @@ public partial class CreateEventViewModel : ObservableObject
         var title = Form.Title.Trim();
         var category = CategoryToApi.GetValueOrDefault(Form.Category, "other");
         var locationType = LocationTypeToApi.GetValueOrDefault(Form.LocationType, "in_person");
-        string? bannerUrl;
-        if (_bannerFile is not null)
-            bannerUrl = null;
-        else if (forUpdate && string.IsNullOrWhiteSpace(Form.BannerUrl))
-            bannerUrl = null;
-        else if (string.IsNullOrWhiteSpace(Form.BannerUrl))
-            bannerUrl = $"https://placehold.co/600x400/FF5722/FFFFFF?text={Uri.EscapeDataString(title)}";
-        else
-            bannerUrl = Form.BannerUrl;
-
         var isOnline = locationType == "online";
 
         int number = 0;
@@ -537,7 +529,6 @@ public partial class CreateEventViewModel : ObservableObject
             StartDate: Form.StartDate,
             EndDate: Form.EndDate,
             Category: category,
-            BannerUrl: bannerUrl,
             IsAdultOnly: Form.IsOver18,
             Status: status);
     }
@@ -612,9 +603,6 @@ public partial class CreateEventViewModel : ObservableObject
         var category = CategoryToApi.GetValueOrDefault(Form.Category, "other");
         if (category != o.Category)
             payload["category"] = category;
-
-        if (Changed(Form.BannerUrl, o.BannerUrl, out var bannerVal))
-            payload["bannerUrl"] = bannerVal;
 
         if (Form.IsOver18 != o.IsAdultOnly)
             payload["isAdultOnly"] = Form.IsOver18;
