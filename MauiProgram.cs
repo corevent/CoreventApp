@@ -71,6 +71,9 @@ public static class MauiProgram
 		builder.Services.AddHttpClient<EventRatingsApiClient>(c => c.BaseAddress = new Uri(baseUrl))
 			.AddHttpMessageHandler<AuthTokenHandler>();
 
+		builder.Services.AddHttpClient<AgePoliciesApiClient>(c => c.BaseAddress = new Uri(baseUrl))
+			.AddHttpMessageHandler<AuthTokenHandler>();
+
 		builder.Services.AddSingleton<IAuthService, AuthService>();
 		builder.Services.AddTransient<PaymentInfoService>();
 		builder.Services.AddTransient<EventsService>();
@@ -79,6 +82,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<TicketsService>();
 		builder.Services.AddTransient<OrdersService>();
 		builder.Services.AddTransient<CheckInService>();
+		builder.Services.AddTransient<AgePolicyService>();
 
 		// ViewModels
 		builder.Services.AddTransient<ViewModels.WelcomeViewModel>();

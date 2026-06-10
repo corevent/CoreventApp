@@ -14,6 +14,7 @@ public partial class CheckoutViewModel : ObservableObject
     private readonly EventsService _eventsService;
     private readonly TicketTypesApiClient _ticketTypesApi;
     private readonly OrdersApiClient _ordersApi;
+    private readonly AgePolicyService _agePolicyService;
     private string? _eventId;
     private string? _orderId;
     private string? _checkoutUrl;
@@ -63,11 +64,12 @@ public partial class CheckoutViewModel : ObservableObject
     public decimal ServiceFee => Subtotal * 0.10m;
     public decimal Total => Subtotal + ServiceFee;
 
-    public CheckoutViewModel(EventsService eventsService, TicketTypesApiClient ticketTypesApi, OrdersApiClient ordersApi)
+    public CheckoutViewModel(EventsService eventsService, TicketTypesApiClient ticketTypesApi, OrdersApiClient ordersApi, AgePolicyService agePolicyService)
     {
         _eventsService = eventsService;
         _ticketTypesApi = ticketTypesApi;
         _ordersApi = ordersApi;
+        _agePolicyService = agePolicyService;
     }
 
     private async Task LoadDataAsync(string eventId)
@@ -144,14 +146,21 @@ public partial class CheckoutViewModel : ObservableObject
 
             if (IsAdultOnly)
             {
-                var consent = await Shell.Current.DisplayAlertAsync(
-                    "Aviso de Conteúdo +18",
-                    "Ao prosseguir com a compra, você declara estar ciente de que este evento é destinado exclusivamente a maiores de 18 anos.\n\n" +
-                    "Caso adquira mais de um ingresso, você se responsabiliza por garantir que todos os participantes também atendam a esse requisito de idade.\n\n" +
-                    "O não cumprimento dessa condição poderá resultar em impedimento de entrada no evento no momento do check-in.",
-                    "Estou ciente",
-                    "Cancelar");
-                if (!consent) return;
+                var hasAccepted = await _agePolicyService.CheckIfUserHasAcceptedAsync();
+                if (!hasAccepted)
+                {
+                    var policy = await _agePolicyService.GetActivePolicyAsync();
+                    if (policy is not null)
+                    {
+                        var consent = await Shell.Current.DisplayAlertAsync(
+                            "Aviso de Conteúdo +18",
+                            policy.Description,
+                            "Estou ciente",
+                            "Cancelar");
+                        if (!consent) return;
+                        await _agePolicyService.AcceptAgePolicyAsync();
+                    }
+                }
             }
 
             if (!string.IsNullOrEmpty(_checkoutUrl))
