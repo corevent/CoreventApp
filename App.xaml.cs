@@ -1,57 +1,82 @@
 ﻿using CoreventApp.Services;
 using CoreventApp.Views;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreventApp;
 
 public partial class App : Application
 {
-	private readonly AppShell appShell;
-	private readonly IAuthService authService;
+    private readonly AppShell appShell;
+    private readonly IAuthService authService;
 
-	public App(AppShell appShell, IAuthService authService)
-	{
-		InitializeComponent();
-		this.appShell = appShell;
-		this.authService = authService;
-	}
+    // Sinaliza quando o Shell estiver pronto para receber navegação
+    private static readonly TaskCompletionSource _shellReady = new();
+    private static Uri? _pendingDeepLink;
 
-	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		var loadingPage = new LoadingPage();
+    public App(AppShell appShell, IAuthService authService)
+    {
+        InitializeComponent();
+        this.appShell = appShell;
+        this.authService = authService;
+    }
 
-		Window w = new(loadingPage)
-		{
-			Title = "Corevent",
-		};
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        var loadingPage = new LoadingPage();
+        var window = new Window(loadingPage) { Title = "Corevent" };
+        _ = InitializeAsync(window);
+        return window;
+    }
 
-		_ = InitializeAsync(w);
+    private async Task InitializeAsync(Window window)
+    {
+        var user = await authService.GetCurrentUserAsync();
 
-		return w;
-	}
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            window.Page = appShell;
 
-	private async Task InitializeAsync(Window window)
-	{
-		var user = await authService.GetCurrentUserAsync();
+            if (user != null)
+                await Shell.Current.GoToAsync("//main");
 
-		MainThread.BeginInvokeOnMainThread(async () =>
-		{
-			window.Page = appShell;
+            _shellReady.TrySetResult();
 
-			if (user != null)
-			{
-				await Shell.Current.GoToAsync("//main");
-			}
-		});
-	}
+            if (_pendingDeepLink is not null)
+            {
+                await NavigateToDeepLink(_pendingDeepLink);
+                _pendingDeepLink = null;
+            }
+        });
+    }
 
-	protected override void OnAppLinkRequestReceived(Uri uri)
-	{
-		if (uri.Scheme != "corevent" || uri.Host != "orders") return;
+    public static async Task HandleDeepLink(Uri uri)
+    {
+        if (uri.Scheme != "corevent") return;
 
-		MainThread.BeginInvokeOnMainThread(async () =>
-		{
-			await Shell.Current.GoToAsync("//main/tickets");
-		});
-	}
+        var shellReadyTask = _shellReady.Task;
+        var completed = await Task.WhenAny(shellReadyTask, Task.Delay(TimeSpan.FromSeconds(5)));
+
+        if (completed != shellReadyTask)
+        {
+            _pendingDeepLink = uri;
+            return;
+        }
+
+        await MainThread.InvokeOnMainThreadAsync(() => NavigateToDeepLink(uri));
+    }
+
+    private static async Task NavigateToDeepLink(Uri uri)
+    {
+        switch (uri.Host)
+        {
+            case "orders":
+                await Shell.Current.GoToAsync("//main/tickets");
+                break;
+        }
+    }
+
+    protected override void OnAppLinkRequestReceived(Uri uri)
+    {
+        base.OnAppLinkRequestReceived(uri);
+        _ = HandleDeepLink(uri);
+    }
 }
