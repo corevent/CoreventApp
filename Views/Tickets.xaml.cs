@@ -10,10 +10,9 @@ public partial class Tickets : ContentPage
         BindingContext = _viewModel = viewModel;
     }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        if (_viewModel.ProximosTickets.Count == 0 && _viewModel.PassadosTickets.Count == 0)
-            _viewModel.LoadTicketsCommand.Execute(null);
-    }
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+		_viewModel.LoadTicketsCommand.Execute(null);
+	}
 }

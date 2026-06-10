@@ -140,11 +140,10 @@ public partial class CheckoutViewModel : ObservableObject
 
             if (!string.IsNullOrEmpty(_checkoutUrl))
             {
+                await Shell.Current.DisplayAlertAsync("Pagamento",
+                    "Você será redirecionado ao PagBank para finalizar o pagamento.", "OK");
                 await Browser.Default.OpenAsync(_checkoutUrl, BrowserLaunchMode.SystemPreferred);
             }
-
-            await Shell.Current.DisplayAlertAsync("Sucesso", "Compra realizada com sucesso!", "OK");
-            await Shell.Current.GoToAsync("//main/home");
         }
         catch (Exception ex)
         {

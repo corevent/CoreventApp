@@ -44,4 +44,14 @@ public partial class App : Application
 			}
 		});
 	}
+
+	protected override void OnAppLinkRequestReceived(Uri uri)
+	{
+		if (uri.Scheme != "corevent" || uri.Host != "orders") return;
+
+		MainThread.BeginInvokeOnMainThread(async () =>
+		{
+			await Shell.Current.GoToAsync("//main/tickets");
+		});
+	}
 }
