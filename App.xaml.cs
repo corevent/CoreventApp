@@ -71,6 +71,9 @@ public partial class App : Application
             case "orders":
                 await Shell.Current.GoToAsync("//main/tickets");
                 break;
+            case "invites":
+                await Shell.Current.GoToAsync("UserInvitations");
+                break;
         }
     }
 
