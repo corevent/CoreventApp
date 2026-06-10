@@ -12,17 +12,22 @@ public record StatusFilterChip(string Label, string? StatusValue, bool IsSelecte
 public partial class PanelOrganizerViewModel : ObservableObject
 {
     private readonly EventsService _eventsService;
+    private readonly PaymentInfoService _paymentInfoService;
 
     [ObservableProperty]
     public partial bool IsLoading { get; set; }
+
+    [ObservableProperty]
+    public partial bool HasPaymentInfo { get; set; }
 
     public ObservableCollection<EventListItemDto> AllEvents { get; } = new();
     public ObservableCollection<EventListItemDto> FilteredEvents { get; } = new();
     public ObservableCollection<StatusFilterChip> FilterChips { get; } = new();
 
-    public PanelOrganizerViewModel(EventsService eventsService)
+    public PanelOrganizerViewModel(EventsService eventsService, PaymentInfoService paymentInfoService)
     {
         _eventsService = eventsService;
+        _paymentInfoService = paymentInfoService;
 
         FilterChips.Add(new StatusFilterChip("Todos", null, true));
         FilterChips.Add(new StatusFilterChip("Rascunho", "draft", false));
@@ -47,6 +52,9 @@ public partial class PanelOrganizerViewModel : ObservableObject
                 AllEvents.Add(item);
 
             ApplyFilter(null);
+
+            var paymentInfos = await _paymentInfoService.GetAllAsync();
+            HasPaymentInfo = paymentInfos.Count > 0;
         }
         catch (Exception ex)
         {
@@ -102,6 +110,12 @@ public partial class PanelOrganizerViewModel : ObservableObject
     [RelayCommand]
     private async Task NewEventAsync()
     {
+        if (!HasPaymentInfo)
+        {
+            await Shell.Current.DisplayAlertAsync("Atenção", "Configure seus dados de repasse antes de criar um evento.", "OK");
+            return;
+        }
+
         await Shell.Current.GoToAsync(nameof(Views.CreateEvent));
     }
 

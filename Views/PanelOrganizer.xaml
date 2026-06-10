@@ -16,6 +16,7 @@
         <ResourceDictionary>
             <cv:IntegerToVisibilityConverter x:Key="IntToVisibility"/>
             <cv:StatusDisplayConverter x:Key="StatusDisplayConverter"/>
+            <cv:InvertedBoolConverter x:Key="InvertedBool"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -78,6 +79,11 @@
                             <Label Text="Configure como você recebe suas vendas"
                                    FontSize="11"
                                    TextColor="{StaticResource secondary_text_color}"/>
+                            <Label Text="Obrigatório para criar eventos"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="#DC2626"
+                                   IsVisible="{Binding HasPaymentInfo, Converter={StaticResource InvertedBool}}"/>
                         </VerticalStackLayout>
 
                         <Button Grid.Column="2"
@@ -153,7 +159,15 @@
                             HeightRequest="46"
                             Background="{StaticResource gradient_button}"
                             CornerRadius="12"
-                            Command="{Binding NewEventCommand}"/>
+                            Command="{Binding NewEventCommand}"
+                            IsEnabled="{Binding HasPaymentInfo}"/>
+
+                    <Label Text="Você precisa configurar seus dados de repasse antes de criar um evento."
+                           FontSize="12"
+                           TextColor="{StaticResource secondary_text_color}"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           IsVisible="{Binding HasPaymentInfo, Converter={StaticResource InvertedBool}}"/>
                 </VerticalStackLayout>
 
                 <!-- Events List -->
