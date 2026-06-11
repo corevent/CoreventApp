@@ -35,4 +35,12 @@ public class EventRatingsApiClient
         var response = await _http.DeleteAsync($"/api/events/ratings/{ratingId}");
         response.EnsureSuccessStatusCode();
     }
+
+    public async Task<MyRatingsListPageDto> GetMyRatingsAsync(int page = 1, int limit = 20)
+    {
+        var response = await _http.GetAsync($"/api/events/my/ratings?page={page}&limit={limit}");
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<MyRatingsListPageDto>(body, JsonConfig.Options)!;
+    }
 }

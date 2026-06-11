@@ -91,6 +91,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<AgePolicyService>();
 		builder.Services.AddTransient<StorageService>();
 		builder.Services.AddTransient<ParticipantsService>();
+		builder.Services.AddTransient<EventRatingsService>();
 
 		// ViewModels
 		builder.Services.AddTransient<ViewModels.WelcomeViewModel>();
