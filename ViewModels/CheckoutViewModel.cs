@@ -46,23 +46,31 @@ public partial class CheckoutViewModel : ObservableObject
         }
     }
 
-    public ObservableCollection<TicketTypeDataDto> TicketTypes { get; } = new();
+    public ObservableCollection<SelectableTicketType> TicketTypes { get; } = new();
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Subtotal))]
-    [NotifyPropertyChangedFor(nameof(ServiceFee))]
     [NotifyPropertyChangedFor(nameof(Total))]
-    public partial TicketTypeDataDto? SelectedTicketType { get; set; }
+    [NotifyPropertyChangedFor(nameof(ButtonText))]
+    [NotifyPropertyChangedFor(nameof(HasReachedMaxQuantity))]
+    [NotifyPropertyChangedFor(nameof(HasMinQuantity))]
+    public partial SelectableTicketType? SelectedTicketType { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Subtotal))]
-    [NotifyPropertyChangedFor(nameof(ServiceFee))]
     [NotifyPropertyChangedFor(nameof(Total))]
+    [NotifyPropertyChangedFor(nameof(ButtonText))]
+    [NotifyPropertyChangedFor(nameof(HasReachedMaxQuantity))]
+    [NotifyPropertyChangedFor(nameof(HasMinQuantity))]
     public partial int Quantity { get; set; } = 1;
 
-    public decimal Subtotal => SelectedTicketType?.Price * Quantity ?? 0;
-    public decimal ServiceFee => Subtotal * 0.10m;
-    public decimal Total => Subtotal + ServiceFee;
+    public decimal Subtotal => SelectedTicketType?.TicketType.Price * Quantity ?? 0;
+    public decimal Total => Subtotal;
+
+    public bool HasMinQuantity => Quantity <= 1;
+    public bool HasReachedMaxQuantity => SelectedTicketType != null && Quantity >= SelectedTicketType.TicketType.AvailableQuantity;
+
+    public string ButtonText => IsPurchasing ? "" : $"Finalizar Compra • R$ {Total:F2}";
 
     public CheckoutViewModel(EventsService eventsService, TicketTypesApiClient ticketTypesApi, OrdersApiClient ordersApi, AgePolicyService agePolicyService)
     {
@@ -90,10 +98,17 @@ public partial class CheckoutViewModel : ObservableObject
             var ticketResult = await _ticketTypesApi.GetAllAsync(eventId, availableOnly: true);
             TicketTypes.Clear();
             foreach (var tt in ticketResult.Data)
-                TicketTypes.Add(tt);
+            {
+                var wrapped = new SelectableTicketType(tt);
+                TicketTypes.Add(wrapped);
+            }
 
             if (TicketTypes.Count > 0)
-                SelectedTicketType = TicketTypes[0];
+            {
+                var first = TicketTypes[0];
+                first.IsSelected = true;
+                SelectedTicketType = first;
+            }
         }
         catch (Exception ex)
         {
@@ -107,8 +122,12 @@ public partial class CheckoutViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void SelectTicketType(TicketTypeDataDto ticketType)
+    private void SelectTicketType(SelectableTicketType ticketType)
     {
+        if (SelectedTicketType is not null)
+            SelectedTicketType.IsSelected = false;
+
+        ticketType.IsSelected = true;
         SelectedTicketType = ticketType;
         Quantity = 1;
     }
@@ -116,7 +135,7 @@ public partial class CheckoutViewModel : ObservableObject
     [RelayCommand]
     private void IncreaseQuantity()
     {
-        if (SelectedTicketType is not null && Quantity < SelectedTicketType.AvailableQuantity)
+        if (SelectedTicketType is not null && Quantity < SelectedTicketType.TicketType.AvailableQuantity)
             Quantity++;
     }
 
@@ -137,7 +156,7 @@ public partial class CheckoutViewModel : ObservableObject
         {
             var dto = new CreateOrderDto(new List<ItemsDto>
             {
-                new(SelectedTicketType.Id, Quantity)
+                new(SelectedTicketType.TicketType.Id, Quantity)
             });
 
             var result = await _ordersApi.CreateAsync(_eventId, dto);

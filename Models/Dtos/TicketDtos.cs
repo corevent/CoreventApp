@@ -1,3 +1,5 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace CoreventApp.Models.Dtos;
 
 // Check-in
@@ -51,3 +53,17 @@ public record PaginateMyTicketsDto(
     PaginationMetaDto Meta);
 
 public record QueryMyTicketsDto(int Page = 1, int Limit = 100, string? EventId = null);
+
+// Checkout wrapper
+public partial class SelectableTicketType : ObservableObject
+{
+    public TicketTypeDataDto TicketType { get; }
+
+    [ObservableProperty]
+    public partial bool IsSelected { get; set; }
+
+    public SelectableTicketType(TicketTypeDataDto ticketType)
+    {
+        TicketType = ticketType;
+    }
+}
