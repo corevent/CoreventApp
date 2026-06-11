@@ -16,8 +16,7 @@
 
     <Grid RowDefinitions="Auto, *, Auto"
           Padding="20"
-          BackgroundColor="{StaticResource background_color}"
-          HorizontalOptions="Center">
+          BackgroundColor="{StaticResource background_color}">
 
         <!-- Header -->
         <Grid Grid.Row="0"

@@ -15,7 +15,7 @@ public interface IAuthService
 
     Task SendVerificationEmailAsync(string email);
     Task<User?> CreateUserAsync(string name, string email, string password,
-        string cpf, string birthDate, string code);
+        string documentType, string document, string birthDate, string code);
 
     Task SendResetCodeAsync(string email);
     Task<bool> ResetPasswordAsync(string email, string code, string newPassword);

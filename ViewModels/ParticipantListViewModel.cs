@@ -1,6 +1,8 @@
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
+using CoreventApp.Services;
 
 namespace CoreventApp.ViewModels;
 
@@ -8,27 +10,61 @@ namespace CoreventApp.ViewModels;
 [QueryProperty(nameof(EventName), "EventName")]
 public partial class ParticipantListViewModel : ObservableObject
 {
+    private readonly ParticipantsService _participantsService;
+
     [ObservableProperty]
     public partial string EventId { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string EventName { get; set; } = string.Empty;
 
+    [ObservableProperty]
+    public partial bool IsLoading { get; set; }
+
+    public bool IsEmpty => !IsLoading && Participants.Count == 0;
+
     public ObservableCollection<ParticipantSummary> Participants { get; } = new();
 
-    public ParticipantListViewModel()
+    public ParticipantListViewModel(ParticipantsService participantsService)
     {
-        LoadMockData();
+        _participantsService = participantsService;
     }
 
-    private void LoadMockData()
+    partial void OnEventIdChanged(string value)
     {
-        Participants.Add(new ParticipantSummary { FullName = "Lucas Alencar", Email = "lucas@email.com", TicketType = "VIP", PurchaseDate = "28 Mar, 2026" });
-        Participants.Add(new ParticipantSummary { FullName = "Ana Beatriz", Email = "ana@email.com", TicketType = "PISTA", PurchaseDate = "28 Mar, 2026" });
-        Participants.Add(new ParticipantSummary { FullName = "Pedro Santos", Email = "pedro@email.com", TicketType = "VIP", PurchaseDate = "28 Mar, 2026" });
-        Participants.Add(new ParticipantSummary { FullName = "Maria Oliveira", Email = "maria@email.com", TicketType = "PISTA", PurchaseDate = "28 Mar, 2026" });
-        Participants.Add(new ParticipantSummary { FullName = "João Costa", Email = "joao@email.com", TicketType = "VIP", PurchaseDate = "28 Mar, 2026" });
-        Participants.Add(new ParticipantSummary { FullName = "Carla Souza", Email = "carla@email.com", TicketType = "PISTA", PurchaseDate = "28 Mar, 2026" });
+        if (!string.IsNullOrEmpty(value))
+            _ = LoadDataAsync(value);
+    }
+
+    private async Task LoadDataAsync(string eventId)
+    {
+        if (IsLoading) return;
+        IsLoading = true;
+
+        try
+        {
+            var result = await _participantsService.GetAllAsync(eventId, page: 1, limit: 100);
+
+            Participants.Clear();
+            foreach (var p in result.Data)
+            {
+                Participants.Add(new ParticipantSummary
+                {
+                    FullName = p.Name,
+                    Email = p.Email,
+                    TicketsCount = p.TicketsCount
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"ParticipantList LoadDataAsync failed: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+            OnPropertyChanged(nameof(IsEmpty));
+        }
     }
 
     [RelayCommand]
@@ -53,10 +89,7 @@ public partial class ParticipantSummary : ObservableObject
     public partial string Email { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string TicketType { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string PurchaseDate { get; set; } = string.Empty;
+    public partial int TicketsCount { get; set; }
 
     public string Initial => string.IsNullOrEmpty(FullName) ? "?" : FullName[..1].ToUpper();
 }

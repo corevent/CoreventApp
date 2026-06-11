@@ -13,5 +13,6 @@ public record RegisterDto(
     string Email,
     string Password,
     string BirthDate,
-    string Cpf,
+    string DocumentType,
+    string Document,
     string VerifyEmailCode);

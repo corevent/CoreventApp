@@ -60,7 +60,7 @@
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource secondary_text_color}"/>
                             <Label Grid.Column="1"
-                                   Text="INGRESSO"
+                                   Text="INGRESSOS"
                                    FontSize="10"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource secondary_text_color}"/>
@@ -111,11 +111,20 @@
                                             </VerticalStackLayout>
 
                                             <Label Grid.Column="2"
-                                                   Text="{Binding PurchaseDate}"
-                                                   FontSize="11"
-                                                   TextColor="{StaticResource secondary_text_color}"
                                                    VerticalOptions="Center"
-                                                   HorizontalOptions="End"/>
+                                                   HorizontalOptions="End">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding TicketsCount}"
+                                                              FontSize="15"
+                                                              FontAttributes="Bold"
+                                                              TextColor="{StaticResource primary_text_color}"/>
+                                                        <Span Text="x"
+                                                              FontSize="11"
+                                                              TextColor="{StaticResource secondary_text_color}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
 
                                         </Grid>
                                     </VerticalStackLayout>
@@ -125,6 +134,14 @@
 
                     </VerticalStackLayout>
                 </Border>
+
+                <!-- Empty State -->
+                <Label Text="Nenhum participante encontrado"
+                       FontSize="14"
+                       TextColor="{StaticResource secondary_text_color}"
+                       HorizontalOptions="Center"
+                       Margin="0,20,0,0"
+                       IsVisible="{Binding IsEmpty}"/>
 
                 <!-- Export Button -->
                 <Border StrokeThickness="0"
@@ -153,5 +170,23 @@
 
             </VerticalStackLayout>
         </ScrollView>
+
+        <!-- Loading Overlay -->
+        <Grid IsVisible="{Binding IsLoading}"
+              BackgroundColor="#80000000"
+              InputTransparent="False">
+            <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="12">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   Color="White"
+                                   HeightRequest="48"
+                                   WidthRequest="48"/>
+                <Label Text="Carregando..."
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+            </VerticalStackLayout>
+        </Grid>
     </Grid>
 </ContentPage>

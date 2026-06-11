@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CoreventApp.ViewModels;
 
+[QueryProperty(nameof(EventId), "EventId")]
 [QueryProperty(nameof(EventTitle), "EventTitle")]
 [QueryProperty(nameof(EventDate), "EventDate")]
 [QueryProperty(nameof(EventImage), "EventImage")]
@@ -12,6 +13,9 @@ namespace CoreventApp.ViewModels;
 [QueryProperty(nameof(ParticipantCount), "ParticipantCount")]
 public partial class CollaboratorEventDetailViewModel : ObservableObject
 {
+    [ObservableProperty]
+    public partial string EventId { get; set; } = string.Empty;
+
     [ObservableProperty]
     public partial string EventTitle { get; set; } = string.Empty;
 
@@ -64,7 +68,7 @@ public partial class CollaboratorEventDetailViewModel : ObservableObject
     [RelayCommand]
     private async Task OpenParticipantListAsync()
     {
-        await Shell.Current.GoToAsync($"ParticipantList?EventName={Uri.EscapeDataString(EventTitle)}");
+        await Shell.Current.GoToAsync($"ParticipantList?EventId={Uri.EscapeDataString(EventId)}&EventName={Uri.EscapeDataString(EventTitle)}");
     }
 
     [RelayCommand]

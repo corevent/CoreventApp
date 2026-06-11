@@ -2,6 +2,7 @@ namespace CoreventApp.Models;
 
 public class CollaboratorEvent
 {
+    public string Id { get; set; } = string.Empty;
     public string ImageUrl { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Date { get; set; } = string.Empty;

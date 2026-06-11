@@ -109,6 +109,7 @@ public partial class PanelCollaboratorViewModel : ObservableObject
 
         return new CollaboratorEvent
         {
+            Id = item.Id,
             ImageUrl = "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&auto=format&fit=crop",
             Title = item.Title,
             Date = item.StartDate.ToLocalTime().ToString("dd MMM, yyyy"),
@@ -150,7 +151,7 @@ public partial class PanelCollaboratorViewModel : ObservableObject
     private async Task OpenEventDetailAsync(CollaboratorEvent evt)
     {
         await Shell.Current.GoToAsync(
-            $"CollaboratorEventDetail?EventTitle={Uri.EscapeDataString(evt.Title)}&EventDate={Uri.EscapeDataString(evt.Date)}&EventImage={Uri.EscapeDataString(evt.ImageUrl)}&EventRole={Uri.EscapeDataString(evt.Role)}&EventRoleColor={Uri.EscapeDataString(evt.RoleColor)}&EventRoleTextColor={Uri.EscapeDataString(evt.RoleTextColor)}&ParticipantCount={evt.ParticipantCount}");
+            $"CollaboratorEventDetail?EventId={Uri.EscapeDataString(evt.Id)}&EventTitle={Uri.EscapeDataString(evt.Title)}&EventDate={Uri.EscapeDataString(evt.Date)}&EventImage={Uri.EscapeDataString(evt.ImageUrl)}&EventRole={Uri.EscapeDataString(evt.Role)}&EventRoleColor={Uri.EscapeDataString(evt.RoleColor)}&EventRoleTextColor={Uri.EscapeDataString(evt.RoleTextColor)}&ParticipantCount={evt.ParticipantCount}");
     }
 
     [RelayCommand]

@@ -7,7 +7,8 @@ namespace CoreventApp.ViewModels;
 [QueryProperty(nameof(Name), "Name")]
 [QueryProperty(nameof(Email), "Email")]
 [QueryProperty(nameof(Password), "Password")]
-[QueryProperty(nameof(Cpf), "Cpf")]
+[QueryProperty(nameof(Document), "Document")]
+[QueryProperty(nameof(DocumentType), "DocumentType")]
 [QueryProperty(nameof(BirthDate), "BirthDate")]
 [QueryProperty(nameof(Mode), "Mode")]
 public partial class EmailVerificationViewModel : ObservableObject
@@ -31,7 +32,10 @@ public partial class EmailVerificationViewModel : ObservableObject
     public partial string Password { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string Cpf { get; set; } = string.Empty;
+    public partial string Document { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string DocumentType { get; set; } = "cpf";
 
     [ObservableProperty]
     public partial string BirthDate { get; set; } = string.Empty;
@@ -93,7 +97,7 @@ public partial class EmailVerificationViewModel : ObservableObject
         else
         {
             var user = await _authService.CreateUserAsync(
-                Name, Email, Password, Cpf, BirthDate, Code);
+                Name, Email, Password, DocumentType, Document, BirthDate, Code);
 
             if (user != null)
             {

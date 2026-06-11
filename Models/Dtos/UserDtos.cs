@@ -7,7 +7,8 @@ public record CreateUserDto(
     string Email,
     string Password,
     string BirthDate,
-    string Cpf,
+    string DocumentType,
+    string Document,
     string VerifyEmailCode);
 
 public record UpdateUserDto(string? Name, string? PhoneNumber);
@@ -22,6 +23,8 @@ public record UserDataDto(
     string BirthDate,
     string PhoneNumber,
     string AvatarUrl,
-    DateTime CreatedAt);
+    DateTime CreatedAt,
+    string? DocumentType = null,
+    string? Document = null);
 
 public record UserResponseDto(UserDataDto Data);
