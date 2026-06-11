@@ -78,7 +78,6 @@ public partial class RegisterViewModel : ObservableObject
   [RelayCommand]
   private async Task SelectAccountTypeAsync(string type)
   {
-    if (Form.AccountType == type) return;
     Form.AccountType = type;
     Form.Cpf = string.Empty;
     Form.Cnpj = string.Empty;
