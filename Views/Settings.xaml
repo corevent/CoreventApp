@@ -168,12 +168,12 @@
                             </Grid>
 
 
-                            <BoxView HeightRequest="1"
+                            <!-- <BoxView HeightRequest="1"
                                      Color="{StaticResource Gray100}"
-                                     Margin="48,0,0,0"/>
+                                     Margin="48,0,0,0"/> -->
 
                             <!-- Alterar Senha -->
-                            <Grid ColumnDefinitions="40, *, Auto"
+                            <!-- <Grid ColumnDefinitions="40, *, Auto"
                                   HeightRequest="56">
                                 <Border Style="{StaticResource MenuIconContainer}">
                                     <mi:MauiIcon Icon="{mi:Cupertino Shield}"
@@ -192,7 +192,7 @@
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding NavigateToPasswordCommand}"/>
                                 </Grid.GestureRecognizers>
-                            </Grid>
+                            </Grid> -->
                         </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
