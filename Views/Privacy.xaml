@@ -17,7 +17,7 @@
               VerticalOptions="Center">
             <Border Style="{StaticResource BackButtonContainer}">
                 <mi:MauiIcon Icon="{mi:Cupertino ArrowLeft}"
-                         Style="{StaticResource BackIcon}"/>
+                         Style="{StaticResource BackIcon}" HorizontalOptions="Center" VerticalOptions="Center"/>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
                 </Border.GestureRecognizers>
@@ -52,7 +52,7 @@
                                 HorizontalOptions="Start">
                             <mi:MauiIcon Icon="{mi:Cupertino Shield}"
                                     IconSize="24"
-                                    IconColor="{StaticResource icon_default_color}"/>
+                                    IconColor="{StaticResource icon_default_color}" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
 
                         <Label Text="Sua privacidade é soberana"
@@ -95,7 +95,7 @@
                                     HeightRequest="36">
                                 <mi:MauiIcon Icon="{mi:Cupertino ArrowDownDoc}"
                                         IconSize="18"
-                                        IconColor="{StaticResource icon_default_color}"/>
+                                        IconColor="{StaticResource icon_default_color}" HorizontalOptions="Center" VerticalOptions="Center"/>
                             </Border>
 
                             <VerticalStackLayout Grid.Column="1"
@@ -112,7 +112,7 @@
 
                             <mi:MauiIcon Grid.Column="2"
                                     Icon="{mi:Cupertino ChevronRight}"
-                                    Style="{StaticResource ChevronIcon}"/>
+                                    Style="{StaticResource ChevronIcon}" HorizontalOptions="Center" VerticalOptions="Center"/>
 
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding DownloadDataCommand}"/>
