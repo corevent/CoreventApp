@@ -74,6 +74,6 @@ public partial class CollaboratorEventDetailViewModel : ObservableObject
     [RelayCommand]
     private async Task OpenScannerAsync()
     {
-        await Shell.Current.GoToAsync($"CheckInPage?EventName={Uri.EscapeDataString(EventTitle)}");
+        await Shell.Current.GoToAsync($"CheckInPage?EventId={Uri.EscapeDataString(EventId)}&EventName={Uri.EscapeDataString(EventTitle)}");
     }
 }
