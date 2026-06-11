@@ -83,6 +83,7 @@ public partial class CheckInViewModel : ObservableObject
     private async Task ProcessBarcodeAsync(string? barcode)
     {
         if (string.IsNullOrWhiteSpace(barcode)) return;
+        if (IsResultVisible) return;
 
         if (_eventStatus is not ("opened" or "going"))
             return;

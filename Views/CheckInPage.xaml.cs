@@ -23,17 +23,18 @@ public partial class CheckInPage : ContentPage
         CameraReader.BarcodesDetected -= OnBarcodesDetected;
     }
 
-    private async void OnBarcodesDetected(object? sender, BarcodeDetectionEventArgs e)
+    private void OnBarcodesDetected(object? sender, BarcodeDetectionEventArgs e)
     {
-        var barcode = e.Results?.FirstOrDefault()?.Value;
-        if (string.IsNullOrWhiteSpace(barcode)) return;
+        if (BindingContext is not CheckInViewModel vm) return;
 
-        if (BindingContext is CheckInViewModel vm)
+        MainThread.BeginInvokeOnMainThread(async () =>
         {
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                await vm.ProcessBarcodeCommand.ExecuteAsync(barcode);
-            });
-        }
+            if (vm.IsResultVisible || !vm.IsScanning) return;
+
+            var barcode = e.Results?.FirstOrDefault()?.Value;
+            if (string.IsNullOrWhiteSpace(barcode)) return;
+
+            await vm.ProcessBarcodeCommand.ExecuteAsync(barcode);
+        });
     }
 }
